@@ -15,6 +15,8 @@ namespace LoowooTech.Traffic.TForms
     {
         private IFeatureClass FeatureClass { get; set; }
         private string WhereClause { get; set; }
+        private Form1 Father { get; set; }
+        private Dictionary<int, IFeature> FeatureDict { get; set; }
         public AttributeForm2(IFeatureClass featureClass, string WhereClause)
         {
             InitializeComponent();
@@ -28,10 +30,50 @@ namespace LoowooTech.Traffic.TForms
 
         private void AttributeForm2_Load(object sender, EventArgs e)
         {
+            Father = (Form1)this.Owner;
             if (!string.IsNullOrEmpty(WhereClause) && FeatureClass != null)
             {
-                dataGridView1.DataSource = AttributeHelper.GetTable(FeatureClass, WhereClause);
+                Dictionary<int, IFeature> temp;
+                dataGridView1.DataSource = AttributeHelper.GetTable(FeatureClass, WhereClause,out temp);
+                if (temp != null)
+                {
+                    FeatureDict = temp;
+                }
             }
+        }
+        
+        
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            Console.WriteLine("双击");
+            if (dataGridView1.SelectedCells.Count > 0)
+            {
+                var selectIndex = dataGridView1.SelectedCells[0].RowIndex;
+                if (FeatureDict.ContainsKey(selectIndex))
+                {
+                    Father.Center(FeatureDict[selectIndex]);
+                }
+            }
+            
+        }
+
+        private void Twinklebutton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedCells.Count > 0)
+            {
+                var selectIndex = dataGridView1.SelectedCells[0].RowIndex;
+                if (FeatureDict.ContainsKey(selectIndex))
+                {
+                    Father.Twinkle(FeatureDict[selectIndex]);
+                }
+            }
+        }
+
+        private void ExportExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("保存Excel表格", "2003 xls文件|*.xls|2007 xlsx|*.xlsx");
+
         }
     }
 }

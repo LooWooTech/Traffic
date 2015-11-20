@@ -30,7 +30,10 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Twinklebutton = new System.Windows.Forms.Button();
+            this.ExportExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -42,6 +45,11 @@
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.ExportExcel);
+            this.splitContainer1.Panel1.Controls.Add(this.Twinklebutton);
             // 
             // splitContainer1.Panel2
             // 
@@ -60,6 +68,27 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(628, 272);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
+            // 
+            // Twinklebutton
+            // 
+            this.Twinklebutton.Location = new System.Drawing.Point(34, 32);
+            this.Twinklebutton.Name = "Twinklebutton";
+            this.Twinklebutton.Size = new System.Drawing.Size(75, 23);
+            this.Twinklebutton.TabIndex = 0;
+            this.Twinklebutton.Text = "闪烁";
+            this.Twinklebutton.UseVisualStyleBackColor = true;
+            this.Twinklebutton.Click += new System.EventHandler(this.Twinklebutton_Click);
+            // 
+            // ExportExcel
+            // 
+            this.ExportExcel.Location = new System.Drawing.Point(217, 31);
+            this.ExportExcel.Name = "ExportExcel";
+            this.ExportExcel.Size = new System.Drawing.Size(75, 23);
+            this.ExportExcel.TabIndex = 1;
+            this.ExportExcel.Text = "导出表格";
+            this.ExportExcel.UseVisualStyleBackColor = true;
+            this.ExportExcel.Click += new System.EventHandler(this.ExportExcel_Click);
             // 
             // AttributeForm2
             // 
@@ -70,6 +99,7 @@
             this.Name = "AttributeForm2";
             this.Text = "AttributeForm2";
             this.Load += new System.EventHandler(this.AttributeForm2_Load);
+            this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -82,5 +112,7 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button Twinklebutton;
+        private System.Windows.Forms.Button ExportExcel;
     }
 }

@@ -179,13 +179,12 @@ namespace LoowooTech.Traffic.TForms
             {
                 case Models.RoadMode.Filter:
                     form1.UpdateRoad();
-                    this.Close();
                     break;
                 case Models.RoadMode.Search:
-                    AttributeForm2 attributeForm2 = new AttributeForm2(FeatureClass, WhereClause);
-                    attributeForm2.Show();
+                    form1.ShowResult();
                     break;
             }
+            this.Close();
             
             
         }

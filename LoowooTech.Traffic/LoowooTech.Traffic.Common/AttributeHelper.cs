@@ -86,7 +86,7 @@ namespace LoowooTech.Traffic.Common
             IFeature feature = featureCursor.NextFeature();
             return feature == null ? null : feature;
         }
-        public static DataTable GetTable(IFeatureClass featureClass, string Filter)
+        public static DataTable GetTable(IFeatureClass featureClass, string Filter,out Dictionary<int,IFeature> FeatureDict)
         {
             ReadFieldIndexDict(featureClass);
             DataTable dataTable = new DataTable(); 
@@ -100,18 +100,21 @@ namespace LoowooTech.Traffic.Common
             IFeatureCursor featureCursor = featureClass.Search(queryFilter, false);
             IFeature feature = featureCursor.NextFeature();
             DataRow dataRow = null;
-            int Serial = 1;
+            int Serial = 0;
+            FeatureDict = new Dictionary<int, IFeature>();
             while (feature != null)
             {
+                FeatureDict.Add(Serial, feature);
                 try
                 {
                     dataRow = dataTable.NewRow();
-                    dataRow["序号"] = Serial++;
+                    dataRow["序号"] = ++Serial;
                     foreach (var key in IndexDict.Keys)
                     {
                         dataRow[key] = feature.get_Value(IndexDict[key]).ToString();
                     }
                     dataTable.Rows.Add(dataRow);
+                    
                 }
                 catch
                 {

@@ -155,6 +155,12 @@ namespace LoowooTech.Traffic.TForms
             }
         }
 
+        public void ShowResult()
+        {
+            AttributeForm2 form2 = new AttributeForm2(RoadFeatureClass, toolStripStatusLabel1.Text);
+            form2.Show(this);
+        }
+
         /// <summary>
         ///  条件查询
         /// </summary>
@@ -180,24 +186,27 @@ namespace LoowooTech.Traffic.TForms
                 axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleLineSymbol);
             }
         }
+
+        /// <summary>
+        /// 居中
+        /// </summary>
+        /// <param name="Feature"></param>
         public void Center(IFeature Feature)
         {
             if (Feature != null)
             {
-                IGeometry geometry = Feature.Shape as IGeometry;
-               
-                //axMapControl1.CenterAt((IPoint)Feature.Shape);
-                //Application.DoEvents();
+                IEnvelope envelope = Feature.Shape.Envelope;
+                IPoint point = new PointClass();
+                point.PutCoords((envelope.XMin + envelope.XMax) / 2, (envelope.YMin + envelope.YMax) / 2);
+                axMapControl1.CenterAt(point);
+                //居中方法二
+                //var env2 = axMapControl1.ActiveView.Extent;
+                //env2.CenterAt(point);
+                //axMapControl1.ActiveView.Extent = env2;
+                axMapControl1.ActiveView.Refresh();
             }
         }
-        public void Query()
-        {
-            if (toolStripStatusLabel1.Text != RoadFilterWhereClause)
-            {
-                RoadFilterWhereClause = toolStripStatusLabel1.Text;
 
-            }
-        }
 
         /// <summary>
         /// 点击 点选查询

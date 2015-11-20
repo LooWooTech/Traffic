@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button3 = new System.Windows.Forms.Button();
             this.MoveButton = new System.Windows.Forms.Button();
             this.TwinkleButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -49,7 +48,6 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.button3);
             this.splitContainer1.Panel1.Controls.Add(this.MoveButton);
             this.splitContainer1.Panel1.Controls.Add(this.TwinkleButton);
             // 
@@ -59,15 +57,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(284, 602);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(199, 24);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "导出属性";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // MoveButton
             // 
@@ -123,7 +112,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button MoveButton;
         private System.Windows.Forms.Button TwinkleButton;
 
