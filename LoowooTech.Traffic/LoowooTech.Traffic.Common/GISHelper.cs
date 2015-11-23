@@ -16,6 +16,7 @@ namespace LoowooTech.Traffic.Common
         public static  Dictionary<string,int> GetFieldIndexDict(IFeatureClass FeatureClass)
         {
             var dict = new Dictionary<string, int>();
+            dict.Add("序号", 0);
             var count = FeatureClass.Fields.FieldCount;
             IField field = null;
             for (var i = 0; i < count; i++)

@@ -43,7 +43,11 @@ namespace LoowooTech.Traffic.TForms
         }
         
         
-
+        /// <summary>
+        /// 双击 列表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
             Console.WriteLine("双击");
@@ -53,6 +57,8 @@ namespace LoowooTech.Traffic.TForms
                 if (FeatureDict.ContainsKey(selectIndex))
                 {
                     Father.Center(FeatureDict[selectIndex]);
+                    
+                    Father.Twinkle(FeatureDict[selectIndex]);
                 }
             }
             
@@ -73,7 +79,10 @@ namespace LoowooTech.Traffic.TForms
         private void ExportExcel_Click(object sender, EventArgs e)
         {
             var saveFilePath = FileHelper.Save("保存Excel表格", "2003 xls文件|*.xls|2007 xlsx|*.xlsx");
-
+            var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass);
+            Father.toolStripStatusLabel1.Text = "正在生成文件："+saveFilePath;
+            ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath,HeadDict);
+            Father.toolStripStatusLabel1.Text = "文件生成：" + saveFilePath;
         }
     }
 }

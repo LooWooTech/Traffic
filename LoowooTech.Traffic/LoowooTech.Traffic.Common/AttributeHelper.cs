@@ -90,7 +90,6 @@ namespace LoowooTech.Traffic.Common
         {
             ReadFieldIndexDict(featureClass);
             DataTable dataTable = new DataTable(); 
-            dataTable.Columns.Add("序号");
             foreach (var key in IndexDict.Keys)
             {
                 dataTable.Columns.Add(key);
