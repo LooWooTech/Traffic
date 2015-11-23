@@ -5,6 +5,7 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Traffic.Common;
+using LoowooTech.Traffic.Manager;
 using LoowooTech.Traffic.Models;
 using LoowooTech.Traffic.TForms;
 using System;
@@ -19,8 +20,13 @@ namespace LoowooTech.Traffic.TForms
     {
         private string MXDPath { get; set; }
         private string RoadName { get; set; }
+        private string BusLineName { get; set; }
+        private string BusStopName { get; set; }
         public  string RoadFilterWhereClause { get; set; }
+        public string BusLineWhereClause { get; set; }
+        public string BusStopWhereClause { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
+        private IFeatureClass BusLineFeatureClass { get; set; }
         private bool RoadFlag { get; set; }
         public  RoadMode roadMode { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
@@ -29,34 +35,31 @@ namespace LoowooTech.Traffic.TForms
             InitializeComponent();
             MXDPath = System.Configuration.ConfigurationManager.AppSettings["MXD"];
             RoadName = System.Configuration.ConfigurationManager.AppSettings["ROAD"];
+            BusLineName = System.Configuration.ConfigurationManager.AppSettings["BUSLINE"];
+            BusStopName = System.Configuration.ConfigurationManager.AppSettings["BUSSTOP"];
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
+            BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             if (RoadFeatureClass == null)
             {
                 MessageBox.Show("未获取服务器上相关路网数据，请核对是否连接服务器.......");
             }
         }
-
         private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
-        {
-            
+        { 
             if (axMapControl1.MousePointer==esriControlsMousePointer.esriPointerIdentify)
             {
                 IPoint point = new PointClass();
                 point.PutCoords(e.mapX, e.mapY);
                 IGeometry geometry = point as IGeometry;
                 this.Invoke(new EventOperator(ShowAttribute), new[] { geometry });
-                
             }
-            
         }
-
         private void ShowAttribute(IGeometry geometry)
         {
             IArray array = AttributeHelper.Identify(RoadFeatureClass, geometry);
@@ -70,27 +73,12 @@ namespace LoowooTech.Traffic.TForms
                 if (feature != null)
                 {
                     Twinkle(feature);
-                     //axMapControl1.FlashShape(feature.Shape, 5, 100, simpleLineSymbol);
-                    //if (geometry.GeometryType == esriGeometryType.esriGeometryPoint)
-                    //{
-                    //    var point = geometry as IPoint;
-                    //    MessageBox.Show(string.Format("X:{0} Y:{1}", point.X, point.Y));
-                    //}
                     AttributeForm form = new AttributeForm(feature, RoadFeatureClass, RoadName,axMapControl1.ActiveView);
                     form.ShowDialog(this);
                 }
             }
             
         }
-
-        //private void AttributeButton_Click(object sender, EventArgs e)
-        //{
-        //    RoadFlag = !RoadFlag;
-        //    AttributeButton.Checked = RoadFlag;
-        //    AttributeButton.CheckState = RoadFlag ? CheckState.Checked : CheckState.Unchecked;
-        //}
-
-
         /// <summary>
         /// 过滤路网
         /// </summary>
@@ -114,6 +102,48 @@ namespace LoowooTech.Traffic.TForms
             FileHelper.ExportMap(saveFilePath, axMapControl1.ActiveView);
         }
 
+        private void UpdateBase(string Name,string WhereClause)
+        {
+            var layers = LayerInfoHelper.GetLayers(Name);
+            IFeatureLayer featureLayer = null;
+            IFeatureLayerDefinition featureLayerDefinition = null;
+            string LayerWhereClause = string.Empty;
+            for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            {
+                if (axMapControl1.Map.get_Layer(i) is GroupLayer)
+                {
+                    ICompositeLayer compositeLayer = axMapControl1.Map.get_Layer(i) as ICompositeLayer;
+                    for (var j = 0; j < compositeLayer.Count; j++)
+                    {
+                        featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
+                        if (layers.Contains(featureLayer.Name))
+                        {
+                            featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
+                            if (Name == "AROAD")
+                            {
+                                if (string.IsNullOrEmpty(WhereClause))
+                                {
+                                    LayerWhereClause = "RANK ='" + featureLayer.Name + "'";
+                                }
+                                else
+                                {
+                                    LayerWhereClause = "RANK ='" + featureLayer.Name + "' AND " + WhereClause;
+                                }
+                            }
+                            else
+                            {
+                                LayerWhereClause = WhereClause;
+                            }
+                           
+
+                            //Console.WriteLine(LayerWhereClause);
+                            featureLayerDefinition.DefinitionExpression = LayerWhereClause;
+                        }
+                    }
+                }
+            }
+            axMapControl1.ActiveView.Refresh();
+        }
         /// <summary>
         /// 根据查询条件 更新路网数据
         /// </summary>
@@ -122,46 +152,19 @@ namespace LoowooTech.Traffic.TForms
             if (toolStripStatusLabel1.Text != RoadFilterWhereClause)
             {
                 RoadFilterWhereClause = toolStripStatusLabel1.Text;
-                var layers = LayerInfoHelper.GetLayers(RoadName);
-                IFeatureLayer featureLayer = null;
-                IFeatureLayerDefinition featureLayerDefinition = null;
-                string LayerWhereClause = string.Empty;
-                for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
-                {
-                    if (axMapControl1.Map.get_Layer(i) is GroupLayer)
-                    {
-                        ICompositeLayer compositeLayer = axMapControl1.Map.get_Layer(i) as ICompositeLayer;
-                        for (var j = 0; j < compositeLayer.Count; j++)
-                        {
-                            featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
-                            if (layers.Contains(featureLayer.Name))
-                            {
-                                featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
-                                if (string.IsNullOrEmpty(RoadFilterWhereClause))
-                                {
-                                    LayerWhereClause = "RANK ='" + featureLayer.Name + "'";
-                                }
-                                else
-                                {
-                                    LayerWhereClause = "RANK ='" + featureLayer.Name + "' AND " + RoadFilterWhereClause;
-                                }
-                                
-                                Console.WriteLine(LayerWhereClause);
-                                featureLayerDefinition.DefinitionExpression = LayerWhereClause;
-                            }
-                        }
-                    }
-                }
-                axMapControl1.ActiveView.Refresh();
+                UpdateBase(RoadName, RoadFilterWhereClause);
             }
         }
-
+        public void UpdateBus()
+        {
+            UpdateBase(BusLineName, BusLineWhereClause);
+            UpdateBase(BusStopName, BusStopWhereClause);
+        }
         public void ShowResult()
         {
             AttributeForm2 form2 = new AttributeForm2(RoadFeatureClass, toolStripStatusLabel1.Text);
             form2.Show(this);
         }
-
         /// <summary>
         ///  条件查询
         /// </summary>
@@ -175,7 +178,6 @@ namespace LoowooTech.Traffic.TForms
             roadFilterForm.ShowDialog(this);
             
         }
-
         /// <summary>
         /// 要素闪烁
         /// </summary>
@@ -187,7 +189,6 @@ namespace LoowooTech.Traffic.TForms
                 axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleLineSymbol);
             }
         }
-
         /// <summary>
         /// 居中
         /// </summary>
@@ -199,16 +200,14 @@ namespace LoowooTech.Traffic.TForms
                 IEnvelope envelope = Feature.Shape.Envelope;
                 IPoint point = new PointClass();
                 point.PutCoords((envelope.XMin + envelope.XMax) / 2, (envelope.YMin + envelope.YMax) / 2);
-                axMapControl1.CenterAt(point);
+                //axMapControl1.CenterAt(point);
                 //居中方法二
-                //var env2 = axMapControl1.ActiveView.Extent;
-                //env2.CenterAt(point);
-                //axMapControl1.ActiveView.Extent = env2;
+                var env2 = axMapControl1.ActiveView.Extent;
+                env2.CenterAt(point);
+                axMapControl1.ActiveView.Extent = env2;
                 axMapControl1.ActiveView.Refresh();
             }
         }
-
-
         /// <summary>
         /// 点击 点选查询
         /// </summary>
@@ -218,7 +217,6 @@ namespace LoowooTech.Traffic.TForms
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
         }
-
         private void ExportSHP_Click(object sender, EventArgs e)
         {
             var saveFilePathSHP = FileHelper.Save("导出SHP文件", "shp文件|*.shp");
@@ -235,13 +233,42 @@ namespace LoowooTech.Traffic.TForms
             
             toolStripStatusLabel1.Text = "成功导出Shapefile";
         }
-
         private void ExportExcel_Click(object sender, EventArgs e)
         {
             var saveFilePath = FileHelper.Save("导出路网属性表格", "2003 xls 文件|*.xls|2007 xlsx|*.xlsx");
             var HeadDict = GISHelper.GetFieldIndexDict(RoadFeatureClass);
             ExcelHelper.SaveExcel(RoadFeatureClass, RoadFilterWhereClause, saveFilePath,HeadDict);
             toolStripStatusLabel1.Text = "成功导出Excel表格";
+        }
+
+        private void SearchBUS_Click(object sender, EventArgs e)
+        {
+            BusFilterForm busform = new BusFilterForm();
+            busform.ShowDialog(this);
+        }
+
+        public void ShowBus()
+        {
+            var result = new AttributeForm2(BusLineFeatureClass, BusLineWhereClause);
+            result.Show(this);
+        }
+
+        private void ImportBusExcel_Click(object sender, EventArgs e)
+        {
+            var ExcelPath = FileHelper.Open("打开公交路线数据", "2003 文件|*.xls|2007 文件|*.xlsx");
+            var list = ExcelHelper.Read(ExcelPath);
+            var tool=new BusLineManager();
+           
+            try
+            {
+                tool.Add(list);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            OperatorTxt.Text = "导入公交路线信息成功";
+            
         }
     }
 }

@@ -31,7 +31,7 @@ namespace LoowooTech.Traffic.TForms
         private void AttributeForm2_Load(object sender, EventArgs e)
         {
             Father = (Form1)this.Owner;
-            if (!string.IsNullOrEmpty(WhereClause) && FeatureClass != null)
+            if (FeatureClass != null)
             {
                 Dictionary<int, IFeature> temp;
                 dataGridView1.DataSource = AttributeHelper.GetTable(FeatureClass, WhereClause,out temp);

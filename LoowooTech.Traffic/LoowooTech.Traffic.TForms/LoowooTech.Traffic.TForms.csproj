@@ -79,6 +79,18 @@
     <Compile Include="AttributeForm2.Designer.cs">
       <DependentUpon>AttributeForm2.cs</DependentUpon>
     </Compile>
+    <Compile Include="BusFilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BusFilterForm.Designer.cs">
+      <DependentUpon>BusFilterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BusResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BusResultForm.Designer.cs">
+      <DependentUpon>BusResultForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +112,12 @@
     <EmbeddedResource Include="AttributeForm2.resx">
       <DependentUpon>AttributeForm2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BusFilterForm.resx">
+      <DependentUpon>BusFilterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BusResultForm.resx">
+      <DependentUpon>BusResultForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +129,10 @@
     <ProjectReference Include="..\LoowooTech.Traffic.Common\LoowooTech.Traffic.Common.csproj">
       <Project>{57bf6f2f-284a-4ada-a7fc-8e03fcf7df80}</Project>
       <Name>LoowooTech.Traffic.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Traffic.Manager\LoowooTech.Traffic.Manager.csproj">
+      <Project>{aa48d75e-da7d-401b-b8b0-0160d3508add}</Project>
+      <Name>LoowooTech.Traffic.Manager</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Traffic.Models\LoowooTech.Traffic.Models.csproj">
       <Project>{b5ce08a2-71ce-43ca-b60d-11ef4a2b6cf4}</Project>

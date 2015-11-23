@@ -2,6 +2,7 @@
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
+using LoowooTech.Traffic.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -107,11 +108,12 @@ namespace LoowooTech.Traffic.Common
                 try
                 {
                     dataRow = dataTable.NewRow();
-                    dataRow["序号"] = ++Serial;
+                    
                     foreach (var key in IndexDict.Keys)
                     {
                         dataRow[key] = feature.get_Value(IndexDict[key]).ToString();
                     }
+                    dataRow["序号"] = ++Serial;
                     dataTable.Rows.Add(dataRow);
                     
                 }
@@ -145,6 +147,23 @@ namespace LoowooTech.Traffic.Common
                 {
 
                 }   
+            }
+            return dataTable;
+        }
+        public static DataTable GetTable(List<BusLine> List)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("起始站");
+            dataTable.Columns.Add("终点站");
+            dataTable.Columns.Add("方向");
+            DataRow dataRow;
+            foreach (var item in List)
+            {
+                dataRow = dataTable.NewRow();
+                dataRow["起始站"] = item.StartStop;
+                dataRow["终点站"] = item.EndStop;
+                dataRow["方向"] = item.Direction.GetDescription();
+                dataTable.Rows.Add(dataRow);
             }
             return dataTable;
         }

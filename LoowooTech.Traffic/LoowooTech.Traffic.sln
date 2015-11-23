@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.TForms",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.Models", "LoowooTech.Traffic.Models\LoowooTech.Traffic.Models.csproj", "{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.Manager", "LoowooTech.Traffic.Manager\LoowooTech.Traffic.Manager.csproj", "{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

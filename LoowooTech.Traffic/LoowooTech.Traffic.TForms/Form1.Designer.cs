@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.OperatorTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.路网ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportActiveView = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,13 +39,16 @@
             this.SearchButton = new System.Windows.Forms.ToolStripMenuItem();
             this.PointSearch = new System.Windows.Forms.ToolStripMenuItem();
             this.ConditionSearchButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportSHP = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.公交ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SearchBUS = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImportBusExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
-            this.ExportSHP = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -60,7 +64,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.toolStripStatusLabel1,
+            this.OperatorTxt});
             this.statusStrip1.Location = new System.Drawing.Point(0, 605);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(941, 22);
@@ -72,10 +77,17 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
             // 
+            // OperatorTxt
+            // 
+            this.OperatorTxt.Name = "OperatorTxt";
+            this.OperatorTxt.Size = new System.Drawing.Size(131, 17);
+            this.OperatorTxt.Text = "toolStripStatusLabel2";
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.路网ToolStripMenuItem});
+            this.路网ToolStripMenuItem,
+            this.公交ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(941, 25);
@@ -97,14 +109,14 @@
             // ExportActiveView
             // 
             this.ExportActiveView.Name = "ExportActiveView";
-            this.ExportActiveView.Size = new System.Drawing.Size(152, 22);
+            this.ExportActiveView.Size = new System.Drawing.Size(129, 22);
             this.ExportActiveView.Text = "导出图片";
             this.ExportActiveView.Click += new System.EventHandler(this.ExportActiveView_Click);
             // 
             // RoadFilter
             // 
             this.RoadFilter.Name = "RoadFilter";
-            this.RoadFilter.Size = new System.Drawing.Size(152, 22);
+            this.RoadFilter.Size = new System.Drawing.Size(129, 22);
             this.RoadFilter.Text = "路网过滤";
             this.RoadFilter.Click += new System.EventHandler(this.RoadFilter_Click);
             // 
@@ -114,7 +126,7 @@
             this.PointSearch,
             this.ConditionSearchButton});
             this.SearchButton.Name = "SearchButton";
-            this.SearchButton.Size = new System.Drawing.Size(152, 22);
+            this.SearchButton.Size = new System.Drawing.Size(129, 22);
             this.SearchButton.Text = "查询";
             // 
             // PointSearch
@@ -130,6 +142,43 @@
             this.ConditionSearchButton.Size = new System.Drawing.Size(124, 22);
             this.ConditionSearchButton.Text = "条件查询";
             this.ConditionSearchButton.Click += new System.EventHandler(this.ConditionSearchButton_Click);
+            // 
+            // ExportSHP
+            // 
+            this.ExportSHP.Name = "ExportSHP";
+            this.ExportSHP.Size = new System.Drawing.Size(129, 22);
+            this.ExportSHP.Text = "导出SHP";
+            this.ExportSHP.Click += new System.EventHandler(this.ExportSHP_Click);
+            // 
+            // ExportExcel
+            // 
+            this.ExportExcel.Name = "ExportExcel";
+            this.ExportExcel.Size = new System.Drawing.Size(129, 22);
+            this.ExportExcel.Text = "导出Excel";
+            this.ExportExcel.Click += new System.EventHandler(this.ExportExcel_Click);
+            // 
+            // 公交ToolStripMenuItem
+            // 
+            this.公交ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SearchBUS,
+            this.ImportBusExcel});
+            this.公交ToolStripMenuItem.Name = "公交ToolStripMenuItem";
+            this.公交ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.公交ToolStripMenuItem.Text = "公交";
+            // 
+            // SearchBUS
+            // 
+            this.SearchBUS.Name = "SearchBUS";
+            this.SearchBUS.Size = new System.Drawing.Size(148, 22);
+            this.SearchBUS.Text = "查询";
+            this.SearchBUS.Click += new System.EventHandler(this.SearchBUS_Click);
+            // 
+            // ImportBusExcel
+            // 
+            this.ImportBusExcel.Name = "ImportBusExcel";
+            this.ImportBusExcel.Size = new System.Drawing.Size(148, 22);
+            this.ImportBusExcel.Text = "导入公交数据";
+            this.ImportBusExcel.Click += new System.EventHandler(this.ImportBusExcel_Click);
             // 
             // splitContainer1
             // 
@@ -186,20 +235,6 @@
             this.axToolbarControl1.Size = new System.Drawing.Size(941, 28);
             this.axToolbarControl1.TabIndex = 3;
             // 
-            // ExportSHP
-            // 
-            this.ExportSHP.Name = "ExportSHP";
-            this.ExportSHP.Size = new System.Drawing.Size(152, 22);
-            this.ExportSHP.Text = "导出SHP";
-            this.ExportSHP.Click += new System.EventHandler(this.ExportSHP_Click);
-            // 
-            // ExportExcel
-            // 
-            this.ExportExcel.Name = "ExportExcel";
-            this.ExportExcel.Size = new System.Drawing.Size(152, 22);
-            this.ExportExcel.Text = "导出Excel";
-            this.ExportExcel.Click += new System.EventHandler(this.ExportExcel_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -210,7 +245,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "交通综合数据库管理系统";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -247,6 +282,10 @@
         private System.Windows.Forms.ToolStripMenuItem ConditionSearchButton;
         private System.Windows.Forms.ToolStripMenuItem ExportSHP;
         private System.Windows.Forms.ToolStripMenuItem ExportExcel;
+        private System.Windows.Forms.ToolStripMenuItem 公交ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SearchBUS;
+        private System.Windows.Forms.ToolStripStatusLabel OperatorTxt;
+        private System.Windows.Forms.ToolStripMenuItem ImportBusExcel;
 
 
     }

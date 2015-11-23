@@ -33,8 +33,6 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
-        
-
         /// <summary>
         /// 获取要素类中字段名称对应的字段类型字典
         /// </summary>
@@ -105,7 +103,6 @@ namespace LoowooTech.Traffic.Common
             return featureClass;
 
         }
-
         public static void Save2(IFeatureClass SourceFeatureClass,string WhererClause,string SaveFilePath)
         {
             Geoprocessor gp = new Geoprocessor();
@@ -116,7 +113,6 @@ namespace LoowooTech.Traffic.Common
             tool.out_name = System.IO.Path.GetFileNameWithoutExtension(SaveFilePath);
             gp.Execute(tool, null);
         }
-
         public static void Save(IFeatureClass SourceFeatureClass, string WhereClause, string SaveFilePath)
         {
             IWorkspaceFactory workpsaceFactory = new ShapefileWorkspaceFactory();
@@ -164,5 +160,6 @@ namespace LoowooTech.Traffic.Common
             }
             
         }
+
     }
 }

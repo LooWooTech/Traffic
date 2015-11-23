@@ -1,4 +1,5 @@
 ﻿using ESRI.ArcGIS.Geodatabase;
+using LoowooTech.Traffic.Models;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -36,8 +37,6 @@ namespace LoowooTech.Traffic.Common
             Save(workbook, FilePath);
             return true;
         }
-
-
         public static void SaveExcel(IFeatureClass FeatureClass, string WhereClause, string FilePath, Dictionary<string, int> HeadDict) 
         {
             IWorkbook workbook = CreateWorkBook(FilePath);
@@ -66,7 +65,6 @@ namespace LoowooTech.Traffic.Common
             Save(workbook, FilePath);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
         }
-
         private static void Save(IWorkbook workbook, string FilePath)
         {
             using (var fs = File.OpenWrite(FilePath))
@@ -74,7 +72,6 @@ namespace LoowooTech.Traffic.Common
                 workbook.Write(fs);
             }
         }
-
         public static IWorkbook CreateWorkBook(string FilePath)
         {
             var ext = System.IO.Path.GetExtension(FilePath);
@@ -90,13 +87,78 @@ namespace LoowooTech.Traffic.Common
             }
             return workbook;
         }
-
         public static IWorkbook OpenWorkbook(string FilePath)
         {
-            using (var fs = new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
             {
                 return WorkbookFactory.Create(fs);
             }  
+        }
+
+        private static string GetCellValue(this ICell Cell)
+        {
+            if (Cell != null)
+            {
+                switch (Cell.CellType)
+                {
+                    case CellType.String:
+                        return Cell.StringCellValue;
+                    case CellType.Numeric:
+                        return Cell.NumericCellValue.ToString();
+                    case CellType.Formula:
+                        double val = 0.0;
+                        try
+                        {
+                            val = double.Parse(Cell.NumericCellValue.ToString());
+                        }
+                        catch
+                        {
+
+                        }
+                        return val.ToString();
+                    default:
+                        return Cell.ToString();
+
+                }
+            }
+            return string.Empty;
+           
+        }
+        public static List<BusLine> Read(string FilePath)
+        {
+            IWorkbook workbook = OpenWorkbook(FilePath);
+            ISheet sheet = workbook.GetSheetAt(0);
+            int RowCount = sheet.LastRowNum;
+            DirectType directType=DirectType.Up;
+            NPOI.SS.UserModel.IRow row = null;
+            var list = new List<BusLine>();
+            for (var i = 1; i <= RowCount; i++)
+            {
+                row = sheet.GetRow(i);
+                if (row == null)
+                {
+                    continue;
+                }
+                switch (int.Parse(row.GetCell(4).GetCellValue()))
+                {
+                    case 1:
+                        directType = DirectType.Up;
+                        break;
+                    case 2:
+                        directType = DirectType.Down;
+                        break;
+                }
+                list.Add(new BusLine()
+                {
+                    LineName = row.GetCell(2).GetCellValue(),
+                    ShortName = row.GetCell(3).GetCellValue(),
+                    Direction = directType,
+                    StartStop = row.GetCell(6).GetCellValue(),
+                    EndStop = row.GetCell(7).GetCellValue()
+                });
+            }
+                
+            return list;
         }
     }
 }
