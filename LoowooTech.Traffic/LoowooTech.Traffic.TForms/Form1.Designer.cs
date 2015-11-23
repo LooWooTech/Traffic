@@ -43,6 +43,8 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
+            this.ExportSHP = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -85,7 +87,9 @@
             this.路网ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ExportActiveView,
             this.RoadFilter,
-            this.SearchButton});
+            this.SearchButton,
+            this.ExportSHP,
+            this.ExportExcel});
             this.路网ToolStripMenuItem.Name = "路网ToolStripMenuItem";
             this.路网ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.路网ToolStripMenuItem.Text = "路网";
@@ -116,14 +120,14 @@
             // PointSearch
             // 
             this.PointSearch.Name = "PointSearch";
-            this.PointSearch.Size = new System.Drawing.Size(152, 22);
+            this.PointSearch.Size = new System.Drawing.Size(124, 22);
             this.PointSearch.Text = "点选查询";
             this.PointSearch.Click += new System.EventHandler(this.PointSearch_Click);
             // 
             // ConditionSearchButton
             // 
             this.ConditionSearchButton.Name = "ConditionSearchButton";
-            this.ConditionSearchButton.Size = new System.Drawing.Size(152, 22);
+            this.ConditionSearchButton.Size = new System.Drawing.Size(124, 22);
             this.ConditionSearchButton.Text = "条件查询";
             this.ConditionSearchButton.Click += new System.EventHandler(this.ConditionSearchButton_Click);
             // 
@@ -182,6 +186,20 @@
             this.axToolbarControl1.Size = new System.Drawing.Size(941, 28);
             this.axToolbarControl1.TabIndex = 3;
             // 
+            // ExportSHP
+            // 
+            this.ExportSHP.Name = "ExportSHP";
+            this.ExportSHP.Size = new System.Drawing.Size(152, 22);
+            this.ExportSHP.Text = "导出SHP";
+            this.ExportSHP.Click += new System.EventHandler(this.ExportSHP_Click);
+            // 
+            // ExportExcel
+            // 
+            this.ExportExcel.Name = "ExportExcel";
+            this.ExportExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportExcel.Text = "导出Excel";
+            this.ExportExcel.Click += new System.EventHandler(this.ExportExcel_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -227,6 +245,8 @@
         private System.Windows.Forms.ToolStripMenuItem SearchButton;
         private System.Windows.Forms.ToolStripMenuItem PointSearch;
         private System.Windows.Forms.ToolStripMenuItem ConditionSearchButton;
+        private System.Windows.Forms.ToolStripMenuItem ExportSHP;
+        private System.Windows.Forms.ToolStripMenuItem ExportExcel;
 
 
     }

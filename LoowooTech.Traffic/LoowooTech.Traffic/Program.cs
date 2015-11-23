@@ -24,12 +24,12 @@ namespace LoowooTech.Traffic
                     return;
                 }
             }
-          //  ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
-           // LicenseManager.StartUp();
+            //ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
+            //LicenseManager.StartUp();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-           // LicenseManager.ShutDown();
+            //LicenseManager.ShutDown();
         }
     }
 }

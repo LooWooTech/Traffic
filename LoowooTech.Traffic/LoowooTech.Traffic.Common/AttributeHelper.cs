@@ -42,7 +42,7 @@ namespace LoowooTech.Traffic.Common
         }
         private static void ReadFieldIndexDict(IFeatureClass FeatureClass)
         {
-            IndexDict = GISHelper.GetFieldIndexDict(FeatureClass);
+            IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,"序号");
         }
         public static IArray Identify(IFeatureClass featureClass, IGeometry geometry)
         {

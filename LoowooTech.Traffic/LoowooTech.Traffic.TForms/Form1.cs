@@ -14,6 +14,7 @@ using System.Windows.Forms;
 namespace LoowooTech.Traffic.TForms
 {
     public delegate void EventOperator(IGeometry geometry);
+    public delegate void UpdateProgressDelegate(string message);
     public partial class Form1 : Form
     {
         private string MXDPath { get; set; }
@@ -216,6 +217,31 @@ namespace LoowooTech.Traffic.TForms
         private void PointSearch_Click(object sender, EventArgs e)
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+        }
+
+        private void ExportSHP_Click(object sender, EventArgs e)
+        {
+            var saveFilePathSHP = FileHelper.Save("导出SHP文件", "shp文件|*.shp");
+            //GISHelper.Save(RoadFeatureClass, RoadFilterWhereClause, saveFilePathSHP);
+            try
+            {
+                GISHelper.Save2(RoadFeatureClass, RoadFilterWhereClause, saveFilePathSHP);  
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return;
+            }
+            
+            toolStripStatusLabel1.Text = "成功导出Shapefile";
+        }
+
+        private void ExportExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("导出路网属性表格", "2003 xls 文件|*.xls|2007 xlsx|*.xlsx");
+            var HeadDict = GISHelper.GetFieldIndexDict(RoadFeatureClass);
+            ExcelHelper.SaveExcel(RoadFeatureClass, RoadFilterWhereClause, saveFilePath,HeadDict);
+            toolStripStatusLabel1.Text = "成功导出Excel表格";
         }
     }
 }

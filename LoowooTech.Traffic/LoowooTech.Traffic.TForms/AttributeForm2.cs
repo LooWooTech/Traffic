@@ -79,7 +79,7 @@ namespace LoowooTech.Traffic.TForms
         private void ExportExcel_Click(object sender, EventArgs e)
         {
             var saveFilePath = FileHelper.Save("保存Excel表格", "2003 xls文件|*.xls|2007 xlsx|*.xlsx");
-            var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass);
+            var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass,"序号");
             Father.toolStripStatusLabel1.Text = "正在生成文件："+saveFilePath;
             ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath,HeadDict);
             Father.toolStripStatusLabel1.Text = "文件生成：" + saveFilePath;
