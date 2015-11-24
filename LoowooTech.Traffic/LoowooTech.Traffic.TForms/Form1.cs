@@ -31,6 +31,7 @@ namespace LoowooTech.Traffic.TForms
         public  RoadMode roadMode { get; set; }
         public DataType dataType { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
+        private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -41,6 +42,9 @@ namespace LoowooTech.Traffic.TForms
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
+            simpleMarkerSymbol = new SimpleMarkerSymbolClass();
+            simpleMarkerSymbol.Size = 8;
+            simpleMarkerSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -110,16 +114,7 @@ namespace LoowooTech.Traffic.TForms
             var roadFilterForm = new RoadFilterForm(RoadFeatureClass);
             roadFilterForm.ShowDialog(this);
         }
-        /// <summary>
-        /// 导出图片
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportActiveView_Click(object sender, EventArgs e)
-        {
-            var saveFilePath = FileHelper.Save("保存地图", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
-            FileHelper.ExportMap(saveFilePath, axMapControl1.ActiveView);
-        }
+        
 
         private void UpdateBase(string Name,string WhereClause)
         {
@@ -174,8 +169,18 @@ namespace LoowooTech.Traffic.TForms
         }
         public void UpdateBus()
         {
-            UpdateBase(BusLineName, BusLineWhereClause);
-            UpdateBase(BusStopName, BusStopWhereClause);
+            switch (dataType)
+            {
+                case DataType.BusLine:
+                    UpdateBase(BusLineName, BusLineWhereClause);
+                    UpdateBase(BusStopName, BusStopWhereClause);
+                    break;
+                case DataType.BusStop:
+                    break;
+                default:
+                    break;
+            }
+            
         }
         public void ShowResult()
         {
@@ -203,7 +208,19 @@ namespace LoowooTech.Traffic.TForms
         {
             if (Feature != null)
             {
-                axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleLineSymbol);
+                switch (Feature.Shape.GeometryType)
+                {
+                    case esriGeometryType.esriGeometryMultipoint:
+                    case esriGeometryType.esriGeometryPoint:
+                        axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleMarkerSymbol);
+                        break;
+                    case esriGeometryType.esriGeometryPolyline:
+                    case esriGeometryType.esriGeometryLine:
+                        axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleLineSymbol);
+                        break;
+                    
+                }
+                
             }
         }
         /// <summary>
@@ -235,38 +252,13 @@ namespace LoowooTech.Traffic.TForms
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
             dataType = DataType.Road;
         }
-        private void ExportSHP_Click(object sender, EventArgs e)
-        {
-            var saveFilePathSHP = FileHelper.Save("导出SHP文件", "shp文件|*.shp");
-            //GISHelper.Save(RoadFeatureClass, RoadFilterWhereClause, saveFilePathSHP);
-            try
-            {
-                GISHelper.Save2(RoadFeatureClass, RoadFilterWhereClause, saveFilePathSHP);  
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-                return;
-            }
-            
-            toolStripStatusLabel1.Text = "成功导出Shapefile";
-        }
-        private void ExportExcel_Click(object sender, EventArgs e)
-        {
-            var saveFilePath = FileHelper.Save("导出路网属性表格", "2003 xls 文件|*.xls|2007 xlsx|*.xlsx");
-            var HeadDict = GISHelper.GetFieldIndexDict(RoadFeatureClass);
-            ExcelHelper.SaveExcel(RoadFeatureClass, RoadFilterWhereClause, saveFilePath,HeadDict);
-            toolStripStatusLabel1.Text = "成功导出Excel表格";
-        }
-
+       
+        
         public void ShowBus()
         {
-            //var result = new AttributeForm2(BusLineFeatureClass, BusLineWhereClause);
-            //result.Show(this);
             var result = new BusResultForm(BusLineFeatureClass,BusStopFeatureClass, BusLineWhereClause);
             result.Show(this);
         }
-
         private void ImportBusExcel_Click(object sender, EventArgs e)
         {
             var ExcelPath = FileHelper.Open("打开公交路线数据", "2003 文件|*.xls|2007 文件|*.xlsx");
@@ -284,23 +276,117 @@ namespace LoowooTech.Traffic.TForms
             OperatorTxt.Text = "导入公交路线信息成功";
             
         }
-
-        private void SearchBusButton_Click(object sender, EventArgs e)
-        {
-            BusFilterForm busform = new BusFilterForm();
-            busform.ShowDialog(this);
-        }
-
         private void PointBusLineButton_Click(object sender, EventArgs e)
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
             dataType=DataType.BusLine;
         }
-
         private void PointBusStopButton_Click(object sender, EventArgs e)
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
             dataType = DataType.BusStop;
         }
+        private void SearchBusLineButton_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.BusLine;
+            BusFilterForm busform = new BusFilterForm();
+            busform.ShowDialog(this);
+        }
+        private void SearchBusStopButton_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.BusStop;
+            BusFilterForm busform = new BusFilterForm();
+            busform.ShowDialog(this);
+        }
+
+        #region 导出Shapefile文件
+        private void ExportSHPBase(IFeatureClass FeatureClass, string WhereClause, string FilePath)
+        {
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                OperatorTxt.Text = "开始导出Shapefile文件";
+                try
+                {
+                    GISHelper.Save2(FeatureClass, WhereClause, FilePath);
+                }
+                catch (Exception ex)
+                {
+                    OperatorTxt.Text = "导出Shapefile文件失败，错误信息：" + ex.ToString();
+                    return;
+                }
+                OperatorTxt.Text = "成功导出shap文件：" + FilePath;
+            }
+        }
+        private void ExportSHP_Click(object sender, EventArgs e)
+        {
+            var saveFilePathSHP = FileHelper.Save("导出路网SHP文件", "shp文件|*.shp");
+            ExportSHPBase(RoadFeatureClass, RoadFilterWhereClause, saveFilePathSHP);
+        }
+
+        private void ExportBusLine_Click(object sender, EventArgs e)
+        {
+            var saveShpPath = FileHelper.Save("导出公交车路线Shapefile文件", "SHP文件|*.shp");
+            ExportSHPBase(BusLineFeatureClass, BusLineWhereClause, saveShpPath);
+        }
+
+        private void ExportBusStop_Click(object sender, EventArgs e)
+        {
+            var saveSHPPath = FileHelper.Save("导出公交车站点Shapefile文件", "SHP文件|*.shp");
+            ExportSHPBase(BusStopFeatureClass, BusStopWhereClause, saveSHPPath);
+        }
+        #endregion
+
+        #region 导出图片
+        private void ExportPictureBase(string FilePath, IActiveView ActiveView)
+        {
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                FileHelper.ExportMap(FilePath, ActiveView);
+                OperatorTxt.Text = "成功导出图片："+FilePath;
+            }
+        }
+        /// <summary>
+        /// 导出图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportActiveView_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("保存地图", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
+        }
+        private void ExportBusPicture_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("保存地图", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
+        }
+        #endregion
+
+        #region 导出Excel文件
+        private void ExportExcelBase(IFeatureClass FeatureClass, string WhereClause, string FilePath)
+        {
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass);
+                ExcelHelper.SaveExcel(FeatureClass, WhereClause, FilePath, HeadDict);
+                OperatorTxt.Text = "成功导出Excel文件：" + FilePath;
+            }
+        }
+        private void ExportExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("导出路网属性表格", "2003 xls 文件|*.xls|2007 xlsx|*.xlsx");
+            ExportExcelBase(RoadFeatureClass, RoadFilterWhereClause, saveFilePath);
+        }
+        private void ExportBusLineExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("导出公交车路线Excel文件", "2003文件|*.xls|2007文件|*.xlsx");
+            ExportExcelBase(BusLineFeatureClass, BusLineWhereClause, saveFilePath);
+        }
+        private void ExportBusStopExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("导出公交车站点Excel文件", "2003文件|*.xls|2007文件|*.xlsx");
+            ExportExcelBase(BusStopFeatureClass, BusStopWhereClause, saveFilePath);
+        }
+        #endregion
     }
 }

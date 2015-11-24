@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Twinklebutton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -43,12 +45,26 @@
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.Twinklebutton);
+            // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Size = new System.Drawing.Size(245, 638);
-            this.splitContainer1.SplitterDistance = 80;
+            this.splitContainer1.Size = new System.Drawing.Size(444, 301);
+            this.splitContainer1.SplitterDistance = 79;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // Twinklebutton
+            // 
+            this.Twinklebutton.Location = new System.Drawing.Point(26, 25);
+            this.Twinklebutton.Name = "Twinklebutton";
+            this.Twinklebutton.Size = new System.Drawing.Size(75, 23);
+            this.Twinklebutton.TabIndex = 0;
+            this.Twinklebutton.Text = "闪烁";
+            this.Twinklebutton.UseVisualStyleBackColor = true;
+            this.Twinklebutton.Click += new System.EventHandler(this.Twinklebutton_Click);
             // 
             // dataGridView1
             // 
@@ -57,18 +73,21 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(245, 554);
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(444, 218);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // BusStopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(245, 638);
+            this.ClientSize = new System.Drawing.Size(444, 301);
             this.Controls.Add(this.splitContainer1);
             this.Name = "BusStopForm";
             this.Text = "公交站点信息列表";
             this.Load += new System.EventHandler(this.BusStopForm_Load);
+            this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -81,5 +100,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button Twinklebutton;
     }
 }

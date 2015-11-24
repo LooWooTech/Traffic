@@ -21,31 +21,6 @@ namespace LoowooTech.Traffic.Common
         /// 字段名称  对应 在要素类中的Index
         /// </summary>
         private static Dictionary<string, int> IndexDict { get; set; }
-
-        private static void ReadDict(IFeatureClass FeatureClass)
-        {
-
-
-            FieldDict = LayerInfoHelper.GetLayerDictionary(FeatureClass.AliasName.GetAlongName());
-
-            if (IndexDict == null)
-            {
-                IndexDict = new Dictionary<string, int>();
-            }
-            int Index = 0;
-            foreach (var key in FieldDict.Keys)
-            {
-                Index = FeatureClass.Fields.FindField(key);
-                if (Index >= 0)
-                {
-                    IndexDict.Add(key, Index);
-                    //if (!IndexDict.ContainsKey(key))
-                    //{
-                        
-                    //}
-                }
-            }
-        }
         private static void ReadFieldIndexDict(IFeatureClass FeatureClass,string AddFieldName=null)
         {
             IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,AddFieldName);
@@ -92,9 +67,31 @@ namespace LoowooTech.Traffic.Common
             IFeature feature = featureCursor.NextFeature();
             return feature == null ? null : feature;
         }
+        public static DataTable GetTable(List<IFeature> List, Dictionary<string, int> FieldDict,out Dictionary<int,IFeature> FeatureDict)
+        {
+            DataTable dataTable = new DataTable();
+            foreach (var key in FieldDict.Keys)
+            {
+                dataTable.Columns.Add(key);
+            }
+            DataRow dataRow = null;
+            int Serial = 0;
+            FeatureDict = new Dictionary<int, IFeature>();
+            foreach (var item in List)
+            {
+                dataRow = dataTable.NewRow();
+                foreach (var key in FieldDict.Keys)
+                {
+                    dataRow[key] = item.get_Value(FieldDict[key]).ToString();
+                }
+                FeatureDict.Add(Serial++, item);
+                dataTable.Rows.Add(dataRow);
+            }
+            return dataTable;
+        }
         public static DataTable GetTable(IFeatureClass featureClass, string Filter,out Dictionary<int,IFeature> FeatureDict)
         {
-            ReadFieldIndexDict(featureClass);
+            ReadFieldIndexDict(featureClass,"序号");
             DataTable dataTable = new DataTable(); 
             foreach (var key in IndexDict.Keys)
             {
@@ -110,21 +107,22 @@ namespace LoowooTech.Traffic.Common
             while (feature != null)
             {
                 FeatureDict.Add(Serial, feature);
+                dataRow = dataTable.NewRow();
+
+                foreach (var key in IndexDict.Keys)
+                {
+                    dataRow[key] = feature.get_Value(IndexDict[key]).ToString();
+                }
+                dataRow["序号"] = ++Serial;
+                dataTable.Rows.Add(dataRow);
                 try
                 {
-                    dataRow = dataTable.NewRow();
-                    
-                    foreach (var key in IndexDict.Keys)
-                    {
-                        dataRow[key] = feature.get_Value(IndexDict[key]).ToString();
-                    }
-                    dataRow["序号"] = ++Serial;
-                    dataTable.Rows.Add(dataRow);
+                   
                     
                 }
                 catch
                 {
-
+                    
                 }
                 feature = featureCursor.NextFeature();
             }
@@ -171,5 +169,6 @@ namespace LoowooTech.Traffic.Common
             }
             return dataTable;
         }
+        
     }
 }

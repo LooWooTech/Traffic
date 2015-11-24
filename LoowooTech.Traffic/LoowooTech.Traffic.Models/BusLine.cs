@@ -29,6 +29,8 @@ namespace LoowooTech.Traffic.Models
 
     public enum DirectType
     {
+        [Description("环线")]
+        Loop,
         [Description("上行")]
         Up,
         [Description("下行")]

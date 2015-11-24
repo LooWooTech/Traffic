@@ -18,12 +18,16 @@ namespace LoowooTech.Traffic.TForms
         private string WhereClause { get; set; }
         private Form1 Father { get; set; }
         private Dictionary<int, IFeature> FeatureDict { get; set; }
+        private int IndexDirect { get; set; }
+        private int IndexNameShort { get; set; }
         public BusResultForm(IFeatureClass FeatureClass,IFeatureClass BusStopFeatureClass,string WhereClause)
         {
             InitializeComponent();
             this.FeatureClass = FeatureClass;
             this.WhereClause = WhereClause;
             this.BusStopFeatureClass=BusStopFeatureClass;
+            this.IndexDirect = FeatureClass.Fields.FindField("lineDirect");
+            this.IndexNameShort = FeatureClass.Fields.FindField("nameshort");
             
         }
         public BusResultForm()
@@ -78,6 +82,11 @@ namespace LoowooTech.Traffic.TForms
             }
         }
 
+        /// <summary>
+        /// 查看某一条公交路线的公交站点信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewButton_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedCells.Count > 0)
@@ -85,7 +94,15 @@ namespace LoowooTech.Traffic.TForms
                 var selectIndex = dataGridView1.SelectedCells[0].RowIndex;
                 if (FeatureDict.ContainsKey(selectIndex))
                 {
-                    //IFeature feature = FeatureDict[selectIndex];
+                    IFeature Currentfeature = FeatureDict[selectIndex];
+                    if (Currentfeature != null)
+                    {
+                        var direct = int.Parse(Currentfeature.get_Value(IndexDirect).ToString());
+                        var nameshort = Currentfeature.get_Value(IndexNameShort).ToString();
+                        BusStopForm form = new BusStopForm(BusStopFeatureClass, "lineDirect= "+direct+"  AND lineNameshort='"+nameshort+"'");
+                        form.ShowDialog(this.Owner);
+                    }
+                    
 
                 }
             }
@@ -105,6 +122,20 @@ namespace LoowooTech.Traffic.TForms
                     Father.Center(FeatureDict[selectIndex]);
                 }
             }
+        }
+
+        /// <summary>
+        /// 导出结果Excel表格
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("保存Excel表格", "2003 xls文件|*.xls|2007 xlsx|*.xlsx");
+            var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass, "序号");
+            Father.toolStripStatusLabel1.Text = "正在生成文件：" + saveFilePath;
+            ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath, HeadDict);
+            Father.toolStripStatusLabel1.Text = "文件生成：" + saveFilePath;
         }
     }
 }

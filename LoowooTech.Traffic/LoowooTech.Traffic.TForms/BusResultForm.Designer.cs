@@ -80,6 +80,7 @@
             this.ExportExcel.TabIndex = 1;
             this.ExportExcel.Text = "生成Excel";
             this.ExportExcel.UseVisualStyleBackColor = true;
+            this.ExportExcel.Click += new System.EventHandler(this.ExportExcel_Click);
             // 
             // TwinkleButton
             // 
