@@ -50,8 +50,6 @@
             this.搜索ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchBusLineButton = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchBusStopButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.导出SHPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusLine = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusStop = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +57,9 @@
             this.ExportBusExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusLineExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusStopExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
+            this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.statusStrip1.SuspendLayout();
@@ -68,8 +68,8 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             this.SuspendLayout();
@@ -185,7 +185,7 @@
             // ImportBusExcel
             // 
             this.ImportBusExcel.Name = "ImportBusExcel";
-            this.ImportBusExcel.Size = new System.Drawing.Size(152, 22);
+            this.ImportBusExcel.Size = new System.Drawing.Size(148, 22);
             this.ImportBusExcel.Text = "导入公交数据";
             this.ImportBusExcel.Click += new System.EventHandler(this.ImportBusExcel_Click);
             // 
@@ -195,7 +195,7 @@
             this.点选ToolStripMenuItem,
             this.搜索ToolStripMenuItem});
             this.查询ToolStripMenuItem.Name = "查询ToolStripMenuItem";
-            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.查询ToolStripMenuItem.Text = "查询";
             // 
             // 点选ToolStripMenuItem
@@ -244,40 +244,13 @@
             this.SearchBusStopButton.Text = "公交站点";
             this.SearchBusStopButton.Click += new System.EventHandler(this.SearchBusStopButton_Click);
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 53);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.axTOCControl1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.axLicenseControl1);
-            this.splitContainer1.Panel2.Controls.Add(this.axMapControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(941, 552);
-            this.splitContainer1.SplitterDistance = 172;
-            this.splitContainer1.TabIndex = 4;
-            // 
-            // axLicenseControl1
-            // 
-            this.axLicenseControl1.Enabled = true;
-            this.axLicenseControl1.Location = new System.Drawing.Point(721, 521);
-            this.axLicenseControl1.Name = "axLicenseControl1";
-            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
-            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
-            this.axLicenseControl1.TabIndex = 1;
-            // 
             // 导出SHPToolStripMenuItem
             // 
             this.导出SHPToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ExportBusLine,
             this.ExportBusStop});
             this.导出SHPToolStripMenuItem.Name = "导出SHPToolStripMenuItem";
-            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.导出SHPToolStripMenuItem.Text = "导出SHP";
             // 
             // ExportBusLine
@@ -297,7 +270,7 @@
             // ExportBusPicture
             // 
             this.ExportBusPicture.Name = "ExportBusPicture";
-            this.ExportBusPicture.Size = new System.Drawing.Size(152, 22);
+            this.ExportBusPicture.Size = new System.Drawing.Size(148, 22);
             this.ExportBusPicture.Text = "导出图片";
             this.ExportBusPicture.Click += new System.EventHandler(this.ExportBusPicture_Click);
             // 
@@ -307,22 +280,40 @@
             this.ExportBusLineExcel,
             this.ExportBusStopExcel});
             this.ExportBusExcel.Name = "ExportBusExcel";
-            this.ExportBusExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportBusExcel.Size = new System.Drawing.Size(148, 22);
             this.ExportBusExcel.Text = "导出Excel";
             // 
             // ExportBusLineExcel
             // 
             this.ExportBusLineExcel.Name = "ExportBusLineExcel";
-            this.ExportBusLineExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportBusLineExcel.Size = new System.Drawing.Size(136, 22);
             this.ExportBusLineExcel.Text = "公交车路线";
             this.ExportBusLineExcel.Click += new System.EventHandler(this.ExportBusLineExcel_Click);
             // 
             // ExportBusStopExcel
             // 
             this.ExportBusStopExcel.Name = "ExportBusStopExcel";
-            this.ExportBusStopExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportBusStopExcel.Size = new System.Drawing.Size(136, 22);
             this.ExportBusStopExcel.Text = "公交车站点";
             this.ExportBusStopExcel.Click += new System.EventHandler(this.ExportBusStopExcel_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 53);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.axTOCControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.axLicenseControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.axMapControl1);
+            this.splitContainer1.Size = new System.Drawing.Size(941, 552);
+            this.splitContainer1.SplitterDistance = 172;
+            this.splitContainer1.TabIndex = 4;
             // 
             // axTOCControl1
             // 
@@ -332,6 +323,15 @@
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
             this.axTOCControl1.Size = new System.Drawing.Size(172, 552);
             this.axTOCControl1.TabIndex = 0;
+            // 
+            // axLicenseControl1
+            // 
+            this.axLicenseControl1.Enabled = true;
+            this.axLicenseControl1.Location = new System.Drawing.Point(721, 521);
+            this.axLicenseControl1.Name = "axLicenseControl1";
+            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
+            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
+            this.axLicenseControl1.TabIndex = 1;
             // 
             // axMapControl1
             // 
@@ -372,8 +372,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
             this.ResumeLayout(false);
