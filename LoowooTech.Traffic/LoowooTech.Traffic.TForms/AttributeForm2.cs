@@ -58,7 +58,7 @@ namespace LoowooTech.Traffic.TForms
                 {
                     Father.Center(FeatureDict[selectIndex]);
                     
-                    Father.Twinkle(FeatureDict[selectIndex]);
+                   // Father.Twinkle(FeatureDict[selectIndex]);
                 }
             }
             

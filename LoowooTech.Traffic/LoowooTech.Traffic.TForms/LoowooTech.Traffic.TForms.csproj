@@ -91,6 +91,12 @@
     <Compile Include="BusResultForm.Designer.cs">
       <DependentUpon>BusResultForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BusStopForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BusStopForm.Designer.cs">
+      <DependentUpon>BusStopForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BusResultForm.resx">
       <DependentUpon>BusResultForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BusStopForm.resx">
+      <DependentUpon>BusStopForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

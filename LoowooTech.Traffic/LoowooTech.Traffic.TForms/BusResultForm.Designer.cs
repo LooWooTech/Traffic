@@ -33,6 +33,7 @@
             this.ExportExcel = new System.Windows.Forms.Button();
             this.TwinkleButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.RemoveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -49,6 +50,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.RemoveButton);
             this.splitContainer1.Panel1.Controls.Add(this.ViewButton);
             this.splitContainer1.Panel1.Controls.Add(this.ExportExcel);
             this.splitContainer1.Panel1.Controls.Add(this.TwinkleButton);
@@ -68,10 +70,11 @@
             this.ViewButton.TabIndex = 2;
             this.ViewButton.Text = "查看详情";
             this.ViewButton.UseVisualStyleBackColor = true;
+            this.ViewButton.Click += new System.EventHandler(this.ViewButton_Click);
             // 
             // ExportExcel
             // 
-            this.ExportExcel.Location = new System.Drawing.Point(163, 13);
+            this.ExportExcel.Location = new System.Drawing.Point(219, 12);
             this.ExportExcel.Name = "ExportExcel";
             this.ExportExcel.Size = new System.Drawing.Size(75, 23);
             this.ExportExcel.TabIndex = 1;
@@ -86,6 +89,7 @@
             this.TwinkleButton.TabIndex = 0;
             this.TwinkleButton.Text = "闪烁";
             this.TwinkleButton.UseVisualStyleBackColor = true;
+            this.TwinkleButton.Click += new System.EventHandler(this.TwinkleButton_Click);
             // 
             // dataGridView1
             // 
@@ -97,6 +101,17 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(441, 209);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
+            // 
+            // RemoveButton
+            // 
+            this.RemoveButton.Location = new System.Drawing.Point(109, 12);
+            this.RemoveButton.Name = "RemoveButton";
+            this.RemoveButton.Size = new System.Drawing.Size(75, 23);
+            this.RemoveButton.TabIndex = 3;
+            this.RemoveButton.Text = "移动";
+            this.RemoveButton.UseVisualStyleBackColor = true;
+            this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
             // BusResultForm
             // 
@@ -123,6 +138,7 @@
         private System.Windows.Forms.Button ExportExcel;
         private System.Windows.Forms.Button TwinkleButton;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button RemoveButton;
 
     }
 }

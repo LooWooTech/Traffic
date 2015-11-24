@@ -160,6 +160,21 @@ namespace LoowooTech.Traffic.Common
             }
             
         }
+        public static List<IFeature> Search(IFeatureClass FeatureClass, string WhereClause)
+        {
+            var list = new List<IFeature>();
+            IQueryFilter queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = WhereClause;
+            IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
+            IFeature feature = featureCursor.NextFeature();
+            while (feature != null)
+            {
+                list.Add(feature);
+                feature = featureCursor.NextFeature();
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return list;
+        }
 
     }
 }

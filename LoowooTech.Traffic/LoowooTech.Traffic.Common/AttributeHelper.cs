@@ -21,9 +21,13 @@ namespace LoowooTech.Traffic.Common
         /// 字段名称  对应 在要素类中的Index
         /// </summary>
         private static Dictionary<string, int> IndexDict { get; set; }
+
         private static void ReadDict(IFeatureClass FeatureClass)
         {
+
+
             FieldDict = LayerInfoHelper.GetLayerDictionary(FeatureClass.AliasName.GetAlongName());
+
             if (IndexDict == null)
             {
                 IndexDict = new Dictionary<string, int>();
@@ -34,16 +38,17 @@ namespace LoowooTech.Traffic.Common
                 Index = FeatureClass.Fields.FindField(key);
                 if (Index >= 0)
                 {
-                    if (!IndexDict.ContainsKey(key))
-                    {
-                        IndexDict.Add(key, Index);
-                    }
+                    IndexDict.Add(key, Index);
+                    //if (!IndexDict.ContainsKey(key))
+                    //{
+                        
+                    //}
                 }
             }
         }
-        private static void ReadFieldIndexDict(IFeatureClass FeatureClass)
+        private static void ReadFieldIndexDict(IFeatureClass FeatureClass,string AddFieldName=null)
         {
-            IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,"序号");
+            IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,AddFieldName);
         }
         public static IArray Identify(IFeatureClass featureClass, IGeometry geometry)
         {
@@ -128,18 +133,17 @@ namespace LoowooTech.Traffic.Common
         }
         public static DataTable GetTable(IFeatureClass featureClass, IFeature feature, string LayerName)
         {
-            ReadDict(featureClass);
-
+            ReadFieldIndexDict(featureClass);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("名称");
             dataTable.Columns.Add("值");
             DataRow datarow;
-            foreach (var key in FieldDict.Keys)
+            foreach (var key in IndexDict.Keys)
             {
                 try
                 {
                     datarow = dataTable.NewRow();
-                    datarow["名称"] = FieldDict[key];
+                    datarow["名称"] = key;
                     datarow["值"] = feature.get_Value(IndexDict[key]).ToString();
                     dataTable.Rows.Add(datarow);
                 }

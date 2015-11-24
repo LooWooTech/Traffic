@@ -80,31 +80,6 @@ namespace LoowooTech.Traffic.Common
             return featureClass;
 
         }
-        public static Dictionary<string, int> GetFieldIndex(IFeatureClass featureClass, Dictionary<string, string> FDict)
-        {
-            var dict = new Dictionary<string, int>();
-            int Index = 0;
-            foreach (var key in FDict.Keys)
-            {
-                try
-                {
-                    Index = featureClass.Fields.FindField(key);
-                }
-                catch
-                {
-                    continue;
-                }
-                
-                if (Index > 0)
-                {
-                    if (!dict.ContainsKey(key))
-                    {
-                        dict.Add(key, Index);
-                    }
-                }
-            }
-            return dict;
-        }
         public static string GetAlongName(this string FullName)
         {
             return FullName.Replace("sde.SDE.", "").Trim().ToString();

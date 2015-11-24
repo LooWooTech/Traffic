@@ -15,7 +15,6 @@ using System.Windows.Forms;
 namespace LoowooTech.Traffic.TForms
 {
     public delegate void EventOperator(IGeometry geometry);
-    public delegate void UpdateProgressDelegate(string message);
     public partial class Form1 : Form
     {
         private string MXDPath { get; set; }
@@ -27,8 +26,10 @@ namespace LoowooTech.Traffic.TForms
         public string BusStopWhereClause { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
         private IFeatureClass BusLineFeatureClass { get; set; }
+        private IFeatureClass BusStopFeatureClass { get; set; }
         private bool RoadFlag { get; set; }
         public  RoadMode roadMode { get; set; }
+        public DataType dataType { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         public Form1()
         {
@@ -45,6 +46,7 @@ namespace LoowooTech.Traffic.TForms
         {
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
+            BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
             if (RoadFeatureClass == null)
             {
                 MessageBox.Show("未获取服务器上相关路网数据，请核对是否连接服务器.......");
@@ -62,7 +64,24 @@ namespace LoowooTech.Traffic.TForms
         }
         private void ShowAttribute(IGeometry geometry)
         {
-            IArray array = AttributeHelper.Identify(RoadFeatureClass, geometry);
+            IFeatureClass CurrentFeatureClass = null;
+            string LayerName = string.Empty;
+            switch (dataType)
+            {
+                case DataType.Road:
+                    LayerName = RoadName;
+                    CurrentFeatureClass = RoadFeatureClass;
+                    break;
+                case DataType.BusLine:
+                    LayerName = BusLineName;
+                    CurrentFeatureClass = BusLineFeatureClass;
+                    break;
+                case DataType.BusStop:
+                    LayerName = BusStopName;
+                    CurrentFeatureClass = BusStopFeatureClass;
+                    break;
+            }
+            IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry);
             if (array != null)
             {
                 IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
@@ -73,7 +92,7 @@ namespace LoowooTech.Traffic.TForms
                 if (feature != null)
                 {
                     Twinkle(feature);
-                    AttributeForm form = new AttributeForm(feature, RoadFeatureClass, RoadName,axMapControl1.ActiveView);
+                    AttributeForm form = new AttributeForm(feature, CurrentFeatureClass, LayerName);
                     form.ShowDialog(this);
                 }
             }
@@ -134,8 +153,6 @@ namespace LoowooTech.Traffic.TForms
                             {
                                 LayerWhereClause = WhereClause;
                             }
-                           
-
                             //Console.WriteLine(LayerWhereClause);
                             featureLayerDefinition.DefinitionExpression = LayerWhereClause;
                         }
@@ -216,6 +233,7 @@ namespace LoowooTech.Traffic.TForms
         private void PointSearch_Click(object sender, EventArgs e)
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            dataType = DataType.Road;
         }
         private void ExportSHP_Click(object sender, EventArgs e)
         {
@@ -241,15 +259,11 @@ namespace LoowooTech.Traffic.TForms
             toolStripStatusLabel1.Text = "成功导出Excel表格";
         }
 
-        private void SearchBUS_Click(object sender, EventArgs e)
-        {
-            BusFilterForm busform = new BusFilterForm();
-            busform.ShowDialog(this);
-        }
-
         public void ShowBus()
         {
-            var result = new AttributeForm2(BusLineFeatureClass, BusLineWhereClause);
+            //var result = new AttributeForm2(BusLineFeatureClass, BusLineWhereClause);
+            //result.Show(this);
+            var result = new BusResultForm(BusLineFeatureClass,BusStopFeatureClass, BusLineWhereClause);
             result.Show(this);
         }
 
@@ -269,6 +283,24 @@ namespace LoowooTech.Traffic.TForms
             }
             OperatorTxt.Text = "导入公交路线信息成功";
             
+        }
+
+        private void SearchBusButton_Click(object sender, EventArgs e)
+        {
+            BusFilterForm busform = new BusFilterForm();
+            busform.ShowDialog(this);
+        }
+
+        private void PointBusLineButton_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            dataType=DataType.BusLine;
+        }
+
+        private void PointBusStopButton_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            dataType = DataType.BusStop;
         }
     }
 }
