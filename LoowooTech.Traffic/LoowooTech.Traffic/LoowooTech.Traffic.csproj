@@ -35,9 +35,7 @@
   <ItemGroup>
     <Reference Include="ESRI.ArcGIS.Version, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -70,10 +68,6 @@
     <Content Include="RelationInfo.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LoowooTech.Traffic.Common\LoowooTech.Traffic.Common.csproj">
-      <Project>{57bf6f2f-284a-4ada-a7fc-8e03fcf7df80}</Project>
-      <Name>LoowooTech.Traffic.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Traffic.TForms\LoowooTech.Traffic.TForms.csproj">
       <Project>{fb28f639-9489-4f7b-8725-330da18f35b6}</Project>
       <Name>LoowooTech.Traffic.TForms</Name>

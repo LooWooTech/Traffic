@@ -1,5 +1,4 @@
 ﻿using ESRI.ArcGIS.Geodatabase;
-using LoowooTech.Traffic.Models;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -7,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace LoowooTech.Traffic.Common

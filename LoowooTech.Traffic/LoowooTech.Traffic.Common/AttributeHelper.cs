@@ -2,13 +2,9 @@
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
-using LoowooTech.Traffic.Models;
 using ESRI.ArcGIS.Carto;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace LoowooTech.Traffic.Common
 {

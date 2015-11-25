@@ -1,10 +1,7 @@
 ﻿using ESRI.ArcGIS;
-using LoowooTech.Traffic.Common;
-using LoowooTech.Traffic.TForms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
+using LoowooTech.Traffic.TForms;
 
 namespace LoowooTech.Traffic
 {
@@ -16,6 +13,7 @@ namespace LoowooTech.Traffic
         [STAThread]
         static void Main()
         {
+            
             if (!RuntimeManager.Bind(ProductCode.Engine))
             {
                 if (!RuntimeManager.Bind(ProductCode.Desktop))
@@ -24,11 +22,13 @@ namespace LoowooTech.Traffic
                     return;
                 }
             }
-            //ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
-            //LicenseManager.StartUp();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
+            //ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
+            //LicenseManager.StartUp();
+            
             //LicenseManager.ShutDown();
         }
     }
