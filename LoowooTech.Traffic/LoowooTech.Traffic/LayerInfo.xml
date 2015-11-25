@@ -47,4 +47,7 @@
   <Way Type="BIKE">
     <Children Name="公共自行车"></Children>
   </Way>
+  <Way Type="FLOW">
+    <Children Name="交通流量"></Children>
+  </Way>
 </Layers>
