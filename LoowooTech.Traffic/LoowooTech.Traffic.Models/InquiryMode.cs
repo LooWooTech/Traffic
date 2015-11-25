@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LoowooTech.Traffic.Models
 {
-    public enum RoadMode
+    public enum InquiryMode
     {
         None,
         Filter,

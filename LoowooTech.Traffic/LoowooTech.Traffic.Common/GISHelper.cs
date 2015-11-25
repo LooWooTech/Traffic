@@ -1,5 +1,6 @@
 ﻿using ESRI.ArcGIS.ConversionTools;
 using ESRI.ArcGIS.DataSourcesFile;
+using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
@@ -175,6 +176,76 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return list;
         }
+
+        /// <summary>
+        /// 获取要素类中某一个字段中的唯一属性值
+        /// </summary>
+        /// <param name="FeatureClass"></param>
+        /// <returns></returns>
+        public static List<string> GetUniqueValue(IFeatureClass FeatureClass,string FieldName)
+        {
+            var list = new List<string>();
+            IDataset dataset = FeatureClass as IDataset;
+            IFeatureWorkspace featureWorkspace = dataset.Workspace as IFeatureWorkspace;
+
+            IQueryDef queryDef = featureWorkspace.CreateQueryDef();
+            queryDef.Tables = dataset.Name;
+            queryDef.SubFields = "DISTINCT (" + FieldName + ")";
+            ICursor cursor = queryDef.Evaluate();
+            int Index = FeatureClass.Fields.FindField(FieldName);
+            if (Index != -1)
+            {
+                IField field = FeatureClass.Fields.get_Field(Index);
+                IRow row = cursor.NextRow();
+                while (row != null)
+                {
+                    if (field.Type == esriFieldType.esriFieldTypeString)
+                    {
+                        list.Add("'" + row.get_Value(0).ToString() + "'");
+                    }
+                    else
+                    {
+                        list.Add(row.get_Value(0).ToString());
+                    }
+                    row = cursor.NextRow();
+                }
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(cursor);
+            return list;
+        }
+        public static Dictionary<string,double> Statistic(IFeatureClass FeatureClass,string LabelName ,string FieldName)
+        {
+            var dict = new Dictionary<string, double>();
+            var valList = GetUniqueValue(FeatureClass, LabelName);//获取标注字段的唯一值
+            foreach (var val in valList)
+            {
+                if (!dict.ContainsKey(val))
+                {
+                    dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val));
+                }
+            }
+            return dict;
+        }
+
+        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = WhereClause;
+            IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
+            ICursor cursor = featureCursor as ICursor;
+            double statisticVal = 0.0;
+            if (cursor != null)
+            {
+                IDataStatistics dataStatistic = new DataStatisticsClass();
+                dataStatistic.Cursor = cursor;
+                dataStatistic.Field = FieldName;
+                IStatisticsResults statisticsResluts = dataStatistic.Statistics;
+                statisticVal=statisticsResluts.Sum;
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return statisticVal;
+        }
+        
 
     }
 }

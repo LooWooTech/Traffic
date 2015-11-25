@@ -1,6 +1,6 @@
 ﻿namespace LoowooTech.Traffic.TForms
 {
-    partial class RoadFilterForm
+    partial class FilterForm
     {
         /// <summary>
         /// Required designer variable.
@@ -242,7 +242,7 @@
             this.label7.TabIndex = 18;
             this.label7.Text = "条件关系";
             // 
-            // RoadFilterForm
+            // FilterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -266,8 +266,8 @@
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
-            this.Name = "RoadFilterForm";
-            this.Text = "路网搜索";
+            this.Name = "FilterForm";
+            this.Text = "条件搜索";
             this.Load += new System.EventHandler(this.RoadFilterForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

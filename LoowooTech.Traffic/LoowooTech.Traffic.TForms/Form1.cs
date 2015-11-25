@@ -17,18 +17,22 @@ namespace LoowooTech.Traffic.TForms
     public delegate void EventOperator(IGeometry geometry);
     public partial class Form1 : Form
     {
+        #region  初始化
         private string MXDPath { get; set; }
         private string RoadName { get; set; }
         private string BusLineName { get; set; }
         private string BusStopName { get; set; }
+        private string ParkingName { get; set; }
         public  string RoadFilterWhereClause { get; set; }
         public string BusLineWhereClause { get; set; }
         public string BusStopWhereClause { get; set; }
+        public string ParkingWhereClause { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
         private IFeatureClass BusLineFeatureClass { get; set; }
         private IFeatureClass BusStopFeatureClass { get; set; }
+        private IFeatureClass ParkingFeatureClass { get; set; }
         private bool RoadFlag { get; set; }
-        public  RoadMode roadMode { get; set; }
+        public  InquiryMode roadMode { get; set; }
         public DataType dataType { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
@@ -39,69 +43,29 @@ namespace LoowooTech.Traffic.TForms
             RoadName = System.Configuration.ConfigurationManager.AppSettings["ROAD"];
             BusLineName = System.Configuration.ConfigurationManager.AppSettings["BUSLINE"];
             BusStopName = System.Configuration.ConfigurationManager.AppSettings["BUSSTOP"];
+            ParkingName = System.Configuration.ConfigurationManager.AppSettings["PARKING"];
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
             simpleMarkerSymbol = new SimpleMarkerSymbolClass();
+            simpleMarkerSymbol.Style = esriSimpleMarkerStyle.esriSMSCircle;
             simpleMarkerSymbol.Size = 8;
-            simpleMarkerSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
+            simpleMarkerSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 0);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
-            if (RoadFeatureClass == null)
+            ParkingFeatureClass = SDEManager.GetFeatureClass(ParkingName);
+            if (RoadFeatureClass == null||BusLineFeatureClass==null||BusStopFeatureClass==null||ParkingFeatureClass==null)
             {
                 MessageBox.Show("未获取服务器上相关路网数据，请核对是否连接服务器.......");
             }
         }
-        private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
-        { 
-            if (axMapControl1.MousePointer==esriControlsMousePointer.esriPointerIdentify)
-            {
-                IPoint point = new PointClass();
-                point.PutCoords(e.mapX, e.mapY);
-                IGeometry geometry = point as IGeometry;
-                this.Invoke(new EventOperator(ShowAttribute), new[] { geometry });
-            }
-        }
-        private void ShowAttribute(IGeometry geometry)
-        {
-            IFeatureClass CurrentFeatureClass = null;
-            string LayerName = string.Empty;
-            switch (dataType)
-            {
-                case DataType.Road:
-                    LayerName = RoadName;
-                    CurrentFeatureClass = RoadFeatureClass;
-                    break;
-                case DataType.BusLine:
-                    LayerName = BusLineName;
-                    CurrentFeatureClass = BusLineFeatureClass;
-                    break;
-                case DataType.BusStop:
-                    LayerName = BusStopName;
-                    CurrentFeatureClass = BusStopFeatureClass;
-                    break;
-            }
-            IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry);
-            if (array != null)
-            {
-                IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
-                IIdentifyObj identifyObj = featureIdentifyObj as IIdentifyObj;
-                IRowIdentifyObject rowidentifyObject = featureIdentifyObj as IRowIdentifyObject;
-                IFeature feature = rowidentifyObject.Row as IFeature;
-                //IFeature feature = AttributeHelper.Identify2(RoadFeatureClass, geometry);
-                if (feature != null)
-                {
-                    Twinkle(feature);
-                    AttributeForm form = new AttributeForm(feature, CurrentFeatureClass, LayerName);
-                    form.ShowDialog(this);
-                }
-            }
-            
-        }
+
+        #endregion
+
         /// <summary>
         /// 过滤路网
         /// </summary>
@@ -110,12 +74,32 @@ namespace LoowooTech.Traffic.TForms
         private void RoadFilter_Click(object sender, EventArgs e)
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
-            roadMode = RoadMode.Filter;
-            var roadFilterForm = new RoadFilterForm(RoadFeatureClass);
+            roadMode = InquiryMode.Filter;
+            var roadFilterForm = new FilterForm(RoadFeatureClass);
             roadFilterForm.ShowDialog(this);
         }
-        
 
+        #region  地图显示更新
+        public void ConditionControlCenter()
+        {
+            switch (this.dataType)
+            {
+                case DataType.Road:
+                    switch (this.roadMode)
+                    {
+                        case InquiryMode.Filter:
+                            UpdateRoad();
+                            break;
+                        case InquiryMode.Search:
+                            ShowResult();
+                            break;
+                    }
+                    break;
+                case DataType.Parking:
+                    UpdateParking();
+                    break;
+            }
+        }
         private void UpdateBase(string Name,string WhereClause)
         {
             var layers = LayerInfoHelper.GetLayers(Name);
@@ -148,7 +132,6 @@ namespace LoowooTech.Traffic.TForms
                             {
                                 LayerWhereClause = WhereClause;
                             }
-                            //Console.WriteLine(LayerWhereClause);
                             featureLayerDefinition.DefinitionExpression = LayerWhereClause;
                         }
                     }
@@ -167,6 +150,14 @@ namespace LoowooTech.Traffic.TForms
                 UpdateBase(RoadName, RoadFilterWhereClause);
             }
         }
+        private void UpdateParking()
+        {
+            if (toolStripStatusLabel1.Text != ParkingWhereClause)
+            {
+                ParkingWhereClause = toolStripStatusLabel1.Text;
+                UpdateBase(ParkingName, ParkingWhereClause);
+            }
+        }
         public void UpdateBus()
         {
             switch (dataType)
@@ -182,24 +173,15 @@ namespace LoowooTech.Traffic.TForms
             }
             
         }
+        #endregion
         public void ShowResult()
         {
             AttributeForm2 form2 = new AttributeForm2(RoadFeatureClass, toolStripStatusLabel1.Text);
             form2.Show(this);
         }
-        /// <summary>
-        ///  条件查询
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ConditionSearchButton_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
-            roadMode = RoadMode.Search;
-            var roadFilterForm = new RoadFilterForm(RoadFeatureClass);
-            roadFilterForm.ShowDialog(this);
-            
-        }
+       
+
+        #region  要素操作
         /// <summary>
         /// 要素闪烁
         /// </summary>
@@ -242,18 +224,7 @@ namespace LoowooTech.Traffic.TForms
                 axMapControl1.ActiveView.Refresh();
             }
         }
-        /// <summary>
-        /// 点击 点选查询
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PointSearch_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            dataType = DataType.Road;
-        }
-       
-        
+        #endregion
         public void ShowBus()
         {
             var result = new BusResultForm(BusLineFeatureClass,BusStopFeatureClass, BusLineWhereClause);
@@ -276,29 +247,7 @@ namespace LoowooTech.Traffic.TForms
             OperatorTxt.Text = "导入公交路线信息成功";
             
         }
-        private void PointBusLineButton_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            dataType=DataType.BusLine;
-        }
-        private void PointBusStopButton_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            dataType = DataType.BusStop;
-        }
-        private void SearchBusLineButton_Click(object sender, EventArgs e)
-        {
-            this.dataType = DataType.BusLine;
-            BusFilterForm busform = new BusFilterForm();
-            busform.ShowDialog(this);
-        }
-        private void SearchBusStopButton_Click(object sender, EventArgs e)
-        {
-            this.dataType = DataType.BusStop;
-            BusFilterForm busform = new BusFilterForm();
-            busform.ShowDialog(this);
-        }
-
+       
         #region 导出Shapefile文件
         private void ExportSHPBase(IFeatureClass FeatureClass, string WhereClause, string FilePath)
         {
@@ -388,5 +337,152 @@ namespace LoowooTech.Traffic.TForms
             ExportExcelBase(BusStopFeatureClass, BusStopWhereClause, saveFilePath);
         }
         #endregion
+
+        #region  点选  路网 公交路线  公交站点  停车场
+
+        private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
+        {
+            if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerIdentify)
+            {
+                IPoint point = new PointClass();
+                point.PutCoords(e.mapX, e.mapY);
+                IGeometry geometry = point as IGeometry;
+                this.Invoke(new EventOperator(ShowAttribute), new[] { geometry });
+            }
+        }
+        private void ShowAttribute(IGeometry geometry)
+        {
+            IFeatureClass CurrentFeatureClass = null;
+            string LayerName = string.Empty;
+            switch (dataType)
+            {
+                case DataType.Road:
+                    LayerName = RoadName;
+                    CurrentFeatureClass = RoadFeatureClass;
+                    break;
+                case DataType.BusLine:
+                    LayerName = BusLineName;
+                    CurrentFeatureClass = BusLineFeatureClass;
+                    break;
+                case DataType.BusStop:
+                    LayerName = BusStopName;
+                    CurrentFeatureClass = BusStopFeatureClass;
+                    break;
+                case DataType.Parking:
+                    LayerName = ParkingName;
+                    CurrentFeatureClass = ParkingFeatureClass;
+                    break;
+            }
+            IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry);
+            if (array != null)
+            {
+                IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
+                IIdentifyObj identifyObj = featureIdentifyObj as IIdentifyObj;
+                IRowIdentifyObject rowidentifyObject = featureIdentifyObj as IRowIdentifyObject;
+                IFeature feature = rowidentifyObject.Row as IFeature;
+                //IFeature feature = AttributeHelper.Identify2(RoadFeatureClass, geometry);
+                if (feature != null)
+                {
+                    Twinkle(feature);
+                    AttributeForm form = new AttributeForm(feature, CurrentFeatureClass, LayerName);
+                    form.ShowDialog(this);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 点击 点选查询路网
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PointSearch_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            this.dataType = DataType.Road;
+        }
+        /// <summary>
+        /// 公交车路线
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PointBusLineButton_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            this.dataType = DataType.BusLine;
+        }
+        /// <summary>
+        /// 公交车站点
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PointBusStopButton_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            this.dataType = DataType.BusStop;
+        }
+        /// <summary>
+        /// 停车场
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PointParkingButton_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            this.dataType = DataType.Parking;
+        }
+
+        #endregion
+
+        #region  搜索  路网（条件）  公交（公交路线） 停车场
+        /// <summary>
+        ///  路网条件查询
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConditionSearchButton_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
+            roadMode = InquiryMode.Search;
+            this.dataType = DataType.Road;
+            var roadFilterForm = new FilterForm(RoadFeatureClass);
+            roadFilterForm.ShowDialog(this);
+        }
+        /// <summary>
+        /// 公交车路线搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchBusLineButton_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.BusLine;
+            BusFilterForm busform = new BusFilterForm();
+            busform.ShowDialog(this);
+        }
+        /// <summary>
+        /// 公交车站点搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchBusStopButton_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.BusStop;
+            BusFilterForm busform = new BusFilterForm();
+            busform.ShowDialog(this);
+        }
+        private void SearchParkingButton_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.Parking;
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
+            var FilterForm = new FilterForm(ParkingFeatureClass);
+            FilterForm.ShowDialog(this);
+        }
+        #endregion
+
+        private void StatisticParkingButton_Click(object sender, EventArgs e)
+        {
+            StatisticsForm statisticform = new StatisticsForm(ParkingFeatureClass,ParkingWhereClause,"ZHENGQU","BERTHNUM");
+            statisticform.ShowDialog();
+        }
     }
 }

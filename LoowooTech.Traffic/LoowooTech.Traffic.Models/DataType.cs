@@ -13,6 +13,14 @@ namespace LoowooTech.Traffic.Models
         [Description("公交路线")]
         BusLine,
         [Description("公交站点")]
-        BusStop
+        BusStop,
+        [Description("停车场")]
+        Parking
+    }
+    public enum ConditionNumber
+    {
+        One,
+        Two,
+        Three
     }
 }

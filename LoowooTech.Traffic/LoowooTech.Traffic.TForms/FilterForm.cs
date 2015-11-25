@@ -1,5 +1,6 @@
 ﻿using ESRI.ArcGIS.Geodatabase;
 using LoowooTech.Traffic.Common;
+using LoowooTech.Traffic.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,17 +12,17 @@ using System.Windows.Forms;
 
 namespace LoowooTech.Traffic.TForms
 {
-    public partial class RoadFilterForm : Form
+    public partial class FilterForm : Form
     {
         private IFeatureClass FeatureClass { get; set; }
         private Dictionary<string, esriFieldType> FieldDict { get; set; }
-        public RoadFilterForm(IFeatureClass featureClass)
+        public FilterForm(IFeatureClass featureClass)
         {
             InitializeComponent();
             this.FeatureClass = featureClass;
             this.FieldDict = GISHelper.GetFieldDict(featureClass);
         }
-        public RoadFilterForm()
+        public FilterForm()
         {
             InitializeComponent();
         }
@@ -46,16 +47,13 @@ namespace LoowooTech.Traffic.TForms
             Init();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void SelectedIndexChangedBase(string Values,ConditionNumber Condition)
         {
-            var val = comboBox1.SelectedItem.ToString();
-            Console.WriteLine(val);
-            if (!string.IsNullOrEmpty(val))
+            if (!string.IsNullOrEmpty(Values))
             {
-                if (FieldDict.ContainsKey(val))
+                if (FieldDict.ContainsKey(Values))
                 {
-                    var fieldType = FieldDict[val];
-                    comboBox2.Items.Clear();
+                    var fieldType = FieldDict[Values];
                     string TypeName = string.Empty;
                     switch (fieldType)
                     {
@@ -75,12 +73,39 @@ namespace LoowooTech.Traffic.TForms
                             break;
                     }
                     var list = RelationHelper.GetRelations(TypeName);
-                    foreach (var item in list)
+                    switch (Condition)
                     {
-                        comboBox2.Items.Add(item);
+                        case ConditionNumber.One:
+                            comboBox2.Items.Clear();
+                            foreach (var item in list)
+                            {
+                                comboBox2.Items.Add(item);
+                            }
+                            break;
+                        case ConditionNumber.Two:
+                            comboBox3.Items.Clear();
+                            foreach (var item in list)
+                            {
+                                comboBox3.Items.Add(item);
+                            }
+                            break;
+                        case ConditionNumber.Three:
+                            comboBox5.Items.Clear();
+                            foreach (var item in list)
+                            {
+                                comboBox5.Items.Add(item);
+                            }
+                            break;
                     }
                 }
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var val = comboBox1.SelectedItem.ToString();
+            Console.WriteLine(val);
+            SelectedIndexChangedBase(val, ConditionNumber.One);
             
         }
 
@@ -88,74 +113,14 @@ namespace LoowooTech.Traffic.TForms
         {
             var val = comboBox4.SelectedItem.ToString();
             Console.WriteLine(val);
-            if (!string.IsNullOrEmpty(val))
-            {
-                if (FieldDict.ContainsKey(val))
-                {
-                    var fieldType = FieldDict[val];
-                    comboBox3.Items.Clear();
-                    string TypeName = string.Empty;
-                    switch (fieldType)
-                    {
-                        case esriFieldType.esriFieldTypeString:
-                            TypeName = "String";
-                            break;
-                        case esriFieldType.esriFieldTypeDouble:
-                        case esriFieldType.esriFieldTypeInteger:
-                        case esriFieldType.esriFieldTypeGlobalID:
-                        case esriFieldType.esriFieldTypeGUID:
-                        case esriFieldType.esriFieldTypeOID:
-                        case esriFieldType.esriFieldTypeSmallInteger:
-                            TypeName = "Int";
-                            break;
-                        default :
-                            TypeName = "String";
-                            break;
-                    }
-                    var list = RelationHelper.GetRelations(TypeName);
-                    foreach (var item in list)
-                    {
-                        comboBox3.Items.Add(item);
-                    }
-                }
-            }
+            SelectedIndexChangedBase(val, ConditionNumber.Two);
         }
 
         private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
         {
             var val = comboBox6.SelectedItem.ToString();
             Console.WriteLine(val);
-            if (!string.IsNullOrEmpty(val))
-            {
-                if (FieldDict.ContainsKey(val))
-                {
-                    var fieldType = FieldDict[val];
-                    comboBox5.Items.Clear();
-                    string TypeName = string.Empty;
-                    switch (fieldType)
-                    {
-                        case esriFieldType.esriFieldTypeString:
-                            TypeName = "String";
-                            break;
-                        case esriFieldType.esriFieldTypeDouble:
-                        case esriFieldType.esriFieldTypeInteger:
-                        case esriFieldType.esriFieldTypeSmallInteger:
-                        case esriFieldType.esriFieldTypeOID:
-                        case esriFieldType.esriFieldTypeGUID:
-                        case esriFieldType.esriFieldTypeGlobalID:
-                            TypeName = "Int";
-                            break;
-                        default:
-                            TypeName = "String";
-                            break;
-                    }
-                    var list = RelationHelper.GetRelations(TypeName);
-                    foreach (var item in list)
-                    {
-                        comboBox5.Items.Add(item);
-                    }
-                }
-            }
+            SelectedIndexChangedBase(val, ConditionNumber.Three);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -175,15 +140,7 @@ namespace LoowooTech.Traffic.TForms
             }
             Form1 form1 = (Form1)this.Owner;
             form1.toolStripStatusLabel1.Text = WhereClause;
-            switch (form1.roadMode)
-            {
-                case Models.RoadMode.Filter:
-                    form1.UpdateRoad();
-                    break;
-                case Models.RoadMode.Search:
-                    form1.ShowResult();
-                    break;
-            }
+            form1.ConditionControlCenter();
             this.Close();
             
             

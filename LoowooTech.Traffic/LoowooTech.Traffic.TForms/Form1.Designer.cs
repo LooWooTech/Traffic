@@ -57,6 +57,13 @@
             this.ExportBusExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusLineExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusStopExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.停车场ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.查询ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PointParkingButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.SearchParkingButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.StatisticParkingButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportParkingExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportParkingPicture = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
@@ -100,7 +107,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.路网ToolStripMenuItem,
-            this.公交ToolStripMenuItem});
+            this.公交ToolStripMenuItem,
+            this.停车场ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(941, 25);
@@ -297,6 +305,59 @@
             this.ExportBusStopExcel.Text = "公交车站点";
             this.ExportBusStopExcel.Click += new System.EventHandler(this.ExportBusStopExcel_Click);
             // 
+            // 停车场ToolStripMenuItem
+            // 
+            this.停车场ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.查询ToolStripMenuItem1,
+            this.StatisticParkingButton,
+            this.ExportParkingExcel,
+            this.ExportParkingPicture});
+            this.停车场ToolStripMenuItem.Name = "停车场ToolStripMenuItem";
+            this.停车场ToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
+            this.停车场ToolStripMenuItem.Text = "停车场";
+            // 
+            // 查询ToolStripMenuItem1
+            // 
+            this.查询ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PointParkingButton,
+            this.SearchParkingButton});
+            this.查询ToolStripMenuItem1.Name = "查询ToolStripMenuItem1";
+            this.查询ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.查询ToolStripMenuItem1.Text = "查询";
+            // 
+            // PointParkingButton
+            // 
+            this.PointParkingButton.Name = "PointParkingButton";
+            this.PointParkingButton.Size = new System.Drawing.Size(124, 22);
+            this.PointParkingButton.Text = "点选查询";
+            this.PointParkingButton.Click += new System.EventHandler(this.PointParkingButton_Click);
+            // 
+            // SearchParkingButton
+            // 
+            this.SearchParkingButton.Name = "SearchParkingButton";
+            this.SearchParkingButton.Size = new System.Drawing.Size(124, 22);
+            this.SearchParkingButton.Text = "搜索查询";
+            this.SearchParkingButton.Click += new System.EventHandler(this.SearchParkingButton_Click);
+            // 
+            // StatisticParkingButton
+            // 
+            this.StatisticParkingButton.Name = "StatisticParkingButton";
+            this.StatisticParkingButton.Size = new System.Drawing.Size(152, 22);
+            this.StatisticParkingButton.Text = "统计";
+            this.StatisticParkingButton.Click += new System.EventHandler(this.StatisticParkingButton_Click);
+            // 
+            // ExportParkingExcel
+            // 
+            this.ExportParkingExcel.Name = "ExportParkingExcel";
+            this.ExportParkingExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportParkingExcel.Text = "导出Excel";
+            // 
+            // ExportParkingPicture
+            // 
+            this.ExportParkingPicture.Name = "ExportParkingPicture";
+            this.ExportParkingPicture.Size = new System.Drawing.Size(152, 22);
+            this.ExportParkingPicture.Text = "导出图片";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -416,6 +477,13 @@
         private System.Windows.Forms.ToolStripMenuItem ExportBusExcel;
         private System.Windows.Forms.ToolStripMenuItem ExportBusLineExcel;
         private System.Windows.Forms.ToolStripMenuItem ExportBusStopExcel;
+        private System.Windows.Forms.ToolStripMenuItem 停车场ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 查询ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem PointParkingButton;
+        private System.Windows.Forms.ToolStripMenuItem SearchParkingButton;
+        private System.Windows.Forms.ToolStripMenuItem StatisticParkingButton;
+        private System.Windows.Forms.ToolStripMenuItem ExportParkingExcel;
+        private System.Windows.Forms.ToolStripMenuItem ExportParkingPicture;
 
 
     }

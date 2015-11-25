@@ -85,5 +85,6 @@ namespace LoowooTech.Traffic.Common
             return FullName.Replace("sde.SDE.", "").Trim().ToString();
         }
 
+
     }
 }
