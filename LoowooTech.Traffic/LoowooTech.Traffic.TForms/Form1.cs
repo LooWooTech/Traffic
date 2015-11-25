@@ -5,6 +5,7 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Traffic.Common;
+using LoowooTech.Traffic.Manager;
 using LoowooTech.Traffic.Models;
 using LoowooTech.Traffic.TForms;
 using System;
@@ -39,8 +40,10 @@ namespace LoowooTech.Traffic.TForms
         private bool RoadFlag { get; set; }
         public  InquiryMode inquiryMode { get; set; }
         public DataType dataType { get; set; }
+        public OperateMode operateMode { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
+        private User CurrentUser { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -59,11 +62,8 @@ namespace LoowooTech.Traffic.TForms
             simpleMarkerSymbol.Size = 8;
             simpleMarkerSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 0);
         }
-        
         private void Form1_Load(object sender, EventArgs e)
         {
-            axMapControl1.LoadMxFile(System.IO.Path.Combine(Application.StartupPath, MXDPath));
-            SDEManager.Map = axMapControl1.Map;
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
@@ -203,6 +203,11 @@ namespace LoowooTech.Traffic.TForms
             AttributeForm2 form2 = new AttributeForm2(FeatureClass, WhereClause);
             form2.Show(this);
         }
+
+        public void MapRefresh()
+        {
+            this.axMapControl1.ActiveView.Refresh();
+        }
         #region  要素操作
         /// <summary>
         /// 要素闪烁
@@ -252,8 +257,6 @@ namespace LoowooTech.Traffic.TForms
             var result = new BusResultForm(BusLineFeatureClass,BusStopFeatureClass, BusLineWhereClause);
             result.Show(this);
         }
-        
-        /*
         private void ImportBusExcel_Click(object sender, EventArgs e)
         {
             var ExcelPath = FileHelper.Open("打开公交路线数据", "2003 文件|*.xls|2007 文件|*.xlsx");
@@ -270,8 +273,7 @@ namespace LoowooTech.Traffic.TForms
             }
             OperatorTxt.Text = "导入公交路线信息成功";
             
-        }*/
-        
+        }
         #region 导出Shapefile文件
         private void ExportSHPBase(IFeatureClass FeatureClass, string WhereClause, string FilePath)
         {
@@ -402,18 +404,24 @@ namespace LoowooTech.Traffic.TForms
         }
         #endregion
 
-        #region  点选  路网 公交路线  公交站点  停车场
-
         private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
         {
+            IPoint point = new PointClass();
+            point.PutCoords(e.mapX, e.mapY);
+            IGeometry geometry = point as IGeometry;
             if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerIdentify)
             {
-                IPoint point = new PointClass();
-                point.PutCoords(e.mapX, e.mapY);
-                IGeometry geometry = point as IGeometry;
                 this.Invoke(new EventOperator(ShowAttribute), new[] { geometry });
             }
+            else if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerArrow)
+            {
+                this.Invoke(new EventOperator(Operate), new[] { geometry });
+            }
         }
+
+        #region  点选  路网 公交路线  公交站点  停车场
+
+       
         private void ShowAttribute(IGeometry geometry)
         {
             IFeatureClass CurrentFeatureClass = null;
@@ -626,16 +634,133 @@ namespace LoowooTech.Traffic.TForms
 
         #endregion
 
-        
+        #region  交通流量监视器操作
+        private void Operate(IGeometry geometry)
+        {
+            IFeatureClass currentFeatureClass = null;
+            switch (this.dataType)
+            {
+                case DataType.Flow:
+                    currentFeatureClass = FlowFeatureClass;
+                    break;
+                case DataType.Parking:
+                    currentFeatureClass = ParkingFeatureClass;
+                    break;
+            }
+            switch (this.operateMode)
+            {
+                case OperateMode.Add:
+                    OperateForm operateform = new OperateForm(currentFeatureClass,geometry);
+                    operateform.ShowDialog(this);
+                    break;
+                case OperateMode.Delete:
+                     IArray array = AttributeHelper.Identify(currentFeatureClass, geometry);
+                     if (array != null)
+                     {
+                         IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
+                         IIdentifyObj identifyObj = featureIdentifyObj as IIdentifyObj;
+                         IRowIdentifyObject rowidentifyObject = featureIdentifyObj as IRowIdentifyObject;
+                         IFeature feature = rowidentifyObject.Row as IFeature;
+                         if (feature != null)
+                         {
+                             Twinkle(feature);
+                             if (MessageBox.Show("您确定要删除当前选择交通流量检查器", "警告",MessageBoxButtons.OKCancel) == DialogResult.OK)
+                             {
+                                 feature.Delete();
+                                 MapRefresh();
+                             }
+                         }
+                     }
+                    break;
+                case OperateMode.Edit:
+                     IArray arrayEdit = AttributeHelper.Identify(currentFeatureClass, geometry);
+                     if (arrayEdit != null)
+                     {
+                         IFeatureIdentifyObj featureIdentifyObj = arrayEdit.get_Element(0) as IFeatureIdentifyObj;
+                         IIdentifyObj identifyObj = featureIdentifyObj as IIdentifyObj;
+                         IRowIdentifyObject rowidentifyObject = featureIdentifyObj as IRowIdentifyObject;
+                         IFeature feature = rowidentifyObject.Row as IFeature;
+                         if (feature != null)
+                         {
+                             Twinkle(feature);
+                             var form = new OperateForm(currentFeatureClass, feature);
+                             form.ShowDialog(this);
+                         }
+                     }
+                    break;
+            }
+            
+        }
+        private void AddFlowPoint_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
+            this.operateMode = OperateMode.Add;
+            this.dataType = DataType.Flow;
+        }
 
-        
+        private void DeleteFlowPoint_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
+            this.operateMode = OperateMode.Delete;
+            this.dataType = DataType.Flow;
+        }
 
-        
+        private void EditFlowPoint_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
+            this.operateMode = OperateMode.Edit;
+            this.dataType = DataType.Flow;
+        }
+        #endregion
 
-        
+        private void AddUserButton_Click(object sender, EventArgs e)
+        {
+            AddUserForm addform = new AddUserForm();
+            addform.ShowDialog();
+        }
 
-        
+        #region 停车场 操作
+        private void AddParking_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
+            this.operateMode = OperateMode.Add;
+            this.dataType = DataType.Parking;
+        }
+        private void DeleteParking_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
+            this.operateMode = OperateMode.Delete;
+            this.dataType = DataType.Parking;
+        }
 
-        
+        private void EditParking_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
+            this.operateMode = OperateMode.Edit;
+            this.dataType = DataType.Parking;
+        }
+        #endregion
+
+        private void UserList_Click(object sender, EventArgs e)
+        {
+
+        }
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

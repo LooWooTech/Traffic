@@ -1,17 +1,20 @@
-﻿
+﻿using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
-using ESRI.ArcGIS.Carto;
+using LoowooTech.Traffic.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text;
 
 namespace LoowooTech.Traffic.Common
 {
     public static class AttributeHelper
     {
         /// <summary>
-        /// 字段名称 对应  中文
+        /// 字段名称 对应  中文  中英对照
         /// </summary>
         private static Dictionary<string, string> FieldDict { get; set; }
         /// <summary>
@@ -22,7 +25,12 @@ namespace LoowooTech.Traffic.Common
         {
             IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,AddFieldName);
         }
-        
+
+        private static void Tranlate(string LayerName)
+        {
+            FieldDict = LayerInfoHelper.GetLayerDictionary(LayerName);
+        }
+
         public static IArray Identify(IFeatureClass featureClass, IGeometry geometry)
         {
             if (geometry == null)
@@ -34,13 +42,12 @@ namespace LoowooTech.Traffic.Common
                 ITopologicalOperator topop = geometry as ITopologicalOperator;
                 geometry = topop.Buffer(0.0004);
             }
-            IFeatureLayer featureLayer =new FeatureLayerClass();
+            IFeatureLayer featureLayer = new FeatureLayerClass();
             featureLayer.FeatureClass = featureClass;
             IIdentify identify = featureLayer as IIdentify;
             IArray identifyObjs = identify.Identify(geometry);
             return identifyObjs;
         }
-        
         public static IFeature Identify2(IFeatureClass featureClass, IGeometry geometry)
         {
             ISpatialFilter spatialfilter = new SpatialFilterClass();
@@ -114,7 +121,15 @@ namespace LoowooTech.Traffic.Common
                 }
                 dataRow["序号"] = ++Serial;
                 dataTable.Rows.Add(dataRow);
-                
+                try
+                {
+                   
+                    
+                }
+                catch
+                {
+                    
+                }
                 feature = featureCursor.NextFeature();
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
@@ -123,6 +138,7 @@ namespace LoowooTech.Traffic.Common
         public static DataTable GetTable(IFeatureClass featureClass, IFeature feature, string LayerName)
         {
             ReadFieldIndexDict(featureClass);
+            Tranlate(LayerName);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("名称");
             dataTable.Columns.Add("值");
@@ -132,7 +148,15 @@ namespace LoowooTech.Traffic.Common
                 try
                 {
                     datarow = dataTable.NewRow();
-                    datarow["名称"] = key;
+                    if (FieldDict.ContainsKey(key))
+                    {
+                        datarow["名称"] = FieldDict[key];
+                    }
+                    else
+                    {
+                        datarow["名称"] = key;
+                    }
+                    
                     datarow["值"] = feature.get_Value(IndexDict[key]).ToString();
                     dataTable.Rows.Add(datarow);
                 }
@@ -143,7 +167,6 @@ namespace LoowooTech.Traffic.Common
             }
             return dataTable;
         }
-        /*
         public static DataTable GetTable(List<BusLine> List)
         {
             DataTable dataTable = new DataTable();
@@ -160,7 +183,19 @@ namespace LoowooTech.Traffic.Common
                 dataTable.Rows.Add(dataRow);
             }
             return dataTable;
-        }*/
+        }
+        public static Dictionary<string, string> GetValues(IFeature Feature,Dictionary<string,int> FieldIndexDict)
+        {
+            var dict = new Dictionary<string, string>();
+            foreach (var key in FieldIndexDict.Keys)
+            {
+                if (!dict.ContainsKey(key))
+                {
+                    dict.Add(key, Feature.get_Value(FieldIndexDict[key]).ToString());
+                }
+            }
+            return dict;
+        }
         
     }
 }

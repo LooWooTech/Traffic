@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddUserForm.Designer.cs">
+      <DependentUpon>AddUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AttributeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OperateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OperateForm.Designer.cs">
+      <DependentUpon>OperateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FilterForm.cs">
       <SubType>Form</SubType>
@@ -126,6 +138,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddUserForm.resx">
+      <DependentUpon>AddUserForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AttributeForm.resx">
       <DependentUpon>AttributeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,6 +165,9 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OperateForm.resx">
+      <DependentUpon>OperateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -162,6 +180,10 @@
     <ProjectReference Include="..\LoowooTech.Traffic.Common\LoowooTech.Traffic.Common.csproj">
       <Project>{57bf6f2f-284a-4ada-a7fc-8e03fcf7df80}</Project>
       <Name>LoowooTech.Traffic.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Traffic.Manager\LoowooTech.Traffic.Manager.csproj">
+      <Project>{aa48d75e-da7d-401b-b8b0-0160d3508add}</Project>
+      <Name>LoowooTech.Traffic.Manager</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Traffic.Models\LoowooTech.Traffic.Models.csproj">
       <Project>{b5ce08a2-71ce-43ca-b60d-11ef4a2b6cf4}</Project>

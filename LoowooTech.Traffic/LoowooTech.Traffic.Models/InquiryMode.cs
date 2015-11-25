@@ -11,4 +11,11 @@ namespace LoowooTech.Traffic.Models
         Filter,
         Search
     }
+    public enum OperateMode
+    {
+        None,
+        Add,
+        Delete,
+        Edit
+    }
 }

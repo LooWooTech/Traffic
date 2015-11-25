@@ -8,5 +8,6 @@ namespace LoowooTech.Traffic.Manager
         public TrafficDbContext() : base("name=TRAFFIC") { }
         public TrafficDbContext(string connectionString) : base(connectionString) { }
         public DbSet<BusLine> BusLines { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
