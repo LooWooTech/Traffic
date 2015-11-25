@@ -17,7 +17,9 @@ namespace LoowooTech.Traffic.Models
         [Description("停车场")]
         Parking,
         [Description("公共自行车")]
-        Bike
+        Bike,
+        [Description("交通流量")]
+        Flow
     }
     public enum ConditionNumber
     {

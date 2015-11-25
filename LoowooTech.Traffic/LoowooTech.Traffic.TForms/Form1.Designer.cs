@@ -72,12 +72,18 @@
             this.BikeFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBikeExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBikePicture = new System.Windows.Forms.ToolStripMenuItem();
+            this.交通流量ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
-            this.交通流量ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.查询ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PointFlowButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.SearchFlow = new System.Windows.Forms.ToolStripMenuItem();
+            this.FlowFlter = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportFlowExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportFlowPicture = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -334,48 +340,48 @@
             this.SearchParkingButton,
             this.ParkingFilter});
             this.查询ToolStripMenuItem1.Name = "查询ToolStripMenuItem1";
-            this.查询ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.查询ToolStripMenuItem1.Size = new System.Drawing.Size(129, 22);
             this.查询ToolStripMenuItem1.Text = "查询";
             // 
             // PointParkingButton
             // 
             this.PointParkingButton.Name = "PointParkingButton";
-            this.PointParkingButton.Size = new System.Drawing.Size(152, 22);
+            this.PointParkingButton.Size = new System.Drawing.Size(124, 22);
             this.PointParkingButton.Text = "点选查询";
             this.PointParkingButton.Click += new System.EventHandler(this.PointParkingButton_Click);
             // 
             // SearchParkingButton
             // 
             this.SearchParkingButton.Name = "SearchParkingButton";
-            this.SearchParkingButton.Size = new System.Drawing.Size(152, 22);
+            this.SearchParkingButton.Size = new System.Drawing.Size(124, 22);
             this.SearchParkingButton.Text = "搜索查询";
             this.SearchParkingButton.Click += new System.EventHandler(this.SearchParkingButton_Click);
             // 
             // ParkingFilter
             // 
             this.ParkingFilter.Name = "ParkingFilter";
-            this.ParkingFilter.Size = new System.Drawing.Size(152, 22);
+            this.ParkingFilter.Size = new System.Drawing.Size(124, 22);
             this.ParkingFilter.Text = "过滤";
             this.ParkingFilter.Click += new System.EventHandler(this.ParkingFilter_Click);
             // 
             // StatisticParkingButton
             // 
             this.StatisticParkingButton.Name = "StatisticParkingButton";
-            this.StatisticParkingButton.Size = new System.Drawing.Size(152, 22);
+            this.StatisticParkingButton.Size = new System.Drawing.Size(129, 22);
             this.StatisticParkingButton.Text = "统计";
             this.StatisticParkingButton.Click += new System.EventHandler(this.StatisticParkingButton_Click);
             // 
             // ExportParkingExcel
             // 
             this.ExportParkingExcel.Name = "ExportParkingExcel";
-            this.ExportParkingExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportParkingExcel.Size = new System.Drawing.Size(129, 22);
             this.ExportParkingExcel.Text = "导出Excel";
             this.ExportParkingExcel.Click += new System.EventHandler(this.ExportParkingExcel_Click);
             // 
             // ExportParkingPicture
             // 
             this.ExportParkingPicture.Name = "ExportParkingPicture";
-            this.ExportParkingPicture.Size = new System.Drawing.Size(152, 22);
+            this.ExportParkingPicture.Size = new System.Drawing.Size(129, 22);
             this.ExportParkingPicture.Text = "导出图片";
             this.ExportParkingPicture.Click += new System.EventHandler(this.ExportParkingPicture_Click);
             // 
@@ -396,43 +402,53 @@
             this.SearchBike,
             this.BikeFilter});
             this.查询ToolStripMenuItem2.Name = "查询ToolStripMenuItem2";
-            this.查询ToolStripMenuItem2.Size = new System.Drawing.Size(129, 22);
+            this.查询ToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.查询ToolStripMenuItem2.Text = "查询";
             // 
             // PointBikeButton
             // 
             this.PointBikeButton.Name = "PointBikeButton";
-            this.PointBikeButton.Size = new System.Drawing.Size(124, 22);
+            this.PointBikeButton.Size = new System.Drawing.Size(152, 22);
             this.PointBikeButton.Text = "点选查询";
             this.PointBikeButton.Click += new System.EventHandler(this.PointBikeButton_Click);
             // 
             // SearchBike
             // 
             this.SearchBike.Name = "SearchBike";
-            this.SearchBike.Size = new System.Drawing.Size(124, 22);
+            this.SearchBike.Size = new System.Drawing.Size(152, 22);
             this.SearchBike.Text = "搜索查询";
             this.SearchBike.Click += new System.EventHandler(this.SearchBike_Click);
             // 
             // BikeFilter
             // 
             this.BikeFilter.Name = "BikeFilter";
-            this.BikeFilter.Size = new System.Drawing.Size(124, 22);
+            this.BikeFilter.Size = new System.Drawing.Size(152, 22);
             this.BikeFilter.Text = "过滤";
             this.BikeFilter.Click += new System.EventHandler(this.BikeFilter_Click);
             // 
             // ExportBikeExcel
             // 
             this.ExportBikeExcel.Name = "ExportBikeExcel";
-            this.ExportBikeExcel.Size = new System.Drawing.Size(129, 22);
+            this.ExportBikeExcel.Size = new System.Drawing.Size(152, 22);
             this.ExportBikeExcel.Text = "导出Excel";
             this.ExportBikeExcel.Click += new System.EventHandler(this.ExportBikeExcel_Click);
             // 
             // ExportBikePicture
             // 
             this.ExportBikePicture.Name = "ExportBikePicture";
-            this.ExportBikePicture.Size = new System.Drawing.Size(129, 22);
+            this.ExportBikePicture.Size = new System.Drawing.Size(152, 22);
             this.ExportBikePicture.Text = "导出图片";
             this.ExportBikePicture.Click += new System.EventHandler(this.ExportBikePicture_Click);
+            // 
+            // 交通流量ToolStripMenuItem
+            // 
+            this.交通流量ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.查询ToolStripMenuItem3,
+            this.ExportFlowExcel,
+            this.ExportFlowPicture});
+            this.交通流量ToolStripMenuItem.Name = "交通流量ToolStripMenuItem";
+            this.交通流量ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.交通流量ToolStripMenuItem.Text = "交通流量";
             // 
             // splitContainer1
             // 
@@ -489,11 +505,50 @@
             this.axToolbarControl1.Size = new System.Drawing.Size(941, 28);
             this.axToolbarControl1.TabIndex = 3;
             // 
-            // 交通流量ToolStripMenuItem
+            // 查询ToolStripMenuItem3
             // 
-            this.交通流量ToolStripMenuItem.Name = "交通流量ToolStripMenuItem";
-            this.交通流量ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-            this.交通流量ToolStripMenuItem.Text = "交通流量";
+            this.查询ToolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PointFlowButton,
+            this.SearchFlow,
+            this.FlowFlter});
+            this.查询ToolStripMenuItem3.Name = "查询ToolStripMenuItem3";
+            this.查询ToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.查询ToolStripMenuItem3.Text = "查询";
+            // 
+            // PointFlowButton
+            // 
+            this.PointFlowButton.Name = "PointFlowButton";
+            this.PointFlowButton.Size = new System.Drawing.Size(152, 22);
+            this.PointFlowButton.Text = "点选查询";
+            this.PointFlowButton.Click += new System.EventHandler(this.PointFlowButton_Click);
+            // 
+            // SearchFlow
+            // 
+            this.SearchFlow.Name = "SearchFlow";
+            this.SearchFlow.Size = new System.Drawing.Size(152, 22);
+            this.SearchFlow.Text = "条件搜索";
+            this.SearchFlow.Click += new System.EventHandler(this.SearchFlow_Click);
+            // 
+            // FlowFlter
+            // 
+            this.FlowFlter.Name = "FlowFlter";
+            this.FlowFlter.Size = new System.Drawing.Size(152, 22);
+            this.FlowFlter.Text = "过滤";
+            this.FlowFlter.Click += new System.EventHandler(this.FlowFlter_Click);
+            // 
+            // ExportFlowExcel
+            // 
+            this.ExportFlowExcel.Name = "ExportFlowExcel";
+            this.ExportFlowExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportFlowExcel.Text = "导出Excel";
+            this.ExportFlowExcel.Click += new System.EventHandler(this.ExportFlowExcel_Click);
+            // 
+            // ExportFlowPicture
+            // 
+            this.ExportFlowPicture.Name = "ExportFlowPicture";
+            this.ExportFlowPicture.Size = new System.Drawing.Size(152, 22);
+            this.ExportFlowPicture.Text = "导出图片";
+            this.ExportFlowPicture.Click += new System.EventHandler(this.ExportFlowPicture_Click);
             // 
             // Form1
             // 
@@ -575,6 +630,12 @@
         private System.Windows.Forms.ToolStripMenuItem SearchParkingButton;
         private System.Windows.Forms.ToolStripMenuItem ParkingFilter;
         private System.Windows.Forms.ToolStripMenuItem 交通流量ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 查询ToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem PointFlowButton;
+        private System.Windows.Forms.ToolStripMenuItem SearchFlow;
+        private System.Windows.Forms.ToolStripMenuItem FlowFlter;
+        private System.Windows.Forms.ToolStripMenuItem ExportFlowExcel;
+        private System.Windows.Forms.ToolStripMenuItem ExportFlowPicture;
 
 
     }
