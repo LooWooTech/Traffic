@@ -50,6 +50,8 @@
             this.搜索ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchBusLineButton = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchBusStopButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.BusLineSearch2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.BusStopSearch2 = new System.Windows.Forms.ToolStripMenuItem();
             this.导出SHPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusLine = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBusStop = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,8 +95,6 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
-            this.BusLineSearch2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.BusStopSearch2 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -222,7 +222,7 @@
             // ImportBusExcel
             // 
             this.ImportBusExcel.Name = "ImportBusExcel";
-            this.ImportBusExcel.Size = new System.Drawing.Size(152, 22);
+            this.ImportBusExcel.Size = new System.Drawing.Size(148, 22);
             this.ImportBusExcel.Text = "导入公交数据";
             this.ImportBusExcel.Click += new System.EventHandler(this.ImportBusExcel_Click);
             // 
@@ -232,7 +232,7 @@
             this.点选ToolStripMenuItem,
             this.搜索ToolStripMenuItem});
             this.查询ToolStripMenuItem.Name = "查询ToolStripMenuItem";
-            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.查询ToolStripMenuItem.Text = "查询";
             // 
             // 点选ToolStripMenuItem
@@ -241,7 +241,7 @@
             this.PointBusLineButton,
             this.PointBusStopButton});
             this.点选ToolStripMenuItem.Name = "点选ToolStripMenuItem";
-            this.点选ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.点选ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.点选ToolStripMenuItem.Text = "点选";
             // 
             // PointBusLineButton
@@ -266,22 +266,36 @@
             this.BusLineSearch2,
             this.BusStopSearch2});
             this.搜索ToolStripMenuItem.Name = "搜索ToolStripMenuItem";
-            this.搜索ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.搜索ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.搜索ToolStripMenuItem.Text = "搜索";
             // 
             // SearchBusLineButton
             // 
             this.SearchBusLineButton.Name = "SearchBusLineButton";
-            this.SearchBusLineButton.Size = new System.Drawing.Size(152, 22);
+            this.SearchBusLineButton.Size = new System.Drawing.Size(131, 22);
             this.SearchBusLineButton.Text = "公交路线";
             this.SearchBusLineButton.Click += new System.EventHandler(this.SearchBusLineButton_Click);
             // 
             // SearchBusStopButton
             // 
             this.SearchBusStopButton.Name = "SearchBusStopButton";
-            this.SearchBusStopButton.Size = new System.Drawing.Size(152, 22);
+            this.SearchBusStopButton.Size = new System.Drawing.Size(131, 22);
             this.SearchBusStopButton.Text = "公交站点";
             this.SearchBusStopButton.Click += new System.EventHandler(this.SearchBusStopButton_Click);
+            // 
+            // BusLineSearch2
+            // 
+            this.BusLineSearch2.Name = "BusLineSearch2";
+            this.BusLineSearch2.Size = new System.Drawing.Size(131, 22);
+            this.BusLineSearch2.Text = "公交路线2";
+            this.BusLineSearch2.Click += new System.EventHandler(this.BusLineSearch2_Click);
+            // 
+            // BusStopSearch2
+            // 
+            this.BusStopSearch2.Name = "BusStopSearch2";
+            this.BusStopSearch2.Size = new System.Drawing.Size(131, 22);
+            this.BusStopSearch2.Text = "公交站点2";
+            this.BusStopSearch2.Click += new System.EventHandler(this.BusStopSearch2_Click);
             // 
             // 导出SHPToolStripMenuItem
             // 
@@ -289,7 +303,7 @@
             this.ExportBusLine,
             this.ExportBusStop});
             this.导出SHPToolStripMenuItem.Name = "导出SHPToolStripMenuItem";
-            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.导出SHPToolStripMenuItem.Text = "导出SHP";
             // 
             // ExportBusLine
@@ -309,7 +323,7 @@
             // ExportBusPicture
             // 
             this.ExportBusPicture.Name = "ExportBusPicture";
-            this.ExportBusPicture.Size = new System.Drawing.Size(152, 22);
+            this.ExportBusPicture.Size = new System.Drawing.Size(148, 22);
             this.ExportBusPicture.Text = "导出图片";
             this.ExportBusPicture.Click += new System.EventHandler(this.ExportBusPicture_Click);
             // 
@@ -319,7 +333,7 @@
             this.ExportBusLineExcel,
             this.ExportBusStopExcel});
             this.ExportBusExcel.Name = "ExportBusExcel";
-            this.ExportBusExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportBusExcel.Size = new System.Drawing.Size(148, 22);
             this.ExportBusExcel.Text = "导出Excel";
             // 
             // ExportBusLineExcel
@@ -634,20 +648,6 @@
             this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
             this.axToolbarControl1.Size = new System.Drawing.Size(941, 28);
             this.axToolbarControl1.TabIndex = 3;
-            // 
-            // BusLineSearch2
-            // 
-            this.BusLineSearch2.Name = "BusLineSearch2";
-            this.BusLineSearch2.Size = new System.Drawing.Size(152, 22);
-            this.BusLineSearch2.Text = "公交路线2";
-            this.BusLineSearch2.Click += new System.EventHandler(this.BusLineSearch2_Click);
-            // 
-            // BusStopSearch2
-            // 
-            this.BusStopSearch2.Name = "BusStopSearch2";
-            this.BusStopSearch2.Size = new System.Drawing.Size(152, 22);
-            this.BusStopSearch2.Text = "公交站点2";
-            this.BusStopSearch2.Click += new System.EventHandler(this.BusStopSearch2_Click);
             // 
             // Form1
             // 

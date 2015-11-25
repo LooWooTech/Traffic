@@ -73,9 +73,9 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Delete_32x32__3_ {
+        internal static System.Drawing.Bitmap AssignTo_32x32 {
             get {
-                object obj = ResourceManager.GetObject("Delete_32x32 (3)", resourceCulture);
+                object obj = ResourceManager.GetObject("AssignTo_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,59 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Edit_32x32__3_ {
+        internal static System.Drawing.Bitmap AssignTo_32x321 {
             get {
-                object obj = ResourceManager.GetObject("Edit_32x32 (3)", resourceCulture);
+                object obj = ResourceManager.GetObject("AssignTo_32x321", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AssignToMe_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("AssignToMe_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Chart_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Chart_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Close_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Close_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Delete_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Delete_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Edit_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Edit_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,6 +203,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Info_32x32__3_ {
+            get {
+                object obj = ResourceManager.GetObject("Info_32x32 (3)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MasterFilter_32x32 {
             get {
                 object obj = ResourceManager.GetObject("MasterFilter_32x32", resourceCulture);
@@ -173,6 +233,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Recurrence_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("Recurrence_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Wizard_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Wizard_32x32", resourceCulture);
@@ -186,6 +256,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         internal static System.Drawing.Bitmap Zoom_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Zoom_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Zoom2_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Zoom2_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -226,6 +306,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         internal static System.Drawing.Bitmap ZoomOut_16x16 {
             get {
                 object obj = ResourceManager.GetObject("ZoomOut_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap 启动界面 {
+            get {
+                object obj = ResourceManager.GetObject("启动界面", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -345,9 +345,10 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="e"></param>
         private void ExportActiveView_Click(object sender, EventArgs e)
         {
-            var saveFilePath = FileHelper.Save("保存路网图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            var saveFilePath = FileHelper.Save("导出地图为图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
             ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
         }
+
         /// <summary>
         /// 导出公交图片
         /// </summary>

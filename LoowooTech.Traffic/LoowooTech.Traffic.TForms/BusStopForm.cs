@@ -71,5 +71,22 @@ namespace LoowooTech.Traffic.TForms
             }
         }
 
+        private void ribbonButton2_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedCells.Count > 0)
+            {
+                var selectIndex = dataGridView1.SelectedCells[0].RowIndex;
+                if (FeatureDict.ContainsKey(selectIndex))
+                {
+                    Father.Center(FeatureDict[selectIndex]);
+                }
+            }
+        }
+
+        private void ribbonButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

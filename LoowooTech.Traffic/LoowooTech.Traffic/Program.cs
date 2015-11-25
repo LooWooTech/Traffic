@@ -22,11 +22,17 @@ namespace LoowooTech.Traffic
                     return;
                 }
             }
-
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new MainForm());
-            Application.Run(new Form1());
+            var splash = new SplashForm();
+            splash.Show();
+            Application.DoEvents();
+            var form = new MainForm();
+            splash.Form = form;
+            form.Splash = splash;
+            Application.Run(form);
             //ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
             //LicenseManager.StartUp();
             

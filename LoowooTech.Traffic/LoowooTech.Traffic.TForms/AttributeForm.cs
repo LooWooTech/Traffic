@@ -59,5 +59,10 @@ namespace LoowooTech.Traffic.TForms
         {
             Father.Center(Feature);
         }
+
+        private void ribbonButton4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -137,5 +137,10 @@ namespace LoowooTech.Traffic.TForms
             ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath, HeadDict);
             Father.toolStripStatusLabel1.Text = "文件生成：" + saveFilePath;
         }
+
+        private void ribbonButton5_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
