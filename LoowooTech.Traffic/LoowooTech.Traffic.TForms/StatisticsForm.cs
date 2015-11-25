@@ -18,7 +18,7 @@ namespace LoowooTech.Traffic.TForms
         private string WhereClause { get; set; }
         private string LabelName { get; set; }
         private string FieldName { get; set; }
-        private Dictionary<string, double> ColumneData { get; set; }
+        //private Dictionary<string, double> ColumneData { get; set; }
         public StatisticsForm(IFeatureClass FeatureClass,string WhereClause,string LabelName,string FieldName)
         {
             InitializeComponent();
@@ -35,25 +35,20 @@ namespace LoowooTech.Traffic.TForms
         private void StatisticsForm_Load(object sender, EventArgs e)
         {
             var dict = GISHelper.Statistic(FeatureClass,LabelName,FieldName);
-            var count = dict.Count;
-            double[] yValues = new double[count];
-            string[] xValues = new string[count];
-            int Serial = 0;
-            foreach (var key in dict.Keys)
+            if (dict != null && dict.Count > 0)
             {
-                yValues[Serial] = dict[key];
-                xValues[Serial] = key;
-                Serial++;
-            }
-            try
-            {
+                var count = dict.Count;
+                double[] yValues = new double[count];
+                string[] xValues = new string[count];
+                int Serial = 0;
+                foreach (var key in dict.Keys)
+                {
+                    yValues[Serial] = dict[key];
+                    xValues[Serial] = key;
+                    Serial++;
+                }
                 chart1.Series["Series1"].Points.DataBindXY(xValues, yValues);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            
+            }            
         }
     }
 }
