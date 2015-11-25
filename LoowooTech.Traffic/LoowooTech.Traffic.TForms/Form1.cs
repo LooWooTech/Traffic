@@ -75,9 +75,6 @@ namespace LoowooTech.Traffic.TForms
         }
         #endregion
 
-
-        
-
         #region  地图显示更新
         public void ConditionControlCenter()
         {
