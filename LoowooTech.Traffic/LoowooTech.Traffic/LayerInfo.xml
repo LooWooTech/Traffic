@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Layers>
+  <Layer Name="AROAD">
+    <Field Name="NAME" Label="名称"></Field>
+    <Field Name="LENGTH" Label="长度"></Field>
+    <Field Name="DISTRICT" Label="所属区县"></Field>
+    <Field Name="F_NAME" Label="前一相交道路名称"></Field>
+    <Field Name="RANK" Label="等级"></Field>
+    <Field Name="T_NAME" Label="后一相交道路名称"></Field>
+    <Field Name="TOTALNUM" Label="双向车道数"></Field>
+    <Field Name="TWO_WAY" Label="车道类型"></Field>
+    <Field Name="NUMLANESTF" Label="反向车道数"></Field>
+    <Field Name="NUMLANESFT" Label="正向车道数"></Field>
+    <Field Name="ZONENO" Label="小区编号"></Field>
+    <Field Name="M_ZONE_ID" Label="中区"></Field>
+    <Field Name="G_ZONE_ID" Label="大区"></Field>
+    <Field Name="IS_SINGLE" Label="道路级别"></Field>
+  </Layer>
+  <Layer Name="">
+    <Field Name="" Label=""></Field>
+    <Field Name="" Label=""></Field>
+    <Field Name="" Label=""></Field>
+  </Layer>
+  <Way Type="AROAD">
+    <Children Name="高速公路"></Children>
+    <Children Name="快速路"></Children>
+    <Children Name="匝道"></Children>
+    <Children Name="一级公路"></Children>
+    <Children Name="主干路"></Children>
+    <Children Name="二级公路"></Children>
+    <Children Name="主要支路"></Children>
+    <Children Name="步行街"></Children>
+    <Children Name="次干路"></Children>
+    <Children Name="次要支路"></Children>
+    <Children Name="三级公路"></Children>
+    <Children Name="连杆道路"></Children>
+  </Way>
+  <Way Type="BUSLINE">
+    <Children Name="公交路线"></Children>
+  </Way>
+  <Way Type="BUSSTOP">
+    <Children Name="公交站点"></Children>
+  </Way>
+  <Way Type="PARKING">
+    <Children Name="停车场"></Children>
+  </Way>
+  <Way Type="BIKE">
+    <Children Name="公共自行车"></Children>
+  </Way>
+</Layers>

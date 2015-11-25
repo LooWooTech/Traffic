@@ -19,6 +19,13 @@ namespace LoowooTech.Traffic.TForms
         private string LabelName { get; set; }
         private string FieldName { get; set; }
         //private Dictionary<string, double> ColumneData { get; set; }
+        /// <summary>
+        /// 统计图表
+        /// </summary>
+        /// <param name="FeatureClass">要统计的要素类</param>
+        /// <param name="WhereClause">过滤的条件</param>
+        /// <param name="LabelName">X轴 对应的字段</param>
+        /// <param name="FieldName">Y轴 统计的字段</param>
         public StatisticsForm(IFeatureClass FeatureClass,string WhereClause,string LabelName,string FieldName)
         {
             InitializeComponent();

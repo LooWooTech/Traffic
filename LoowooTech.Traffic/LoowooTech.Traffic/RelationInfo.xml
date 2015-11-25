@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+  <Type Name="String">
+    <Relation Name="等于"></Relation>
+    <Relation Name="不等于"></Relation>
+    <Relation Name="包含"></Relation>
+  </Type>
+  <Type Name="Int">
+    <Relation Name="大于"></Relation>
+    <Relation Name="等于"></Relation>
+    <Relation Name="不等于"></Relation>
+    <Relation Name="小于"></Relation>
+  </Type>
+</Types>

@@ -73,6 +73,7 @@ namespace LoowooTech.Traffic.TForms
                             break;
                     }
                     var list = RelationHelper.GetRelations(TypeName);
+                    var unique = GISHelper.GetUniqueValue(this.FeatureClass, Values);
                     switch (Condition)
                     {
                         case ConditionNumber.One:
@@ -81,6 +82,11 @@ namespace LoowooTech.Traffic.TForms
                             {
                                 comboBox2.Items.Add(item);
                             }
+                            comboBox9.Items.Clear();
+                            foreach (var item in unique)
+                            {
+                                comboBox9.Items.Add(item);
+                            }
                             break;
                         case ConditionNumber.Two:
                             comboBox3.Items.Clear();
@@ -88,12 +94,22 @@ namespace LoowooTech.Traffic.TForms
                             {
                                 comboBox3.Items.Add(item);
                             }
+                            comboBox10.Items.Clear();
+                            foreach (var item in unique)
+                            {
+                                comboBox10.Items.Add(item);
+                            }
                             break;
                         case ConditionNumber.Three:
                             comboBox5.Items.Clear();
                             foreach (var item in list)
                             {
                                 comboBox5.Items.Add(item);
+                            }
+                            comboBox11.Items.Clear();
+                            foreach (var item in unique)
+                            {
+                                comboBox11.Items.Add(item);
                             }
                             break;
                     }
@@ -126,17 +142,17 @@ namespace LoowooTech.Traffic.TForms
         private void button1_Click(object sender, EventArgs e)
         {
             var WhereClause = string.Empty;
-            if (comboBox1.SelectedItem != null && comboBox2.SelectedItem != null && textBox1.Text != null)
+            if (comboBox1.SelectedItem != null && comboBox2.SelectedItem != null&&comboBox9.Text != null && !string.IsNullOrEmpty(comboBox9.Text))
             {
-                WhereClause += comboBox1.SelectedItem.ToString() +" "+ comboBox2.SelectedItem.ToString().GetSQLChar() +" '"+ textBox1.Text+"' ";
+                WhereClause += comboBox1.SelectedItem.ToString() + " " + comboBox2.SelectedItem.ToString().GetSQLChar() +" "+ comboBox9.Text+" ";
             }
-            if (comboBox3.SelectedItem != null && comboBox4.SelectedItem != null && textBox2.Text != null&&comboBox7.SelectedItem!=null)
+            if (comboBox3.SelectedItem != null && comboBox4.SelectedItem != null && comboBox10.SelectedItem != null&&comboBox7.SelectedItem!=null&&comboBox10.Text!=null&&!string.IsNullOrEmpty(comboBox10.Text))
             {
-                WhereClause += comboBox7.SelectedItem.ToString().GetSQLChar() +" "+ comboBox4.SelectedItem.ToString()+" " + comboBox3.SelectedItem.ToString().GetSQLChar() +" '"+ textBox2.Text+"' ";
+                WhereClause += comboBox7.SelectedItem.ToString().GetSQLChar() + " " + comboBox4.SelectedItem.ToString() + " " + comboBox3.SelectedItem.ToString().GetSQLChar() + " " + comboBox10.Text+" ";
             }
-            if (comboBox5.SelectedItem != null && comboBox6.SelectedItem != null && textBox3.Text != null&&comboBox8.SelectedItem!=null)
+            if (comboBox5.SelectedItem != null && comboBox6.SelectedItem != null && comboBox11.SelectedItem != null&&comboBox8.SelectedItem!=null&&comboBox11.Text!=null&&!string.IsNullOrEmpty(comboBox11.Text))
             {
-                WhereClause += comboBox8.SelectedItem.ToString().GetSQLChar() +" "+ comboBox6.SelectedItem.ToString() +" "+ comboBox5.SelectedItem.ToString().GetSQLChar() +" '"+ textBox3.Text+"' ";
+                WhereClause += comboBox8.SelectedItem.ToString().GetSQLChar() +" "+ comboBox6.SelectedItem.ToString() +" "+ comboBox5.SelectedItem.ToString().GetSQLChar() +" "+ comboBox11.Text+" ";
             }
             Form1 form1 = (Form1)this.Owner;
             form1.toolStripStatusLabel1.Text = WhereClause;

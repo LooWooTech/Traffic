@@ -23,16 +23,19 @@ namespace LoowooTech.Traffic.TForms
         private string BusLineName { get; set; }
         private string BusStopName { get; set; }
         private string ParkingName { get; set; }
+        private string BikeName { get; set; }
         public  string RoadFilterWhereClause { get; set; }
         public string BusLineWhereClause { get; set; }
         public string BusStopWhereClause { get; set; }
         public string ParkingWhereClause { get; set; }
+        public string BikeWhereClause { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
         private IFeatureClass BusLineFeatureClass { get; set; }
         private IFeatureClass BusStopFeatureClass { get; set; }
         private IFeatureClass ParkingFeatureClass { get; set; }
+        private IFeatureClass BikeFeatureClass { get; set; }
         private bool RoadFlag { get; set; }
-        public  InquiryMode roadMode { get; set; }
+        public  InquiryMode inquiryMode { get; set; }
         public DataType dataType { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
@@ -44,6 +47,7 @@ namespace LoowooTech.Traffic.TForms
             BusLineName = System.Configuration.ConfigurationManager.AppSettings["BUSLINE"];
             BusStopName = System.Configuration.ConfigurationManager.AppSettings["BUSSTOP"];
             ParkingName = System.Configuration.ConfigurationManager.AppSettings["PARKING"];
+            BikeName = System.Configuration.ConfigurationManager.AppSettings["BIKE"];
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
@@ -58,26 +62,16 @@ namespace LoowooTech.Traffic.TForms
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
             ParkingFeatureClass = SDEManager.GetFeatureClass(ParkingName);
-            if (RoadFeatureClass == null||BusLineFeatureClass==null||BusStopFeatureClass==null||ParkingFeatureClass==null)
+            BikeFeatureClass = SDEManager.GetFeatureClass(BikeName);
+            if (RoadFeatureClass == null||BusLineFeatureClass==null||BusStopFeatureClass==null||ParkingFeatureClass==null||BikeFeatureClass==null)
             {
                 MessageBox.Show("未获取服务器上相关路网数据，请核对是否连接服务器.......");
             }
         }
-
         #endregion
 
-        /// <summary>
-        /// 过滤路网
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void RoadFilter_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
-            roadMode = InquiryMode.Filter;
-            var roadFilterForm = new FilterForm(RoadFeatureClass);
-            roadFilterForm.ShowDialog(this);
-        }
+
+        
 
         #region  地图显示更新
         public void ConditionControlCenter()
@@ -85,18 +79,44 @@ namespace LoowooTech.Traffic.TForms
             switch (this.dataType)
             {
                 case DataType.Road:
-                    switch (this.roadMode)
+                   
+                    switch (this.inquiryMode)
                     {
-                        case InquiryMode.Filter:
+                        case InquiryMode.Filter://
                             UpdateRoad();
                             break;
                         case InquiryMode.Search:
-                            ShowResult();
+                            RoadFilterWhereClause = toolStripStatusLabel1.Text;
+                            ShowResult(RoadFeatureClass,RoadFilterWhereClause);
                             break;
                     }
                     break;
                 case DataType.Parking:
-                    UpdateParking();
+                    
+                    switch (this.inquiryMode)
+                    {
+                        case InquiryMode.Filter:
+                            UpdateParking();
+                            break;
+                        case InquiryMode.Search:
+                            ParkingWhereClause = toolStripStatusLabel1.Text;
+                            ShowResult(ParkingFeatureClass,ParkingWhereClause);
+                            break;
+                    }
+                    
+                    break;
+                case DataType.Bike:
+                    
+                    switch (this.inquiryMode)
+                    {
+                        case InquiryMode.Filter:
+                            UpdateBike();
+                            break;
+                        case InquiryMode.Search:
+                            BikeWhereClause = toolStripStatusLabel1.Text;
+                            ShowResult(BikeFeatureClass, BikeWhereClause);
+                            break;
+                    }
                     break;
             }
         }
@@ -158,6 +178,14 @@ namespace LoowooTech.Traffic.TForms
                 UpdateBase(ParkingName, ParkingWhereClause);
             }
         }
+        private void UpdateBike()
+        {
+            if (toolStripStatusLabel1.Text != BikeWhereClause)
+            {
+                BikeWhereClause = toolStripStatusLabel1.Text;
+                UpdateBase(BikeName, BikeWhereClause);
+            }
+        }
         public void UpdateBus()
         {
             switch (dataType)
@@ -174,13 +202,11 @@ namespace LoowooTech.Traffic.TForms
             
         }
         #endregion
-        public void ShowResult()
+        public void ShowResult(IFeatureClass FeatureClass,string WhereClause)
         {
-            AttributeForm2 form2 = new AttributeForm2(RoadFeatureClass, toolStripStatusLabel1.Text);
+            AttributeForm2 form2 = new AttributeForm2(FeatureClass, WhereClause);
             form2.Show(this);
         }
-       
-
         #region  要素操作
         /// <summary>
         /// 要素闪烁
@@ -247,7 +273,6 @@ namespace LoowooTech.Traffic.TForms
             OperatorTxt.Text = "导入公交路线信息成功";
             
         }
-       
         #region 导出Shapefile文件
         private void ExportSHPBase(IFeatureClass FeatureClass, string WhereClause, string FilePath)
         {
@@ -295,18 +320,38 @@ namespace LoowooTech.Traffic.TForms
             }
         }
         /// <summary>
-        /// 导出图片
+        /// 导出路网图片
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ExportActiveView_Click(object sender, EventArgs e)
         {
-            var saveFilePath = FileHelper.Save("保存地图", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            var saveFilePath = FileHelper.Save("保存路网图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
             ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
         }
+        /// <summary>
+        /// 导出公交图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExportBusPicture_Click(object sender, EventArgs e)
         {
-            var saveFilePath = FileHelper.Save("保存地图", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            var saveFilePath = FileHelper.Save("保存公交图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
+        }
+        /// <summary>
+        /// 停车场
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportParkingPicture_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("保存停车场图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
+        }
+        private void ExportBikePicture_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("保存公共自行车图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
             ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
         }
         #endregion
@@ -335,6 +380,16 @@ namespace LoowooTech.Traffic.TForms
         {
             var saveFilePath = FileHelper.Save("导出公交车站点Excel文件", "2003文件|*.xls|2007文件|*.xlsx");
             ExportExcelBase(BusStopFeatureClass, BusStopWhereClause, saveFilePath);
+        }
+        private void ExportParkingExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("导出停车场属性文件", "2003文件|*.xls|2007文件|*.xlsx");
+            ExportExcelBase(ParkingFeatureClass, ParkingWhereClause, saveFilePath);
+        }
+        private void ExportBikeExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("导出公共自行车属性文件", "2003文件|*.xls|2007文件|*.xlsx");
+            ExportExcelBase(BikeFeatureClass, BikeWhereClause, saveFilePath);
         }
         #endregion
 
@@ -371,6 +426,10 @@ namespace LoowooTech.Traffic.TForms
                 case DataType.Parking:
                     LayerName = ParkingName;
                     CurrentFeatureClass = ParkingFeatureClass;
+                    break;
+                case DataType.Bike:
+                    LayerName = BikeName;
+                    CurrentFeatureClass = BikeFeatureClass;
                     break;
             }
             IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry);
@@ -431,10 +490,36 @@ namespace LoowooTech.Traffic.TForms
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
             this.dataType = DataType.Parking;
         }
-
+        private void PointBikeButton_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            this.dataType = DataType.Bike;
+        }
         #endregion
 
         #region  搜索  路网（条件）  公交（公交路线） 停车场
+
+        private void FilterBase(DataType dataType, InquiryMode inquiryMode)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
+            this.dataType = dataType;
+            this.inquiryMode = inquiryMode;
+            IFeatureClass CurrentFeatureClass = null;
+            switch (dataType)
+            {
+                case DataType.Road:
+                    CurrentFeatureClass = RoadFeatureClass;
+                    break;
+                case DataType.Parking:
+                    CurrentFeatureClass = ParkingFeatureClass;
+                    break;
+                case DataType.Bike:
+                    CurrentFeatureClass = BikeFeatureClass;
+                    break;
+            }
+            var filterform = new FilterForm(CurrentFeatureClass);
+            filterform.ShowDialog(this);
+        }
         /// <summary>
         ///  路网条件查询
         /// </summary>
@@ -442,11 +527,11 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="e"></param>
         private void ConditionSearchButton_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
-            roadMode = InquiryMode.Search;
-            this.dataType = DataType.Road;
-            var roadFilterForm = new FilterForm(RoadFeatureClass);
-            roadFilterForm.ShowDialog(this);
+            FilterBase(DataType.Road, InquiryMode.Search);
+        }
+        private void SearchParkingButton_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.Parking, InquiryMode.Search);
         }
         /// <summary>
         /// 公交车路线搜索
@@ -470,19 +555,46 @@ namespace LoowooTech.Traffic.TForms
             BusFilterForm busform = new BusFilterForm();
             busform.ShowDialog(this);
         }
-        private void SearchParkingButton_Click(object sender, EventArgs e)
+        private void SearchBike_Click(object sender, EventArgs e)
         {
-            this.dataType = DataType.Parking;
+            this.dataType = DataType.Bike;
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
-            var FilterForm = new FilterForm(ParkingFeatureClass);
-            FilterForm.ShowDialog(this);
+            
         }
         #endregion
 
+        #region  过滤  路网、公共自行车
+        
+
+        /// <summary>
+        /// 过滤路网
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RoadFilter_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.Road,InquiryMode.Filter);
+        }
+        private void ParkingFilter_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.Parking,InquiryMode.Filter);   
+        }
+
+        private void BikeFilter_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.Bike,InquiryMode.Filter);
+        }
+        #endregion
+
+        #region 统计
         private void StatisticParkingButton_Click(object sender, EventArgs e)
         {
             StatisticsForm statisticform = new StatisticsForm(ParkingFeatureClass,ParkingWhereClause,"ZHENGQU","BERTHNUM");
             statisticform.ShowDialog();
         }
+
+        #endregion
+
+        
     }
 }

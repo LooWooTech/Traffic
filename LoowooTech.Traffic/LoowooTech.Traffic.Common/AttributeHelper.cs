@@ -34,7 +34,7 @@ namespace LoowooTech.Traffic.Common
             if (geometry.GeometryType == esriGeometryType.esriGeometryPoint)
             {
                 ITopologicalOperator topop = geometry as ITopologicalOperator;
-                geometry = topop.Buffer(0.0001);
+                geometry = topop.Buffer(0.0004);
             }
             IFeatureLayer featureLayer = new FeatureLayerClass();
             featureLayer.FeatureClass = featureClass;

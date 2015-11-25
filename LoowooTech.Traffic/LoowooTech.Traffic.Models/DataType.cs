@@ -15,7 +15,9 @@ namespace LoowooTech.Traffic.Models
         [Description("公交站点")]
         BusStop,
         [Description("停车场")]
-        Parking
+        Parking,
+        [Description("公共自行车")]
+        Bike
     }
     public enum ConditionNumber
     {

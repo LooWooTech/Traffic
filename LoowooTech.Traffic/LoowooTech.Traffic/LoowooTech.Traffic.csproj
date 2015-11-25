@@ -122,6 +122,8 @@
   <ItemGroup>
     <Content Include="bin\Debug\LayerInfo.xml" />
     <Content Include="bin\Debug\RelationInfo.xml" />
+    <Content Include="LayerInfo.xml" />
+    <Content Include="RelationInfo.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoowooTech.Traffic.Common\LoowooTech.Traffic.Common.csproj">
