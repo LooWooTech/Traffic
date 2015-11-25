@@ -65,6 +65,9 @@
             this.StatisticParkingButton = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportParkingExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportParkingPicture = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddParking = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteParking = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditParking = new System.Windows.Forms.ToolStripMenuItem();
             this.公共自行车ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.查询ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.PointBikeButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,15 +87,14 @@
             this.EditFlowPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.用户管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddUserButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.UserList = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
-            this.AddParking = new System.Windows.Forms.ToolStripMenuItem();
-            this.DeleteParking = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditParking = new System.Windows.Forms.ToolStripMenuItem();
-            this.UserList = new System.Windows.Forms.ToolStripMenuItem();
+            this.BusLineSearch2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.BusStopSearch2 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -220,7 +222,7 @@
             // ImportBusExcel
             // 
             this.ImportBusExcel.Name = "ImportBusExcel";
-            this.ImportBusExcel.Size = new System.Drawing.Size(148, 22);
+            this.ImportBusExcel.Size = new System.Drawing.Size(152, 22);
             this.ImportBusExcel.Text = "导入公交数据";
             this.ImportBusExcel.Click += new System.EventHandler(this.ImportBusExcel_Click);
             // 
@@ -230,7 +232,7 @@
             this.点选ToolStripMenuItem,
             this.搜索ToolStripMenuItem});
             this.查询ToolStripMenuItem.Name = "查询ToolStripMenuItem";
-            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.查询ToolStripMenuItem.Text = "查询";
             // 
             // 点选ToolStripMenuItem
@@ -239,7 +241,7 @@
             this.PointBusLineButton,
             this.PointBusStopButton});
             this.点选ToolStripMenuItem.Name = "点选ToolStripMenuItem";
-            this.点选ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.点选ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.点选ToolStripMenuItem.Text = "点选";
             // 
             // PointBusLineButton
@@ -260,22 +262,24 @@
             // 
             this.搜索ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SearchBusLineButton,
-            this.SearchBusStopButton});
+            this.SearchBusStopButton,
+            this.BusLineSearch2,
+            this.BusStopSearch2});
             this.搜索ToolStripMenuItem.Name = "搜索ToolStripMenuItem";
-            this.搜索ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.搜索ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.搜索ToolStripMenuItem.Text = "搜索";
             // 
             // SearchBusLineButton
             // 
             this.SearchBusLineButton.Name = "SearchBusLineButton";
-            this.SearchBusLineButton.Size = new System.Drawing.Size(124, 22);
+            this.SearchBusLineButton.Size = new System.Drawing.Size(152, 22);
             this.SearchBusLineButton.Text = "公交路线";
             this.SearchBusLineButton.Click += new System.EventHandler(this.SearchBusLineButton_Click);
             // 
             // SearchBusStopButton
             // 
             this.SearchBusStopButton.Name = "SearchBusStopButton";
-            this.SearchBusStopButton.Size = new System.Drawing.Size(124, 22);
+            this.SearchBusStopButton.Size = new System.Drawing.Size(152, 22);
             this.SearchBusStopButton.Text = "公交站点";
             this.SearchBusStopButton.Click += new System.EventHandler(this.SearchBusStopButton_Click);
             // 
@@ -285,7 +289,7 @@
             this.ExportBusLine,
             this.ExportBusStop});
             this.导出SHPToolStripMenuItem.Name = "导出SHPToolStripMenuItem";
-            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.导出SHPToolStripMenuItem.Text = "导出SHP";
             // 
             // ExportBusLine
@@ -305,7 +309,7 @@
             // ExportBusPicture
             // 
             this.ExportBusPicture.Name = "ExportBusPicture";
-            this.ExportBusPicture.Size = new System.Drawing.Size(148, 22);
+            this.ExportBusPicture.Size = new System.Drawing.Size(152, 22);
             this.ExportBusPicture.Text = "导出图片";
             this.ExportBusPicture.Click += new System.EventHandler(this.ExportBusPicture_Click);
             // 
@@ -315,7 +319,7 @@
             this.ExportBusLineExcel,
             this.ExportBusStopExcel});
             this.ExportBusExcel.Name = "ExportBusExcel";
-            this.ExportBusExcel.Size = new System.Drawing.Size(148, 22);
+            this.ExportBusExcel.Size = new System.Drawing.Size(152, 22);
             this.ExportBusExcel.Text = "导出Excel";
             // 
             // ExportBusLineExcel
@@ -353,7 +357,7 @@
             this.SearchParkingButton,
             this.ParkingFilter});
             this.查询ToolStripMenuItem1.Name = "查询ToolStripMenuItem1";
-            this.查询ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.查询ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.查询ToolStripMenuItem1.Text = "查询";
             // 
             // PointParkingButton
@@ -380,23 +384,44 @@
             // StatisticParkingButton
             // 
             this.StatisticParkingButton.Name = "StatisticParkingButton";
-            this.StatisticParkingButton.Size = new System.Drawing.Size(152, 22);
+            this.StatisticParkingButton.Size = new System.Drawing.Size(136, 22);
             this.StatisticParkingButton.Text = "统计";
             this.StatisticParkingButton.Click += new System.EventHandler(this.StatisticParkingButton_Click);
             // 
             // ExportParkingExcel
             // 
             this.ExportParkingExcel.Name = "ExportParkingExcel";
-            this.ExportParkingExcel.Size = new System.Drawing.Size(152, 22);
+            this.ExportParkingExcel.Size = new System.Drawing.Size(136, 22);
             this.ExportParkingExcel.Text = "导出Excel";
             this.ExportParkingExcel.Click += new System.EventHandler(this.ExportParkingExcel_Click);
             // 
             // ExportParkingPicture
             // 
             this.ExportParkingPicture.Name = "ExportParkingPicture";
-            this.ExportParkingPicture.Size = new System.Drawing.Size(152, 22);
+            this.ExportParkingPicture.Size = new System.Drawing.Size(136, 22);
             this.ExportParkingPicture.Text = "导出图片";
             this.ExportParkingPicture.Click += new System.EventHandler(this.ExportParkingPicture_Click);
+            // 
+            // AddParking
+            // 
+            this.AddParking.Name = "AddParking";
+            this.AddParking.Size = new System.Drawing.Size(136, 22);
+            this.AddParking.Text = "添加停车场";
+            this.AddParking.Click += new System.EventHandler(this.AddParking_Click);
+            // 
+            // DeleteParking
+            // 
+            this.DeleteParking.Name = "DeleteParking";
+            this.DeleteParking.Size = new System.Drawing.Size(136, 22);
+            this.DeleteParking.Text = "删除停车场";
+            this.DeleteParking.Click += new System.EventHandler(this.DeleteParking_Click);
+            // 
+            // EditParking
+            // 
+            this.EditParking.Name = "EditParking";
+            this.EditParking.Size = new System.Drawing.Size(136, 22);
+            this.EditParking.Text = "编辑停车场";
+            this.EditParking.Click += new System.EventHandler(this.EditParking_Click);
             // 
             // 公共自行车ToolStripMenuItem
             // 
@@ -544,9 +569,16 @@
             // AddUserButton
             // 
             this.AddUserButton.Name = "AddUserButton";
-            this.AddUserButton.Size = new System.Drawing.Size(152, 22);
+            this.AddUserButton.Size = new System.Drawing.Size(124, 22);
             this.AddUserButton.Text = "添加用户";
             this.AddUserButton.Click += new System.EventHandler(this.AddUserButton_Click);
+            // 
+            // UserList
+            // 
+            this.UserList.Name = "UserList";
+            this.UserList.Size = new System.Drawing.Size(124, 22);
+            this.UserList.Text = "用户";
+            this.UserList.Click += new System.EventHandler(this.UserList_Click);
             // 
             // splitContainer1
             // 
@@ -603,33 +635,19 @@
             this.axToolbarControl1.Size = new System.Drawing.Size(941, 28);
             this.axToolbarControl1.TabIndex = 3;
             // 
-            // AddParking
+            // BusLineSearch2
             // 
-            this.AddParking.Name = "AddParking";
-            this.AddParking.Size = new System.Drawing.Size(152, 22);
-            this.AddParking.Text = "添加停车场";
-            this.AddParking.Click += new System.EventHandler(this.AddParking_Click);
+            this.BusLineSearch2.Name = "BusLineSearch2";
+            this.BusLineSearch2.Size = new System.Drawing.Size(152, 22);
+            this.BusLineSearch2.Text = "公交路线2";
+            this.BusLineSearch2.Click += new System.EventHandler(this.BusLineSearch2_Click);
             // 
-            // DeleteParking
+            // BusStopSearch2
             // 
-            this.DeleteParking.Name = "DeleteParking";
-            this.DeleteParking.Size = new System.Drawing.Size(152, 22);
-            this.DeleteParking.Text = "删除停车场";
-            this.DeleteParking.Click += new System.EventHandler(this.DeleteParking_Click);
-            // 
-            // EditParking
-            // 
-            this.EditParking.Name = "EditParking";
-            this.EditParking.Size = new System.Drawing.Size(152, 22);
-            this.EditParking.Text = "编辑停车场";
-            this.EditParking.Click += new System.EventHandler(this.EditParking_Click);
-            // 
-            // UserList
-            // 
-            this.UserList.Name = "UserList";
-            this.UserList.Size = new System.Drawing.Size(152, 22);
-            this.UserList.Text = "用户";
-            this.UserList.Click += new System.EventHandler(this.UserList_Click);
+            this.BusStopSearch2.Name = "BusStopSearch2";
+            this.BusStopSearch2.Size = new System.Drawing.Size(152, 22);
+            this.BusStopSearch2.Text = "公交站点2";
+            this.BusStopSearch2.Click += new System.EventHandler(this.BusStopSearch2_Click);
             // 
             // Form1
             // 
@@ -726,6 +744,8 @@
         private System.Windows.Forms.ToolStripMenuItem DeleteParking;
         private System.Windows.Forms.ToolStripMenuItem EditParking;
         private System.Windows.Forms.ToolStripMenuItem UserList;
+        private System.Windows.Forms.ToolStripMenuItem BusLineSearch2;
+        private System.Windows.Forms.ToolStripMenuItem BusStopSearch2;
 
 
     }

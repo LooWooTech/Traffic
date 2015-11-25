@@ -167,6 +167,23 @@ namespace LoowooTech.Traffic.Common
             }
             return dataTable;
         }
+        public static DataTable GetTable(List<User> List)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("序号");
+            dataTable.Columns.Add("用户名");
+            dataTable.Columns.Add("权限组");
+            DataRow dataRow;
+            foreach (var item in List)
+            {
+                dataRow = dataTable.NewRow();
+                dataRow["序号"] = item.ID;
+                dataRow["用户名"] = item.Name;
+                dataRow["权限组"] = item.Role.GetDescription();
+                dataTable.Rows.Add(dataRow);
+            }
+            return dataTable;
+        }
         public static DataTable GetTable(List<BusLine> List)
         {
             DataTable dataTable = new DataTable();

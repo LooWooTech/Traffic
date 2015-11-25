@@ -24,5 +24,13 @@ namespace LoowooTech.Traffic.Manager
                 return db.Users.Where(e => e.Name == Name && e.Password == Password).FirstOrDefault();
             }
         }
+
+        public List<User> GetList()
+        {
+            using (var db = GetTrafficDataContext())
+            {
+                return db.Users.ToList();
+            }
+        }
     }
 }

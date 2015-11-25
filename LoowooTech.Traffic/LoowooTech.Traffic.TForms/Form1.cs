@@ -130,6 +130,24 @@ namespace LoowooTech.Traffic.TForms
                             break;
                     }
                     break;
+                case DataType.BusLine:
+                    switch (this.inquiryMode)
+                    {
+                        case InquiryMode.Filter:
+                            break;
+                        case InquiryMode.Search:
+                            break;
+                    }
+                    break;
+                case DataType.BusStop:
+                    switch (this.inquiryMode)
+                    {
+                        case InquiryMode.Filter:
+                            break;
+                        case InquiryMode.Search:
+                            break;
+                    }
+                    break;
             }
         }
         private void UpdateBase(string Name,string WhereClause)
@@ -546,6 +564,12 @@ namespace LoowooTech.Traffic.TForms
                 case DataType.Flow:
                     CurrentFeatureClass = FlowFeatureClass;
                     break;
+                case DataType.BusLine:
+                    CurrentFeatureClass = BusLineFeatureClass;
+                    break;
+                case DataType.BusStop:
+                    CurrentFeatureClass = BusStopFeatureClass;
+                    break;
             }
             var filterform = new FilterForm(CurrentFeatureClass);
             filterform.ShowDialog(this);
@@ -572,6 +596,16 @@ namespace LoowooTech.Traffic.TForms
         private void SearchFlow_Click(object sender, EventArgs e)
         {
             FilterBase(DataType.Flow, InquiryMode.Search);
+        }
+
+        private void BusLineSearch2_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.BusLine, InquiryMode.Search);
+        }
+
+        private void BusStopSearch2_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.BusStop, InquiryMode.Search);
         }
         /// <summary>
         /// 公交车路线搜索
@@ -743,8 +777,11 @@ namespace LoowooTech.Traffic.TForms
 
         private void UserList_Click(object sender, EventArgs e)
         {
-
+            UserForm form = new UserForm();
+            form.ShowDialog();
         }
+
+        
 
        
 
