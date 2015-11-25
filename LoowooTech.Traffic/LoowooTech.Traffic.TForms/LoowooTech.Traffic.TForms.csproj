@@ -11,6 +11,7 @@
     <AssemblyName>LoowooTech.Traffic.TForms</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,13 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.ADF, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86" />
     <Reference Include="ESRI.ArcGIS.AxControls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.Carto, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Controls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.DataSourcesGDB, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -62,8 +62,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -148,10 +146,6 @@
     <ProjectReference Include="..\LoowooTech.Traffic.Common\LoowooTech.Traffic.Common.csproj">
       <Project>{57bf6f2f-284a-4ada-a7fc-8e03fcf7df80}</Project>
       <Name>LoowooTech.Traffic.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LoowooTech.Traffic.Manager\LoowooTech.Traffic.Manager.csproj">
-      <Project>{aa48d75e-da7d-401b-b8b0-0160d3508add}</Project>
-      <Name>LoowooTech.Traffic.Manager</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Traffic.Models\LoowooTech.Traffic.Models.csproj">
       <Project>{b5ce08a2-71ce-43ca-b60d-11ef4a2b6cf4}</Project>

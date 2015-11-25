@@ -124,6 +124,7 @@ namespace LoowooTech.Traffic.Common
             return string.Empty;
            
         }
+        /*
         public static List<BusLine> Read(string FilePath)
         {
             IWorkbook workbook = OpenWorkbook(FilePath);
@@ -159,6 +160,6 @@ namespace LoowooTech.Traffic.Common
             }
                 
             return list;
-        }
+        }*/
     }
 }

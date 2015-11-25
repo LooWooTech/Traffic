@@ -1,19 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic", "LoowooTech.Traffic\LoowooTech.Traffic.csproj", "{531E5468-F4F1-4611-A278-E988AF323FF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.Common", "LoowooTech.Traffic.Common\LoowooTech.Traffic.Common.csproj", "{57BF6F2F-284A-4ADA-A7FC-8E03FCF7DF80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.Operators", "LoowooTech.Traffic.Operators\LoowooTech.Traffic.Operators.csproj", "{5A4A38C2-5550-4E78-9E46-DD489155008A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.TForms", "LoowooTech.Traffic.TForms\LoowooTech.Traffic.TForms.csproj", "{FB28F639-9489-4F7B-8725-330DA18F35B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.Models", "LoowooTech.Traffic.Models\LoowooTech.Traffic.Models.csproj", "{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Traffic.Manager", "LoowooTech.Traffic.Manager\LoowooTech.Traffic.Manager.csproj", "{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +25,6 @@ Global
 		{57BF6F2F-284A-4ADA-A7FC-8E03FCF7DF80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57BF6F2F-284A-4ADA-A7FC-8E03FCF7DF80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57BF6F2F-284A-4ADA-A7FC-8E03FCF7DF80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A4A38C2-5550-4E78-9E46-DD489155008A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A4A38C2-5550-4E78-9E46-DD489155008A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A4A38C2-5550-4E78-9E46-DD489155008A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A4A38C2-5550-4E78-9E46-DD489155008A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB28F639-9489-4F7B-8725-330DA18F35B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB28F639-9489-4F7B-8725-330DA18F35B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB28F639-9489-4F7B-8725-330DA18F35B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +33,6 @@ Global
 		{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5CE08A2-71CE-43CA-B60D-11EF4A2B6CF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA48D75E-DA7D-401B-B8B0-0160D3508ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

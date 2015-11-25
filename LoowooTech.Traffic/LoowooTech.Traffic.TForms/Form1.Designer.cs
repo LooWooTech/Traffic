@@ -72,12 +72,12 @@
             this.BikeFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBikeExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportBikePicture = new System.Windows.Forms.ToolStripMenuItem();
+            this.交通流量ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
-            this.交通流量ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -141,14 +141,14 @@
             // ExportActiveView
             // 
             this.ExportActiveView.Name = "ExportActiveView";
-            this.ExportActiveView.Size = new System.Drawing.Size(129, 22);
+            this.ExportActiveView.Size = new System.Drawing.Size(152, 22);
             this.ExportActiveView.Text = "导出图片";
             this.ExportActiveView.Click += new System.EventHandler(this.ExportActiveView_Click);
             // 
             // RoadFilter
             // 
             this.RoadFilter.Name = "RoadFilter";
-            this.RoadFilter.Size = new System.Drawing.Size(129, 22);
+            this.RoadFilter.Size = new System.Drawing.Size(152, 22);
             this.RoadFilter.Text = "路网过滤";
             this.RoadFilter.Click += new System.EventHandler(this.RoadFilter_Click);
             // 
@@ -158,34 +158,34 @@
             this.PointSearch,
             this.ConditionSearchButton});
             this.SearchButton.Name = "SearchButton";
-            this.SearchButton.Size = new System.Drawing.Size(129, 22);
+            this.SearchButton.Size = new System.Drawing.Size(152, 22);
             this.SearchButton.Text = "查询";
             // 
             // PointSearch
             // 
             this.PointSearch.Name = "PointSearch";
-            this.PointSearch.Size = new System.Drawing.Size(124, 22);
+            this.PointSearch.Size = new System.Drawing.Size(152, 22);
             this.PointSearch.Text = "点选查询";
             this.PointSearch.Click += new System.EventHandler(this.PointSearch_Click);
             // 
             // ConditionSearchButton
             // 
             this.ConditionSearchButton.Name = "ConditionSearchButton";
-            this.ConditionSearchButton.Size = new System.Drawing.Size(124, 22);
+            this.ConditionSearchButton.Size = new System.Drawing.Size(152, 22);
             this.ConditionSearchButton.Text = "条件查询";
             this.ConditionSearchButton.Click += new System.EventHandler(this.ConditionSearchButton_Click);
             // 
             // ExportSHP
             // 
             this.ExportSHP.Name = "ExportSHP";
-            this.ExportSHP.Size = new System.Drawing.Size(129, 22);
+            this.ExportSHP.Size = new System.Drawing.Size(152, 22);
             this.ExportSHP.Text = "导出SHP";
             this.ExportSHP.Click += new System.EventHandler(this.ExportSHP_Click);
             // 
             // ExportExcel
             // 
             this.ExportExcel.Name = "ExportExcel";
-            this.ExportExcel.Size = new System.Drawing.Size(129, 22);
+            this.ExportExcel.Size = new System.Drawing.Size(152, 22);
             this.ExportExcel.Text = "导出Excel";
             this.ExportExcel.Click += new System.EventHandler(this.ExportExcel_Click);
             // 
@@ -204,9 +204,9 @@
             // ImportBusExcel
             // 
             this.ImportBusExcel.Name = "ImportBusExcel";
-            this.ImportBusExcel.Size = new System.Drawing.Size(148, 22);
+            this.ImportBusExcel.Size = new System.Drawing.Size(152, 22);
             this.ImportBusExcel.Text = "导入公交数据";
-            this.ImportBusExcel.Click += new System.EventHandler(this.ImportBusExcel_Click);
+            
             // 
             // 查询ToolStripMenuItem
             // 
@@ -214,7 +214,7 @@
             this.点选ToolStripMenuItem,
             this.搜索ToolStripMenuItem});
             this.查询ToolStripMenuItem.Name = "查询ToolStripMenuItem";
-            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.查询ToolStripMenuItem.Text = "查询";
             // 
             // 点选ToolStripMenuItem
@@ -269,7 +269,7 @@
             this.ExportBusLine,
             this.ExportBusStop});
             this.导出SHPToolStripMenuItem.Name = "导出SHPToolStripMenuItem";
-            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.导出SHPToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.导出SHPToolStripMenuItem.Text = "导出SHP";
             // 
             // ExportBusLine
@@ -289,7 +289,7 @@
             // ExportBusPicture
             // 
             this.ExportBusPicture.Name = "ExportBusPicture";
-            this.ExportBusPicture.Size = new System.Drawing.Size(148, 22);
+            this.ExportBusPicture.Size = new System.Drawing.Size(152, 22);
             this.ExportBusPicture.Text = "导出图片";
             this.ExportBusPicture.Click += new System.EventHandler(this.ExportBusPicture_Click);
             // 
@@ -299,7 +299,7 @@
             this.ExportBusLineExcel,
             this.ExportBusStopExcel});
             this.ExportBusExcel.Name = "ExportBusExcel";
-            this.ExportBusExcel.Size = new System.Drawing.Size(148, 22);
+            this.ExportBusExcel.Size = new System.Drawing.Size(152, 22);
             this.ExportBusExcel.Text = "导出Excel";
             // 
             // ExportBusLineExcel
@@ -340,21 +340,21 @@
             // PointParkingButton
             // 
             this.PointParkingButton.Name = "PointParkingButton";
-            this.PointParkingButton.Size = new System.Drawing.Size(152, 22);
+            this.PointParkingButton.Size = new System.Drawing.Size(124, 22);
             this.PointParkingButton.Text = "点选查询";
             this.PointParkingButton.Click += new System.EventHandler(this.PointParkingButton_Click);
             // 
             // SearchParkingButton
             // 
             this.SearchParkingButton.Name = "SearchParkingButton";
-            this.SearchParkingButton.Size = new System.Drawing.Size(152, 22);
+            this.SearchParkingButton.Size = new System.Drawing.Size(124, 22);
             this.SearchParkingButton.Text = "搜索查询";
             this.SearchParkingButton.Click += new System.EventHandler(this.SearchParkingButton_Click);
             // 
             // ParkingFilter
             // 
             this.ParkingFilter.Name = "ParkingFilter";
-            this.ParkingFilter.Size = new System.Drawing.Size(152, 22);
+            this.ParkingFilter.Size = new System.Drawing.Size(124, 22);
             this.ParkingFilter.Text = "过滤";
             this.ParkingFilter.Click += new System.EventHandler(this.ParkingFilter_Click);
             // 
@@ -396,7 +396,7 @@
             this.SearchBike,
             this.BikeFilter});
             this.查询ToolStripMenuItem2.Name = "查询ToolStripMenuItem2";
-            this.查询ToolStripMenuItem2.Size = new System.Drawing.Size(129, 22);
+            this.查询ToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.查询ToolStripMenuItem2.Text = "查询";
             // 
             // PointBikeButton
@@ -423,16 +423,22 @@
             // ExportBikeExcel
             // 
             this.ExportBikeExcel.Name = "ExportBikeExcel";
-            this.ExportBikeExcel.Size = new System.Drawing.Size(129, 22);
+            this.ExportBikeExcel.Size = new System.Drawing.Size(152, 22);
             this.ExportBikeExcel.Text = "导出Excel";
             this.ExportBikeExcel.Click += new System.EventHandler(this.ExportBikeExcel_Click);
             // 
             // ExportBikePicture
             // 
             this.ExportBikePicture.Name = "ExportBikePicture";
-            this.ExportBikePicture.Size = new System.Drawing.Size(129, 22);
+            this.ExportBikePicture.Size = new System.Drawing.Size(152, 22);
             this.ExportBikePicture.Text = "导出图片";
             this.ExportBikePicture.Click += new System.EventHandler(this.ExportBikePicture_Click);
+            // 
+            // 交通流量ToolStripMenuItem
+            // 
+            this.交通流量ToolStripMenuItem.Name = "交通流量ToolStripMenuItem";
+            this.交通流量ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.交通流量ToolStripMenuItem.Text = "交通流量";
             // 
             // splitContainer1
             // 
@@ -488,12 +494,6 @@
             this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
             this.axToolbarControl1.Size = new System.Drawing.Size(941, 28);
             this.axToolbarControl1.TabIndex = 3;
-            // 
-            // 交通流量ToolStripMenuItem
-            // 
-            this.交通流量ToolStripMenuItem.Name = "交通流量ToolStripMenuItem";
-            this.交通流量ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-            this.交通流量ToolStripMenuItem.Text = "交通流量";
             // 
             // Form1
             // 

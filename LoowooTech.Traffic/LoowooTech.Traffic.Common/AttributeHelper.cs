@@ -1,8 +1,9 @@
-﻿using ESRI.ArcGIS.Carto;
+﻿
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Traffic.Models;
+using ESRI.ArcGIS.Carto;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,6 +26,7 @@ namespace LoowooTech.Traffic.Common
         {
             IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,AddFieldName);
         }
+        
         public static IArray Identify(IFeatureClass featureClass, IGeometry geometry)
         {
             if (geometry == null)
@@ -36,12 +38,13 @@ namespace LoowooTech.Traffic.Common
                 ITopologicalOperator topop = geometry as ITopologicalOperator;
                 geometry = topop.Buffer(0.0004);
             }
-            IFeatureLayer featureLayer = new FeatureLayerClass();
+            IFeatureLayer featureLayer =new FeatureLayerClass();
             featureLayer.FeatureClass = featureClass;
             IIdentify identify = featureLayer as IIdentify;
             IArray identifyObjs = identify.Identify(geometry);
             return identifyObjs;
         }
+        
         public static IFeature Identify2(IFeatureClass featureClass, IGeometry geometry)
         {
             ISpatialFilter spatialfilter = new SpatialFilterClass();
@@ -115,15 +118,7 @@ namespace LoowooTech.Traffic.Common
                 }
                 dataRow["序号"] = ++Serial;
                 dataTable.Rows.Add(dataRow);
-                try
-                {
-                   
-                    
-                }
-                catch
-                {
-                    
-                }
+                
                 feature = featureCursor.NextFeature();
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
@@ -152,6 +147,7 @@ namespace LoowooTech.Traffic.Common
             }
             return dataTable;
         }
+        /*
         public static DataTable GetTable(List<BusLine> List)
         {
             DataTable dataTable = new DataTable();
@@ -168,7 +164,7 @@ namespace LoowooTech.Traffic.Common
                 dataTable.Rows.Add(dataRow);
             }
             return dataTable;
-        }
+        }*/
         
     }
 }

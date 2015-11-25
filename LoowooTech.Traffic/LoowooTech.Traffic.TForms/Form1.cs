@@ -5,7 +5,6 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Traffic.Common;
-using LoowooTech.Traffic.Manager;
 using LoowooTech.Traffic.Models;
 using LoowooTech.Traffic.TForms;
 using System;
@@ -56,8 +55,11 @@ namespace LoowooTech.Traffic.TForms
             simpleMarkerSymbol.Size = 8;
             simpleMarkerSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 0);
         }
+        
         private void Form1_Load(object sender, EventArgs e)
         {
+            axMapControl1.LoadMxFile(System.IO.Path.Combine(Application.StartupPath, MXDPath));
+            SDEManager.Map = axMapControl1.Map;
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
@@ -69,9 +71,6 @@ namespace LoowooTech.Traffic.TForms
             }
         }
         #endregion
-
-
-        
 
         #region  地图显示更新
         public void ConditionControlCenter()
@@ -256,6 +255,8 @@ namespace LoowooTech.Traffic.TForms
             var result = new BusResultForm(BusLineFeatureClass,BusStopFeatureClass, BusLineWhereClause);
             result.Show(this);
         }
+        
+        /*
         private void ImportBusExcel_Click(object sender, EventArgs e)
         {
             var ExcelPath = FileHelper.Open("打开公交路线数据", "2003 文件|*.xls|2007 文件|*.xlsx");
@@ -272,7 +273,8 @@ namespace LoowooTech.Traffic.TForms
             }
             OperatorTxt.Text = "导入公交路线信息成功";
             
-        }
+        }*/
+        
         #region 导出Shapefile文件
         private void ExportSHPBase(IFeatureClass FeatureClass, string WhereClause, string FilePath)
         {

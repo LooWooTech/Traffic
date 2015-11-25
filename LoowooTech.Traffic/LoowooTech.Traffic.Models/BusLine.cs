@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+//using System.ComponentModel;
+//using System.ComponentModel.DataAnnotations;
+//using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
 namespace LoowooTech.Traffic.Models
 {
-    [Table("BusLine")]
+    /*[Table("BusLine")]
     public class BusLine
     {
         [Key]
@@ -25,7 +26,7 @@ namespace LoowooTech.Traffic.Models
         [NotMapped]
         public IFeature Feature { get; set; }
         
-    }
+    }*/
 
     public enum DirectType
     {
