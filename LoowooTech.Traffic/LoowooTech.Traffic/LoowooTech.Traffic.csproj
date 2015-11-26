@@ -73,10 +73,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\LayerInfo.xml" />
-    <Content Include="bin\Debug\RelationInfo.xml" />
-    <Content Include="LayerInfo.xml" />
-    <Content Include="RelationInfo.xml" />
+    <Content Include="LayerInfo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RelationInfo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoowooTech.Traffic.TForms\LoowooTech.Traffic.TForms.csproj">
