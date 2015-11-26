@@ -153,7 +153,7 @@
             this.ribbon1.QuickAcessToolbar.Items.Add(this.btnGlobe);
             this.ribbon1.QuickAcessToolbar.Items.Add(this.btnRefresh);
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
-            this.ribbon1.Size = new System.Drawing.Size(1179, 148);
+            this.ribbon1.Size = new System.Drawing.Size(1028, 148);
             this.ribbon1.TabIndex = 0;
             this.ribbon1.Tabs.Add(this.ribbonTab1);
             this.ribbon1.Tabs.Add(this.ribbonTab2);
@@ -725,9 +725,9 @@
             this.OperatorTxt,
             this.toolStripStatusLabel2,
             this.lblCoords});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 746);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 728);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1179, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1028, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -748,7 +748,7 @@
             // 
             this.toolStripStatusLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1132, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(981, 17);
             this.toolStripStatusLabel2.Spring = true;
             this.toolStripStatusLabel2.Text = " ";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -773,7 +773,7 @@
             this.axTOCControl1.Location = new System.Drawing.Point(0, 148);
             this.axTOCControl1.Name = "axTOCControl1";
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
-            this.axTOCControl1.Size = new System.Drawing.Size(245, 598);
+            this.axTOCControl1.Size = new System.Drawing.Size(245, 580);
             this.axTOCControl1.TabIndex = 8;
             // 
             // axLicenseControl2
@@ -791,7 +791,7 @@
             this.axMapControl1.Location = new System.Drawing.Point(245, 148);
             this.axMapControl1.Name = "axMapControl1";
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(934, 598);
+            this.axMapControl1.Size = new System.Drawing.Size(783, 580);
             this.axMapControl1.TabIndex = 12;
             this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
@@ -800,7 +800,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1179, 768);
+            this.ClientSize = new System.Drawing.Size(1028, 750);
             this.Controls.Add(this.axMapControl1);
             this.Controls.Add(this.axTOCControl1);
             this.Controls.Add(this.axLicenseControl2);
