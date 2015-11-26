@@ -252,7 +252,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(100, 36);
             this.button2.TabIndex = 22;
-            this.button2.Text = "确定";
+            this.button2.Text = "取消";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 

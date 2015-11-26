@@ -154,7 +154,7 @@ namespace LoowooTech.Traffic.TForms
             {
                 WhereClause += comboBox8.SelectedItem.ToString().GetSQLChar() +" "+ comboBox6.SelectedItem.ToString() +" "+ comboBox5.SelectedItem.ToString().GetSQLChar() +" "+ comboBox11.Text+" ";
             }
-            Form1 form1 = (Form1)this.Owner;
+            MainForm form1 = (MainForm)this.Owner;
             form1.toolStripStatusLabel1.Text = WhereClause;
             form1.ConditionControlCenter();
             this.Close();

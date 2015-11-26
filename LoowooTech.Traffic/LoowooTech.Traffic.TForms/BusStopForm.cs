@@ -15,7 +15,7 @@ namespace LoowooTech.Traffic.TForms
     {
         private IFeatureClass FeatureClass { get; set; }
         private string WhereClause { get; set; }
-        private Form1 Father { get; set; }
+        private MainForm Father { get; set; }
         private Dictionary<int, IFeature> FeatureDict { get; set; }
         public BusStopForm(IFeatureClass FeatureClass,string WhereClause)
         {
@@ -27,7 +27,7 @@ namespace LoowooTech.Traffic.TForms
         private void BusStopForm_Load(object sender, EventArgs e)
         {
             Console.WriteLine("进入load");
-            this.Father = (Form1)this.Owner;
+            this.Father = (MainForm)this.Owner;
             try
             {
                 var list = GISHelper.Search(FeatureClass, WhereClause);

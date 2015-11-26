@@ -198,14 +198,18 @@ namespace LoowooTech.Traffic.Common
                 IRow row = cursor.NextRow();
                 while (row != null)
                 {
-                    if (field.Type == esriFieldType.esriFieldTypeString)
+                    if (!string.IsNullOrEmpty(row.get_Value(0).ToString()))
                     {
-                        list.Add("'" + row.get_Value(0).ToString() + "'");
+                        if (field.Type == esriFieldType.esriFieldTypeString)
+                        {
+                            list.Add("'" + row.get_Value(0).ToString() + "'");
+                        }
+                        else
+                        {
+                            list.Add(row.get_Value(0).ToString());
+                        }
                     }
-                    else
-                    {
-                        list.Add(row.get_Value(0).ToString());
-                    }
+                    
                     row = cursor.NextRow();
                 }
             }
@@ -218,7 +222,7 @@ namespace LoowooTech.Traffic.Common
             var valList = GetUniqueValue(FeatureClass, LabelName);//获取标注字段的唯一值
             foreach (var val in valList)
             {
-                if (!dict.ContainsKey(val))
+                if (!dict.ContainsKey(val)&&!string.IsNullOrEmpty(val))
                 {
                     dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val));
                 }

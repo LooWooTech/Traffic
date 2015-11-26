@@ -15,7 +15,7 @@ namespace LoowooTech.Traffic.TForms
     {
         private IFeatureClass FeatureClass { get; set; }
         private string WhereClause { get; set; }
-        private Form1 Father { get; set; }
+        private MainForm Father { get; set; }
         private Dictionary<int, IFeature> FeatureDict { get; set; }
         public AttributeForm2(IFeatureClass featureClass, string WhereClause)
         {
@@ -30,7 +30,7 @@ namespace LoowooTech.Traffic.TForms
 
         private void AttributeForm2_Load(object sender, EventArgs e)
         {
-            Father = (Form1)this.Owner;
+            Father = (MainForm)this.Owner;
             if (FeatureClass != null)
             {
                 Dictionary<int, IFeature> temp;

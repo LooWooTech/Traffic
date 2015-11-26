@@ -133,6 +133,7 @@ namespace LoowooTech.Traffic.TForms
 
             try
             {
+                string mxdPath1 = System.IO.Path.Combine(Application.StartupPath, MXDPath);
                 axMapControl1.LoadMxFile(System.IO.Path.Combine(Application.StartupPath, MXDPath));
             }
             catch (Exception ex)
@@ -145,13 +146,13 @@ namespace LoowooTech.Traffic.TForms
         
         private void MainForm_Load(object sender, EventArgs e)
         {
-            /*RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
+            RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
             ParkingFeatureClass = SDEManager.GetFeatureClass(ParkingName);
             BikeFeatureClass = SDEManager.GetFeatureClass(BikeName);
             FlowFeatureClass = SDEManager.GetFeatureClass(FlowName);
-            if (RoadFeatureClass == null||BusLineFeatureClass==null||BusStopFeatureClass==null||ParkingFeatureClass==null||BikeFeatureClass==null||FlowFeatureClass==null)
+            /*if (RoadFeatureClass == null||BusLineFeatureClass==null||BusStopFeatureClass==null||ParkingFeatureClass==null||BikeFeatureClass==null||FlowFeatureClass==null)
             {
                 MessageBox.Show("未获取服务器上相关路网数据，请核对是否连接服务器.......");
             }*/
@@ -218,20 +219,26 @@ namespace LoowooTech.Traffic.TForms
                     }
                     break;
                 case DataType.BusLine:
+                    BusLineWhereClause = toolStripStatusLabel1.Text;
                     switch (this.inquiryMode)
                     {
                         case InquiryMode.Filter:
+                            UpdateBase(BusLineName, BusLineWhereClause);
                             break;
                         case InquiryMode.Search:
+                            ShowResult(BusLineFeatureClass, BusLineWhereClause);
                             break;
                     }
                     break;
                 case DataType.BusStop:
+                    BusStopWhereClause = toolStripStatusLabel1.Text;
                     switch (this.inquiryMode)
                     {
                         case InquiryMode.Filter:
+                            UpdateBase(BusStopName, BusStopWhereClause);
                             break;
                         case InquiryMode.Search:
+                            ShowResult(BusStopFeatureClass, BusStopWhereClause);
                             break;
                     }
                     break;
@@ -398,23 +405,42 @@ namespace LoowooTech.Traffic.TForms
                 OperatorTxt.Text = "成功导出shap文件：" + FilePath;
             }
         }
-        private void ExportSHP_Click(object sender, EventArgs e)
+
+        private void ExportRoadSHP_Click(object sender, EventArgs e)
         {
             var saveFilePathSHP = FileHelper.Save("导出路网SHP文件", "shp文件|*.shp");
             ExportSHPBase(RoadFeatureClass, RoadFilterWhereClause, saveFilePathSHP);
         }
 
-        private void ExportBusLine_Click(object sender, EventArgs e)
+        private void ExportBusLineSHP_Click(object sender, EventArgs e)
         {
             var saveShpPath = FileHelper.Save("导出公交车路线Shapefile文件", "SHP文件|*.shp");
             ExportSHPBase(BusLineFeatureClass, BusLineWhereClause, saveShpPath);
         }
 
-        private void ExportBusStop_Click(object sender, EventArgs e)
+        private void ExportBusStopSHP_Click(object sender, EventArgs e)
         {
             var saveSHPPath = FileHelper.Save("导出公交车站点Shapefile文件", "SHP文件|*.shp");
             ExportSHPBase(BusStopFeatureClass, BusStopWhereClause, saveSHPPath);
         }
+
+        private void ExportParkingSHP_Click(object sender, EventArgs e)
+        {
+            var saveSHPPath = FileHelper.Save("导出停车设施Shapefile文件", "SHP文件|*.shp");
+            ExportSHPBase(ParkingFeatureClass, ParkingWhereClause, saveSHPPath);
+        }
+        private void ExportFlowSHP_Click(object sender, EventArgs e)
+        {
+            var saveSHPPath = FileHelper.Save("导出交通流量监测器Shapefile文件", "SHP文件|*.shp");
+            ExportSHPBase(FlowFeatureClass, FlowWhereClause, saveSHPPath);
+        }
+        private void ExportBikeSHP_Click(object sender, EventArgs e)
+        {
+            var saveSHPPath = FileHelper.Save("导出公共自行车Shapefile文件", "SHP文件|*.shp");
+            ExportSHPBase(BikeFeatureClass, BikeWhereClause, saveSHPPath);
+        }
+
+        
         #endregion
 
         #region 导出图片
@@ -459,7 +485,7 @@ namespace LoowooTech.Traffic.TForms
             var saveFilePath = FileHelper.Save("导出公交车路线Excel文件", "2003文件|*.xls|2007文件|*.xlsx");
             ExportExcelBase(BusLineFeatureClass, BusLineWhereClause, saveFilePath);
         }
-        private void ExportBusStopExcel_Click(object sender, EventArgs e)
+        private void btnExpXlsBusStop_Click(object sender, EventArgs e)
         {
             var saveFilePath = FileHelper.Save("导出公交车站点Excel文件", "2003文件|*.xls|2007文件|*.xlsx");
             ExportExcelBase(BusStopFeatureClass, BusStopWhereClause, saveFilePath);
@@ -659,12 +685,12 @@ namespace LoowooTech.Traffic.TForms
 
         private void BusLineSearch2_Click(object sender, EventArgs e)
         {
-            FilterBase(DataType.BusLine, InquiryMode.Search);
+            FilterBase(DataType.BusLine, InquiryMode.Filter);
         }
 
         private void BusStopSearch2_Click(object sender, EventArgs e)
         {
-            FilterBase(DataType.BusStop, InquiryMode.Search);
+            FilterBase(DataType.BusStop, InquiryMode.Filter);
         }
         /// <summary>
         /// 公交车路线搜索
@@ -673,9 +699,10 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="e"></param>
         private void SearchBusLineButton_Click(object sender, EventArgs e)
         {
-            this.dataType = DataType.BusLine;
-            BusFilterForm busform = new BusFilterForm();
-            busform.ShowDialog(this);
+            FilterBase(DataType.BusLine, InquiryMode.Search);
+            //this.dataType = DataType.BusLine;
+            //BusFilterForm busform = new BusFilterForm();
+            //busform.ShowDialog(this);
         }
         /// <summary>
         /// 公交车站点搜索
@@ -684,9 +711,10 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="e"></param>
         private void SearchBusStopButton_Click(object sender, EventArgs e)
         {
-            this.dataType = DataType.BusStop;
-            BusFilterForm busform = new BusFilterForm();
-            busform.ShowDialog(this);
+            FilterBase(DataType.BusStop, InquiryMode.Search);
+            //this.dataType = DataType.BusStop;
+            //BusFilterForm busform = new BusFilterForm();
+            //busform.ShowDialog(this);
         }
         
         #endregion
@@ -703,9 +731,9 @@ namespace LoowooTech.Traffic.TForms
         {
             FilterBase(DataType.Road,InquiryMode.Filter);
         }
-        private void ParkingFilter_Click(object sender, EventArgs e)
+        private void btnFilterParking_Click(object sender, EventArgs e)
         {
-            FilterBase(DataType.Parking,InquiryMode.Filter);   
+            FilterBase(DataType.Parking, InquiryMode.Filter);  
         }
 
         private void BikeFilter_Click(object sender, EventArgs e)
@@ -844,6 +872,22 @@ namespace LoowooTech.Traffic.TForms
         {
             lblCoords.Text = string.Format("{0:#.#####},{1:#.#####}", e.mapX, e.mapY);
         }
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
 
         
     }

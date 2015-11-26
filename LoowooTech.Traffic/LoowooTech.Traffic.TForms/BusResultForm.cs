@@ -16,7 +16,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass FeatureClass { get; set; }
         private IFeatureClass BusStopFeatureClass { get; set; }
         private string WhereClause { get; set; }
-        private Form1 Father { get; set; }
+        private MainForm Father { get; set; }
         private Dictionary<int, IFeature> FeatureDict { get; set; }
         private int IndexDirect { get; set; }
         private int IndexNameShort { get; set; }
@@ -37,7 +37,7 @@ namespace LoowooTech.Traffic.TForms
 
         private void BusResultForm_Load(object sender, EventArgs e)
         {
-            Father = (Form1)this.Owner;
+            Father = (MainForm)this.Owner;
             if (FeatureClass != null)
             {
                 Dictionary<int, IFeature> temp;
