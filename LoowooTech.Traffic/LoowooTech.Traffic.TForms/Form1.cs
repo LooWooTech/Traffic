@@ -131,18 +131,22 @@ namespace LoowooTech.Traffic.TForms
                     }
                     break;
                 case DataType.BusLine:
+                    BusLineWhereClause = toolStripStatusLabel1.Text;
                     switch (this.inquiryMode)
                     {
                         case InquiryMode.Filter:
+                            UpdateBase(BusLineName, BusLineWhereClause);
                             break;
                         case InquiryMode.Search:
                             break;
                     }
                     break;
                 case DataType.BusStop:
+                    BusStopWhereClause = toolStripStatusLabel1.Text;
                     switch (this.inquiryMode)
                     {
                         case InquiryMode.Filter:
+                            UpdateBase(BusStopName, BusStopWhereClause);
                             break;
                         case InquiryMode.Search:
                             break;
@@ -599,15 +603,7 @@ namespace LoowooTech.Traffic.TForms
             FilterBase(DataType.Flow, InquiryMode.Search);
         }
 
-        private void BusLineSearch2_Click(object sender, EventArgs e)
-        {
-            FilterBase(DataType.BusLine, InquiryMode.Search);
-        }
 
-        private void BusStopSearch2_Click(object sender, EventArgs e)
-        {
-            FilterBase(DataType.BusStop, InquiryMode.Search);
-        }
         /// <summary>
         /// 公交车路线搜索
         /// </summary>
@@ -657,6 +653,16 @@ namespace LoowooTech.Traffic.TForms
         private void FlowFlter_Click(object sender, EventArgs e)
         {
             FilterBase(DataType.Flow, InquiryMode.Filter);
+        }
+
+        private void BusLineFilter_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.BusLine, InquiryMode.Filter);
+        }
+
+        private void BusStopFilter_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.BusStop, InquiryMode.Filter);
         }
         #endregion
 
@@ -781,6 +787,10 @@ namespace LoowooTech.Traffic.TForms
             UserForm form = new UserForm();
             form.ShowDialog();
         }
+
+
+
+        
 
         
 
