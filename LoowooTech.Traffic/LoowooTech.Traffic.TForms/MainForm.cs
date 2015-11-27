@@ -15,10 +15,13 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LoowooTech.Traffic.TForms
 {
+    public delegate void EventOperator(IGeometry geometry);
+    public delegate void EventOperator2(string FilePath);
     public partial class MainForm : Form
     {
         private void UncheckAllButtons(object sender)
@@ -444,12 +447,16 @@ namespace LoowooTech.Traffic.TForms
         #endregion
 
         #region 导出图片
-        private void ExportPictureBase(string FilePath, IActiveView ActiveView)
+        private void ExportPictureBase(string FilePath)
         {
+
             if (!string.IsNullOrEmpty(FilePath))
             {
-                FileHelper.ExportMap(FilePath, ActiveView);
-                OperatorTxt.Text = "成功导出图片："+FilePath;
+                var tool = new PictureThread(FilePath, axMapControl1.ActiveView);
+                var thread = new Thread(tool.ThreadMain);
+                thread.Start();
+                //FileHelper.ExportMap(FilePath, axMapControl1.ActiveView);
+                //OperatorTxt.Text = "成功导出图片："+FilePath;
             }
         }
         /// <summary>
@@ -460,7 +467,8 @@ namespace LoowooTech.Traffic.TForms
         private void ExportActiveView_Click(object sender, EventArgs e)
         {
             var saveFilePath = FileHelper.Save("导出地图为图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
-            ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
+            this.Invoke(new EventOperator2(ExportPictureBase), new[] { saveFilePath });
+           // ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
         }
        
         #endregion

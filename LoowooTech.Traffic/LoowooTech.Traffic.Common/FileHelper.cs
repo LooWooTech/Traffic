@@ -35,15 +35,10 @@ namespace LoowooTech.Traffic.Common
             return string.Empty;
         }
 
-        /// <summary>
-        /// 保存当前ActiveView为图片
-        /// </summary>
-        /// <param name="SaveFilePath">图片路径</param>
-        /// <param name="ActiveView">Map ActiveView</param>
-        public static void ExportMap(string SaveFilePath,IActiveView ActiveView)
+        public static IExport ExportBase(string FilePath)
         {
-            var ext = System.IO.Path.GetExtension(SaveFilePath);
-            IExport export=null;
+            var ext = System.IO.Path.GetExtension(FilePath);
+            IExport export = null;
             switch (ext)
             {
                 case ".jpeg":
@@ -59,18 +54,30 @@ namespace LoowooTech.Traffic.Common
                     export = new ExportGIFClass();
                     break;
             }
+            return export;
+        }
+        /// <summary>
+        /// 保存当前ActiveView为图片
+        /// </summary>
+        /// <param name="SaveFilePath">图片路径</param>
+        /// <param name="ActiveView">Map ActiveView</param>
+        public static void ExportMap(string SaveFilePath,IActiveView ActiveView)
+        {
+            IExport export = ExportBase(SaveFilePath);
             double IScreenResolution = ActiveView.ScreenDisplay.DisplayTransformation.Resolution;
             export.ExportFileName = SaveFilePath;
             export.Resolution = IScreenResolution;
             ESRI.ArcGIS.esriSystem.tagRECT deviceRECT = ActiveView.ExportFrame;
             IEnvelope envelope = new EnvelopeClass();
-            envelope.PutCoords(deviceRECT.left, deviceRECT.bottom, deviceRECT.right, deviceRECT.top);
+            deviceRECT.right = deviceRECT.right * 10;
+            deviceRECT.bottom = deviceRECT.bottom * 10;
+            envelope.PutCoords(deviceRECT.left, deviceRECT.top, deviceRECT.right, deviceRECT.bottom);
             export.PixelBounds = envelope;
             ITrackCancel Cancel=new  ESRI.ArcGIS.Display.CancelTrackerClass();
-            ActiveView.Output(export.StartExporting(), (int)IScreenResolution, ref deviceRECT, ActiveView.Extent, Cancel);
+            ActiveView.Output(export.StartExporting(), (int)IScreenResolution*10, ref deviceRECT, ActiveView.Extent, Cancel);
             export.FinishExporting();
             export.Cleanup();
-            MessageBox.Show("OK");
+            //MessageBox.Show("OK");
         }
     }
 }

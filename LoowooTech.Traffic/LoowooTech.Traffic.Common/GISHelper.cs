@@ -4,6 +4,7 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
+using LoowooTech.Traffic.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -160,6 +161,12 @@ namespace LoowooTech.Traffic.Common
             }
             
         }
+        /// <summary>
+        /// 一般搜索
+        /// </summary>
+        /// <param name="FeatureClass"></param>
+        /// <param name="WhereClause"></param>
+        /// <returns></returns>
         public static List<IFeature> Search(IFeatureClass FeatureClass, string WhereClause)
         {
             var list = new List<IFeature>();
@@ -167,6 +174,52 @@ namespace LoowooTech.Traffic.Common
             queryFilter.WhereClause = WhereClause;
             IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
             IFeature feature = featureCursor.NextFeature();
+            while (feature != null)
+            {
+                list.Add(feature);
+                feature = featureCursor.NextFeature();
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return list;
+        }
+        /// <summary>
+        /// 空间搜索
+        /// </summary>
+        /// <param name="FeatureClass"></param>
+        /// <param name="geometry"></param>
+        /// <param name="spaceMode"></param>
+        /// <returns></returns>
+        public static List<IFeature> Search(IFeatureClass FeatureClass, IGeometry geometry, SpaceMode spaceMode)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            ISpatialFilter spatialFilter = new SpatialFilterClass();
+            spatialFilter.GeometryField = "shape";
+            spatialFilter.Geometry = geometry;
+            switch (spaceMode)
+            {
+                case SpaceMode.Touches:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelTouches;
+                    break;
+                case SpaceMode.Overlaps:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelOverlaps;
+                    break;
+                case SpaceMode.Intersect:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                    break;
+                case SpaceMode.Crossed:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelCrosses;
+                    break;
+                case SpaceMode.Contains:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
+                    break;
+                case SpaceMode.Within:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin;
+                    break;
+            }
+            queryFilter = spatialFilter as IQueryFilter;
+            IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
+            IFeature feature = featureCursor.NextFeature();
+            var list = new List<IFeature>();
             while (feature != null)
             {
                 list.Add(feature);

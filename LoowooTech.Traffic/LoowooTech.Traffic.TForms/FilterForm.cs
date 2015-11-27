@@ -73,7 +73,7 @@ namespace LoowooTech.Traffic.TForms
                             break;
                     }
                     var list = RelationHelper.GetRelations(TypeName);
-                    var unique = GISHelper.GetUniqueValue(this.FeatureClass, Values);
+                    var unique = GISHelper.GetUniqueValue(this.FeatureClass, Values).GroupBy(e=>e);
                     switch (Condition)
                     {
                         case ConditionNumber.One:

@@ -288,14 +288,12 @@
             this.BusLineSearch2.Name = "BusLineSearch2";
             this.BusLineSearch2.Size = new System.Drawing.Size(131, 22);
             this.BusLineSearch2.Text = "公交路线2";
-            /*this.BusLineSearch2.Click += new System.EventHandler(this.BusLineSearch2_Click);*/
             // 
             // BusStopSearch2
             // 
             this.BusStopSearch2.Name = "BusStopSearch2";
             this.BusStopSearch2.Size = new System.Drawing.Size(131, 22);
             this.BusStopSearch2.Text = "公交站点2";
-            /*this.BusStopSearch2.Click += new System.EventHandler(this.BusStopSearch2_Click);*/
             // 
             // 导出SHPToolStripMenuItem
             // 

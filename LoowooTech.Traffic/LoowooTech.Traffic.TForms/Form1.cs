@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace LoowooTech.Traffic.TForms
 {
-    public delegate void EventOperator(IGeometry geometry);
+    
     public partial class Form1 : Form
     {
         #region  初始化
