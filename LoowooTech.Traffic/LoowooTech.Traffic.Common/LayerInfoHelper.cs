@@ -63,5 +63,20 @@ namespace LoowooTech.Traffic.Common
             return list;
         }
 
+        public static List<string> GetStatistic(string StatisticName)
+        {
+            var nodes = confiXml.SelectNodes("/Layers/Statistics[@Name='"+StatisticName+"']/Statistic");
+            var list = new List<string>();
+            if (nodes != null)
+            {
+                var count = nodes.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    list.Add(nodes[i].Attributes["Name"].Value);
+                }
+            }
+            return list;
+        }
+
     }
 }

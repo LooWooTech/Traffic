@@ -50,4 +50,40 @@
   <Way Type="FLOW">
     <Children Name="交通流量"></Children>
   </Way>
+  <Statistics Name="六片区">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+  </Statistics>
+  <Statistics Name="错峰限行">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+  </Statistics>
+  <Statistics Name="老城区">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="下沙区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+  </Statistics>
+  <Statistics Name="全市区">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="下沙区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+    <Statistic Name="萧山区"></Statistic>
+    <Statistic Name="余杭区"></Statistic>
+  </Statistics>
 </Layers>

@@ -118,6 +118,8 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
+            this.RoadStatistic = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -232,6 +234,7 @@
             this.ribbonTab1.Panels.Add(this.ribbonPanel2);
             this.ribbonTab1.Panels.Add(this.ribbonPanel3);
             this.ribbonTab1.Panels.Add(this.ribbonPanel6);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel20);
             this.ribbonTab1.Text = "路网相关";
             // 
             // ribbonPanel1
@@ -796,6 +799,18 @@
             this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             // 
+            // ribbonPanel20
+            // 
+            this.ribbonPanel20.Items.Add(this.RoadStatistic);
+            this.ribbonPanel20.Text = "统计";
+            // 
+            // RoadStatistic
+            // 
+            this.RoadStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
+            this.RoadStatistic.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadStatistic.SmallImage")));
+            this.RoadStatistic.Text = "相关统计";
+            this.RoadStatistic.Click += new System.EventHandler(this.RoadStatistic_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -915,6 +930,8 @@
         private System.Windows.Forms.RibbonButton btnStatParking;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel lblCoords;
+        private System.Windows.Forms.RibbonPanel ribbonPanel20;
+        private System.Windows.Forms.RibbonButton RoadStatistic;
         
     }
 }

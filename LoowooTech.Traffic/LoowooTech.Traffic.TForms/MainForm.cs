@@ -757,7 +757,8 @@ namespace LoowooTech.Traffic.TForms
         #region 统计
         private void StatisticParkingButton_Click(object sender, EventArgs e)
         {
-            StatisticsForm statisticform = new StatisticsForm(ParkingFeatureClass,ParkingWhereClause,"ZHENGQU","BERTHNUM");
+            var dict = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", "BERTHNUM");
+            StatisticsForm statisticform = new StatisticsForm(dict,"");
             statisticform.ShowDialog();
         }
 
@@ -879,6 +880,20 @@ namespace LoowooTech.Traffic.TForms
         private void axMapControl1_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
         {
             lblCoords.Text = string.Format("{0:#.#####},{1:#.#####}", e.mapX, e.mapY);
+        }
+
+        public void StatisticBase(string Description)
+        {
+            StatisticMode mode = Description.GetEnum();
+            var dict = GISHelper.Statistic(RoadFeatureClass, mode);
+            StatisticsForm statisticsForm = new StatisticsForm(dict, Description+"路网总长度统计图");
+            statisticsForm.ShowDialog();
+            
+        }
+        private void RoadStatistic_Click(object sender, EventArgs e)
+        {
+            SelectForm selectform = new SelectForm();
+            selectform.ShowDialog(this);
         }
 
         

@@ -282,25 +282,56 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
+        public static Dictionary<string, double> Statistic(IFeatureClass FeatureClass, StatisticMode Mode)
+        {
+            var dict = new Dictionary<string, double>();
+            var list = LayerInfoHelper.GetStatistic(Mode.GetDescription());
+            foreach (var item in list)
+            {
+                if (!dict.ContainsKey(item) && !string.IsNullOrEmpty(item))
+                {
+                    dict.Add(item, Statistic2(FeatureClass, "LENGTH", "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'","DISTRICT='"+item+"' AND RANK='快速路'"));
+                }
+            }
+            return dict;
+        }
 
-        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause)
+        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause,string WhereClause2=null)
         {
             IQueryFilter queryFilter = new QueryFilterClass();
             queryFilter.WhereClause = WhereClause;
             IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
             ICursor cursor = featureCursor as ICursor;
             double statisticVal = 0.0;
+            IDataStatistics dataStatistic;
+            IStatisticsResults statisticsResluts;
             if (cursor != null)
             {
-                IDataStatistics dataStatistic = new DataStatisticsClass();
+                dataStatistic = new DataStatisticsClass();
                 dataStatistic.Cursor = cursor;
                 dataStatistic.Field = FieldName;
-                IStatisticsResults statisticsResluts = dataStatistic.Statistics;
+                statisticsResluts = dataStatistic.Statistics;
                 statisticVal=statisticsResluts.Sum;
+            }
+            if (!string.IsNullOrEmpty(WhereClause2))
+            {
+                queryFilter.WhereClause = WhereClause2;
+                featureCursor = FeatureClass.Search(queryFilter, false);
+                cursor = featureCursor as ICursor;
+                if (cursor != null)
+                {
+                    dataStatistic = new DataStatisticsClass();
+                    dataStatistic.Cursor = cursor;
+                    dataStatistic.Field = FieldName;
+                    statisticsResluts = dataStatistic.Statistics;
+                    statisticVal -= statisticsResluts.Sum / 2;
+                }
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return statisticVal;
         }
+        
+        
         
 
     }

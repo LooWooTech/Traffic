@@ -14,25 +14,12 @@ namespace LoowooTech.Traffic.TForms
 {
     public partial class StatisticsForm : Form
     {
-        private IFeatureClass FeatureClass { get; set; }
-        private string WhereClause { get; set; }
-        private string LabelName { get; set; }
-        private string FieldName { get; set; }
-        //private Dictionary<string, double> ColumneData { get; set; }
-        /// <summary>
-        /// 统计图表
-        /// </summary>
-        /// <param name="FeatureClass">要统计的要素类</param>
-        /// <param name="WhereClause">过滤的条件</param>
-        /// <param name="LabelName">X轴 对应的字段</param>
-        /// <param name="FieldName">Y轴 统计的字段</param>
-        public StatisticsForm(IFeatureClass FeatureClass,string WhereClause,string LabelName,string FieldName)
+        private Dictionary<string, double> ColumneData { get; set; }
+
+        public StatisticsForm(Dictionary<string, double> ColumnDict,string TableName)
         {
             InitializeComponent();
-            this.FeatureClass = FeatureClass;
-            this.WhereClause = WhereClause;
-            this.LabelName = LabelName;
-            this.FieldName = FieldName;
+            this.ColumneData = ColumnDict;
         }
         public StatisticsForm()
         {
@@ -41,21 +28,20 @@ namespace LoowooTech.Traffic.TForms
 
         private void StatisticsForm_Load(object sender, EventArgs e)
         {
-            var dict = GISHelper.Statistic(FeatureClass,LabelName,FieldName);
-            if (dict != null && dict.Count > 0)
+            if (ColumneData != null&&ColumneData.Count>0)
             {
-                var count = dict.Count;
-                double[] yValues = new double[count];
-                string[] xValues = new string[count];
+                var count = ColumneData.Count;
+                double[] yValue = new double[count];
+                string[] xValue = new string[count];
                 int Serial = 0;
-                foreach (var key in dict.Keys)
+                foreach (var key in ColumneData.Keys)
                 {
-                    yValues[Serial] = dict[key];
-                    xValues[Serial] = key;
+                    yValue[Serial] = ColumneData[key];
+                    xValue[Serial] = key;
                     Serial++;
                 }
-                chart1.Series["Series1"].Points.DataBindXY(xValues, yValues);
-            }            
+                chart1.Series["Series1"].Points.DataBindXY(xValue, yValue);
+            }           
         }
     }
 }
