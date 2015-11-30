@@ -13,11 +13,13 @@ namespace LoowooTech.Traffic.Models
     {
         public string FilePath { get; set; }
         public IActiveView ActiveView { get; set; }
+        public int DPI { get; set; }
 
         public PictureThread(string FilePath,IActiveView ActiveView)
         {
             this.ActiveView = ActiveView;
             this.FilePath = FilePath;
+            this.DPI = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DPI"]);
         }
         private IExport ExportBase()
         {
@@ -49,12 +51,12 @@ namespace LoowooTech.Traffic.Models
             export.Resolution = IScreenResolution;
             ESRI.ArcGIS.esriSystem.tagRECT deviceRECT = ActiveView.ExportFrame;
             IEnvelope envelope = new EnvelopeClass();
-            deviceRECT.right = deviceRECT.right * 10;
-            deviceRECT.bottom = deviceRECT.bottom * 10;
+            deviceRECT.right = deviceRECT.right * DPI;
+            deviceRECT.bottom = deviceRECT.bottom * DPI;
             envelope.PutCoords(deviceRECT.left, deviceRECT.top, deviceRECT.right, deviceRECT.bottom);
             export.PixelBounds = envelope;
             ITrackCancel Cancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
-            ActiveView.Output(export.StartExporting(), (int)IScreenResolution * 10, ref deviceRECT, ActiveView.Extent, Cancel);
+            ActiveView.Output(export.StartExporting(), (int)IScreenResolution * DPI, ref deviceRECT, ActiveView.Extent, Cancel);
             export.FinishExporting();
             export.Cleanup();
         }

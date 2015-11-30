@@ -62,6 +62,16 @@ namespace LoowooTech.Traffic.Common
             }
             return list;
         }
+        public static string GetLayer(this string TypeName)
+        {
+            var node = confiXml.SelectSingleNode("/Layers/Way[@Type='" + TypeName + "']/Children");
+            if (node != null)
+            {
+                return  node.Attributes["Name"].Value;
+            }
+            return string.Empty;
+
+        }
 
         public static List<string> GetStatistic(string StatisticName)
         {

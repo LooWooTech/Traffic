@@ -182,6 +182,7 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return list;
         }
+        
         /// <summary>
         /// 空间搜索
         /// </summary>
@@ -329,6 +330,30 @@ namespace LoowooTech.Traffic.Common
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return statisticVal;
+        }
+
+        public static string GetBusStopWhereClause(List<IFeature> List, int Index1,int Index2)
+        {
+            string WhereClause = string.Empty;
+            string lineNameshort = string.Empty;
+            string lineDirect = string.Empty;
+            foreach (var feature in List)
+            {
+                lineNameshort = feature.get_Value(Index1).ToString();
+                lineDirect = feature.get_Value(Index2).ToString();
+                if (!string.IsNullOrEmpty(lineNameshort)&&!string.IsNullOrEmpty(lineDirect))
+                {
+                    if (string.IsNullOrEmpty(WhereClause))
+                    {
+                        WhereClause += "lineNameshort = " + lineNameshort + " AND lineDirect = " + lineDirect + " ";
+                    }
+                    else
+                    {
+                        WhereClause += "OR lineNameshort = " + lineNameshort + " AND lineDirect = " + lineDirect + " "; 
+                    }
+                }
+            }
+            return WhereClause;
         }
         
         

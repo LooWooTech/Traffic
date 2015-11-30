@@ -20,6 +20,7 @@ namespace LoowooTech.Traffic.TForms
         {
             InitializeComponent();
             this.ColumneData = ColumnDict;
+            this.label1.Text = TableName;
         }
         public StatisticsForm()
         {

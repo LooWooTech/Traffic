@@ -51,18 +51,12 @@
             this.ribbonButton22 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton23 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton24 = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
+            this.RoadStatistic = new System.Windows.Forms.RibbonButton();
             this.ribbonTab2 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel4 = new System.Windows.Forms.RibbonPanel();
-            this.btnSearchBusline = new System.Windows.Forms.RibbonButton();
-            this.btnSearchBusStop = new System.Windows.Forms.RibbonButton();
-            this.btnIdentifyBusline = new System.Windows.Forms.RibbonButton();
-            this.btnIdentifyBusStop = new System.Windows.Forms.RibbonButton();
+            this.BusFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel5 = new System.Windows.Forms.RibbonPanel();
-            this.btnExpImgBus = new System.Windows.Forms.RibbonButton();
-            this.ExportBusLineSHP = new System.Windows.Forms.RibbonButton();
-            this.ExportBusStopSHP = new System.Windows.Forms.RibbonButton();
-            this.btnExpXlsBusLine = new System.Windows.Forms.RibbonButton();
-            this.btnExpXlsBusStop = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel18 = new System.Windows.Forms.RibbonPanel();
             this.btnFilterBusline = new System.Windows.Forms.RibbonButton();
             this.btnFilterBusStop = new System.Windows.Forms.RibbonButton();
@@ -118,8 +112,11 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
-            this.RoadStatistic = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel21 = new System.Windows.Forms.RibbonPanel();
+            this.RankMap = new System.Windows.Forms.RibbonButton();
+            this.NumMap = new System.Windows.Forms.RibbonButton();
+            this.PointBusLine = new System.Windows.Forms.RibbonButton();
+            this.PointBusStop = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -235,6 +232,7 @@
             this.ribbonTab1.Panels.Add(this.ribbonPanel3);
             this.ribbonTab1.Panels.Add(this.ribbonPanel6);
             this.ribbonTab1.Panels.Add(this.ribbonPanel20);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel21);
             this.ribbonTab1.Text = "路网相关";
             // 
             // ribbonPanel1
@@ -322,6 +320,18 @@
             this.ribbonButton24.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton24.SmallImage")));
             this.ribbonButton24.Text = "删除线路";
             // 
+            // ribbonPanel20
+            // 
+            this.ribbonPanel20.Items.Add(this.RoadStatistic);
+            this.ribbonPanel20.Text = "统计";
+            // 
+            // RoadStatistic
+            // 
+            this.RoadStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
+            this.RoadStatistic.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadStatistic.SmallImage")));
+            this.RoadStatistic.Text = "相关统计";
+            this.RoadStatistic.Click += new System.EventHandler(this.RoadStatistic_Click);
+            // 
             // ribbonTab2
             // 
             this.ribbonTab2.Panels.Add(this.ribbonPanel4);
@@ -331,83 +341,21 @@
             // 
             // ribbonPanel4
             // 
-            this.ribbonPanel4.Items.Add(this.btnSearchBusline);
-            this.ribbonPanel4.Items.Add(this.btnSearchBusStop);
-            this.ribbonPanel4.Items.Add(this.btnIdentifyBusline);
-            this.ribbonPanel4.Items.Add(this.btnIdentifyBusStop);
-            this.ribbonPanel4.Text = "查询";
+            this.ribbonPanel4.Items.Add(this.BusFilter);
+            this.ribbonPanel4.Text = "过滤";
             // 
-            // btnSearchBusline
+            // BusFilter
             // 
-            this.btnSearchBusline.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_32x32;
-            this.btnSearchBusline.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSearchBusline.SmallImage")));
-            this.btnSearchBusline.Text = "条件查询线路";
-            this.btnSearchBusline.Click += new System.EventHandler(this.SearchBusLineButton_Click);
-            // 
-            // btnSearchBusStop
-            // 
-            this.btnSearchBusStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_32x32;
-            this.btnSearchBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSearchBusStop.SmallImage")));
-            this.btnSearchBusStop.Text = "条件查询站点";
-            this.btnSearchBusStop.Click += new System.EventHandler(this.SearchBusStopButton_Click);
-            // 
-            // btnIdentifyBusline
-            // 
-            this.btnIdentifyBusline.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.btnIdentifyBusline.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentifyBusline.SmallImage")));
-            this.btnIdentifyBusline.Text = "点击查询线路";
-            this.btnIdentifyBusline.Click += new System.EventHandler(this.PointBusLineButton_Click);
-            // 
-            // btnIdentifyBusStop
-            // 
-            this.btnIdentifyBusStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.btnIdentifyBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentifyBusStop.SmallImage")));
-            this.btnIdentifyBusStop.Text = "点击查询站点";
-            this.btnIdentifyBusStop.Click += new System.EventHandler(this.PointBusStopButton_Click);
+            this.BusFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BusFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusFilter.SmallImage")));
+            this.BusFilter.Text = "公交路线过滤";
+            this.BusFilter.Click += new System.EventHandler(this.BusFilter_Click);
             // 
             // ribbonPanel5
             // 
-            this.ribbonPanel5.Items.Add(this.btnExpImgBus);
-            this.ribbonPanel5.Items.Add(this.ExportBusLineSHP);
-            this.ribbonPanel5.Items.Add(this.ExportBusStopSHP);
-            this.ribbonPanel5.Items.Add(this.btnExpXlsBusLine);
-            this.ribbonPanel5.Items.Add(this.btnExpXlsBusStop);
-            this.ribbonPanel5.Text = "输出";
-            // 
-            // btnExpImgBus
-            // 
-            this.btnExpImgBus.Image = ((System.Drawing.Image)(resources.GetObject("btnExpImgBus.Image")));
-            this.btnExpImgBus.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpImgBus.SmallImage")));
-            this.btnExpImgBus.Text = "导出图片";
-            this.btnExpImgBus.Click += new System.EventHandler(this.ExportActiveView_Click);
-            // 
-            // ExportBusLineSHP
-            // 
-            this.ExportBusLineSHP.Image = ((System.Drawing.Image)(resources.GetObject("ExportBusLineSHP.Image")));
-            this.ExportBusLineSHP.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusLineSHP.SmallImage")));
-            this.ExportBusLineSHP.Text = "导出路线图形";
-            this.ExportBusLineSHP.Click += new System.EventHandler(this.ExportBusLineSHP_Click);
-            // 
-            // ExportBusStopSHP
-            // 
-            this.ExportBusStopSHP.Image = ((System.Drawing.Image)(resources.GetObject("ExportBusStopSHP.Image")));
-            this.ExportBusStopSHP.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusStopSHP.SmallImage")));
-            this.ExportBusStopSHP.Text = "导出站点图形";
-            this.ExportBusStopSHP.Click += new System.EventHandler(this.ExportBusStopSHP_Click);
-            // 
-            // btnExpXlsBusLine
-            // 
-            this.btnExpXlsBusLine.Image = ((System.Drawing.Image)(resources.GetObject("btnExpXlsBusLine.Image")));
-            this.btnExpXlsBusLine.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpXlsBusLine.SmallImage")));
-            this.btnExpXlsBusLine.Text = "导出路线Excel";
-            this.btnExpXlsBusLine.Click += new System.EventHandler(this.ExportBusLineExcel_Click);
-            // 
-            // btnExpXlsBusStop
-            // 
-            this.btnExpXlsBusStop.Image = ((System.Drawing.Image)(resources.GetObject("btnExpXlsBusStop.Image")));
-            this.btnExpXlsBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpXlsBusStop.SmallImage")));
-            this.btnExpXlsBusStop.Text = "导出站点Excel";
-            this.btnExpXlsBusStop.Click += new System.EventHandler(this.btnExpXlsBusStop_Click);
+            this.ribbonPanel5.Items.Add(this.PointBusLine);
+            this.ribbonPanel5.Items.Add(this.PointBusStop);
+            this.ribbonPanel5.Text = "查询";
             // 
             // ribbonPanel18
             // 
@@ -799,17 +747,37 @@
             this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             // 
-            // ribbonPanel20
+            // ribbonPanel21
             // 
-            this.ribbonPanel20.Items.Add(this.RoadStatistic);
-            this.ribbonPanel20.Text = "统计";
+            this.ribbonPanel21.Items.Add(this.RankMap);
+            this.ribbonPanel21.Items.Add(this.NumMap);
+            this.ribbonPanel21.Text = "底图";
             // 
-            // RoadStatistic
+            // RankMap
             // 
-            this.RoadStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
-            this.RoadStatistic.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadStatistic.SmallImage")));
-            this.RoadStatistic.Text = "相关统计";
-            this.RoadStatistic.Click += new System.EventHandler(this.RoadStatistic_Click);
+            this.RankMap.Image = ((System.Drawing.Image)(resources.GetObject("RankMap.Image")));
+            this.RankMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RankMap.SmallImage")));
+            this.RankMap.Text = "等级图";
+            // 
+            // NumMap
+            // 
+            this.NumMap.Image = ((System.Drawing.Image)(resources.GetObject("NumMap.Image")));
+            this.NumMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("NumMap.SmallImage")));
+            this.NumMap.Text = "车道图";
+            // 
+            // PointBusLine
+            // 
+            this.PointBusLine.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.PointBusLine.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.PointBusLine.Text = "公交路线点选查询";
+            this.PointBusLine.Click += new System.EventHandler(this.PointBusLine_Click);
+            // 
+            // PointBusStop
+            // 
+            this.PointBusStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.PointBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("PointBusStop.SmallImage")));
+            this.PointBusStop.Text = "公交站点点选查询";
+            this.PointBusStop.Click += new System.EventHandler(this.PointBusStop_Click);
             // 
             // MainForm
             // 
@@ -870,16 +838,8 @@
         private System.Windows.Forms.RibbonButton btnExpXlsRoad;
         private System.Windows.Forms.RibbonPanel ribbonPanel4;
         private System.Windows.Forms.RibbonPanel ribbonPanel5;
-        private System.Windows.Forms.RibbonButton btnSearchBusline;
-        private System.Windows.Forms.RibbonButton btnSearchBusStop;
-        private System.Windows.Forms.RibbonButton btnIdentifyBusline;
+        private System.Windows.Forms.RibbonButton BusFilter;
         private System.Windows.Forms.RibbonButton btnGlobe;
-        private System.Windows.Forms.RibbonButton btnIdentifyBusStop;
-        private System.Windows.Forms.RibbonButton btnExpImgBus;
-        private System.Windows.Forms.RibbonButton ExportBusLineSHP;
-        private System.Windows.Forms.RibbonButton ExportBusStopSHP;
-        private System.Windows.Forms.RibbonButton btnExpXlsBusLine;
-        private System.Windows.Forms.RibbonButton btnExpXlsBusStop;
         private System.Windows.Forms.RibbonPanel ribbonPanel6;
         private System.Windows.Forms.RibbonPanel ribbonPanel7;
         private System.Windows.Forms.RibbonPanel ribbonPanel8;
@@ -932,6 +892,11 @@
         private System.Windows.Forms.ToolStripStatusLabel lblCoords;
         private System.Windows.Forms.RibbonPanel ribbonPanel20;
         private System.Windows.Forms.RibbonButton RoadStatistic;
+        private System.Windows.Forms.RibbonPanel ribbonPanel21;
+        private System.Windows.Forms.RibbonButton RankMap;
+        private System.Windows.Forms.RibbonButton NumMap;
+        private System.Windows.Forms.RibbonButton PointBusLine;
+        private System.Windows.Forms.RibbonButton PointBusStop;
         
     }
 }

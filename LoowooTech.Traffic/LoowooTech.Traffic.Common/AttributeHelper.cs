@@ -98,10 +98,20 @@ namespace LoowooTech.Traffic.Common
         public static DataTable GetTable(IFeatureClass featureClass, string Filter,out Dictionary<int,IFeature> FeatureDict)
         {
             ReadFieldIndexDict(featureClass,"序号");
-            DataTable dataTable = new DataTable(); 
+            Tranlate(featureClass.AliasName.GetAlongName());
+            DataTable dataTable = new DataTable();
+            string temp = string.Empty;
             foreach (var key in IndexDict.Keys)
             {
-                dataTable.Columns.Add(key);
+                if (FieldDict.ContainsKey(key))
+                {
+                    temp = FieldDict[key];
+                }
+                else
+                {
+                    temp = key;
+                }
+                dataTable.Columns.Add(temp);
             }
             IQueryFilter queryFilter = new QueryFilterClass();
             queryFilter.WhereClause = Filter;
@@ -114,11 +124,25 @@ namespace LoowooTech.Traffic.Common
             {
                 FeatureDict.Add(Serial, feature);
                 dataRow = dataTable.NewRow();
-
+                string val = string.Empty;
                 foreach (var key in IndexDict.Keys)
                 {
-                    dataRow[key] = feature.get_Value(IndexDict[key]).ToString();
+                    val=feature.get_Value(IndexDict[key]).ToString();
+                    if (FieldDict.ContainsKey(key))
+                    {
+                        dataRow[FieldDict[key]] = val;
+                    }
+                    else
+                    {
+                        dataRow[key] = val;
+                    }
+                    
                 }
+
+                //foreach (var key in IndexDict.Keys)
+                //{
+                //    dataRow[key] = feature.get_Value(IndexDict[key]).ToString();
+                //}
                 dataRow["序号"] = ++Serial;
                 dataTable.Rows.Add(dataRow);
                 try

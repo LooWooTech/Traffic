@@ -171,85 +171,79 @@ namespace LoowooTech.Traffic.TForms
         #region  地图显示更新
         public void ConditionControlCenter()
         {
+            string WhereClause = string.Empty;
+            string LayerName = string.Empty;
+            IFeatureClass CurrentFeatureClass = null;
             switch (this.dataType)
             {
                 case DataType.Road:
                     RoadFilterWhereClause = toolStripStatusLabel1.Text;
-                    switch (this.inquiryMode)
-                    {
-                        case InquiryMode.Filter://
-                            UpdateBase(RoadName, RoadFilterWhereClause);
-                            break;
-                        case InquiryMode.Search:
-                            ShowResult(RoadFeatureClass,RoadFilterWhereClause);
-                            break;
-                    }
+                    WhereClause = RoadFilterWhereClause;
+                    LayerName = RoadName;
+                    CurrentFeatureClass = RoadFeatureClass;
                     break;
                 case DataType.Parking:
                     ParkingWhereClause = toolStripStatusLabel1.Text;
-                    switch (this.inquiryMode)
-                    {
-                        case InquiryMode.Filter:
-                            UpdateBase(ParkingName, ParkingWhereClause);
-                            break;
-                        case InquiryMode.Search:
-                            ShowResult(ParkingFeatureClass,ParkingWhereClause);
-                            break;
-                    }
+                    WhereClause = ParkingWhereClause;
+                    LayerName = ParkingName;
+                    CurrentFeatureClass = ParkingFeatureClass;
                     break;
                 case DataType.Bike:
                     BikeWhereClause = toolStripStatusLabel1.Text;
-                    switch (this.inquiryMode)
-                    {
-                        case InquiryMode.Filter:
-                            UpdateBase(BikeName, BikeWhereClause);
-                            break;
-                        case InquiryMode.Search:
-                            ShowResult(BikeFeatureClass, BikeWhereClause);
-                            break;
-                    }
+                    WhereClause = BikeWhereClause;
+                    LayerName = BikeName;
+                    CurrentFeatureClass = BikeFeatureClass;
                     break;
                 case DataType.Flow:
                     FlowWhereClause = toolStripStatusLabel1.Text;
-                    switch (this.inquiryMode)
-                    {
-                        case InquiryMode.Filter:
-                            UpdateBase(FlowName, FlowWhereClause);
-                            break;
-                        case InquiryMode.Search:
-                            ShowResult(FlowFeatureClass, FlowWhereClause);
-                            break;
-                    }
+                    WhereClause = FlowWhereClause;
+                    LayerName = FlowName;
+                    CurrentFeatureClass = FlowFeatureClass;
                     break;
                 case DataType.BusLine:
                     BusLineWhereClause = toolStripStatusLabel1.Text;
-                    switch (this.inquiryMode)
-                    {
-                        case InquiryMode.Filter:
-                            UpdateBase(BusLineName, BusLineWhereClause);
-                            break;
-                        case InquiryMode.Search:
-                            ShowResult(BusLineFeatureClass, BusLineWhereClause);
-                            break;
-                    }
+                    WhereClause = BusLineWhereClause;
+                    LayerName = BusLineName;
+                    CurrentFeatureClass = BusLineFeatureClass;
                     break;
                 case DataType.BusStop:
                     BusStopWhereClause = toolStripStatusLabel1.Text;
-                    switch (this.inquiryMode)
-                    {
-                        case InquiryMode.Filter:
-                            UpdateBase(BusStopName, BusStopWhereClause);
-                            break;
-                        case InquiryMode.Search:
-                            ShowResult(BusStopFeatureClass, BusStopWhereClause);
-                            break;
-                    }
+                    //switch (this.inquiryMode)
+                    //{
+                    //    case InquiryMode.Filter:
+                    //        UpdateBase(BusStopName, BusStopWhereClause);
+                    //        break;
+                    //    case InquiryMode.Search:
+                    //        ShowResult(BusStopFeatureClass, BusStopWhereClause);
+                    //        break;
+                    //}
+                    break;
+            }
+            if (this.dataType == DataType.BusLine)
+            {
+                var list = GISHelper.Search(CurrentFeatureClass, WhereClause);
+                BusStopWhereClause = GISHelper.GetBusStopWhereClause(list,  CurrentFeatureClass.Fields.FindField("ShortName"), CurrentFeatureClass.Fields.FindField("lineDirect"));
+                switch (this.inquiryMode)
+                {
+                    case InquiryMode.Filter:
+                        UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass);
+                        break;
+                
+                }
+            }
+            switch (this.inquiryMode)
+            {
+                case InquiryMode.Filter://
+                    UpdateBase(LayerName, WhereClause,CurrentFeatureClass);
+                    break;
+                case InquiryMode.Search:
+                    ShowResult(CurrentFeatureClass, WhereClause);
                     break;
             }
         }
-        private void UpdateBase(string Name,string WhereClause)
+        private void UpdateBase(string Name,string WhereClause,IFeatureClass FeatureClass)
         {
-            var layers = LayerInfoHelper.GetLayers(Name);
+            var CurrentLayerName = Name.GetLayer();
             IFeatureLayer featureLayer = null;
             IFeatureLayerDefinition featureLayerDefinition = null;
             string LayerWhereClause = string.Empty;
@@ -261,49 +255,36 @@ namespace LoowooTech.Traffic.TForms
                     for (var j = 0; j < compositeLayer.Count; j++)
                     {
                         featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
-                        if (layers.Contains(featureLayer.Name))
+                        if (featureLayer.Name == CurrentLayerName)
                         {
                             featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
-                            if (Name == "AROAD")
-                            {
-                                if (string.IsNullOrEmpty(WhereClause))
-                                {
-                                    LayerWhereClause = "RANK ='" + featureLayer.Name + "'";
-                                }
-                                else
-                                {
-                                    LayerWhereClause = "RANK ='" + featureLayer.Name + "' AND " + WhereClause;
-                                }
-                            }
-                            else
-                            {
-                                LayerWhereClause = WhereClause;
-                            }
-                            featureLayerDefinition.DefinitionExpression = LayerWhereClause;
+                            featureLayerDefinition.DefinitionExpression = WhereClause;
+                            break;
                         }
                     }
                 }
             }
+            Center(FeatureClass, WhereClause); 
             axMapControl1.ActiveView.Refresh();
         }
-        /// <summary>
-        /// 根据查询条件 更新路网数据
-        /// </summary>
-        public void UpdateRoad()
-        {
-            if (toolStripStatusLabel1.Text != RoadFilterWhereClause)
-            {
-                RoadFilterWhereClause = toolStripStatusLabel1.Text;
-                UpdateBase(RoadName, RoadFilterWhereClause);
-            }
-        }
+        ///// <summary>
+        ///// 根据查询条件 更新路网数据
+        ///// </summary>
+        //public void UpdateRoad()
+        //{
+        //    if (toolStripStatusLabel1.Text != RoadFilterWhereClause)
+        //    {
+        //        RoadFilterWhereClause = toolStripStatusLabel1.Text;
+        //        UpdateBase(RoadName, RoadFilterWhereClause);
+        //    }
+        //}
         public void UpdateBus()
         {
             switch (dataType)
             {
                 case DataType.BusLine:
-                    UpdateBase(BusLineName, BusLineWhereClause);
-                    UpdateBase(BusStopName, BusStopWhereClause);
+                    //UpdateBase(BusLineName, BusLineWhereClause);
+                    //UpdateBase(BusStopName, BusStopWhereClause);
                     break;
                 case DataType.BusStop:
                     break;
@@ -324,7 +305,7 @@ namespace LoowooTech.Traffic.TForms
             this.axMapControl1.ActiveView.Refresh();
         }
 
-        #region  要素操作
+        #region  要素操作  居中闪烁
         /// <summary>
         /// 要素闪烁
         /// </summary>
@@ -343,29 +324,88 @@ namespace LoowooTech.Traffic.TForms
                     case esriGeometryType.esriGeometryLine:
                         axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleLineSymbol);
                         break;
-                    
                 }
-                
             }
         }
+        #region IFeatureSelection
+        //public void Twinkle(IFeatureLayer FeatureLayer, string WhereClause)
+        //{
+        //    IQueryFilter queryfilter = new QueryFilterClass();
+        //    queryfilter.WhereClause = WhereClause;
+        //    IFeatureSelection featureSelection = FeatureLayer as IFeatureSelection;
+        //    featureSelection.SelectFeatures(queryfilter, esriSelectionResultEnum.esriSelectionResultAnd, false);
+
+        //    axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, axMapControl1.ActiveView.Extent);
+           
+        //    if (featureSelection.SelectionSet.Count > 0)
+        //    {
+        //        IEnumFeature enumFeature = axMapControl1.Map.FeatureSelection as IEnumFeature;
+        //        IFeature Feature = enumFeature.Next();
+        //        IEnvelope envelope = new Envelope() as IEnvelope;
+        //        while (Feature != null)
+        //        {
+        //            envelope.Union(Feature.Extent);
+        //            Feature = enumFeature.Next();
+        //        }
+        //        axMapControl1.ActiveView.Extent = envelope;
+        //        axMapControl1.ActiveView.Refresh();
+        //    }
+        //}
+        #endregion
+
+        public void CenterBase(IEnvelope envelope)
+        {
+            IPoint point = new PointClass();
+            try
+            {
+                point.PutCoords((envelope.XMin + envelope.XMax) / 2, (envelope.YMin + envelope.YMax) / 2);
+            }
+            catch
+            {
+                envelope = axMapControl1.ActiveView.Extent;
+                point.PutCoords((envelope.XMin + envelope.XMax) / 2, (envelope.YMin + envelope.YMax) / 2);
+            }
+            
+            //axMapControl1.CenterAt(point);
+            //居中方法二
+
+
+            var env2 = axMapControl1.ActiveView.Extent;
+            env2.CenterAt(point);
+            axMapControl1.ActiveView.Extent = envelope;//env2  时  当前视图显示范围
+
+            axMapControl1.ActiveView.Refresh();
+        }
         /// <summary>
-        /// 居中
+        /// 居中  一个要素
         /// </summary>
         /// <param name="Feature"></param>
         public void Center(IFeature Feature)
         {
             if (Feature != null)
             {
-                IEnvelope envelope = Feature.Shape.Envelope;
-                IPoint point = new PointClass();
-                point.PutCoords((envelope.XMin + envelope.XMax) / 2, (envelope.YMin + envelope.YMax) / 2);
-                //axMapControl1.CenterAt(point);
-                //居中方法二
-                var env2 = axMapControl1.ActiveView.Extent;
-                env2.CenterAt(point);
-                axMapControl1.ActiveView.Extent = env2;
-                axMapControl1.ActiveView.Refresh();
+                CenterBase(Feature.Shape.Envelope);
             }
+        }
+        /// <summary>
+        /// 居中
+        /// </summary>
+        /// <param name="FeatureClass"></param>
+        /// <param name="WhereClause"></param>
+        public void Center(IFeatureClass FeatureClass, string WhereClause)
+        {
+            IQueryFilter queryfilter = new QueryFilterClass();
+            queryfilter.WhereClause = WhereClause;
+            IFeatureCursor featurecursor = FeatureClass.Search(queryfilter, false);
+            IFeature feature = featurecursor.NextFeature();
+            IEnvelope envelope = new Envelope() as IEnvelope;
+            while (feature != null)
+            {
+                envelope.Union(feature.Extent);
+                feature = featurecursor.NextFeature();
+            }
+            CenterBase(envelope);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featurecursor);
         }
         #endregion
         public void ShowBus()
@@ -592,26 +632,20 @@ namespace LoowooTech.Traffic.TForms
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
             this.dataType = DataType.Road;
         }
-        /// <summary>
-        /// 公交车路线
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PointBusLineButton_Click(object sender, EventArgs e)
+        //公交点选
+        private void PointBusLine_Click(object sender, EventArgs e)
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
             this.dataType = DataType.BusLine;
         }
-        /// <summary>
-        /// 公交车站点
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PointBusStopButton_Click(object sender, EventArgs e)
+
+        //公交站点  点选
+        private void PointBusStop_Click(object sender, EventArgs e)
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
             this.dataType = DataType.BusStop;
         }
+
         /// <summary>
         /// 停车场
         /// </summary>
@@ -890,11 +924,22 @@ namespace LoowooTech.Traffic.TForms
             statisticsForm.ShowDialog();
             
         }
+        //路网统计
         private void RoadStatistic_Click(object sender, EventArgs e)
         {
             SelectForm selectform = new SelectForm();
             selectform.ShowDialog(this);
         }
+
+        //公交路线过滤
+        private void BusFilter_Click(object sender, EventArgs e)
+        {
+            FilterBase(DataType.BusLine, InquiryMode.Filter);
+        }
+
+        
+
+       
 
         
 

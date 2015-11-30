@@ -81,9 +81,9 @@ namespace LoowooTech.Traffic.TForms
             var saveFilePath = FileHelper.Save("保存Excel表格", "2003 xls文件|*.xls|2007 xlsx|*.xlsx");
             if (!string.IsNullOrEmpty(saveFilePath))
             {
-                var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass, "序号");
+                //var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass, "序号");
                 Father.toolStripStatusLabel1.Text = "正在生成文件：" + saveFilePath;
-                ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath, HeadDict);
+                ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath);
                 Father.toolStripStatusLabel1.Text = "文件生成：" + saveFilePath;
             }
             
