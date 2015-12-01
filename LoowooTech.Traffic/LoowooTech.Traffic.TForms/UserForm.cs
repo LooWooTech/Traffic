@@ -24,7 +24,15 @@ namespace LoowooTech.Traffic.TForms
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-            this.dataGridView1.DataSource = AttributeHelper.GetTable(this.List);
+            try
+            {
+                this.dataGridView1.DataSource = AttributeHelper.GetTable(this.List);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            
         }
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)

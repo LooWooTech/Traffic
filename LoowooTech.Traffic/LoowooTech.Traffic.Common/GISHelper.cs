@@ -4,6 +4,7 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
+using LoowooTech.Traffic.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -160,6 +161,12 @@ namespace LoowooTech.Traffic.Common
             }
             
         }
+        /// <summary>
+        /// 一般搜索
+        /// </summary>
+        /// <param name="FeatureClass"></param>
+        /// <param name="WhereClause"></param>
+        /// <returns></returns>
         public static List<IFeature> Search(IFeatureClass FeatureClass, string WhereClause)
         {
             var list = new List<IFeature>();
@@ -167,6 +174,53 @@ namespace LoowooTech.Traffic.Common
             queryFilter.WhereClause = WhereClause;
             IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
             IFeature feature = featureCursor.NextFeature();
+            while (feature != null)
+            {
+                list.Add(feature);
+                feature = featureCursor.NextFeature();
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return list;
+        }
+        
+        /// <summary>
+        /// 空间搜索
+        /// </summary>
+        /// <param name="FeatureClass"></param>
+        /// <param name="geometry"></param>
+        /// <param name="spaceMode"></param>
+        /// <returns></returns>
+        public static List<IFeature> Search(IFeatureClass FeatureClass, IGeometry geometry, SpaceMode spaceMode)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            ISpatialFilter spatialFilter = new SpatialFilterClass();
+            spatialFilter.GeometryField = "shape";
+            spatialFilter.Geometry = geometry;
+            switch (spaceMode)
+            {
+                case SpaceMode.Touches:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelTouches;
+                    break;
+                case SpaceMode.Overlaps:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelOverlaps;
+                    break;
+                case SpaceMode.Intersect:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                    break;
+                case SpaceMode.Crossed:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelCrosses;
+                    break;
+                case SpaceMode.Contains:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
+                    break;
+                case SpaceMode.Within:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin;
+                    break;
+            }
+            queryFilter = spatialFilter as IQueryFilter;
+            IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
+            IFeature feature = featureCursor.NextFeature();
+            var list = new List<IFeature>();
             while (feature != null)
             {
                 list.Add(feature);
@@ -198,14 +252,18 @@ namespace LoowooTech.Traffic.Common
                 IRow row = cursor.NextRow();
                 while (row != null)
                 {
-                    if (field.Type == esriFieldType.esriFieldTypeString)
+                    if (!string.IsNullOrEmpty(row.get_Value(0).ToString()))
                     {
-                        list.Add("'" + row.get_Value(0).ToString() + "'");
+                        if (field.Type == esriFieldType.esriFieldTypeString)
+                        {
+                            list.Add("'" + row.get_Value(0).ToString() + "'");
+                        }
+                        else
+                        {
+                            list.Add(row.get_Value(0).ToString());
+                        }
                     }
-                    else
-                    {
-                        list.Add(row.get_Value(0).ToString());
-                    }
+                    
                     row = cursor.NextRow();
                 }
             }
@@ -218,32 +276,87 @@ namespace LoowooTech.Traffic.Common
             var valList = GetUniqueValue(FeatureClass, LabelName);//获取标注字段的唯一值
             foreach (var val in valList)
             {
-                if (!dict.ContainsKey(val))
+                if (!dict.ContainsKey(val)&&!string.IsNullOrEmpty(val))
                 {
                     dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val));
                 }
             }
             return dict;
         }
+        public static Dictionary<string, double> Statistic(IFeatureClass FeatureClass, StatisticMode Mode)
+        {
+            var dict = new Dictionary<string, double>();
+            var list = LayerInfoHelper.GetStatistic(Mode.GetDescription());
+            foreach (var item in list)
+            {
+                if (!dict.ContainsKey(item) && !string.IsNullOrEmpty(item))
+                {
+                    dict.Add(item, Statistic2(FeatureClass, "LENGTH", "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'","DISTRICT='"+item+"' AND RANK='快速路'"));
+                }
+            }
+            return dict;
+        }
 
-        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause)
+        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause,string WhereClause2=null)
         {
             IQueryFilter queryFilter = new QueryFilterClass();
             queryFilter.WhereClause = WhereClause;
             IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
             ICursor cursor = featureCursor as ICursor;
             double statisticVal = 0.0;
+            IDataStatistics dataStatistic;
+            IStatisticsResults statisticsResluts;
             if (cursor != null)
             {
-                IDataStatistics dataStatistic = new DataStatisticsClass();
+                dataStatistic = new DataStatisticsClass();
                 dataStatistic.Cursor = cursor;
                 dataStatistic.Field = FieldName;
-                IStatisticsResults statisticsResluts = dataStatistic.Statistics;
+                statisticsResluts = dataStatistic.Statistics;
                 statisticVal=statisticsResluts.Sum;
+            }
+            if (!string.IsNullOrEmpty(WhereClause2))
+            {
+                queryFilter.WhereClause = WhereClause2;
+                featureCursor = FeatureClass.Search(queryFilter, false);
+                cursor = featureCursor as ICursor;
+                if (cursor != null)
+                {
+                    dataStatistic = new DataStatisticsClass();
+                    dataStatistic.Cursor = cursor;
+                    dataStatistic.Field = FieldName;
+                    statisticsResluts = dataStatistic.Statistics;
+                    statisticVal -= statisticsResluts.Sum / 2;
+                }
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return statisticVal;
         }
+
+        public static string GetBusStopWhereClause(List<IFeature> List, int Index1,int Index2)
+        {
+            string WhereClause = string.Empty;
+            string lineNameshort = string.Empty;
+            string lineDirect = string.Empty;
+            foreach (var feature in List)
+            {
+                lineNameshort = feature.get_Value(Index1).ToString();
+                lineDirect = feature.get_Value(Index2).ToString();
+                if (!string.IsNullOrEmpty(lineNameshort)&&!string.IsNullOrEmpty(lineDirect))
+                {
+                    if (string.IsNullOrEmpty(WhereClause))
+                    {
+                        WhereClause += "lineNameshort = " + lineNameshort + " AND lineDirect = " + lineDirect + " ";
+                    }
+                    else
+                    {
+                        WhereClause += "OR lineNameshort = " + lineNameshort + " AND lineDirect = " + lineDirect + " "; 
+                    }
+                }
+            }
+            return WhereClause;
+        }
+        
+        
         
 
     }

@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace LoowooTech.Traffic.TForms
 {
-    public delegate void EventOperator(IGeometry geometry);
+    
     public partial class Form1 : Form
     {
         #region  初始化
@@ -669,7 +669,8 @@ namespace LoowooTech.Traffic.TForms
         #region 统计
         private void StatisticParkingButton_Click(object sender, EventArgs e)
         {
-            StatisticsForm statisticform = new StatisticsForm(ParkingFeatureClass,ParkingWhereClause,"ZHENGQU","BERTHNUM");
+            var dict = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", "BERTHNUM");
+            StatisticsForm statisticform = new StatisticsForm(dict,"");
             statisticform.ShowDialog();
         }
 

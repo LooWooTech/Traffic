@@ -15,7 +15,7 @@ namespace LoowooTech.Traffic.TForms
     {
         private IFeatureClass FeatureClass { get; set; }
         private string WhereClause { get; set; }
-        private Form1 Father { get; set; }
+        private MainForm Father { get; set; }
         private Dictionary<int, IFeature> FeatureDict { get; set; }
         public AttributeForm2(IFeatureClass featureClass, string WhereClause)
         {
@@ -30,7 +30,7 @@ namespace LoowooTech.Traffic.TForms
 
         private void AttributeForm2_Load(object sender, EventArgs e)
         {
-            Father = (Form1)this.Owner;
+            Father = (MainForm)this.Owner;
             if (FeatureClass != null)
             {
                 Dictionary<int, IFeature> temp;
@@ -81,9 +81,9 @@ namespace LoowooTech.Traffic.TForms
             var saveFilePath = FileHelper.Save("保存Excel表格", "2003 xls文件|*.xls|2007 xlsx|*.xlsx");
             if (!string.IsNullOrEmpty(saveFilePath))
             {
-                var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass, "序号");
+                //var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass, "序号");
                 Father.toolStripStatusLabel1.Text = "正在生成文件：" + saveFilePath;
-                ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath, HeadDict);
+                ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath);
                 Father.toolStripStatusLabel1.Text = "文件生成：" + saveFilePath;
             }
             

@@ -11,7 +11,7 @@ namespace LoowooTech.Traffic.TForms
 {
     public partial class BusFilterForm : Form
     {
-        private Form1 Father { get; set; }
+        private MainForm Father { get; set; }
         public BusFilterForm()
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace LoowooTech.Traffic.TForms
             else
             {
                 Father.BusLineWhereClause = "nameshort='" + textBox1.Text + "'";
-                Father.BusStopWhereClause = "lineNameshort='" + textBox1.Text + "'";
+                Father.BusStopWhereClause = "stopName='" + textBox1.Text + "'";
             }
             Father.UpdateBus();
             Father.ShowBus();
@@ -37,7 +37,7 @@ namespace LoowooTech.Traffic.TForms
 
         private void BusFilterForm_Load(object sender, EventArgs e)
         {
-            this.Father = (Form1)this.Owner;
+            this.Father = (MainForm)this.Owner;
         }
 
 

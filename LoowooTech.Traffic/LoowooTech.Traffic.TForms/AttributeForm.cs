@@ -18,7 +18,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeature Feature { get; set; }
         private IFeatureClass FeatureClass { get; set; }
         private string LayerName { get; set; }
-        private Form1 Father { get; set; }
+        private MainForm Father { get; set; }
         public AttributeForm(IFeature feature,IFeatureClass featureClass,string LayerName)
         {
             InitializeComponent();
@@ -36,7 +36,7 @@ namespace LoowooTech.Traffic.TForms
             if (Feature != null && !string.IsNullOrEmpty(Name))
             {
                 dataGridView1.DataSource = AttributeHelper.GetTable(FeatureClass, Feature, LayerName);
-                Father = (Form1)this.Owner;
+                Father = (MainForm)this.Owner;
             }
         }
 

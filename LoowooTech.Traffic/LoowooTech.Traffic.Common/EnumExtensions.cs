@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoowooTech.Traffic.Models;
+using System;
 using System.ComponentModel;
 
 namespace LoowooTech.Traffic.Common
@@ -11,6 +12,19 @@ namespace LoowooTech.Traffic.Common
             if (field == null) return null;
             var attribut = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
             return attribut == null ? value.ToString() : attribut.Description;
+        }
+
+        public static StatisticMode GetEnum(this string Description)
+        {
+            foreach (StatisticMode mode in Enum.GetValues(typeof(StatisticMode)))
+            {
+                if (mode.GetDescription() == Description)
+                {
+                    return mode;
+                }
+            }
+            return StatisticMode.All;
+            
         }
     }
 }

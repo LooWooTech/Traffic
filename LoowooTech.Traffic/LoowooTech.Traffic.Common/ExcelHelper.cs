@@ -14,16 +14,20 @@ namespace LoowooTech.Traffic.Common
 {
     public static class ExcelHelper
     {
-        public static bool SaveExcel(DataTable DataTable, string FilePath,Dictionary<string,int> HeadDict)
+        public static bool SaveExcel(DataTable DataTable, string FilePath)
         {
             IWorkbook workbook = CreateWorkBook(FilePath);
             ISheet sheet = workbook.CreateSheet("Sheet1");
             NPOI.SS.UserModel.IRow row=sheet.CreateRow(0);
             int Serial = 0;
-            foreach (var key in HeadDict.Keys)
+            foreach (var item in DataTable.Columns)
             {
-                row.CreateCell(Serial++).SetCellValue(key);
+                row.CreateCell(Serial++).SetCellValue(item.ToString());
             }
+            //foreach (var key in HeadDict.Keys)
+            //{
+            //    row.CreateCell(Serial++).SetCellValue(key);
+            //}
             var columnCount = DataTable.Columns.Count;
             var RowCount = DataTable.Rows.Count;
             for (var i = 0; i < RowCount; i++)
@@ -43,9 +47,18 @@ namespace LoowooTech.Traffic.Common
             ISheet sheet = workbook.CreateSheet("Sheet1");
             NPOI.SS.UserModel.IRow row = sheet.CreateRow(0);
             int serial = 0;
+            var dict = LayerInfoHelper.GetLayerDictionary(FeatureClass.AliasName.GetAlongName());
             foreach (var key in HeadDict.Keys)
             {
-                row.CreateCell(serial++).SetCellValue(key);
+                if (dict.ContainsKey(key))
+                {
+                    row.CreateCell(serial++).SetCellValue(dict[key]);
+                }
+                else
+                {
+                    row.CreateCell(serial++).SetCellValue(key);
+                }
+                
             }
             int Index = 1;
             IQueryFilter queryFilter = new QueryFilterClass();

@@ -16,7 +16,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass FeatureClass { get; set; }
         private IFeatureClass BusStopFeatureClass { get; set; }
         private string WhereClause { get; set; }
-        private Form1 Father { get; set; }
+        private MainForm Father { get; set; }
         private Dictionary<int, IFeature> FeatureDict { get; set; }
         private int IndexDirect { get; set; }
         private int IndexNameShort { get; set; }
@@ -37,7 +37,7 @@ namespace LoowooTech.Traffic.TForms
 
         private void BusResultForm_Load(object sender, EventArgs e)
         {
-            Father = (Form1)this.Owner;
+            Father = (MainForm)this.Owner;
             if (FeatureClass != null)
             {
                 Dictionary<int, IFeature> temp;
@@ -132,9 +132,9 @@ namespace LoowooTech.Traffic.TForms
         private void ExportExcel_Click(object sender, EventArgs e)
         {
             var saveFilePath = FileHelper.Save("保存Excel表格", "2003 xls文件|*.xls|2007 xlsx|*.xlsx");
-            var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass, "序号");
+            //var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass, "序号");
             Father.toolStripStatusLabel1.Text = "正在生成文件：" + saveFilePath;
-            ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath, HeadDict);
+            ExcelHelper.SaveExcel(dataGridView1.DataSource as DataTable, saveFilePath);
             Father.toolStripStatusLabel1.Text = "文件生成：" + saveFilePath;
         }
 

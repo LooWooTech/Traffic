@@ -20,7 +20,7 @@ namespace LoowooTech.Traffic.TForms
         private Dictionary<string, int> RelationDict { get; set; }
         private IGeometry geometry { get; set; }
         private IFeature Feature { get; set; }
-        private Form1 Father { get; set; } 
+        private MainForm Father { get; set; } 
         private Label[] Labels { get; set; }
         private TextBox[] TextBoxs { get; set; }
         public OperateForm(IFeatureClass FeatureClass,IGeometry geometry)
@@ -135,7 +135,7 @@ namespace LoowooTech.Traffic.TForms
 
         private void OperateForm_Load(object sender, EventArgs e)
         {
-            this.Father = (Form1)this.Owner;
+            this.Father = (MainForm)this.Owner;
         }
     }
 }

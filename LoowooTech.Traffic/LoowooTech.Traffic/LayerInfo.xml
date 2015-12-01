@@ -2,6 +2,7 @@
 <Layers>
   <Layer Name="AROAD">
     <Field Name="NAME" Label="名称"></Field>
+    <Field Name="TYPENO" Label="模型分类"></Field>
     <Field Name="LENGTH" Label="长度"></Field>
     <Field Name="DISTRICT" Label="所属区县"></Field>
     <Field Name="F_NAME" Label="前一相交道路名称"></Field>
@@ -16,13 +17,14 @@
     <Field Name="G_ZONE_ID" Label="大区"></Field>
     <Field Name="IS_SINGLE" Label="道路级别"></Field>
   </Layer>
-  <Layer Name="">
-    <Field Name="" Label=""></Field>
-    <Field Name="" Label=""></Field>
-    <Field Name="" Label=""></Field>
+  <Layer Name="BUSLINE">
+    <Field Name="LineName" Label="线路名称"></Field>
+    <Field Name="lineDirect" Label="方向"></Field>
+    <Field Name="lineclass" Label="线路等级"></Field>
   </Layer>
   <Way Type="AROAD">
-    <Children Name="高速公路"></Children>
+    <Children Name="路网"></Children>
+    <!--<Children Name="高速公路"></Children>
     <Children Name="快速路"></Children>
     <Children Name="匝道"></Children>
     <Children Name="一级公路"></Children>
@@ -33,7 +35,7 @@
     <Children Name="次干路"></Children>
     <Children Name="次要支路"></Children>
     <Children Name="三级公路"></Children>
-    <Children Name="连杆道路"></Children>
+    <Children Name="连杆道路"></Children>-->
   </Way>
   <Way Type="BUSLINE">
     <Children Name="公交路线"></Children>
@@ -50,4 +52,40 @@
   <Way Type="FLOW">
     <Children Name="交通流量"></Children>
   </Way>
+  <Statistics Name="六片区">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+  </Statistics>
+  <Statistics Name="错峰限行">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+  </Statistics>
+  <Statistics Name="老城区">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="下沙区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+  </Statistics>
+  <Statistics Name="全市区">
+    <Statistic Name="西湖区"></Statistic>
+    <Statistic Name="上城区"></Statistic>
+    <Statistic Name="下城区"></Statistic>
+    <Statistic Name="江干区"></Statistic>
+    <Statistic Name="下沙区"></Statistic>
+    <Statistic Name="滨江区"></Statistic>
+    <Statistic Name="拱墅区"></Statistic>
+    <Statistic Name="萧山区"></Statistic>
+    <Statistic Name="余杭区"></Statistic>
+  </Statistics>
 </Layers>
