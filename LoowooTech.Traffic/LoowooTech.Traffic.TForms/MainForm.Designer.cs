@@ -53,10 +53,17 @@
             this.ribbonButton24 = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
             this.RoadStatistic = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel21 = new System.Windows.Forms.RibbonPanel();
+            this.RankMap = new System.Windows.Forms.RibbonButton();
+            this.NumMap = new System.Windows.Forms.RibbonButton();
             this.ribbonTab2 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel4 = new System.Windows.Forms.RibbonPanel();
             this.BusFilter = new System.Windows.Forms.RibbonButton();
+            this.RegionFilter = new System.Windows.Forms.RibbonButton();
+            this.BusWayFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel5 = new System.Windows.Forms.RibbonPanel();
+            this.PointBusLine = new System.Windows.Forms.RibbonButton();
+            this.PointBusStop = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel18 = new System.Windows.Forms.RibbonPanel();
             this.btnFilterBusline = new System.Windows.Forms.RibbonButton();
             this.btnFilterBusStop = new System.Windows.Forms.RibbonButton();
@@ -112,11 +119,6 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.ribbonPanel21 = new System.Windows.Forms.RibbonPanel();
-            this.RankMap = new System.Windows.Forms.RibbonButton();
-            this.NumMap = new System.Windows.Forms.RibbonButton();
-            this.PointBusLine = new System.Windows.Forms.RibbonButton();
-            this.PointBusStop = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -332,6 +334,24 @@
             this.RoadStatistic.Text = "相关统计";
             this.RoadStatistic.Click += new System.EventHandler(this.RoadStatistic_Click);
             // 
+            // ribbonPanel21
+            // 
+            this.ribbonPanel21.Items.Add(this.RankMap);
+            this.ribbonPanel21.Items.Add(this.NumMap);
+            this.ribbonPanel21.Text = "底图";
+            // 
+            // RankMap
+            // 
+            this.RankMap.Image = ((System.Drawing.Image)(resources.GetObject("RankMap.Image")));
+            this.RankMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RankMap.SmallImage")));
+            this.RankMap.Text = "等级图";
+            // 
+            // NumMap
+            // 
+            this.NumMap.Image = ((System.Drawing.Image)(resources.GetObject("NumMap.Image")));
+            this.NumMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("NumMap.SmallImage")));
+            this.NumMap.Text = "车道图";
+            // 
             // ribbonTab2
             // 
             this.ribbonTab2.Panels.Add(this.ribbonPanel4);
@@ -342,6 +362,8 @@
             // ribbonPanel4
             // 
             this.ribbonPanel4.Items.Add(this.BusFilter);
+            this.ribbonPanel4.Items.Add(this.RegionFilter);
+            this.ribbonPanel4.Items.Add(this.BusWayFilter);
             this.ribbonPanel4.Text = "过滤";
             // 
             // BusFilter
@@ -351,11 +373,38 @@
             this.BusFilter.Text = "公交路线过滤";
             this.BusFilter.Click += new System.EventHandler(this.BusFilter_Click);
             // 
+            // RegionFilter
+            // 
+            this.RegionFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.RegionFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("RegionFilter.SmallImage")));
+            this.RegionFilter.Text = "区域过滤";
+            this.RegionFilter.Click += new System.EventHandler(this.RegionFilter_Click);
+            // 
+            // BusWayFilter
+            // 
+            this.BusWayFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BusWayFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusWayFilter.SmallImage")));
+            this.BusWayFilter.Text = "道路过滤";
+            // 
             // ribbonPanel5
             // 
             this.ribbonPanel5.Items.Add(this.PointBusLine);
             this.ribbonPanel5.Items.Add(this.PointBusStop);
             this.ribbonPanel5.Text = "查询";
+            // 
+            // PointBusLine
+            // 
+            this.PointBusLine.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.PointBusLine.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.PointBusLine.Text = "公交路线点选查询";
+            this.PointBusLine.Click += new System.EventHandler(this.PointBusLine_Click);
+            // 
+            // PointBusStop
+            // 
+            this.PointBusStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.PointBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("PointBusStop.SmallImage")));
+            this.PointBusStop.Text = "公交站点点选查询";
+            this.PointBusStop.Click += new System.EventHandler(this.PointBusStop_Click);
             // 
             // ribbonPanel18
             // 
@@ -746,38 +795,7 @@
             this.axMapControl1.TabIndex = 12;
             this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
-            // 
-            // ribbonPanel21
-            // 
-            this.ribbonPanel21.Items.Add(this.RankMap);
-            this.ribbonPanel21.Items.Add(this.NumMap);
-            this.ribbonPanel21.Text = "底图";
-            // 
-            // RankMap
-            // 
-            this.RankMap.Image = ((System.Drawing.Image)(resources.GetObject("RankMap.Image")));
-            this.RankMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RankMap.SmallImage")));
-            this.RankMap.Text = "等级图";
-            // 
-            // NumMap
-            // 
-            this.NumMap.Image = ((System.Drawing.Image)(resources.GetObject("NumMap.Image")));
-            this.NumMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("NumMap.SmallImage")));
-            this.NumMap.Text = "车道图";
-            // 
-            // PointBusLine
-            // 
-            this.PointBusLine.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.PointBusLine.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.PointBusLine.Text = "公交路线点选查询";
-            this.PointBusLine.Click += new System.EventHandler(this.PointBusLine_Click);
-            // 
-            // PointBusStop
-            // 
-            this.PointBusStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.PointBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("PointBusStop.SmallImage")));
-            this.PointBusStop.Text = "公交站点点选查询";
-            this.PointBusStop.Click += new System.EventHandler(this.PointBusStop_Click);
+            this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
             // 
             // MainForm
             // 
@@ -897,6 +915,8 @@
         private System.Windows.Forms.RibbonButton NumMap;
         private System.Windows.Forms.RibbonButton PointBusLine;
         private System.Windows.Forms.RibbonButton PointBusStop;
+        private System.Windows.Forms.RibbonButton RegionFilter;
+        private System.Windows.Forms.RibbonButton BusWayFilter;
         
     }
 }

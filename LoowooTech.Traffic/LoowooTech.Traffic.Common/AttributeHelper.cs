@@ -25,13 +25,11 @@ namespace LoowooTech.Traffic.Common
         {
             IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,AddFieldName);
         }
-
         private static void Tranlate(string LayerName)
         {
             FieldDict = LayerInfoHelper.GetLayerDictionary(LayerName);
         }
-
-        public static IArray Identify(IFeatureClass featureClass, IGeometry geometry)
+        public static IArray Identify(IFeatureClass featureClass, IGeometry geometry,string WhereClause)
         {
             if (geometry == null)
             {
@@ -44,6 +42,9 @@ namespace LoowooTech.Traffic.Common
             }
             IFeatureLayer featureLayer = new FeatureLayerClass();
             featureLayer.FeatureClass = featureClass;
+            IFeatureLayerDefinition featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
+            featureLayerDefinition.DefinitionExpression = WhereClause;
+            IFeatureLayer newfeatureLayer = featureLayerDefinition.CreateSelectionLayer(featureClass.AliasName, false, null, WhereClause);
             IIdentify identify = featureLayer as IIdentify;
             IArray identifyObjs = identify.Identify(geometry);
             return identifyObjs;
@@ -95,7 +96,7 @@ namespace LoowooTech.Traffic.Common
             }
             return dataTable;
         }
-        public static DataTable GetTable(IFeatureClass featureClass, string Filter,out Dictionary<int,IFeature> FeatureDict)
+        public static DataTable GetTable(IFeatureClass featureClass, string Filter,out Dictionary<int,IFeature> FeatureDict,IGeometry geometry=null,SpaceMode mode=SpaceMode.Intersect)
         {
             ReadFieldIndexDict(featureClass,"序号");
             Tranlate(featureClass.AliasName.GetAlongName());
@@ -113,21 +114,27 @@ namespace LoowooTech.Traffic.Common
                 }
                 dataTable.Columns.Add(temp);
             }
-            IQueryFilter queryFilter = new QueryFilterClass();
-            queryFilter.WhereClause = Filter;
-            IFeatureCursor featureCursor = featureClass.Search(queryFilter, false);
-            IFeature feature = featureCursor.NextFeature();
+            List<IFeature> FeatureList = null;
+            if (geometry == null)
+            {
+                FeatureList = GISHelper.Search(featureClass, Filter);
+            }
+            else
+            {
+                FeatureList = GISHelper.Search(featureClass, geometry, mode);
+            }
+            
             DataRow dataRow = null;
             int Serial = 0;
             FeatureDict = new Dictionary<int, IFeature>();
-            while (feature != null)
+            foreach (var feature in FeatureList)
             {
                 FeatureDict.Add(Serial, feature);
                 dataRow = dataTable.NewRow();
                 string val = string.Empty;
                 foreach (var key in IndexDict.Keys)
                 {
-                    val=feature.get_Value(IndexDict[key]).ToString();
+                    val = feature.get_Value(IndexDict[key]).ToString();
                     if (FieldDict.ContainsKey(key))
                     {
                         dataRow[FieldDict[key]] = val;
@@ -136,27 +143,10 @@ namespace LoowooTech.Traffic.Common
                     {
                         dataRow[key] = val;
                     }
-                    
                 }
-
-                //foreach (var key in IndexDict.Keys)
-                //{
-                //    dataRow[key] = feature.get_Value(IndexDict[key]).ToString();
-                //}
                 dataRow["序号"] = ++Serial;
                 dataTable.Rows.Add(dataRow);
-                try
-                {
-                   
-                    
-                }
-                catch
-                {
-                    
-                }
-                feature = featureCursor.NextFeature();
             }
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return dataTable;
         }
         public static DataTable GetTable(IFeatureClass featureClass, IFeature feature, string LayerName)

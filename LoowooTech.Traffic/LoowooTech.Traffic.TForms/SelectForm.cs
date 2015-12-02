@@ -14,17 +14,23 @@ namespace LoowooTech.Traffic.TForms
     public partial class SelectForm : Form
     {
         private MainForm Father { get; set; }
+        private List<string> ValuesList { get; set; }
         public SelectForm()
         {
             InitializeComponent();
+        }
+        public SelectForm(List<string> List)
+        {
+            InitializeComponent();
+            this.ValuesList = List;
         }
 
         private void SelectForm_Load(object sender, EventArgs e)
         {
             Father = this.Owner as MainForm;
-            foreach (StatisticMode mode in Enum.GetValues(typeof(StatisticMode)))
+            foreach (var item in this.ValuesList)
             {
-                comboBox1.Items.Add(mode.GetDescription());
+                comboBox1.Items.Add(item);
             }
         }
 
@@ -32,7 +38,11 @@ namespace LoowooTech.Traffic.TForms
         {
             if (comboBox1.SelectedItem != null)
             {
-                Father.StatisticBase(comboBox1.SelectedItem.ToString());
+                if (Father.inquiryMode == InquiryMode.Statistic)
+                {
+                    Father.StatisticBase(comboBox1.SelectedItem.ToString());
+                }
+                
             }
             this.Close();
         }

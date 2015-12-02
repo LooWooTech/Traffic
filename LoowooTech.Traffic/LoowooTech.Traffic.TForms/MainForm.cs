@@ -33,7 +33,6 @@ namespace LoowooTech.Traffic.TForms
             }
 
         }
-
         private void btnPan_Click(object sender, EventArgs e)
         {
             UncheckAllButtons(sender);
@@ -41,7 +40,6 @@ namespace LoowooTech.Traffic.TForms
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
         }
-
         private void btnZoomIn_Click(object sender, EventArgs e)
         {
             UncheckAllButtons(sender);
@@ -50,7 +48,6 @@ namespace LoowooTech.Traffic.TForms
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
         }
-
         private void btnZoomOut_Click(object sender, EventArgs e)
         {
             UncheckAllButtons(sender);
@@ -59,17 +56,14 @@ namespace LoowooTech.Traffic.TForms
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
         }
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             axMapControl1.Refresh();
         }
-
         private void btnGlobe_Click(object sender, EventArgs e)
         {
             axMapControl1.Extent = axMapControl1.FullExtent;
         }
-
         private void btnIdentify_Click(object sender, EventArgs e)
         {
             UncheckAllButtons(sender);
@@ -78,7 +72,6 @@ namespace LoowooTech.Traffic.TForms
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
         }
-
         private void btnPointer_Click(object sender, EventArgs e)
         {
             UncheckAllButtons(sender);
@@ -87,7 +80,6 @@ namespace LoowooTech.Traffic.TForms
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
         }
-
         #region  初始化
         private string MXDPath { get; set; }
         private string RoadName { get; set; }
@@ -96,6 +88,7 @@ namespace LoowooTech.Traffic.TForms
         private string ParkingName { get; set; }
         private string BikeName { get; set; }
         private string FlowName { get; set; }
+        private string XZQName { get; set; }
         public  string RoadFilterWhereClause { get; set; }
         public string BusLineWhereClause { get; set; }
         public string BusStopWhereClause { get; set; }
@@ -108,6 +101,8 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass ParkingFeatureClass { get; set; }
         private IFeatureClass BikeFeatureClass { get; set; }
         private IFeatureClass FlowFeatureClass { get; set; }
+        private IFeatureClass XZQFeatureClass { get; set; }
+        private INewPolygonFeedback newPolygonFeedback { get; set; }
         private bool RoadFlag { get; set; }
         public  InquiryMode inquiryMode { get; set; }
         public DataType dataType { get; set; }
@@ -126,6 +121,7 @@ namespace LoowooTech.Traffic.TForms
             ParkingName = System.Configuration.ConfigurationManager.AppSettings["PARKING"];
             BikeName = System.Configuration.ConfigurationManager.AppSettings["BIKE"];
             FlowName = System.Configuration.ConfigurationManager.AppSettings["FLOW"];
+            XZQName = System.Configuration.ConfigurationManager.AppSettings["XZQ"];
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
@@ -155,10 +151,7 @@ namespace LoowooTech.Traffic.TForms
             ParkingFeatureClass = SDEManager.GetFeatureClass(ParkingName);
             BikeFeatureClass = SDEManager.GetFeatureClass(BikeName);
             FlowFeatureClass = SDEManager.GetFeatureClass(FlowName);
-            /*if (RoadFeatureClass == null||BusLineFeatureClass==null||BusStopFeatureClass==null||ParkingFeatureClass==null||BikeFeatureClass==null||FlowFeatureClass==null)
-            {
-                MessageBox.Show("未获取服务器上相关路网数据，请核对是否连接服务器.......");
-            }*/
+            XZQFeatureClass = SDEManager.GetFeatureClass(XZQName);
             if (Splash != null)
             {
                 Splash.panel1.Visible = true;
@@ -208,15 +201,6 @@ namespace LoowooTech.Traffic.TForms
                     break;
                 case DataType.BusStop:
                     BusStopWhereClause = toolStripStatusLabel1.Text;
-                    //switch (this.inquiryMode)
-                    //{
-                    //    case InquiryMode.Filter:
-                    //        UpdateBase(BusStopName, BusStopWhereClause);
-                    //        break;
-                    //    case InquiryMode.Search:
-                    //        ShowResult(BusStopFeatureClass, BusStopWhereClause);
-                    //        break;
-                    //}
                     break;
             }
             if (this.dataType == DataType.BusLine)
@@ -239,33 +223,28 @@ namespace LoowooTech.Traffic.TForms
                 case InquiryMode.Search:
                     ShowResult(CurrentFeatureClass, WhereClause);
                     break;
+                case InquiryMode.Region:
+
+                    break;
+                case InquiryMode.Way:
+                    break;
             }
         }
         private void UpdateBase(string Name,string WhereClause,IFeatureClass FeatureClass)
         {
             var CurrentLayerName = Name.GetLayer();
-            IFeatureLayer featureLayer = null;
-            IFeatureLayerDefinition featureLayerDefinition = null;
-            string LayerWhereClause = string.Empty;
-            for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            IFeatureLayer featureLayer = GetFeatureLayer(CurrentLayerName);
+            if (featureLayer != null)
             {
-                if (axMapControl1.Map.get_Layer(i) is GroupLayer)
-                {
-                    ICompositeLayer compositeLayer = axMapControl1.Map.get_Layer(i) as ICompositeLayer;
-                    for (var j = 0; j < compositeLayer.Count; j++)
-                    {
-                        featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
-                        if (featureLayer.Name == CurrentLayerName)
-                        {
-                            featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
-                            featureLayerDefinition.DefinitionExpression = WhereClause;
-                            break;
-                        }
-                    }
-                }
+                IFeatureLayerDefinition featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
+                featureLayerDefinition.DefinitionExpression = WhereClause;
+                Center(FeatureClass, WhereClause);
+                axMapControl1.ActiveView.Refresh();
             }
-            Center(FeatureClass, WhereClause); 
-            axMapControl1.ActiveView.Refresh();
+            
+
+          
+            
         }
         ///// <summary>
         ///// 根据查询条件 更新路网数据
@@ -555,6 +534,39 @@ namespace LoowooTech.Traffic.TForms
         }
         #endregion
 
+        #region  地图点击 移动 双击
+
+        private IFeatureLayer GetFeatureLayer(string LayerName)
+        {
+            IFeatureLayer featureLayer = null;
+            for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            {
+                if (axMapControl1.Map.get_Layer(i) is GroupLayer)
+                {
+                    ICompositeLayer compositeLayer = axMapControl1.Map.get_Layer(i) as ICompositeLayer;
+                    for (var j = 0; j < compositeLayer.Count; j++)
+                    {
+                        featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
+                        if (featureLayer.Name == LayerName)
+                        {
+                            return featureLayer;
+                        }
+                    }
+                }
+                else
+                {
+                    featureLayer = axMapControl1.get_Layer(i) as IFeatureLayer;
+                    if (featureLayer.Name == LayerName)
+                    {
+                        return featureLayer;
+                    }
+                }
+
+            }
+            return featureLayer;
+        }
+
+        //点击
         private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
         {
             IPoint point = new PointClass();
@@ -568,43 +580,115 @@ namespace LoowooTech.Traffic.TForms
             {
                 this.Invoke(new EventOperator(Operate), new[] { geometry });
             }
+            else if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerCrosshair)
+            {
+                if (newPolygonFeedback == null)
+                {
+                    axMapControl1.Map.ClearSelection();
+                    newPolygonFeedback = new NewPolygonFeedbackClass();
+                    newPolygonFeedback.Display = axMapControl1.ActiveView.ScreenDisplay;
+                    newPolygonFeedback.Start(point);
+                }
+                else
+                {
+                    newPolygonFeedback.AddPoint(point);
+                }
+            }
         }
+        //移动
+        private void axMapControl1_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
+        {
+            lblCoords.Text = string.Format("{0:#.#####},{1:#.#####}", e.mapX, e.mapY);
+            if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerCrosshair)
+            {
+                IPoint point = new PointClass();
+                point.PutCoords(e.mapX, e.mapY);
+                if (newPolygonFeedback != null)
+                {
+                    newPolygonFeedback.MoveTo(point);
+                }
+            }
+        }
+
+        //双击
+        private void axMapControl1_OnDoubleClick(object sender, IMapControlEvents2_OnDoubleClickEvent e)
+        {
+            if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerCrosshair)
+            {
+                IPoint point = new PointClass();
+                point.PutCoords(e.mapX, e.mapY);
+                newPolygonFeedback.AddPoint(point);
+                IPolygon polygon = newPolygonFeedback.Stop();
+                newPolygonFeedback = null;
+                this.Invoke(new EventOperator(Analyze), new[] { polygon as IGeometry });
+            }
+        }
+        #endregion
 
         #region  点选  路网 公交路线  公交站点  停车场
 
-       
+        private void Analyze(IGeometry geometry)
+        {
+            ISpatialFilter spatialFilter = new SpatialFilterClass();
+            spatialFilter.Geometry = geometry;
+            spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+            //获取与公交路线相交
+            IFeatureLayer featureLayer = GetFeatureLayer(BusLineName.GetLayer());
+            IFeatureSelection featureSelection = featureLayer as IFeatureSelection;
+            featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
+            var buslineresult = new AttributeForm2(featureLayer.FeatureClass,geometry,SpaceMode.Intersect,"当前区域内公交路线");
+            buslineresult.Show(this);
+            //获取 包含的公交站点
+            spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
+            IFeatureLayer BusStopFeatureLayer = GetFeatureLayer(BusStopName.GetLayer());
+            featureSelection = BusStopFeatureLayer as IFeatureSelection;
+            featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
+            var busstopresult = new AttributeForm2(BusStopFeatureLayer.FeatureClass, geometry, SpaceMode.Contains, "当前区域内公交站点");
+            busstopresult.Show(this);
+            axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, axMapControl1.ActiveView.Extent);
+
+        }
+
         private void ShowAttribute(IGeometry geometry)
         {
             IFeatureClass CurrentFeatureClass = null;
             string LayerName = string.Empty;
+            string whereClause = string.Empty;
             switch (dataType)
             {
                 case DataType.Road:
                     LayerName = RoadName;
                     CurrentFeatureClass = RoadFeatureClass;
+                    whereClause = RoadFilterWhereClause;
                     break;
                 case DataType.BusLine:
                     LayerName = BusLineName;
                     CurrentFeatureClass = BusLineFeatureClass;
+                    whereClause = BusLineWhereClause;
                     break;
                 case DataType.BusStop:
                     LayerName = BusStopName;
                     CurrentFeatureClass = BusStopFeatureClass;
+                    whereClause = BusStopWhereClause;
                     break;
                 case DataType.Parking:
                     LayerName = ParkingName;
                     CurrentFeatureClass = ParkingFeatureClass;
+                    whereClause = ParkingWhereClause;
                     break;
                 case DataType.Bike:
                     LayerName = BikeName;
                     CurrentFeatureClass = BikeFeatureClass;
+                    whereClause = BikeWhereClause;
                     break;
                 case DataType.Flow:
                     LayerName = FlowName;
                     CurrentFeatureClass = FlowFeatureClass;
+                    whereClause = FlowWhereClause;
                     break;
             }
-            IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry);
+            
+            IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry,whereClause);
             if (array != null)
             {
                 IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
@@ -811,6 +895,7 @@ namespace LoowooTech.Traffic.TForms
                     currentFeatureClass = ParkingFeatureClass;
                     break;
             }
+            string whereClause = FlowWhereClause;
             switch (this.operateMode)
             {
                 case OperateMode.Add:
@@ -818,7 +903,7 @@ namespace LoowooTech.Traffic.TForms
                     operateform.ShowDialog(this);
                     break;
                 case OperateMode.Delete:
-                     IArray array = AttributeHelper.Identify(currentFeatureClass, geometry);
+                     IArray array = AttributeHelper.Identify(currentFeatureClass, geometry,whereClause);
                      if (array != null)
                      {
                          IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
@@ -837,7 +922,7 @@ namespace LoowooTech.Traffic.TForms
                      }
                     break;
                 case OperateMode.Edit:
-                     IArray arrayEdit = AttributeHelper.Identify(currentFeatureClass, geometry);
+                     IArray arrayEdit = AttributeHelper.Identify(currentFeatureClass, geometry,whereClause);
                      if (arrayEdit != null)
                      {
                          IFeatureIdentifyObj featureIdentifyObj = arrayEdit.get_Element(0) as IFeatureIdentifyObj;
@@ -911,10 +996,7 @@ namespace LoowooTech.Traffic.TForms
             form.ShowDialog();
         }
 
-        private void axMapControl1_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
-        {
-            lblCoords.Text = string.Format("{0:#.#####},{1:#.#####}", e.mapX, e.mapY);
-        }
+        
 
         public void StatisticBase(string Description)
         {
@@ -927,7 +1009,13 @@ namespace LoowooTech.Traffic.TForms
         //路网统计
         private void RoadStatistic_Click(object sender, EventArgs e)
         {
-            SelectForm selectform = new SelectForm();
+            var list = new List<string>();
+            foreach (StatisticMode mode in Enum.GetValues(typeof(StatisticMode)))
+            {
+                list.Add(mode.GetDescription());
+            }
+            this.inquiryMode = InquiryMode.Statistic;
+            SelectForm selectform = new SelectForm(list);
             selectform.ShowDialog(this);
         }
 
@@ -939,23 +1027,11 @@ namespace LoowooTech.Traffic.TForms
 
         
 
-       
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
+        //公交路线 区域过滤
+        private void RegionFilter_Click(object sender, EventArgs e)
+        {
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
+        }
 
         
     }

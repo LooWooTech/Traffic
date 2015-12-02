@@ -182,6 +182,15 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return list;
         }
+        public static IFeature Search2(IFeatureClass FeatureClass, string WhereClause)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = WhereClause;
+            IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
+            IFeature feature = featureCursor.NextFeature();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return feature;
+        }
         
         /// <summary>
         /// 空间搜索
@@ -331,7 +340,6 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return statisticVal;
         }
-
         public static string GetBusStopWhereClause(List<IFeature> List, int Index1,int Index2)
         {
             string WhereClause = string.Empty;

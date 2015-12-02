@@ -9,7 +9,10 @@ namespace LoowooTech.Traffic.Models
     {
         None,
         Filter,
-        Search
+        Search,
+        Statistic,
+        Region,
+        Way
     }
     public enum OperateMode
     {

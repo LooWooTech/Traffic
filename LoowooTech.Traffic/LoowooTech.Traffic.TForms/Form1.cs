@@ -476,7 +476,7 @@ namespace LoowooTech.Traffic.TForms
                     CurrentFeatureClass = FlowFeatureClass;
                     break;
             }
-            IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry);
+            IArray array = AttributeHelper.Identify(CurrentFeatureClass, geometry,"");
             if (array != null)
             {
                 IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
@@ -696,7 +696,7 @@ namespace LoowooTech.Traffic.TForms
                     operateform.ShowDialog(this);
                     break;
                 case OperateMode.Delete:
-                     IArray array = AttributeHelper.Identify(currentFeatureClass, geometry);
+                     IArray array = AttributeHelper.Identify(currentFeatureClass, geometry,"");
                      if (array != null)
                      {
                          IFeatureIdentifyObj featureIdentifyObj = array.get_Element(0) as IFeatureIdentifyObj;
@@ -715,7 +715,7 @@ namespace LoowooTech.Traffic.TForms
                      }
                     break;
                 case OperateMode.Edit:
-                     IArray arrayEdit = AttributeHelper.Identify(currentFeatureClass, geometry);
+                     IArray arrayEdit = AttributeHelper.Identify(currentFeatureClass, geometry,"");
                      if (arrayEdit != null)
                      {
                          IFeatureIdentifyObj featureIdentifyObj = arrayEdit.get_Element(0) as IFeatureIdentifyObj;
