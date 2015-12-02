@@ -626,28 +626,57 @@ namespace LoowooTech.Traffic.TForms
         #endregion
 
         #region  点选  路网 公交路线  公交站点  停车场
-
-        private void Analyze(IGeometry geometry)
+        private void AnalyzeBase(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer,string Title)
         {
             ISpatialFilter spatialFilter = new SpatialFilterClass();
             spatialFilter.Geometry = geometry;
-            spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+            switch (mode)
+            {
+                case SpaceMode.Contains:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
+                    break;
+                case SpaceMode.Crossed:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelCrosses;
+                    break;
+                case SpaceMode.Intersect:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                    break;
+                case SpaceMode.Overlaps:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelOverlaps;
+                    break;
+                case SpaceMode.Touches:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelTouches;
+                    break;
+                case SpaceMode.Within:
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin;
+                    break;
+            }
+            IFeatureSelection featureSelection = FeatureLayer as IFeatureSelection;
+            featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
+            var result = new AttributeForm2(FeatureLayer.FeatureClass, geometry, mode, Title);
+            result.Show(this);
+
+        }
+
+        private void Analyze(IGeometry geometry)
+        {
             //获取与公交路线相交
-            IFeatureLayer featureLayer = GetFeatureLayer(BusLineName.GetLayer());
-            IFeatureSelection featureSelection = featureLayer as IFeatureSelection;
-            featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
-            var buslineresult = new AttributeForm2(featureLayer.FeatureClass,geometry,SpaceMode.Intersect,"当前区域内公交路线");
-            buslineresult.Show(this);
+            IFeatureLayer BusLinefeatureLayer = GetFeatureLayer(BusLineName.GetLayer());
+            AnalyzeBase(geometry, SpaceMode.Intersect, BusLinefeatureLayer, "当前区域内公交路线");
             //获取 包含的公交站点
-            spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
             IFeatureLayer BusStopFeatureLayer = GetFeatureLayer(BusStopName.GetLayer());
-            featureSelection = BusStopFeatureLayer as IFeatureSelection;
-            featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
-            var busstopresult = new AttributeForm2(BusStopFeatureLayer.FeatureClass, geometry, SpaceMode.Contains, "当前区域内公交站点");
-            busstopresult.Show(this);
+            AnalyzeBase(geometry, SpaceMode.Contains, BusStopFeatureLayer, "当前区域内公交站点");
+
             axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, axMapControl1.ActiveView.Extent);
 
         }
+
+        public void Analyze2(IGeometry geometry)
+        {
+            IFeatureLayer featureLayer = GetFeatureLayer(BusLineName.GetLayer());
+            AnalyzeBase(geometry, SpaceMode.Intersect, featureLayer, "经过该道路公交路线");
+        }
+        
 
         private void ShowAttribute(IGeometry geometry)
         {

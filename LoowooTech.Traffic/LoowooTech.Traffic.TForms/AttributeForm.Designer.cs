@@ -32,12 +32,13 @@
             this.ribbon1 = new System.Windows.Forms.Ribbon();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
-            this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton4 = new System.Windows.Forms.RibbonButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.RoadAndBus = new System.Windows.Forms.RibbonButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,12 +80,8 @@
             this.ribbonPanel1.ButtonMoreVisible = false;
             this.ribbonPanel1.Items.Add(this.ribbonButton1);
             this.ribbonPanel1.Items.Add(this.ribbonButton3);
+            this.ribbonPanel1.Items.Add(this.RoadAndBus);
             this.ribbonPanel1.Text = "";
-            // 
-            // ribbonPanel2
-            // 
-            this.ribbonPanel2.Items.Add(this.ribbonButton4);
-            this.ribbonPanel2.Text = "";
             // 
             // ribbonButton1
             // 
@@ -107,6 +104,11 @@
             this.ribbonButton3.Text = "闪烁记录";
             this.ribbonButton3.Click += new System.EventHandler(this.TwinkleButton_Click);
             // 
+            // ribbonPanel2
+            // 
+            this.ribbonPanel2.Items.Add(this.ribbonButton4);
+            this.ribbonPanel2.Text = "";
+            // 
             // ribbonButton4
             // 
             this.ribbonButton4.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Close_32x32;
@@ -123,6 +125,13 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(354, 486);
             this.dataGridView1.TabIndex = 2;
+            // 
+            // RoadAndBus
+            // 
+            this.RoadAndBus.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.RoadAndBus.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadAndBus.SmallImage")));
+            this.RoadAndBus.Text = "公交记录";
+            this.RoadAndBus.Click += new System.EventHandler(this.RoadAndBus_Click);
             // 
             // AttributeForm
             // 
@@ -153,6 +162,7 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel2;
         private System.Windows.Forms.RibbonButton ribbonButton4;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.RibbonButton RoadAndBus;
 
     }
 }

@@ -38,6 +38,10 @@ namespace LoowooTech.Traffic.TForms
                 dataGridView1.DataSource = AttributeHelper.GetTable(FeatureClass, Feature, LayerName);
                 Father = (MainForm)this.Owner;
             }
+            if (LayerName != "AROAD")
+            {
+                this.RoadAndBus.Visible = false;
+            }
         }
 
         /// <summary>
@@ -63,6 +67,11 @@ namespace LoowooTech.Traffic.TForms
         private void ribbonButton4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void RoadAndBus_Click(object sender, EventArgs e)
+        {
+            this.Invoke(new EventOperator(Father.Analyze2), new[] { this.Feature.Shape });
         }
     }
 }

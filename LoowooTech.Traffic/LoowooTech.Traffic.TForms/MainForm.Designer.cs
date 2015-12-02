@@ -60,7 +60,6 @@
             this.ribbonPanel4 = new System.Windows.Forms.RibbonPanel();
             this.BusFilter = new System.Windows.Forms.RibbonButton();
             this.RegionFilter = new System.Windows.Forms.RibbonButton();
-            this.BusWayFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel5 = new System.Windows.Forms.RibbonPanel();
             this.PointBusLine = new System.Windows.Forms.RibbonButton();
             this.PointBusStop = new System.Windows.Forms.RibbonButton();
@@ -363,7 +362,6 @@
             // 
             this.ribbonPanel4.Items.Add(this.BusFilter);
             this.ribbonPanel4.Items.Add(this.RegionFilter);
-            this.ribbonPanel4.Items.Add(this.BusWayFilter);
             this.ribbonPanel4.Text = "过滤";
             // 
             // BusFilter
@@ -379,12 +377,6 @@
             this.RegionFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("RegionFilter.SmallImage")));
             this.RegionFilter.Text = "区域过滤";
             this.RegionFilter.Click += new System.EventHandler(this.RegionFilter_Click);
-            // 
-            // BusWayFilter
-            // 
-            this.BusWayFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.BusWayFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusWayFilter.SmallImage")));
-            this.BusWayFilter.Text = "道路过滤";
             // 
             // ribbonPanel5
             // 
@@ -916,7 +908,6 @@
         private System.Windows.Forms.RibbonButton PointBusLine;
         private System.Windows.Forms.RibbonButton PointBusStop;
         private System.Windows.Forms.RibbonButton RegionFilter;
-        private System.Windows.Forms.RibbonButton BusWayFilter;
         
     }
 }
