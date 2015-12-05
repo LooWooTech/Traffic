@@ -999,6 +999,7 @@ namespace LoowooTech.Traffic.TForms
                      }
                     break;
             }
+            this.operateMode = OperateMode.None;
             
         }
         private void AddFlowPoint_Click(object sender, EventArgs e)

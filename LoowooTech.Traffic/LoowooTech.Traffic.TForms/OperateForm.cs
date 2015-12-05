@@ -16,7 +16,7 @@ namespace LoowooTech.Traffic.TForms
     public partial class OperateForm : Form
     {
         private IFeatureClass FeatureClass { get; set; }
-        private Dictionary<string,int> FieldIndexDict { get; set; }
+        private Dictionary<string,int> FieldIndexDict { get; set; }//字段名称   对应  Index
         private Dictionary<string, int> RelationDict { get; set; }
         private IGeometry geometry { get; set; }
         private IFeature Feature { get; set; }
@@ -82,11 +82,11 @@ namespace LoowooTech.Traffic.TForms
                 }
                 if(Temp!=null&&Temp.ContainsKey(key))
                 {
-                    InitControl(serial, 55, key, Temp[key]);
+                    InitControl(serial, 40, key, Temp[key]);
                 }
                 else
                 {
-                    InitControl(serial, 55, key);
+                    InitControl(serial, 40, key);
                 }
                 
                 RelationDict.Add(key, serial);
