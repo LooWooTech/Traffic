@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LoowooTech.Traffic.Manager;
+using LoowooTech.Traffic.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,8 +22,20 @@ namespace LoowooTech.Traffic.TForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Form != null) Form.Enabled = true;
-            this.Close();
+            var tool = new UserManager();
+            var user = tool.Login(this.textBox1.Text, this.textBox2.Text);
+            if (user != null)
+            {
+                if (Form != null) 
+                    Form.Enabled = true;
+                MessageBox.Show("成功登陆"+user.Role.GetDescription()+" 用户:"+user.Name);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("用户名或者密码错误，请核对！");
+            }
+            
         }
 
         private void button2_Click(object sender, EventArgs e)

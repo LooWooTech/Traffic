@@ -14,13 +14,30 @@ namespace LoowooTech.Traffic.TForms
 {
     public partial class AddUserForm : Form
     {
-        public AddUserForm()
+        private User CurrentUser { get; set; }
+        public AddUserForm(User user=null)
         {
             InitializeComponent();
+            this.CurrentUser = user;
+            if (user == null)
+            {
+                this.Text = "添加用户";
+            }
+            else
+            {
+                this.Text = "更改用户权限";
+            }
         }
 
         private void AddUserForm_Load(object sender, EventArgs e)
         {
+            if (this.CurrentUser != null)
+            {
+                this.textBox1.Text = this.CurrentUser.Name;
+                this.textBox1.ReadOnly = true;
+                this.textBox2.Text = "******************";
+                this.textBox2.ReadOnly = true;
+            }
             foreach (Role role in Enum.GetValues(typeof(Role)))
             {
                 comboBox1.Items.Add(role.GetDescription());
@@ -38,13 +55,28 @@ namespace LoowooTech.Traffic.TForms
             {
                 Role role = GetRole(comboBox1.SelectedItem.ToString());
                 var Tool = new UserManager();
-                Tool.Add(new User()
+                if (this.CurrentUser == null)
                 {
-                    Name = textBox1.Text,
-                    Password = textBox2.Text,
-                    Role = role
-                });
-                MessageBox.Show("成功添加用户");
+                    Tool.Add(new User()
+                    {
+                        Name = textBox1.Text,
+                        Password = textBox2.Text.MD5(),
+                        Role = role
+                    });
+                    MessageBox.Show("成功添加用户");
+                }
+                else
+                {
+                    if (Tool.Edit(this.CurrentUser.ID, role))
+                    {
+                        MessageBox.Show("成功修改权限");
+                    }
+                    else
+                    {
+                        MessageBox.Show("修改权限失败!");
+                    }
+                }
+                
                 this.Close();
             }
             else

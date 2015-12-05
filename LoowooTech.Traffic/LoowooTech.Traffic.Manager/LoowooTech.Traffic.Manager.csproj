@@ -59,6 +59,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoowooTech.Traffic.Common\LoowooTech.Traffic.Common.csproj">
+      <Project>{57bf6f2f-284a-4ada-a7fc-8e03fcf7df80}</Project>
+      <Name>LoowooTech.Traffic.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Traffic.Models\LoowooTech.Traffic.Models.csproj">
       <Project>{b5ce08a2-71ce-43ca-b60d-11ef4a2b6cf4}</Project>
       <Name>LoowooTech.Traffic.Models</Name>
