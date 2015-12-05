@@ -15,12 +15,22 @@ namespace LoowooTech.Traffic.TForms
     public partial class StatisticsForm : Form
     {
         private Dictionary<string, double> ColumneData { get; set; }
+        private Dictionary<string, int> ColumnIntData { get; set; }
+
 
         public StatisticsForm(Dictionary<string, double> ColumnDict,string TableName)
         {
             InitializeComponent();
             this.ColumneData = ColumnDict;
             this.label1.Text = TableName;
+            this.label2.Text = "";
+        }
+        public StatisticsForm(Dictionary<string, int> ColumnDict, string TableName,int Sum) 
+        {
+            InitializeComponent();
+            this.ColumnIntData = ColumnDict;
+            this.label1.Text = TableName;
+            this.label2.Text = "当前区域总泊车位数为：" + Sum;
         }
         public StatisticsForm()
         {
@@ -42,7 +52,22 @@ namespace LoowooTech.Traffic.TForms
                     Serial++;
                 }
                 chart1.Series["Series1"].Points.DataBindXY(xValue, yValue);
-            }           
+            }
+            else if (ColumnIntData != null && ColumnIntData.Count > 0)
+            {
+                var count = ColumnIntData.Count;
+                int[] yvalue = new int[count];
+                string[] xvalue = new string[count];
+                int Serial = 0;
+                foreach (var key in ColumnIntData.Keys)
+                {
+                    yvalue[Serial] = ColumnIntData[key];
+                    xvalue[Serial] = key;
+                    Serial++;
+                }
+                chart1.Series["Series1"].Points.DataBindXY(xvalue, yvalue);
+            }
+           
         }
     }
 }

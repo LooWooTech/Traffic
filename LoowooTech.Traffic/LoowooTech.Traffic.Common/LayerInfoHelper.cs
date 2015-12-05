@@ -16,7 +16,6 @@ namespace LoowooTech.Traffic.Common
             confiXml = new XmlDocument();
             confiXml.Load(LayerInfoPath);
         }
-
         public static Dictionary<string, string> GetLayerDictionary(string LayerName)
         {
             var dict = new Dictionary<string, string>();
@@ -41,8 +40,6 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
-
-
         /// <summary>
         /// 获取相关信息下的图层列表   如路网  获取Map文件中的所有路网列表
         /// </summary>
@@ -72,7 +69,6 @@ namespace LoowooTech.Traffic.Common
             return string.Empty;
 
         }
-
         public static List<string> GetStatistic(string StatisticName)
         {
             var nodes = confiXml.SelectNodes("/Layers/Statistics[@Name='"+StatisticName+"']/Statistic");
@@ -87,6 +83,5 @@ namespace LoowooTech.Traffic.Common
             }
             return list;
         }
-
     }
 }

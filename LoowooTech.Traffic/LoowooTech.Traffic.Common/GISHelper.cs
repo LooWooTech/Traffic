@@ -292,6 +292,7 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
+        
         public static Dictionary<string, double> Statistic(IFeatureClass FeatureClass, StatisticMode Mode)
         {
             var dict = new Dictionary<string, double>();

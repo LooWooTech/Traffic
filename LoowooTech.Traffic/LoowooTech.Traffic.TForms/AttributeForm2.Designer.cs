@@ -39,6 +39,7 @@
             this.ribbonPanel3 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton4 = new System.Windows.Forms.RibbonButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.BtnStatistic = new System.Windows.Forms.RibbonButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,6 +99,7 @@
             // ribbonPanel2
             // 
             this.ribbonPanel2.Items.Add(this.ribbonButton3);
+            this.ribbonPanel2.Items.Add(this.BtnStatistic);
             this.ribbonPanel2.Text = "数据";
             // 
             // ribbonButton3
@@ -131,6 +133,13 @@
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
+            // BtnStatistic
+            // 
+            this.BtnStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BtnStatistic.SmallImage = ((System.Drawing.Image)(resources.GetObject("BtnStatistic.SmallImage")));
+            this.BtnStatistic.Text = "统计";
+            this.BtnStatistic.Click += new System.EventHandler(this.BtnStatistic_Click);
+            // 
             // AttributeForm2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -158,5 +167,6 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel3;
         private System.Windows.Forms.RibbonButton ribbonButton4;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.RibbonButton BtnStatistic;
     }
 }

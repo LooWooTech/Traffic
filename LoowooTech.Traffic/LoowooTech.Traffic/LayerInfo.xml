@@ -22,6 +22,20 @@
     <Field Name="lineDirect" Label="方向"></Field>
     <Field Name="lineclass" Label="线路等级"></Field>
   </Layer>
+  <Layer Name="PARKING">
+    <Field Name="X" Label="X坐标"></Field>
+    <Field Name="Y" Label="Y坐标"></Field>
+    <Field Name="PARK_CODE" Label="停车场代码"></Field>
+    <Field Name="TYPE" Label="类型"></Field>
+    <Field Name="BERTHNUM" Label="总泊位"></Field>
+    <Field Name="NAME" Label="名称"></Field>
+    <Field Name="ADDRESS" Label="地址"></Field>
+    <Field Name="XIAOQU" Label="小区"></Field>
+    <Field Name="ZHONGQU" Label="中区"></Field>
+    <Field Name="ZHENGQU" Label="政区"></Field>
+    <Field Name="SHOUFEIQU" Label="收费区域"></Field>
+    <Field Name="DATASTATUS" Label="是否有数据"></Field>
+  </Layer>
   <Way Type="AROAD">
     <Children Name="路网"></Children>
     <!--<Children Name="高速公路"></Children>

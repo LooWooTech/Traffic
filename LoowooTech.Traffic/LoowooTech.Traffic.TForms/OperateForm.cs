@@ -76,7 +76,7 @@ namespace LoowooTech.Traffic.TForms
             int serial = 0;
             foreach (var key in FieldIndexDict.Keys)
             {
-                if (key.ToUpper() == "SHAPE" || key.ToUpper() == "OBJECTID"||key.ToUpper().Contains("OBJECTID"))
+                if (key.ToUpper() == "SHAPE" || key.ToUpper() == "OBJECTID"||key.ToUpper().Contains("OBJECTID")||key.ToUpper().Contains("SHAPE"))
                 {
                     continue;
                 }

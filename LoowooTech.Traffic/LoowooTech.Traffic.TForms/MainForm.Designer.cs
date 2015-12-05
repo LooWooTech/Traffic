@@ -49,13 +49,14 @@
             this.btnExpXlsRoad = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel6 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton22 = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton23 = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton24 = new System.Windows.Forms.RibbonButton();
+            this.RoadEdit = new System.Windows.Forms.RibbonButton();
+            this.RoadDelete = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
             this.RoadStatistic = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel21 = new System.Windows.Forms.RibbonPanel();
             this.RankMap = new System.Windows.Forms.RibbonButton();
             this.NumMap = new System.Windows.Forms.RibbonButton();
+            this.RoadBaseMap = new System.Windows.Forms.RibbonButton();
             this.ribbonTab2 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel4 = new System.Windows.Forms.RibbonPanel();
             this.BusFilter = new System.Windows.Forms.RibbonButton();
@@ -69,6 +70,7 @@
             this.ribbonPanel22 = new System.Windows.Forms.RibbonPanel();
             this.BusDegree = new System.Windows.Forms.RibbonButton();
             this.BusRegion = new System.Windows.Forms.RibbonButton();
+            this.BusLineBaseMap = new System.Windows.Forms.RibbonButton();
             this.ribbonTab3 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel7 = new System.Windows.Forms.RibbonPanel();
             this.btnSearchParking = new System.Windows.Forms.RibbonButton();
@@ -121,8 +123,7 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.RoadBaseMap = new System.Windows.Forms.RibbonButton();
-            this.BusLineBaseMap = new System.Windows.Forms.RibbonButton();
+            this.btnRegionFilterParking = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -304,8 +305,8 @@
             // ribbonPanel6
             // 
             this.ribbonPanel6.Items.Add(this.ribbonButton22);
-            this.ribbonPanel6.Items.Add(this.ribbonButton23);
-            this.ribbonPanel6.Items.Add(this.ribbonButton24);
+            this.ribbonPanel6.Items.Add(this.RoadEdit);
+            this.ribbonPanel6.Items.Add(this.RoadDelete);
             this.ribbonPanel6.Text = "编辑";
             // 
             // ribbonButton22
@@ -314,17 +315,19 @@
             this.ribbonButton22.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton22.SmallImage")));
             this.ribbonButton22.Text = "导入线路";
             // 
-            // ribbonButton23
+            // RoadEdit
             // 
-            this.ribbonButton23.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_32x32;
-            this.ribbonButton23.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton23.SmallImage")));
-            this.ribbonButton23.Text = "编辑属性";
+            this.RoadEdit.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_32x32;
+            this.RoadEdit.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadEdit.SmallImage")));
+            this.RoadEdit.Text = "编辑属性";
+            this.RoadEdit.Click += new System.EventHandler(this.RoadEdit_Click);
             // 
-            // ribbonButton24
+            // RoadDelete
             // 
-            this.ribbonButton24.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.ribbonButton24.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton24.SmallImage")));
-            this.ribbonButton24.Text = "删除线路";
+            this.RoadDelete.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
+            this.RoadDelete.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadDelete.SmallImage")));
+            this.RoadDelete.Text = "删除线路";
+            this.RoadDelete.Click += new System.EventHandler(this.RoadDelete_Click);
             // 
             // ribbonPanel20
             // 
@@ -359,6 +362,13 @@
             this.NumMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("NumMap.SmallImage")));
             this.NumMap.Text = "车道图";
             this.NumMap.Click += new System.EventHandler(this.NumMap_Click);
+            // 
+            // RoadBaseMap
+            // 
+            this.RoadBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.RoadBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadBaseMap.SmallImage")));
+            this.RoadBaseMap.Text = "基础图";
+            this.RoadBaseMap.Click += new System.EventHandler(this.RoadBaseMap_Click);
             // 
             // ribbonTab2
             // 
@@ -449,6 +459,13 @@
             this.BusRegion.Text = "公交区域";
             this.BusRegion.Click += new System.EventHandler(this.BusRegion_Click);
             // 
+            // BusLineBaseMap
+            // 
+            this.BusLineBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BusLineBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusLineBaseMap.SmallImage")));
+            this.BusLineBaseMap.Text = "基础图";
+            this.BusLineBaseMap.Click += new System.EventHandler(this.BusLineBaseMap_Click);
+            // 
             // ribbonTab3
             // 
             this.ribbonTab3.Panels.Add(this.ribbonPanel7);
@@ -488,6 +505,7 @@
             // ribbonPanel8
             // 
             this.ribbonPanel8.Items.Add(this.btnFilterParking);
+            this.ribbonPanel8.Items.Add(this.btnRegionFilterParking);
             this.ribbonPanel8.Text = "过滤";
             // 
             // btnFilterParking
@@ -820,19 +838,12 @@
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
             // 
-            // RoadBaseMap
+            // btnRegionFilterParking
             // 
-            this.RoadBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.RoadBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadBaseMap.SmallImage")));
-            this.RoadBaseMap.Text = "基础图";
-            this.RoadBaseMap.Click += new System.EventHandler(this.RoadBaseMap_Click);
-            // 
-            // BusLineBaseMap
-            // 
-            this.BusLineBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.BusLineBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusLineBaseMap.SmallImage")));
-            this.BusLineBaseMap.Text = "基础图";
-            this.BusLineBaseMap.Click += new System.EventHandler(this.BusLineBaseMap_Click);
+            this.btnRegionFilterParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.btnRegionFilterParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnRegionFilterParking.SmallImage")));
+            this.btnRegionFilterParking.Text = "区域过滤";
+            this.btnRegionFilterParking.Click += new System.EventHandler(this.btnRegionFilterParking_Click);
             // 
             // MainForm
             // 
@@ -908,8 +919,8 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel16;
         private System.Windows.Forms.RibbonPanel ribbonPanel17;
         private System.Windows.Forms.RibbonButton ribbonButton22;
-        private System.Windows.Forms.RibbonButton ribbonButton23;
-        private System.Windows.Forms.RibbonButton ribbonButton24;
+        private System.Windows.Forms.RibbonButton RoadEdit;
+        private System.Windows.Forms.RibbonButton RoadDelete;
         private System.Windows.Forms.RibbonButton btnSearchParking;
         private System.Windows.Forms.RibbonButton btnIdentifyParking;
         private System.Windows.Forms.RibbonButton btnFilterParking;
@@ -958,6 +969,7 @@
         private System.Windows.Forms.RibbonButton BusRegion;
         private System.Windows.Forms.RibbonButton RoadBaseMap;
         private System.Windows.Forms.RibbonButton BusLineBaseMap;
+        private System.Windows.Forms.RibbonButton btnRegionFilterParking;
         
     }
 }

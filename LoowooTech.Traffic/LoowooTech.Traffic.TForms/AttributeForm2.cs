@@ -18,6 +18,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass FeatureClass { get; set; }
         private IGeometry geometry { get; set; }
         private SpaceMode Mode { get; set; }
+        private DataType dataType { get; set; }
         private string Title { get; set; }
         private string WhereClause { get; set; }
         private MainForm Father { get; set; }
@@ -28,13 +29,14 @@ namespace LoowooTech.Traffic.TForms
             this.FeatureClass = featureClass;
             this.WhereClause = WhereClause;
         }
-        public AttributeForm2(IFeatureClass FeatureClass, IGeometry geometry, SpaceMode mode,string Title)
+        public AttributeForm2(IFeatureClass FeatureClass, IGeometry geometry, SpaceMode mode,string Title,DataType dataType)
         {
             InitializeComponent();
             this.FeatureClass = FeatureClass;
             this.geometry = geometry;
             this.Mode = mode;
             this.Title = Title;
+            this.dataType = dataType;
         }
         public AttributeForm2()
         {
@@ -43,6 +45,10 @@ namespace LoowooTech.Traffic.TForms
 
         private void AttributeForm2_Load(object sender, EventArgs e)
         {
+            if (this.dataType != DataType.Parking)
+            {
+                this.BtnStatistic.Visible = false;
+            }
             Father = (MainForm)this.Owner;
             if (FeatureClass != null)
             {
@@ -74,8 +80,7 @@ namespace LoowooTech.Traffic.TForms
                 if (FeatureDict.ContainsKey(selectIndex))
                 {
                     Father.Center(FeatureDict[selectIndex]);
-                    
-                   // Father.Twinkle(FeatureDict[selectIndex]);
+
                 }
             }
             
@@ -121,6 +126,14 @@ namespace LoowooTech.Traffic.TForms
         private void ribbonButton4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void BtnStatistic_Click(object sender, EventArgs e)
+        {
+            var dict = ExcelHelper.Statistic(dataGridView1.DataSource as DataTable, "类型");
+            var sum = ExcelHelper.Statistic2(dataGridView1.DataSource as DataTable, "总泊位");
+            StatisticsForm form = new StatisticsForm(dict, "当前区域内停车设施情况",sum);
+            form.ShowDialog();
         }
 
        

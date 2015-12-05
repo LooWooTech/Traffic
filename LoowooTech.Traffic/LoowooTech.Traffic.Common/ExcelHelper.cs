@@ -41,6 +41,58 @@ namespace LoowooTech.Traffic.Common
             Save(workbook, FilePath);
             return true;
         }
+        public static Dictionary<string, int> Statistic(DataTable DataTable,string FieldName)
+        {
+            int Index = 0;
+            for (var i = 0; i < DataTable.Columns.Count; i++)
+            {
+                if (DataTable.Columns[i].ToString() == FieldName)
+                {
+                    Index = i;
+                    break;
+                }
+            }
+            string val = string.Empty;
+            var dict = new Dictionary<string, int>();
+            for (var i = 0; i < DataTable.Rows.Count; i++)
+            {
+                val = DataTable.Rows[i][Index].ToString();
+                if (!string.IsNullOrEmpty(val))
+                {
+                    if (dict.ContainsKey(val))
+                    {
+                        dict[val] = dict[val] + 1;
+                    }
+                    else
+                    {
+                        dict.Add(val, 1);
+                    }
+                }
+            }
+            return dict;
+        }
+        public static int Statistic2(DataTable DataTable, string FieldName)
+        {
+            int Index = 0;
+            for (var i = 0; i < DataTable.Columns.Count; i++)
+            {
+                if (DataTable.Columns[i].ToString() == FieldName)
+                {
+                    Index = i;
+                    break;
+                }
+            }
+            int Sum = 0;
+            int temp = 0;
+            for (var i = 0; i < DataTable.Rows.Count; i++)
+            {
+                if (int.TryParse(DataTable.Rows[i][Index].ToString(), out temp))
+                {
+                    Sum += temp;
+                }
+            }
+            return Sum;
+        }
         public static void SaveExcel(IFeatureClass FeatureClass, string WhereClause, string FilePath, Dictionary<string, int> HeadDict) 
         {
             IWorkbook workbook = CreateWorkBook(FilePath);
