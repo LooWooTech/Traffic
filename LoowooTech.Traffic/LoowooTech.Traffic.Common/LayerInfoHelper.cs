@@ -11,8 +11,8 @@ namespace LoowooTech.Traffic.Common
         private static XmlDocument confiXml { get; set; }
         static LayerInfoHelper()
         {
-            //string LayerInfoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["LAYERINFO"]);
-            string LayerInfoPath = System.Configuration.ConfigurationManager.AppSettings["LAYERINFO"];
+            string LayerInfoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["LAYERINFO"]);
+            //string LayerInfoPath = System.Configuration.ConfigurationManager.AppSettings["LAYERINFO"];
             confiXml = new XmlDocument();
             confiXml.Load(LayerInfoPath);
         }

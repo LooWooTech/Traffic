@@ -66,6 +66,9 @@
             this.ribbonPanel18 = new System.Windows.Forms.RibbonPanel();
             this.btnFilterBusline = new System.Windows.Forms.RibbonButton();
             this.btnFilterBusStop = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel22 = new System.Windows.Forms.RibbonPanel();
+            this.BusDegree = new System.Windows.Forms.RibbonButton();
+            this.BusRegion = new System.Windows.Forms.RibbonButton();
             this.ribbonTab3 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel7 = new System.Windows.Forms.RibbonPanel();
             this.btnSearchParking = new System.Windows.Forms.RibbonButton();
@@ -118,6 +121,8 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.RoadBaseMap = new System.Windows.Forms.RibbonButton();
+            this.BusLineBaseMap = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -323,6 +328,7 @@
             // 
             // ribbonPanel20
             // 
+            this.ribbonPanel20.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
             this.ribbonPanel20.Items.Add(this.RoadStatistic);
             this.ribbonPanel20.Text = "统计";
             // 
@@ -337,25 +343,29 @@
             // 
             this.ribbonPanel21.Items.Add(this.RankMap);
             this.ribbonPanel21.Items.Add(this.NumMap);
+            this.ribbonPanel21.Items.Add(this.RoadBaseMap);
             this.ribbonPanel21.Text = "底图";
             // 
             // RankMap
             // 
-            this.RankMap.Image = ((System.Drawing.Image)(resources.GetObject("RankMap.Image")));
+            this.RankMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
             this.RankMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RankMap.SmallImage")));
             this.RankMap.Text = "等级图";
+            this.RankMap.Click += new System.EventHandler(this.RankMap_Click);
             // 
             // NumMap
             // 
-            this.NumMap.Image = ((System.Drawing.Image)(resources.GetObject("NumMap.Image")));
+            this.NumMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
             this.NumMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("NumMap.SmallImage")));
             this.NumMap.Text = "车道图";
+            this.NumMap.Click += new System.EventHandler(this.NumMap_Click);
             // 
             // ribbonTab2
             // 
             this.ribbonTab2.Panels.Add(this.ribbonPanel4);
             this.ribbonTab2.Panels.Add(this.ribbonPanel5);
             this.ribbonTab2.Panels.Add(this.ribbonPanel18);
+            this.ribbonTab2.Panels.Add(this.ribbonPanel22);
             this.ribbonTab2.Text = "公交相关";
             // 
             // ribbonPanel4
@@ -417,6 +427,27 @@
             this.btnFilterBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFilterBusStop.SmallImage")));
             this.btnFilterBusStop.Text = "公交站点过滤";
             this.btnFilterBusStop.Click += new System.EventHandler(this.BusStopSearch2_Click);
+            // 
+            // ribbonPanel22
+            // 
+            this.ribbonPanel22.Items.Add(this.BusDegree);
+            this.ribbonPanel22.Items.Add(this.BusRegion);
+            this.ribbonPanel22.Items.Add(this.BusLineBaseMap);
+            this.ribbonPanel22.Text = "底图";
+            // 
+            // BusDegree
+            // 
+            this.BusDegree.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BusDegree.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusDegree.SmallImage")));
+            this.BusDegree.Text = "公交等级";
+            this.BusDegree.Click += new System.EventHandler(this.BusDegree_Click);
+            // 
+            // BusRegion
+            // 
+            this.BusRegion.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BusRegion.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusRegion.SmallImage")));
+            this.BusRegion.Text = "公交区域";
+            this.BusRegion.Click += new System.EventHandler(this.BusRegion_Click);
             // 
             // ribbonTab3
             // 
@@ -789,6 +820,20 @@
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
             // 
+            // RoadBaseMap
+            // 
+            this.RoadBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.RoadBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadBaseMap.SmallImage")));
+            this.RoadBaseMap.Text = "基础图";
+            this.RoadBaseMap.Click += new System.EventHandler(this.RoadBaseMap_Click);
+            // 
+            // BusLineBaseMap
+            // 
+            this.BusLineBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BusLineBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusLineBaseMap.SmallImage")));
+            this.BusLineBaseMap.Text = "基础图";
+            this.BusLineBaseMap.Click += new System.EventHandler(this.BusLineBaseMap_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -908,6 +953,11 @@
         private System.Windows.Forms.RibbonButton PointBusLine;
         private System.Windows.Forms.RibbonButton PointBusStop;
         private System.Windows.Forms.RibbonButton RegionFilter;
+        private System.Windows.Forms.RibbonPanel ribbonPanel22;
+        private System.Windows.Forms.RibbonButton BusDegree;
+        private System.Windows.Forms.RibbonButton BusRegion;
+        private System.Windows.Forms.RibbonButton RoadBaseMap;
+        private System.Windows.Forms.RibbonButton BusLineBaseMap;
         
     }
 }

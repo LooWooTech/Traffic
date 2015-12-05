@@ -1,5 +1,6 @@
 ﻿using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
+using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
@@ -565,6 +566,20 @@ namespace LoowooTech.Traffic.TForms
             }
             return featureLayer;
         }
+        private IFeatureLayer GetFeatureLayer(MapControl mapControl, string LayerName)
+        {
+            IFeatureLayer featureLayer = null;
+            for (var i = 0; i < mapControl.Map.LayerCount; i++)
+            {
+                featureLayer = mapControl.get_Layer(i) as IFeatureLayer;
+                if (featureLayer.Name == LayerName)
+                {
+                    return featureLayer;
+                }
+            }
+            return featureLayer;
+        }
+
 
         //点击
         private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
@@ -1061,6 +1076,109 @@ namespace LoowooTech.Traffic.TForms
         {
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
         }
+
+        private void Romance(string LyrFilePath, string LayerName)
+        {
+            if (!string.IsNullOrEmpty(LyrFilePath)&&System.IO.File.Exists(LyrFilePath))
+            {
+                MapControl mapControl = new MapControlClass();
+                mapControl.AddLayerFromFile(LyrFilePath);
+                IFeatureLayer RendererFeatureLayer = GetFeatureLayer(mapControl, LayerName);
+                if (RendererFeatureLayer != null)
+                {
+                    IGeoFeatureLayer rendererGeoFeatureLayer = RendererFeatureLayer as IGeoFeatureLayer;
+                    IFeatureLayer CurrentFeatureLayer = GetFeatureLayer(LayerName);
+                    IGeoFeatureLayer CurrentGeoFeatureLayer = CurrentFeatureLayer as IGeoFeatureLayer;
+                    CurrentGeoFeatureLayer.Renderer = rendererGeoFeatureLayer.Renderer;
+                    axTOCControl1.Refresh();
+                    axTOCControl1.Update();
+                    axMapControl1.Refresh();
+                    axMapControl1.Update();
+                }
+            }
+        }
+        private void RankMap_Click(object sender, EventArgs e)
+        {
+            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["RoadRank"]), RoadName.GetLayer());
+        }
+
+        private void NumMap_Click(object sender, EventArgs e)
+        {
+            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["RoadNumber"]), RoadName.GetLayer());
+        }
+
+        private void RoadBaseMap_Click(object sender, EventArgs e)
+        {
+            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["RoadBase"]), RoadName.GetLayer());
+        }
+
+        //公交等级图
+        private void BusDegree_Click(object sender, EventArgs e)
+        {
+            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["BusDegree"]), BusLineName.GetLayer());
+        }
+        //公交区域图
+        private void BusRegion_Click(object sender, EventArgs e)
+        {
+            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["BusRegion"]), BusLineName.GetLayer());
+        }
+        //公交基础图
+        private void BusLineBaseMap_Click(object sender, EventArgs e)
+        {
+            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["BusBase"]), BusLineName.GetLayer());
+        } 
+
+        //进行唯一值渲染
+        private void UniqueValueRenderer(IFeatureLayer featureLayer, string FieldName)
+        {
+            int FieldIndex = featureLayer.FeatureClass.Fields.FindField(FieldName);
+            IUniqueValueRenderer uniqueValueRenderer = new UniqueValueRendererClass();
+            uniqueValueRenderer.FieldCount = 1;
+            uniqueValueRenderer.set_Field(0, FieldName);
+            IRandomColorRamp randomColorRamp = new RandomColorRampClass();
+            randomColorRamp.StartHue = 0;
+            randomColorRamp.MinValue = 0;
+            randomColorRamp.MinSaturation = 15;
+            randomColorRamp.EndHue = 360;
+            randomColorRamp.MaxValue = 100;
+            randomColorRamp.MaxSaturation = 30;
+            IQueryFilter queryFilter = new QueryFilterClass();
+            randomColorRamp.Size = featureLayer.FeatureClass.FeatureCount(queryFilter);
+            bool flag = false;
+            randomColorRamp.CreateRamp(out flag);
+            IEnumColors enumColors = randomColorRamp.Colors;
+            IColor color = null;
+            object codeValue = null;
+            queryFilter = new QueryFilterClass();
+            queryFilter.AddField(FieldName);
+            IFeatureCursor featureCursor= featureLayer.FeatureClass.Search(queryFilter, true);
+            IFeature feature = featureCursor.NextFeature();
+            while (feature != null)
+            {
+                codeValue = feature.get_Value(FieldIndex);
+                color = enumColors.Next();
+                if (color == null)
+                {
+                    enumColors.Reset();
+                    color = enumColors.Next();
+                }
+                ISimpleLineSymbol simpleLineSymbol = new SimpleLineSymbolClass();
+                simpleLineSymbol.Color = color;
+                uniqueValueRenderer.AddValue(codeValue.ToString(), "", simpleLineSymbol as ISymbol);
+                feature = featureCursor.NextFeature();
+            }
+            IGeoFeatureLayer geoFeatureLayer = featureLayer as IGeoFeatureLayer;
+            geoFeatureLayer.Renderer = uniqueValueRenderer as IFeatureRenderer;
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            axMapControl1.Refresh();
+            axMapControl1.Update();
+        }
+
+       
+
+       
+
+        
 
         
     }
