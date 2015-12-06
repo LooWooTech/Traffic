@@ -869,12 +869,14 @@
             this.ExportBusShp.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
             this.ExportBusShp.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusShp.SmallImage")));
             this.ExportBusShp.Text = "图形导出";
+            this.ExportBusShp.Click += new System.EventHandler(this.ExportBusLineSHP_Click);
             // 
             // ExportBusExcel
             // 
             this.ExportBusExcel.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
             this.ExportBusExcel.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusExcel.SmallImage")));
             this.ExportBusExcel.Text = "导出Excel";
+            this.ExportBusExcel.Click += new System.EventHandler(this.ExportBusLineExcel_Click);
             // 
             // MainForm
             // 
