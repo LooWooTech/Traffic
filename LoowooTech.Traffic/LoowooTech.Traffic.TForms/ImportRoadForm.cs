@@ -310,7 +310,12 @@ namespace LoowooTech.Traffic.TForms
 
         private void ImportRoadForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (canClose) return;
+            if (canClose) 
+            {
+                Father.EraseImportRoadCustomDrawing()
+                return;
+            }
+
             if(MessageBox.Show("关闭窗口将会丢失您输入的信息，是否确认退出？", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Cancel)
             {
                 e.Cancel = true;
