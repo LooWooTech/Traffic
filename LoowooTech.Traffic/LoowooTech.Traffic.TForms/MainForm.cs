@@ -1,5 +1,6 @@
 ﻿using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
+using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.esriSystem;
@@ -15,6 +16,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -112,6 +114,12 @@ namespace LoowooTech.Traffic.TForms
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
         private User CurrentUser { get; set; }
         public SplashForm Splash { get; set; }
+
+        private readonly List<CrossroadInfo> m_Crossroads = new List<CrossroadInfo>();
+        private IMarkerSymbol m_CrossroadSymbol;
+        private IPolyline m_ImportRoad;
+        private ILineSymbol m_ImportRoadSymbol;
+
         public MainForm()
         {
             InitializeComponent();
@@ -131,6 +139,22 @@ namespace LoowooTech.Traffic.TForms
             simpleMarkerSymbol.Size = 8;
             simpleMarkerSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 0);
 
+            m_CrossroadSymbol = new SimpleMarkerSymbolClass()
+            {
+                Style = esriSimpleMarkerStyle.esriSMSCircle,
+                Size = 8,
+                Color = DisplayHelper.GetRGBColor(255, 0, 0, 0),
+                OutlineColor = DisplayHelper.GetRGBColor(255, 0, 0),
+                OutlineSize = 3,
+                Outline = true
+            };
+
+            m_ImportRoadSymbol = new SimpleLineSymbolClass()
+            {
+                Style = esriSimpleLineStyle.esriSLSSolid,
+                Width = 3,
+                Color = DisplayHelper.GetRGBColor(0, 0, 0, 200)
+            };
             try
             {
                 string mxdPath1 = System.IO.Path.Combine(Application.StartupPath, MXDPath);
@@ -291,19 +315,24 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="Feature"></param>
         public void Twinkle(IFeature Feature)
         {
-            if (Feature != null)
+            if (Feature == null) return;
+            Twinkle(Feature.Shape);                
+        }
+
+        public void Twinkle(IGeometry geo)
+        {
+            if (geo == null) return;
+
+            switch (geo.GeometryType)
             {
-                switch (Feature.Shape.GeometryType)
-                {
-                    case esriGeometryType.esriGeometryMultipoint:
-                    case esriGeometryType.esriGeometryPoint:
-                        axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleMarkerSymbol);
-                        break;
-                    case esriGeometryType.esriGeometryPolyline:
-                    case esriGeometryType.esriGeometryLine:
-                        axMapControl1.FlashShape(Feature.Shape, 4, 300, simpleLineSymbol);
-                        break;
-                }
+                case esriGeometryType.esriGeometryMultipoint:
+                case esriGeometryType.esriGeometryPoint:
+                    axMapControl1.FlashShape(geo, 4, 300, simpleMarkerSymbol);
+                    break;
+                case esriGeometryType.esriGeometryPolyline:
+                case esriGeometryType.esriGeometryLine:
+                    axMapControl1.FlashShape(geo, 4, 300, simpleLineSymbol);
+                    break;
             }
         }
         #region IFeatureSelection
@@ -364,6 +393,14 @@ namespace LoowooTech.Traffic.TForms
             if (Feature != null)
             {
                 CenterBase(Feature.Shape.Envelope);
+            }
+        }
+
+        public void Center(IGeometry geo)
+        {
+            if(geo != null)
+            {
+                CenterBase(geo.Envelope);
             }
         }
         /// <summary>
@@ -1209,12 +1246,142 @@ namespace LoowooTech.Traffic.TForms
             this.dataType = DataType.Road;
         }
 
+        private void btnAddRoad_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog { Title = "请选择需要导入的CAD文件", Filter = "DXF文件 (*.dxf)|*.dxf" };
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
 
+           
+            var factory = new CadWorkspaceFactory();
+            try
+            {
+                var path = System.IO.Path.GetDirectoryName(dialog.FileName);
+                var ws = factory.OpenFromFile(path, 0) as IFeatureWorkspace;
 
+                var fc = ws.OpenFeatureClass(System.IO.Path.GetFileName(dialog.FileName) + " polyline");
 
+                var cursor = fc.Search(null, true);
+                var f = cursor.NextFeature();
+                if (f == null)
+                {
+                    MessageBox.Show("当前CAD文件中不包含路线信息，请检查。", "注意");
+                    return;
+                }
 
+                var geo = f.ShapeCopy;
+                if (!(geo is IPolyline) || geo.IsEmpty == true)
+                {
+                    MessageBox.Show("当前CAD文件中包含的路线信息不正确，请检查。", "注意");
+                    Marshal.ReleaseComObject(cursor);
+                    return;
+                }
 
+                f = cursor.NextFeature();
+                if (f != null)
+                {
+                    if (MessageBox.Show("当前CAD文件中包含不止一条路线，系统默认导入第一条，是否继续？", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Cancel)
+                    {
+                        Marshal.ReleaseComObject(cursor);
+                        return;
+                    }
+                }
 
+                ImportRoad(geo as IPolyline);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("打开CAD文件错误，请检查CAD文件。\r\n详情：" + ex, "注意");
+            }
+        }
 
+        private void ImportRoad(IPolyline pl)
+        {
+            var fc = RoadFeatureClass;
+            var ret = RoadHelper.QueryIntersectPoints(pl, RoadFeatureClass);
+
+            var list = ret.Where(x => x.Value == null).ToList();
+
+            if (list.Count > 0)
+            {
+                var f = fc.GetFeature(list[0].Key);
+                MessageBox.Show(string.Format("导入的路线与已有线路'{0}({1})'部分重合，无法完成导入", f.get_Value(f.Fields.FindField("NAME")), f.get_Value(f.Fields.FindField("NO_"))), "注意", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var conditions = ret.Select(x=>string.Format("{0} = {1}", RoadFeatureClass.OIDFieldName, x.Key));
+            var fl = GetFeatureLayer(RoadName.GetLayer());
+
+            // 选中图形
+            axMapControl1.Map.ClearSelection();
+            var featureSelection = fl as IFeatureSelection;
+            featureSelection.SelectFeatures(
+                new QueryFilter{ WhereClause=string.Join(" OR ", conditions.ToArray())}, 
+                esriSelectionResultEnum.esriSelectionResultNew, 
+                false);
+            
+            // 将交点也加入显示
+            m_Crossroads.Clear();
+            m_Crossroads.AddRange(TransformToCrossroadInfo(ret, fc));
+
+            m_ImportRoad = pl;
+
+            Center(pl);
+            //axMapControl1.ActiveView.Refresh();
+
+            var form = new ImportRoadForm(pl, fc, m_Crossroads);
+            form.Show(this);
+        }
+
+        public void EraseImportRoadCustomDrawing()
+        {
+            m_Crossroads.Clear();
+            m_ImportRoad = null;
+            axMapControl1.ActiveView.Refresh();
+
+        }
+
+        private static List<CrossroadInfo> TransformToCrossroadInfo(Dictionary<int, List<IPoint>> dict, IFeatureClass fc)
+        {
+            var ret = new List<CrossroadInfo>();
+            foreach(var pair in dict)
+            {
+                var f = fc.GetFeature(pair.Key);
+                
+                var name = f.get_Value(f.Fields.FindField("NAME")).ToString();
+                var no = Convert.ToInt32(f.get_Value(f.Fields.FindField("NO_")));
+
+                foreach(var pt in pair.Value)
+                {
+                    ret.Add(new CrossroadInfo{
+                        Name=name,
+                        NO=no,
+                        Point=pt,
+                        OID=pair.Key
+                    });
+                }
+            }
+            return ret;
+        }
+
+        private void axMapControl1_OnAfterDraw(object sender, IMapControlEvents2_OnAfterDrawEvent e)
+        {
+            var viewDrawPhase = (esriViewDrawPhase)e.viewDrawPhase;
+            if (viewDrawPhase == esriViewDrawPhase.esriViewForeground)
+            {
+                object r = m_CrossroadSymbol;
+                foreach (IGeometry pt in m_Crossroads)
+                {
+                    axMapControl1.DrawShape(pt, ref r);
+                }
+
+                object o = m_ImportRoadSymbol;
+                if(m_ImportRoad != null)
+                {
+                    axMapControl1.DrawShape(m_ImportRoad, ref o);
+                }
+            }
+        }
     }
+    
+   
 }

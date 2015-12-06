@@ -48,7 +48,7 @@
             this.ExportRoadSHP = new System.Windows.Forms.RibbonButton();
             this.btnExpXlsRoad = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel6 = new System.Windows.Forms.RibbonPanel();
-            this.ribbonButton22 = new System.Windows.Forms.RibbonButton();
+            this.btnAddRoad = new System.Windows.Forms.RibbonButton();
             this.RoadEdit = new System.Windows.Forms.RibbonButton();
             this.RoadDelete = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
@@ -78,6 +78,7 @@
             this.btnStatParking = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel8 = new System.Windows.Forms.RibbonPanel();
             this.btnFilterParking = new System.Windows.Forms.RibbonButton();
+            this.btnRegionFilterParking = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel9 = new System.Windows.Forms.RibbonPanel();
             this.btnExpImgStop = new System.Windows.Forms.RibbonButton();
             this.ExportParkingSHP = new System.Windows.Forms.RibbonButton();
@@ -123,7 +124,6 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.btnRegionFilterParking = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -304,16 +304,17 @@
             // 
             // ribbonPanel6
             // 
-            this.ribbonPanel6.Items.Add(this.ribbonButton22);
+            this.ribbonPanel6.Items.Add(this.btnAddRoad);
             this.ribbonPanel6.Items.Add(this.RoadEdit);
             this.ribbonPanel6.Items.Add(this.RoadDelete);
             this.ribbonPanel6.Text = "编辑";
             // 
-            // ribbonButton22
+            // btnAddRoad
             // 
-            this.ribbonButton22.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_32x32;
-            this.ribbonButton22.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton22.SmallImage")));
-            this.ribbonButton22.Text = "导入线路";
+            this.btnAddRoad.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_32x32;
+            this.btnAddRoad.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnAddRoad.SmallImage")));
+            this.btnAddRoad.Text = "导入线路";
+            this.btnAddRoad.Click += new System.EventHandler(this.btnAddRoad_Click);
             // 
             // RoadEdit
             // 
@@ -514,6 +515,13 @@
             this.btnFilterParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFilterParking.SmallImage")));
             this.btnFilterParking.Text = "条件过滤";
             this.btnFilterParking.Click += new System.EventHandler(this.btnFilterParking_Click);
+            // 
+            // btnRegionFilterParking
+            // 
+            this.btnRegionFilterParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.btnRegionFilterParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnRegionFilterParking.SmallImage")));
+            this.btnRegionFilterParking.Text = "区域过滤";
+            this.btnRegionFilterParking.Click += new System.EventHandler(this.btnRegionFilterParking_Click);
             // 
             // ribbonPanel9
             // 
@@ -837,13 +845,7 @@
             this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
-            // 
-            // btnRegionFilterParking
-            // 
-            this.btnRegionFilterParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.btnRegionFilterParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnRegionFilterParking.SmallImage")));
-            this.btnRegionFilterParking.Text = "区域过滤";
-            this.btnRegionFilterParking.Click += new System.EventHandler(this.btnRegionFilterParking_Click);
+            this.axMapControl1.OnAfterDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterDrawEventHandler(this.axMapControl1_OnAfterDraw);
             // 
             // MainForm
             // 
@@ -918,7 +920,7 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel15;
         private System.Windows.Forms.RibbonPanel ribbonPanel16;
         private System.Windows.Forms.RibbonPanel ribbonPanel17;
-        private System.Windows.Forms.RibbonButton ribbonButton22;
+        private System.Windows.Forms.RibbonButton btnAddRoad;
         private System.Windows.Forms.RibbonButton RoadEdit;
         private System.Windows.Forms.RibbonButton RoadDelete;
         private System.Windows.Forms.RibbonButton btnSearchParking;

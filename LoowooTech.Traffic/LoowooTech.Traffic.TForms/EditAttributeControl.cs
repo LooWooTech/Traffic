@@ -1,50 +1,52 @@
-﻿using ESRI.ArcGIS.Geodatabase;
-using ESRI.ArcGIS.Geometry;
-using LoowooTech.Traffic.Common;
-using LoowooTech.Traffic.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
+using LoowooTech.Traffic.Common;
+using LoowooTech.Traffic.Models;
 
 namespace LoowooTech.Traffic.TForms
 {
-    public partial class OperateForm : Form
+    public partial class EditAttributeControl : UserControl
     {
         private IFeatureClass FeatureClass { get; set; }
-        private Dictionary<string,int> FieldIndexDict { get; set; } //字段名称   对应  Index
+        private Dictionary<string, int> FieldIndexDict { get; set; } //字段名称   对应  Index
         private Dictionary<string, int> RelationDict { get; set; }
         private IGeometry geometry { get; set; }
-        private IFeature Feature { get; set; }
-        private MainForm Father { get; set; } 
+        private IFeature Feature { get; set; }        
         private Label[] Labels { get; set; }
         private TextBox[] TextBoxs { get; set; }
        
-        public OperateForm(IFeatureClass FeatureClass, IGeometry geometry)
+        public EditAttributeControl()
         {
-            this.FeatureClass = FeatureClass;
-            this.FieldIndexDict = GISHelper.GetFieldIndexDict(FeatureClass);
+            InitializeComponent();
+        }
+
+        public EditAttributeControl(IFeatureClass FeatureClass, IGeometry geometry)
+        {
+            InitializeComponent();
             this.geometry = geometry;
-            Init();
-            InitializeComponent();
+            Initialize(FeatureClass);            
         }
 
-        public OperateForm(IFeatureClass FeatureClass, IFeature Feature)
+        public EditAttributeControl(IFeatureClass FeatureClass, IFeature Feature)
+        {
+            InitializeComponent();
+            this.Feature = Feature;
+            Initialize(FeatureClass);            
+        }
+
+        public void Initialize(IFeatureClass FeatureClass)
         {
             this.FeatureClass = FeatureClass;
-            this.Feature = Feature;
             this.FieldIndexDict = GISHelper.GetFieldIndexDict(FeatureClass);
             Init();
-            InitializeComponent();
-        }
-
-        public OperateForm()
-        {
-            InitializeComponent();
         }
 
         private void InitControl(int Index,int Width,string FieldName,string Values=null)
@@ -111,33 +113,26 @@ namespace LoowooTech.Traffic.TForms
             return dict;
         }
 
-        private void Save_Click(object sender, EventArgs e)
+        public void Save(OperateMode mode)
         {
             var val = GetFieldValue();
-            if (Father.operateMode == OperateMode.Add)
+            if (mode == OperateMode.Add)
             {
                 if (!SDEManager.AddFeature(val, FieldIndexDict, FeatureClass, geometry))
                 {
                     MessageBox.Show("添加失败！");
                 }
             }
-            else if (Father.operateMode == OperateMode.Edit)
+            else if (mode == OperateMode.Edit)
             {
                 SDEManager.EditFeature(val, FieldIndexDict, this.Feature);
-            }
-            
-            Father.MapRefresh();
-            this.Close();
+            }            
         }
 
-        private void Cancel_Click(object sender, EventArgs e)
+        public Dictionary<string, string> GetAttributes()
         {
-            this.Close();
+            return GetFieldValue();
         }
-
-        private void OperateForm_Load(object sender, EventArgs e)
-        {
-            this.Father = (MainForm)this.Owner;
-        }
+       
     }
 }

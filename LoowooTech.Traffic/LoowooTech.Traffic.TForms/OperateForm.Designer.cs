@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.Save = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
+            this.Save = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -50,16 +50,6 @@
             this.splitContainer1.SplitterDistance = 378;
             this.splitContainer1.TabIndex = 0;
             // 
-            // Save
-            // 
-            this.Save.Location = new System.Drawing.Point(33, 64);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(75, 23);
-            this.Save.TabIndex = 0;
-            this.Save.Text = "保存";
-            this.Save.UseVisualStyleBackColor = true;
-            this.Save.Click += new System.EventHandler(this.Save_Click);
-            // 
             // Cancel
             // 
             this.Cancel.Location = new System.Drawing.Point(33, 146);
@@ -70,6 +60,16 @@
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // Save
+            // 
+            this.Save.Location = new System.Drawing.Point(33, 64);
+            this.Save.Name = "Save";
+            this.Save.Size = new System.Drawing.Size(75, 23);
+            this.Save.TabIndex = 0;
+            this.Save.Text = "保存";
+            this.Save.UseVisualStyleBackColor = true;
+            this.Save.Click += new System.EventHandler(this.Save_Click);
+            // 
             // OperateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -78,7 +78,7 @@
             this.ClientSize = new System.Drawing.Size(539, 581);
             this.Controls.Add(this.splitContainer1);
             this.Name = "OperateForm";
-            this.Text = "OperateForm";
+            this.Text = "道路属性";
             this.Load += new System.EventHandler(this.OperateForm_Load);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

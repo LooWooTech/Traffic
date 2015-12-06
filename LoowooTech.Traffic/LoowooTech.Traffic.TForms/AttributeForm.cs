@@ -19,13 +19,14 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass FeatureClass { get; set; }
         private string LayerName { get; set; }
         private MainForm Father { get; set; }
-        public AttributeForm(IFeature feature,IFeatureClass featureClass,string LayerName)
+        public AttributeForm(IFeature feature, IFeatureClass featureClass, string LayerName)
         {
             InitializeComponent();
             this.Feature = feature;
             this.FeatureClass = featureClass;
             this.LayerName = LayerName;
         }
+
         public AttributeForm()
         {
             InitializeComponent();

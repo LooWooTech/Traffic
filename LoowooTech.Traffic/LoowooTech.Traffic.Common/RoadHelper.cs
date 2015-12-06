@@ -11,7 +11,7 @@ namespace LoowooTech.Traffic.Common
 
     public class RoadHelper
     {
-        public Dictionary<int, List<IPoint>> QueryIntersectPoints(IPolyline line, IFeatureClass roadFC)
+        public static Dictionary<int, List<IPoint>> QueryIntersectPoints(IPolyline line, IFeatureClass roadFC)
         {
             var cursor = roadFC.Search(new SpatialFilterClass { Geometry = line, SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects }, true);
             var topo = line as ITopologicalOperator;
@@ -58,7 +58,7 @@ namespace LoowooTech.Traffic.Common
             return dict;
         }
 
-        private List<IPolyline> SplitPolylineInner(IPolyline srcLine, List<IPoint> pts)
+        public static List<IPolyline> SplitPolylineInner(IPolyline srcLine, List<IPoint> pts)
         {
             var lines = new List<IPolyline>(new[] { srcLine });
             for (var i = 0; i < pts.Count; i++)
@@ -96,15 +96,21 @@ namespace LoowooTech.Traffic.Common
             return lines;
         }
 
-        public void SplitPolyline(IPolyline srcLine, List<IPoint> pts, Dictionary<string, object> values, IFeatureClass fc)
+        public static List<int> SplitPolyline(IPolyline srcLine, List<IPoint> pts, Dictionary<string, string> values, IFeatureClass fc, bool dropHead, bool dropTail)
         {
             var lines = SplitPolylineInner(srcLine, pts);
             var cursor = fc.Insert(true);
             var idIndex = cursor.FindField(IDField);
+            var count = 0;
+            var ret = new List<int>();
             foreach (var line in lines)
             {
+                if (dropHead == true && count == 0) continue;
+                if (dropTail == true && count == lines.Count - 1) continue;
                 var buff = fc.CreateFeatureBuffer();
-                buff.set_Value(idIndex, GetNewId(fc));
+                var id = GetNewId(fc);
+                ret.Add(id);
+                buff.set_Value(idIndex, id);
                 buff.Shape = line;
                 CopyValues(buff, values);
                 cursor.InsertFeature(buff);
@@ -112,25 +118,29 @@ namespace LoowooTech.Traffic.Common
             }
 
             Marshal.ReleaseComObject(cursor);
+            return ret;
         }
 
 
-        public void SplitPolyline(int oid, List<IPoint> pts, IFeatureClass fc)
+        public static List<int> SplitPolyline(int oid, List<IPoint> pts, IFeatureClass fc)
         {
             var f = fc.GetFeature(oid);
             
             var geo = f.ShapeCopy as IPolyline;
+            var ret = new List<int>();
 
             var lines = SplitPolylineInner(geo, pts);
 
-            if (lines.Count < 2) return;
+            if (lines.Count < 2) return ret ;
 
             var cursor = fc.Insert(true);
             var idIndex = cursor.FindField(IDField);
             foreach(var line in lines)
             {
                 var buff = fc.CreateFeatureBuffer();
-                buff.set_Value(idIndex, GetNewId(fc));
+                var id = GetNewId(fc);
+                ret.Add(id);
+                buff.set_Value(idIndex, id);
                 buff.Shape = line;
                 CopyFields(f, buff);
                 cursor.InsertFeature(buff);
@@ -140,6 +150,7 @@ namespace LoowooTech.Traffic.Common
             Marshal.ReleaseComObject(cursor);
 
             f.Delete();
+            return ret;
         }
 
         private static int GetNewId(IFeatureClass fc)
@@ -158,9 +169,9 @@ namespace LoowooTech.Traffic.Common
         }
 
 
-        private static readonly string[] ReservedFields = new string[] { "OBJECTID", "FID", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "BH" };
+        private static readonly string[] ReservedFields = new string[] { "OBJECTID", "FID", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "NO_" };
 
-        private static readonly string IDField = "BH";
+        private static readonly string IDField = "NO_";
 
         private static void CopyFields(IFeature from, IFeatureBuffer to)
         {
@@ -180,7 +191,7 @@ namespace LoowooTech.Traffic.Common
             
         }
 
-        private static void CopyValues(IFeatureBuffer buff, Dictionary<string, object> values)
+        private static void CopyValues(IFeatureBuffer buff, Dictionary<string, string> values)
         {
             for (var i = 0; i < buff.Fields.FieldCount; i++)
             {
