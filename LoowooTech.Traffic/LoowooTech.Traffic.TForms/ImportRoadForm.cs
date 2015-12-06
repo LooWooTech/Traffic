@@ -1,4 +1,5 @@
-﻿using ESRI.ArcGIS.Geodatabase;
+﻿using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Traffic.Common;
 using System;
@@ -16,6 +17,7 @@ namespace LoowooTech.Traffic.TForms
     public partial class ImportRoadForm : Form
     {
         private IFeatureClass m_RoadFeatureClass;
+        private IFeatureClass m_DistrictClass;
         private readonly List<CrossroadInfo> m_Crossroads = new List<CrossroadInfo>();
         private IPolyline m_Polyline;
         private EditAttributeControl editAttributeControl1 = new EditAttributeControl();
@@ -34,10 +36,11 @@ namespace LoowooTech.Traffic.TForms
             InitializeComponent();
         }
 
-        public ImportRoadForm(IPolyline newRoad, IFeatureClass fc, IList<CrossroadInfo> infos)
+        public ImportRoadForm(IPolyline newRoad, IFeatureClass fc, IFeatureClass districtFC, IList<CrossroadInfo> infos)
         {
             InitializeComponent();
             m_RoadFeatureClass = fc;
+            m_DistrictClass = districtFC;
             m_Polyline = newRoad;
             m_Crossroads.Clear();
             m_Crossroads.AddRange(infos);
@@ -50,9 +53,10 @@ namespace LoowooTech.Traffic.TForms
             panel2.Dock = DockStyle.Fill;
             panel3.Dock = DockStyle.Fill;
             panel4.Dock = DockStyle.Fill;
-            panel2.Controls.Add(editAttributeControl1);
+            tabPage4.Controls.Add(editAttributeControl1);
             editAttributeControl1.Dock = DockStyle.Fill;
             editAttributeControl1.Initialize(m_RoadFeatureClass);
+            UpdateStepUI();
         }
 
         private void LoadCrossroad()
@@ -73,6 +77,7 @@ namespace LoowooTech.Traffic.TForms
         private IPolyline m_HeadPolyline;
         private IPolyline m_TailPolyline;
 
+        
         private void LoadFragment()
         {
             var list = new List<CrossroadInfo>();
@@ -90,9 +95,10 @@ namespace LoowooTech.Traffic.TForms
             var count = 1;
             if(polylines.Count>0)
             {
-                if(polylines[0].Length < 100)
+                var length = GetProjectedLength( polylines[0]);
+                if(length < 100)
                 {
-                    var item = new ListViewItem(new[] { count.ToString(), polylines[0].Length.ToString()});
+                    var item = new ListViewItem(new[] { count.ToString(), length.ToString()});
                     item.Tag = "0";
                     item.Checked = true;
                     m_HeadPolyline = polylines[0];
@@ -100,9 +106,10 @@ namespace LoowooTech.Traffic.TForms
                     count++;
                 }
 
-                if(polylines.Count>1 && polylines[polylines.Count-1].Length < 100)
+                length = GetProjectedLength(polylines[polylines.Count - 1]);
+                if(polylines.Count>1 && length < 100)
                 {
-                    var item = new ListViewItem(new[] { count.ToString(), polylines[polylines.Count - 1].Length.ToString() });
+                    var item = new ListViewItem(new[] { count.ToString(), length.ToString() });
                     item.Tag = "1";
                     item.Checked = true;
                     m_TailPolyline = polylines[polylines.Count - 1];
@@ -110,6 +117,19 @@ namespace LoowooTech.Traffic.TForms
                     count++;
                 }                
             }
+        }
+
+        private double GetProjectedLength(IPolyline line)
+        {
+            var copy = new ObjectCopyClass();
+            var l2 = copy.Copy(line) as IPolyline;
+
+            var factory = new SpatialReferenceEnvironmentClass();
+            var fromSR = factory.CreateGeographicCoordinateSystem((int)esriSRGeoCS3Type.esriSRGeoCS_Xian1980);//西安80
+            var toSR = factory.CreateProjectedCoordinateSystem((int)esriSRProjCS4Type.esriSRProjCS_Xian1980_3_Degree_GK_Zone_40);//西安80
+            l2.SpatialReference = fromSR;
+            l2.Project(toSR);
+            return l2.Length;
         }
 
         private void listCrossroads_MouseClick(object sender, MouseEventArgs e)
@@ -136,43 +156,8 @@ namespace LoowooTech.Traffic.TForms
             Father.Twinkle(f);
         }
 
-        private void btnNext1_Click(object sender, EventArgs e)
+        private void ImportNewRoadAndSplitRoads()
         {
-            LoadFragment();
-            ribbonTab2.Visible = true;
-            ribbon1.TabIndex = 1;
-            ribbonTab1.Visible = false;
-            panel2.BringToFront();
-        }
-
-        private void btnNext2_Click(object sender, EventArgs e)
-        {
-            ribbonTab3.Visible = true;
-            ribbon1.TabIndex = 2;
-            ribbonTab2.Visible = false;
-            panel3.BringToFront();
-        }
-
-        private void btnPrevious2_Click(object sender, EventArgs e)
-        {
-            ribbonTab1.Visible = true;
-            ribbon1.TabIndex = 0;
-            ribbonTab2.Visible = false;
-            panel1.BringToFront();
-        }
-
-        private void btnPrevious3_Click(object sender, EventArgs e)
-        {
-            ribbonTab2.Visible = true;
-            ribbon1.TabIndex = 1;
-            ribbonTab3.Visible = false;
-            panel2.BringToFront();
-        }
-
-        private void btnNext3_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("是否确认开始新增道路到数据库，并打断已有的道路？", "请确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Cancel) return;
-
             var dropHead = false;
             var dropTail = false;
 
@@ -200,9 +185,9 @@ namespace LoowooTech.Traffic.TForms
                 }
             }
 
-            var polylines = RoadHelper.SplitPolylineInner(m_Polyline, list.Select(x => x.Point).ToList());
+            //var polylines = RoadHelper.SplitPolylineInner(m_Polyline, list.Select(x => x.Point).ToList());
             var newAttributes = editAttributeControl1.GetAttributes();
-            var ret = RoadHelper.SplitPolyline(m_Polyline, list.Select(x => x.Point).ToList(), newAttributes , m_RoadFeatureClass, dropHead, dropTail);
+            var ret = RoadHelper.SplitPolyline(m_Polyline, list.Select(x => x.Point).ToList(), newAttributes , m_RoadFeatureClass,m_DistrictClass, dropHead, dropTail);
             
             lstResult.Items.Clear();
             var count = 1;
@@ -238,9 +223,9 @@ namespace LoowooTech.Traffic.TForms
                 {
                     var item = new ListViewItem(new[] { 
                     count.ToString(), 
-                    no.ToString(),
+                    r.ToString(),
                     name,
-                    r.ToString(),name
+                    no.ToString(),name
                     });
 
                     item.Tag = r;
@@ -248,11 +233,6 @@ namespace LoowooTech.Traffic.TForms
                     count++;
                 }
             }
-
-            ribbonTab4.Visible = true;
-            ribbon1.TabIndex = 32;
-            ribbonTab3.Visible = false;
-            panel4.BringToFront();
         }
 
         private void btnFlashFragment_Click(object sender, EventArgs e)
@@ -335,15 +315,102 @@ namespace LoowooTech.Traffic.TForms
             {
                 e.Cancel = true;
             }
+            else
+            {
+                Father.EraseImportRoadCustomDrawing();
+            }
         }
 
         private void btnExit1_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
-
+        private int m_currentStep = 0;
         
+
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            if (m_currentStep >= 0) m_currentStep--;
+            UpdateStepUI();
+        }
+
+        private void btnNext1_Click(object sender, EventArgs e)
+        {
+            if(m_currentStep == 2)
+            {
+                if (MessageBox.Show("是否确认开始新增道路到数据库，并打断已有的道路？", "请确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Cancel) return;
+            }
+
+            if (m_currentStep < 4) m_currentStep++;
+            switch(m_currentStep)
+            {
+                case 1:
+                    LoadFragment();
+                    break;
+                case 3:
+                    try
+                    {
+                        ImportNewRoadAndSplitRoads();
+                        canClose = true;
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("更新数据库时发生错误:" + ex.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        m_currentStep = 2;
+                    }
+                    
+                    break;
+            }
+
+            UpdateStepUI();
+        }
+        
+        private void UpdateStepUI()
+        {
+            switch(m_currentStep)
+            {
+                case 0:
+                    ribbonTab1.Text = "步骤1：选择交点";
+                    ribbonPanel1.Visible = true;
+                    ribbonPanel3.Visible = false;
+                    ribbonPanel4.Visible = false;
+                    btnNext.Enabled = true;
+                    btnNext.Text = "下一步";
+                    btnPrevious.Enabled = false;
+                    panel1.BringToFront();
+                    break;
+                case 1:
+                    ribbonTab1.Text = "步骤2：属性录入";
+                    ribbonPanel1.Visible = false;
+                    ribbonPanel3.Visible = false;
+                    ribbonPanel4.Visible = false;
+                    btnNext.Text = "下一步";
+                    btnNext.Enabled = true;
+                    btnPrevious.Enabled = true;
+                    panel2.BringToFront();
+                    break;
+                case 2:
+                    ribbonTab1.Text = "步骤3：碎片修剪";
+                    ribbonPanel1.Visible = false;
+                    ribbonPanel3.Visible = true;
+                    ribbonPanel4.Visible = false;
+                    btnNext.Text = "开始导入";
+                    btnNext.Enabled = true;
+                    btnPrevious.Enabled = true;
+                    panel3.BringToFront();
+                    break;
+                case 3:
+                    ribbonTab1.Text = "步骤4：导入完成";
+                    ribbonPanel1.Visible = false;
+                    ribbonPanel3.Visible = false;
+                    ribbonPanel4.Visible = true;
+                    btnNext.Enabled = false;
+                    btnPrevious.Enabled = false;
+                    panel4.BringToFront();
+                    break;
+            }
+        }
         
     }
 }

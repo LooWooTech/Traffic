@@ -28,7 +28,7 @@ namespace LoowooTech.Traffic
             //Application.Run(new MainForm());
             var splash = new SplashForm();
             splash.Show();
-            Application.DoEvents();
+            
             var form = new MainForm();
             splash.Form = form;
             form.Splash = splash;

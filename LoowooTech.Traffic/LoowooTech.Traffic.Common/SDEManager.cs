@@ -178,8 +178,6 @@ namespace LoowooTech.Traffic.Common
         private static string Version { get; set; }
         private static IWorkspace SDEWorkspace { get; set; }
 
-        
-
         static SDEManager()
         {
             Server = System.Configuration.ConfigurationManager.AppSettings["SERVER"];
@@ -188,7 +186,12 @@ namespace LoowooTech.Traffic.Common
             Password = System.Configuration.ConfigurationManager.AppSettings["PASSWORD"];
             Database = System.Configuration.ConfigurationManager.AppSettings["DATABASE"];
             Version = System.Configuration.ConfigurationManager.AppSettings["VERSION"];
+        }
+
+        public static bool Connect()
+        {
             SDEWorkspace = OpenSde();
+            return SDEWorkspace != null;
         }
         
         private static IWorkspace arcSDEWorkspaceOpen(string server, string instance, string user, string password, string database, string version)

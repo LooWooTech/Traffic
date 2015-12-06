@@ -155,6 +155,18 @@ namespace LoowooTech.Traffic.TForms
                 Width = 3,
                 Color = DisplayHelper.GetRGBColor(0, 0, 0, 200)
             };
+            axMapControl1.OnAfterDraw += this.axMapControl1_OnAfterDraw;
+        }
+        
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if(SDEManager.Connect() == false)
+            {
+                if (Splash != null) Splash.TopMost = false;
+                MessageBox.Show("连接数据库错误，请联系系统维护人员。");
+                if (Splash != null) Splash.TopMost = true;
+            
+            }
             try
             {
                 string mxdPath1 = System.IO.Path.Combine(Application.StartupPath, MXDPath);
@@ -162,14 +174,13 @@ namespace LoowooTech.Traffic.TForms
             }
             catch (Exception ex)
             {
+                if (Splash != null) Splash.TopMost = false;
                 MessageBox.Show("载入地图错误:" + ex.ToString());
+                if (Splash != null) Splash.TopMost = true;
             }
 
             axTOCControl1.SetBuddyControl(axMapControl1);
-        }
-        
-        private void MainForm_Load(object sender, EventArgs e)
-        {
+
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
@@ -1258,7 +1269,7 @@ namespace LoowooTech.Traffic.TForms
                 var path = System.IO.Path.GetDirectoryName(dialog.FileName);
                 var ws = factory.OpenFromFile(path, 0) as IFeatureWorkspace;
 
-                var fc = ws.OpenFeatureClass(System.IO.Path.GetFileName(dialog.FileName) + " polyline");
+                var fc = ws.OpenFeatureClass(System.IO.Path.GetFileName(dialog.FileName) + ":polyline");
 
                 var cursor = fc.Search(null, true);
                 var f = cursor.NextFeature();
@@ -1326,9 +1337,10 @@ namespace LoowooTech.Traffic.TForms
             m_ImportRoad = pl;
 
             Center(pl);
+            axMapControl1.Refresh(esriViewDrawPhase.esriViewForeground, Type.Missing, Type.Missing);
             //axMapControl1.ActiveView.Refresh();
 
-            var form = new ImportRoadForm(pl, fc, m_Crossroads);
+            var form = new ImportRoadForm(pl, fc, XZQFeatureClass, m_Crossroads);
             form.Show(this);
         }
 
@@ -1366,19 +1378,22 @@ namespace LoowooTech.Traffic.TForms
         private void axMapControl1_OnAfterDraw(object sender, IMapControlEvents2_OnAfterDrawEvent e)
         {
             var viewDrawPhase = (esriViewDrawPhase)e.viewDrawPhase;
-            if (viewDrawPhase == esriViewDrawPhase.esriViewForeground)
+            //if (viewDrawPhase == esriViewDrawPhase.esriViewForeground)
             {
-                object r = m_CrossroadSymbol;
-                foreach (IGeometry pt in m_Crossroads)
-                {
-                    axMapControl1.DrawShape(pt, ref r);
-                }
 
                 object o = m_ImportRoadSymbol;
-                if(m_ImportRoad != null)
+                if (m_ImportRoad != null)
                 {
                     axMapControl1.DrawShape(m_ImportRoad, ref o);
                 }
+
+                object r = m_CrossroadSymbol;
+                foreach (var info in m_Crossroads)
+                {
+                    axMapControl1.DrawShape(info.Point, ref r);
+                }
+
+                
             }
         }
     }

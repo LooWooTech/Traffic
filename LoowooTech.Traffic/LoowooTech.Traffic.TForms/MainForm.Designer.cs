@@ -71,6 +71,10 @@
             this.BusDegree = new System.Windows.Forms.RibbonButton();
             this.BusRegion = new System.Windows.Forms.RibbonButton();
             this.BusLineBaseMap = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel23 = new System.Windows.Forms.RibbonPanel();
+            this.ExportBusPicture = new System.Windows.Forms.RibbonButton();
+            this.ExportBusShp = new System.Windows.Forms.RibbonButton();
+            this.ExportBusExcel = new System.Windows.Forms.RibbonButton();
             this.ribbonTab3 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel7 = new System.Windows.Forms.RibbonPanel();
             this.btnSearchParking = new System.Windows.Forms.RibbonButton();
@@ -122,16 +126,10 @@
             this.lblCoords = new System.Windows.Forms.ToolStripStatusLabel();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
-            this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.ribbonPanel23 = new System.Windows.Forms.RibbonPanel();
-            this.ExportBusPicture = new System.Windows.Forms.RibbonButton();
-            this.ExportBusShp = new System.Windows.Forms.RibbonButton();
-            this.ExportBusExcel = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -471,6 +469,34 @@
             this.BusLineBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusLineBaseMap.SmallImage")));
             this.BusLineBaseMap.Text = "基础图";
             this.BusLineBaseMap.Click += new System.EventHandler(this.BusLineBaseMap_Click);
+            // 
+            // ribbonPanel23
+            // 
+            this.ribbonPanel23.Items.Add(this.ExportBusPicture);
+            this.ribbonPanel23.Items.Add(this.ExportBusShp);
+            this.ribbonPanel23.Items.Add(this.ExportBusExcel);
+            this.ribbonPanel23.Text = "输出";
+            // 
+            // ExportBusPicture
+            // 
+            this.ExportBusPicture.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
+            this.ExportBusPicture.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusPicture.SmallImage")));
+            this.ExportBusPicture.Text = "图片导出";
+            this.ExportBusPicture.Click += new System.EventHandler(this.ExportActiveView_Click);
+            // 
+            // ExportBusShp
+            // 
+            this.ExportBusShp.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportBusShp.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusShp.SmallImage")));
+            this.ExportBusShp.Text = "图形导出";
+            this.ExportBusShp.Click += new System.EventHandler(this.ExportBusLineSHP_Click);
+            // 
+            // ExportBusExcel
+            // 
+            this.ExportBusExcel.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
+            this.ExportBusExcel.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusExcel.SmallImage")));
+            this.ExportBusExcel.Text = "导出Excel";
+            this.ExportBusExcel.Click += new System.EventHandler(this.ExportBusLineExcel_Click);
             // 
             // ribbonTab3
             // 
@@ -830,15 +856,6 @@
             this.axTOCControl1.Size = new System.Drawing.Size(245, 580);
             this.axTOCControl1.TabIndex = 8;
             // 
-            // axLicenseControl2
-            // 
-            this.axLicenseControl2.Enabled = true;
-            this.axLicenseControl2.Location = new System.Drawing.Point(721, 521);
-            this.axLicenseControl2.Name = "axLicenseControl2";
-            this.axLicenseControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl2.OcxState")));
-            this.axLicenseControl2.Size = new System.Drawing.Size(32, 32);
-            this.axLicenseControl2.TabIndex = 11;
-            // 
             // axMapControl1
             // 
             this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -851,34 +868,6 @@
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
             // 
-            // ribbonPanel23
-            // 
-            this.ribbonPanel23.Items.Add(this.ExportBusPicture);
-            this.ribbonPanel23.Items.Add(this.ExportBusShp);
-            this.ribbonPanel23.Items.Add(this.ExportBusExcel);
-            this.ribbonPanel23.Text = "输出";
-            // 
-            // ExportBusPicture
-            // 
-            this.ExportBusPicture.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
-            this.ExportBusPicture.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusPicture.SmallImage")));
-            this.ExportBusPicture.Text = "图片导出";
-            this.ExportBusPicture.Click += new System.EventHandler(this.ExportActiveView_Click);
-            // 
-            // ExportBusShp
-            // 
-            this.ExportBusShp.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
-            this.ExportBusShp.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusShp.SmallImage")));
-            this.ExportBusShp.Text = "图形导出";
-            this.ExportBusShp.Click += new System.EventHandler(this.ExportBusLineSHP_Click);
-            // 
-            // ExportBusExcel
-            // 
-            this.ExportBusExcel.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
-            this.ExportBusExcel.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusExcel.SmallImage")));
-            this.ExportBusExcel.Text = "导出Excel";
-            this.ExportBusExcel.Click += new System.EventHandler(this.ExportBusLineExcel_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -886,7 +875,6 @@
             this.ClientSize = new System.Drawing.Size(1028, 750);
             this.Controls.Add(this.axMapControl1);
             this.Controls.Add(this.axTOCControl1);
-            this.Controls.Add(this.axLicenseControl2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.axLicenseControl1);
             this.Controls.Add(this.ribbon1);
@@ -899,7 +887,6 @@
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -922,7 +909,6 @@
         private System.Windows.Forms.ToolStripStatusLabel OperatorTxt;
         private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
         private ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
-        private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl2;
         public ESRI.ArcGIS.Controls.AxMapControl axMapControl1;
         private System.Windows.Forms.RibbonPanel ribbonPanel1;
         private System.Windows.Forms.RibbonPanel ribbonPanel2;
