@@ -112,7 +112,7 @@ namespace LoowooTech.Traffic.TForms
         public OperateMode operateMode { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
-        private User CurrentUser { get; set; }
+        public User CurrentUser { get; set; }
         public SplashForm Splash { get; set; }
 
         private readonly List<CrossroadInfo> m_Crossroads = new List<CrossroadInfo>();

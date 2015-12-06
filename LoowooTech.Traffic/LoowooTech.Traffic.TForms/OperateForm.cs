@@ -18,6 +18,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass FeatureClass { get; set; }
         private Dictionary<string,int> FieldIndexDict { get; set; } //字段名称   对应  Index
         private Dictionary<string, int> RelationDict { get; set; }
+        private Dictionary<string, string> Dict { get; set; }
         private IGeometry geometry { get; set; }
         private IFeature Feature { get; set; }
         private MainForm Father { get; set; } 
@@ -46,14 +47,13 @@ namespace LoowooTech.Traffic.TForms
         {
             InitializeComponent();
         }
-
-        private void InitControl(int Index,int Width,string FieldName,string Values=null)
+        private void InitControl(int Index,int Width,string FieldName,string Label,string Values=null)
         {
             this.Labels[Index] = new Label();
             this.Labels[Index].Location = new System.Drawing.Point(20,30+Index*Width);
             this.Labels[Index].Name = "label" + FieldName;
             this.Labels[Index].Size = new System.Drawing.Size(80, 12);
-            this.Labels[Index].Text = FieldName;
+            this.Labels[Index].Text = Label;
             this.Controls.Add(this.Labels[Index]);
 
             this.TextBoxs[Index] = new TextBox();
@@ -70,25 +70,35 @@ namespace LoowooTech.Traffic.TForms
             this.Labels = new Label[FieldIndexDict.Count];
             this.TextBoxs = new TextBox[FieldIndexDict.Count];
             this.RelationDict = new Dictionary<string, int>();
+            this.Dict = LayerInfoHelper.GetLayerDictionary(FeatureClass.AliasName.GetAlongName());
             Dictionary<string,string> Temp=null;
             if (Feature != null)
             {
                 Temp = AttributeHelper.GetValues(this.Feature, FieldIndexDict);
             }
             int serial = 0;
+            string label = string.Empty;
             foreach (var key in FieldIndexDict.Keys)
             {
                 if (key.ToUpper() == "SHAPE" || key.ToUpper() == "OBJECTID"||key.ToUpper().Contains("OBJECTID")||key.ToUpper().Contains("SHAPE"))
                 {
                     continue;
                 }
-                if(Temp!=null&&Temp.ContainsKey(key))
+                if (Dict.ContainsKey(key))
                 {
-                    InitControl(serial, 40, key, Temp[key]);
+                    label = Dict[key];
                 }
                 else
                 {
-                    InitControl(serial, 40, key);
+                    label = key;
+                }
+                if(Temp!=null&&Temp.ContainsKey(key))
+                {
+                    InitControl(serial, 40, key, label, Temp[key]);
+                }
+                else
+                {
+                    InitControl(serial, 40, key, label);
                 }
                 
                 RelationDict.Add(key, serial);

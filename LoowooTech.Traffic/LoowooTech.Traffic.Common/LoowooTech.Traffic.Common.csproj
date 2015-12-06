@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="AttributeHelper.cs" />
     <Compile Include="DisplayHelper.cs" />
+    <Compile Include="EncryptExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="FileHelper.cs" />

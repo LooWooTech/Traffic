@@ -124,6 +124,10 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.ribbonPanel23 = new System.Windows.Forms.RibbonPanel();
+            this.ExportBusPicture = new System.Windows.Forms.RibbonButton();
+            this.ExportBusShp = new System.Windows.Forms.RibbonButton();
+            this.ExportBusExcel = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -377,6 +381,7 @@
             this.ribbonTab2.Panels.Add(this.ribbonPanel5);
             this.ribbonTab2.Panels.Add(this.ribbonPanel18);
             this.ribbonTab2.Panels.Add(this.ribbonPanel22);
+            this.ribbonTab2.Panels.Add(this.ribbonPanel23);
             this.ribbonTab2.Text = "公交相关";
             // 
             // ribbonPanel4
@@ -845,7 +850,34 @@
             this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
-            this.axMapControl1.OnAfterDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterDrawEventHandler(this.axMapControl1_OnAfterDraw);
+            // 
+            // ribbonPanel23
+            // 
+            this.ribbonPanel23.Items.Add(this.ExportBusPicture);
+            this.ribbonPanel23.Items.Add(this.ExportBusShp);
+            this.ribbonPanel23.Items.Add(this.ExportBusExcel);
+            this.ribbonPanel23.Text = "输出";
+            // 
+            // ExportBusPicture
+            // 
+            this.ExportBusPicture.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
+            this.ExportBusPicture.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusPicture.SmallImage")));
+            this.ExportBusPicture.Text = "图片导出";
+            this.ExportBusPicture.Click += new System.EventHandler(this.ExportActiveView_Click);
+            // 
+            // ExportBusShp
+            // 
+            this.ExportBusShp.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportBusShp.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusShp.SmallImage")));
+            this.ExportBusShp.Text = "图形导出";
+            this.ExportBusShp.Click += new System.EventHandler(this.ExportBusLineSHP_Click);
+            // 
+            // ExportBusExcel
+            // 
+            this.ExportBusExcel.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
+            this.ExportBusExcel.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusExcel.SmallImage")));
+            this.ExportBusExcel.Text = "导出Excel";
+            this.ExportBusExcel.Click += new System.EventHandler(this.ExportBusLineExcel_Click);
             // 
             // MainForm
             // 
@@ -972,6 +1004,10 @@
         private System.Windows.Forms.RibbonButton RoadBaseMap;
         private System.Windows.Forms.RibbonButton BusLineBaseMap;
         private System.Windows.Forms.RibbonButton btnRegionFilterParking;
+        private System.Windows.Forms.RibbonPanel ribbonPanel23;
+        private System.Windows.Forms.RibbonButton ExportBusPicture;
+        private System.Windows.Forms.RibbonButton ExportBusShp;
+        private System.Windows.Forms.RibbonButton ExportBusExcel;
         
     }
 }

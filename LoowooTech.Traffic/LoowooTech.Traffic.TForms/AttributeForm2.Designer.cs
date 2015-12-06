@@ -36,10 +36,10 @@
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
+            this.BtnStatistic = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel3 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton4 = new System.Windows.Forms.RibbonButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.BtnStatistic = new System.Windows.Forms.RibbonButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,6 +109,13 @@
             this.ribbonButton3.Text = "导出表格";
             this.ribbonButton3.Click += new System.EventHandler(this.ExportExcel_Click);
             // 
+            // BtnStatistic
+            // 
+            this.BtnStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
+            this.BtnStatistic.SmallImage = ((System.Drawing.Image)(resources.GetObject("BtnStatistic.SmallImage")));
+            this.BtnStatistic.Text = "统计";
+            this.BtnStatistic.Click += new System.EventHandler(this.BtnStatistic_Click);
+            // 
             // ribbonPanel3
             // 
             this.ribbonPanel3.Items.Add(this.ribbonButton4);
@@ -132,13 +139,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(742, 332);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
-            // 
-            // BtnStatistic
-            // 
-            this.BtnStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.BtnStatistic.SmallImage = ((System.Drawing.Image)(resources.GetObject("BtnStatistic.SmallImage")));
-            this.BtnStatistic.Text = "统计";
-            this.BtnStatistic.Click += new System.EventHandler(this.BtnStatistic_Click);
             // 
             // AttributeForm2
             // 

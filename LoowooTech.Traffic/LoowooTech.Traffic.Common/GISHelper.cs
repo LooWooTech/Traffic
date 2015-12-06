@@ -348,8 +348,8 @@ namespace LoowooTech.Traffic.Common
             string lineDirect = string.Empty;
             foreach (var feature in List)
             {
-                lineNameshort = feature.get_Value(Index1).ToString();
-                lineDirect = feature.get_Value(Index2).ToString();
+                lineNameshort = feature.get_Value(Index1).ToString().Trim();
+                lineDirect = feature.get_Value(Index2).ToString().Trim();
                 if (!string.IsNullOrEmpty(lineNameshort)&&!string.IsNullOrEmpty(lineDirect))
                 {
                     if (string.IsNullOrEmpty(WhereClause))
