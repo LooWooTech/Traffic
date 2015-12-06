@@ -10,7 +10,7 @@ namespace LoowooTech.Traffic.Common
         private static XmlDocument confiXml { get; set; }
         static RelationHelper()
         {
-            string relationInfoPath = System.Configuration.ConfigurationManager.AppSettings["RELATION"];
+            string relationInfoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["RELATION"]);
             confiXml = new XmlDocument();
             confiXml.Load(relationInfoPath);
         }

@@ -26,8 +26,12 @@ namespace LoowooTech.Traffic.TForms
             var user = tool.Login(this.textBox1.Text, this.textBox2.Text);
             if (user != null)
             {
-                if (Form != null) 
+                if (Form != null)
+                {
                     Form.Enabled = true;
+                    Form.CurrentUser = user;
+                }
+                    
                 MessageBox.Show("成功登陆"+user.Role.GetDescription()+" 用户:"+user.Name);
                 this.Close();
             }
