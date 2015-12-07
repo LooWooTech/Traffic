@@ -83,6 +83,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _1449523215_URL_History_64 {
+            get {
+                object obj = ResourceManager.GetObject("1449523215_URL_History-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Add_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Add_32x32", resourceCulture);

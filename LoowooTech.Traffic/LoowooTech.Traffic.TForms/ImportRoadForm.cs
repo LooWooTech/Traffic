@@ -312,7 +312,7 @@ namespace LoowooTech.Traffic.TForms
         {
             if (canClose) 
             {
-                Father.EraseImportRoadCustomDrawing()
+                Father.EraseImportRoadCustomDrawing();
                 return;
             }
 

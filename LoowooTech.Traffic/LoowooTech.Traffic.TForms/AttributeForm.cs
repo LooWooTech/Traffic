@@ -74,5 +74,11 @@ namespace LoowooTech.Traffic.TForms
         {
             this.Invoke(new EventOperator(Father.Analyze2), new[] { this.Feature.Shape });
         }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+            var form = new HistoryForm();
+            form.ShowDialog();
+        }
     }
 }

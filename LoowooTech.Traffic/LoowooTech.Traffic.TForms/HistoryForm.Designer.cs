@@ -1,6 +1,6 @@
 ﻿namespace LoowooTech.Traffic.TForms
 {
-    partial class AttributeForm
+    partial class HistoryForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AttributeForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryForm));
             this.ribbon1 = new System.Windows.Forms.Ribbon();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
+            this.ribbonSeparator1 = new System.Windows.Forms.RibbonSeparator();
             this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
-            this.RoadAndBus = new System.Windows.Forms.RibbonButton();
-            this.btnHistory = new System.Windows.Forms.RibbonButton();
             this.ribbonButton4 = new System.Windows.Forms.RibbonButton();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.lstResult = new System.Windows.Forms.ListView();
+            this.序号 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.新道路编号 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.新道路名称 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.原道路编号 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // ribbon1
@@ -62,8 +64,8 @@
             this.ribbon1.OrbStyle = System.Windows.Forms.RibbonOrbStyle.Office_2010;
             this.ribbon1.OrbVisible = false;
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
-            this.ribbon1.Size = new System.Drawing.Size(377, 115);
-            this.ribbon1.TabIndex = 1;
+            this.ribbon1.Size = new System.Drawing.Size(634, 114);
+            this.ribbon1.TabIndex = 2;
             this.ribbon1.Tabs.Add(this.ribbonTab1);
             this.ribbon1.TabsMargin = new System.Windows.Forms.Padding(12, 2, 20, 0);
             this.ribbon1.Text = "ribbon1";
@@ -73,16 +75,14 @@
             // 
             this.ribbonTab1.Panels.Add(this.ribbonPanel1);
             this.ribbonTab1.Panels.Add(this.ribbonPanel2);
-            this.ribbonTab1.Text = "功能";
+            this.ribbonTab1.Text = "操作";
             // 
             // ribbonPanel1
             // 
-            this.ribbonPanel1.ButtonMoreEnabled = false;
-            this.ribbonPanel1.ButtonMoreVisible = false;
             this.ribbonPanel1.Items.Add(this.ribbonButton1);
+            this.ribbonPanel1.Items.Add(this.ribbonButton2);
+            this.ribbonPanel1.Items.Add(this.ribbonSeparator1);
             this.ribbonPanel1.Items.Add(this.ribbonButton3);
-            this.ribbonPanel1.Items.Add(this.RoadAndBus);
-            this.ribbonPanel1.Items.Add(this.btnHistory);
             this.ribbonPanel1.Text = "";
             // 
             // ribbonPanel2
@@ -90,72 +90,79 @@
             this.ribbonPanel2.Items.Add(this.ribbonButton4);
             this.ribbonPanel2.Text = "";
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 115);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(377, 486);
-            this.dataGridView1.TabIndex = 2;
-            // 
             // ribbonButton1
             // 
-            this.ribbonButton1.DropDownItems.Add(this.ribbonButton2);
-            this.ribbonButton1.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom2_32x32;
+            this.ribbonButton1.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
             this.ribbonButton1.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.SmallImage")));
-            this.ribbonButton1.Text = "移动到记录";
-            this.ribbonButton1.Click += new System.EventHandler(this.MoveButton_Click);
+            this.ribbonButton1.Text = "闪烁道路";
             // 
             // ribbonButton2
             // 
-            this.ribbonButton2.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.Image")));
+            this.ribbonButton2.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom2_32x32;
             this.ribbonButton2.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.SmallImage")));
-            this.ribbonButton2.Text = "ribbonButton2";
+            this.ribbonButton2.Text = "移动到道路";
             // 
             // ribbonButton3
             // 
-            this.ribbonButton3.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.ribbonButton3.Image = global::LoowooTech.Traffic.TForms.Properties.Resources._1449523215_URL_History_64;
             this.ribbonButton3.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton3.SmallImage")));
-            this.ribbonButton3.Text = "闪烁记录";
-            this.ribbonButton3.Click += new System.EventHandler(this.TwinkleButton_Click);
-            // 
-            // RoadAndBus
-            // 
-            this.RoadAndBus.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.RoadAndBus.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadAndBus.SmallImage")));
-            this.RoadAndBus.Text = "公交记录";
-            this.RoadAndBus.Click += new System.EventHandler(this.RoadAndBus_Click);
-            // 
-            // btnHistory
-            // 
-            this.btnHistory.Image = global::LoowooTech.Traffic.TForms.Properties.Resources._1449523215_URL_History_64;
-            this.btnHistory.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnHistory.SmallImage")));
-            this.btnHistory.Text = "历史记录";
-            this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
+            this.ribbonButton3.Text = "退回到";
             // 
             // ribbonButton4
             // 
             this.ribbonButton4.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Close_32x32;
             this.ribbonButton4.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton4.SmallImage")));
             this.ribbonButton4.Text = "关闭窗口";
-            this.ribbonButton4.Click += new System.EventHandler(this.ribbonButton4_Click);
             // 
-            // AttributeForm
+            // lstResult
+            // 
+            this.lstResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.序号,
+            this.新道路编号,
+            this.新道路名称,
+            this.原道路编号});
+            this.lstResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstResult.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstResult.FullRowSelect = true;
+            this.lstResult.GridLines = true;
+            this.lstResult.Location = new System.Drawing.Point(0, 114);
+            this.lstResult.MultiSelect = false;
+            this.lstResult.Name = "lstResult";
+            this.lstResult.ShowGroups = false;
+            this.lstResult.Size = new System.Drawing.Size(634, 203);
+            this.lstResult.TabIndex = 3;
+            this.lstResult.UseCompatibleStateImageBehavior = false;
+            this.lstResult.View = System.Windows.Forms.View.Details;
+            // 
+            // 序号
+            // 
+            this.序号.Text = "序号";
+            // 
+            // 新道路编号
+            // 
+            this.新道路编号.Text = "原道路编号";
+            this.新道路编号.Width = 137;
+            // 
+            // 新道路名称
+            // 
+            this.新道路名称.Text = "新道路编号";
+            this.新道路名称.Width = 142;
+            // 
+            // 原道路编号
+            // 
+            this.原道路编号.Text = "归档时间";
+            this.原道路编号.Width = 155;
+            // 
+            // HistoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(377, 601);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(634, 317);
+            this.Controls.Add(this.lstResult);
             this.Controls.Add(this.ribbon1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.Name = "AttributeForm";
-            this.Text = "属性";
-            this.Load += new System.EventHandler(this.AttributeForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Name = "HistoryForm";
+            this.Text = "道路历史信息";
             this.ResumeLayout(false);
 
         }
@@ -167,12 +174,15 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel1;
         private System.Windows.Forms.RibbonButton ribbonButton1;
         private System.Windows.Forms.RibbonButton ribbonButton2;
+        private System.Windows.Forms.RibbonSeparator ribbonSeparator1;
         private System.Windows.Forms.RibbonButton ribbonButton3;
         private System.Windows.Forms.RibbonPanel ribbonPanel2;
         private System.Windows.Forms.RibbonButton ribbonButton4;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.RibbonButton RoadAndBus;
-        private System.Windows.Forms.RibbonButton btnHistory;
+        private System.Windows.Forms.ListView lstResult;
+        private System.Windows.Forms.ColumnHeader 序号;
+        private System.Windows.Forms.ColumnHeader 新道路编号;
+        private System.Windows.Forms.ColumnHeader 新道路名称;
+        private System.Windows.Forms.ColumnHeader 原道路编号;
 
     }
 }
