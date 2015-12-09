@@ -127,6 +127,7 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -160,6 +161,7 @@
             this.ribbon1.QuickAcessToolbar.Items.Add(this.btnIdentify);
             this.ribbon1.QuickAcessToolbar.Items.Add(this.btnGlobe);
             this.ribbon1.QuickAcessToolbar.Items.Add(this.btnRefresh);
+            this.ribbon1.QuickAcessToolbar.Items.Add(this.ribbonButton1);
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
             this.ribbon1.Size = new System.Drawing.Size(1028, 148);
             this.ribbon1.TabIndex = 0;
@@ -868,6 +870,13 @@
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
             // 
+            // ribbonButton1
+            // 
+            this.ribbonButton1.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.Image")));
+            this.ribbonButton1.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
+            this.ribbonButton1.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.BlackPoint_16X16;
+            this.ribbonButton1.Text = "ribbonButton1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -994,6 +1003,7 @@
         private System.Windows.Forms.RibbonButton ExportBusPicture;
         private System.Windows.Forms.RibbonButton ExportBusShp;
         private System.Windows.Forms.RibbonButton ExportBusExcel;
+        private System.Windows.Forms.RibbonButton ribbonButton1;
         
     }
 }

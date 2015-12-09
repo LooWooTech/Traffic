@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ESRI.ArcGIS.ADF.Local, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.AxControls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.Carto, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -253,6 +254,10 @@
       <Project>{b5ce08a2-71ce-43ca-b60d-11ef4a2b6cf4}</Project>
       <Name>LoowooTech.Traffic.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Traffic.Tools\LoowooTech.Traffic.Tools.csproj">
+      <Project>{61888cfc-4c6f-4d80-b47c-93def9c23623}</Project>
+      <Name>LoowooTech.Traffic.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Info_16x16 %283%29.png" />
@@ -346,6 +351,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\1449523215_URL_History-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlackPoint_16X16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

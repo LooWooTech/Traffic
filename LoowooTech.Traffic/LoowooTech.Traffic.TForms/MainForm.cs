@@ -10,6 +10,7 @@ using ESRI.ArcGIS.SystemUI;
 using LoowooTech.Traffic.Common;
 using LoowooTech.Traffic.Manager;
 using LoowooTech.Traffic.Models;
+using LoowooTech.Traffic.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -718,7 +719,6 @@ namespace LoowooTech.Traffic.TForms
             result.Show(this);
 
         }
-
         private void Analyze(IGeometry geometry)
         {
             switch (this.dataType)
@@ -741,14 +741,11 @@ namespace LoowooTech.Traffic.TForms
             axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, axMapControl1.ActiveView.Extent);
 
         }
-
         public void Analyze2(IGeometry geometry)
         {
             IFeatureLayer featureLayer = GetFeatureLayer(BusLineName.GetLayer());
             AnalyzeBase(geometry, SpaceMode.Intersect, featureLayer, "经过该道路公交路线");
         }
-        
-
         private void ShowAttribute(IGeometry geometry)
         {
             IFeatureClass CurrentFeatureClass = null;
@@ -805,7 +802,6 @@ namespace LoowooTech.Traffic.TForms
             }
 
         }
-
         /// <summary>
         /// 点击 点选查询路网
         /// </summary>
@@ -813,8 +809,11 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="e"></param>
         private void PointSearch_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            this.dataType = DataType.Road;
+            var cmd = new ClickSearchTool(RoadName.GetLayer(),RoadFilterWhereClause,this.axMapControl1);
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
+            //axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
+            //this.dataType = DataType.Road;
         }
         //公交点选
         private void PointBusLine_Click(object sender, EventArgs e)
