@@ -295,16 +295,82 @@ namespace LoowooTech.Traffic.Common
         
         public static Dictionary<string, double> Statistic(IFeatureClass FeatureClass, StatisticMode Mode)
         {
+            
+            if (Mode == StatisticMode.Region)
+            {
+                return Statistic(FeatureClass, "SIX");
+            }
+            else if (Mode == StatisticMode.Restrict)
+            {
+                return Statistic(FeatureClass, "CF");
+            }
             var dict = new Dictionary<string, double>();
             var list = LayerInfoHelper.GetStatistic(Mode.GetDescription());
             foreach (var item in list)
             {
                 if (!dict.ContainsKey(item) && !string.IsNullOrEmpty(item))
                 {
-                    dict.Add(item, Statistic2(FeatureClass, "LENGTH", "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'","DISTRICT='"+item+"' AND RANK='快速路'"));
+                    dict.Add(item, Statistic2(FeatureClass, "LENGTH", "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'","DISTRICT='"+item+"' AND "));
                 }
             }
             return dict;
+        }
+        public static Dictionary<string, double> Statistic(IFeatureClass FeatureClass,string FeatureClassName)
+        {
+            var dict = new Dictionary<string, double>();
+            IFeatureClass RegionFeatureClass = SDEManager.GetFeatureClass(System.Configuration.ConfigurationManager.AppSettings[FeatureClassName]);
+            int Serial = RegionFeatureClass.Fields.FindField("name");
+            if (RegionFeatureClass != null && Serial != -1)
+            {
+                IFeatureCursor featureCursor = RegionFeatureClass.Search(null, false);
+                IFeature feature = featureCursor.NextFeature();
+                string Name = string.Empty;
+                while (feature != null)
+                {
+                    Name = feature.get_Value(Serial).ToString().Trim();
+                    if (!string.IsNullOrEmpty(Name) && !dict.ContainsKey(Name))
+                    {
+                        dict.Add(Name, Statistic2(FeatureClass, "LENGTH", feature, "RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'") - Statistic2(FeatureClass, "LENGTH", feature, "RANK='快速路'"));
+                    }
+                    feature = featureCursor.NextFeature();
+                }
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            }
+            return dict;
+        }
+        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,IFeature Feature,string WhererClause)
+        {
+
+            var spatialFilter = new SpatialFilterClass
+            {
+                Geometry = Feature.Shape,
+                WhereClause = WhererClause,
+            };
+
+            var rels = new []{esriSpatialRelEnum.esriSpatialRelIntersects, esriSpatialRelEnum.esriSpatialRelContains };
+            IFeatureCursor featureCursor = null;
+            ICursor cursor = null;
+            double statisticVal = 0.0;
+            foreach(var rel in rels)
+            {
+                spatialFilter.SpatialRel = rel;
+                featureCursor = FeatureClass.Search(spatialFilter, false);
+                cursor = featureCursor as ICursor;
+                
+               
+                IDataStatistics dataStatistic;
+                IStatisticsResults statisticResults;
+                if (cursor != null)
+                {
+                    dataStatistic = new DataStatisticsClass();
+                    dataStatistic.Cursor = cursor;
+                    dataStatistic.Field = FieldName;
+                    statisticResults = dataStatistic.Statistics;
+                    statisticVal += statisticResults.Sum;
+                }
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return statisticVal;
         }
 
         public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause,string WhereClause2=null)

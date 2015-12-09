@@ -178,6 +178,7 @@
       <DependentUpon>StatisticsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\ClickSearchTool.cs" />
+    <Compile Include="Tools\FrameSearchTool.cs" />
     <Compile Include="UserForm.cs">
       <SubType>Form</SubType>
     </Compile>

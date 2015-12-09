@@ -37,6 +37,7 @@
             this.btnIdentify = new System.Windows.Forms.RibbonButton();
             this.btnGlobe = new System.Windows.Forms.RibbonButton();
             this.btnRefresh = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
             this.btnSearchRoad = new System.Windows.Forms.RibbonButton();
@@ -127,7 +128,7 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
+            this.BtnRoadBus = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -236,6 +237,13 @@
             this.btnRefresh.Text = "ribbonButton1";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // ribbonButton1
+            // 
+            this.ribbonButton1.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.Image")));
+            this.ribbonButton1.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
+            this.ribbonButton1.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.BlackPoint_16X16;
+            this.ribbonButton1.Text = "ribbonButton1";
+            // 
             // ribbonTab1
             // 
             this.ribbonTab1.Panels.Add(this.ribbonPanel1);
@@ -250,6 +258,7 @@
             // 
             this.ribbonPanel1.Items.Add(this.btnSearchRoad);
             this.ribbonPanel1.Items.Add(this.btnIdentifyRoad);
+            this.ribbonPanel1.Items.Add(this.BtnRoadBus);
             this.ribbonPanel1.Text = "查询";
             // 
             // btnSearchRoad
@@ -843,7 +852,7 @@
             // axLicenseControl1
             // 
             this.axLicenseControl1.Enabled = true;
-            this.axLicenseControl1.Location = new System.Drawing.Point(948, 95);
+            this.axLicenseControl1.Location = new System.Drawing.Point(996, 110);
             this.axLicenseControl1.Name = "axLicenseControl1";
             this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
             this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
@@ -870,12 +879,12 @@
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl1_OnDoubleClick);
             // 
-            // ribbonButton1
+            // BtnRoadBus
             // 
-            this.ribbonButton1.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.Image")));
-            this.ribbonButton1.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
-            this.ribbonButton1.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.BlackPoint_16X16;
-            this.ribbonButton1.Text = "ribbonButton1";
+            this.BtnRoadBus.Image = ((System.Drawing.Image)(resources.GetObject("BtnRoadBus.Image")));
+            this.BtnRoadBus.SmallImage = ((System.Drawing.Image)(resources.GetObject("BtnRoadBus.SmallImage")));
+            this.BtnRoadBus.Text = "道路上的公交";
+            this.BtnRoadBus.Click += new System.EventHandler(this.BtnRoadBus_Click);
             // 
             // MainForm
             // 
@@ -1004,6 +1013,7 @@
         private System.Windows.Forms.RibbonButton ExportBusShp;
         private System.Windows.Forms.RibbonButton ExportBusExcel;
         private System.Windows.Forms.RibbonButton ribbonButton1;
+        private System.Windows.Forms.RibbonButton BtnRoadBus;
         
     }
 }

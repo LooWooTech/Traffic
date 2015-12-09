@@ -1132,8 +1132,11 @@ namespace LoowooTech.Traffic.TForms
         //公交路线 区域过滤
         private void RegionFilter_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
-            this.dataType = DataType.BusLine;
+            var cmd = new FrameSearchTool(axMapControl1, this);
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
+            //axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
+            //this.dataType = DataType.BusLine;
         }
 
         #region 渲染更改  路网  公交
@@ -1227,8 +1230,8 @@ namespace LoowooTech.Traffic.TForms
         //停车设施  区域过滤
         private void btnRegionFilterParking_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
-            this.dataType = DataType.Parking;
+            //axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
+            //this.dataType = DataType.Parking;
         }
 
         // 路网  编辑
@@ -1383,6 +1386,20 @@ namespace LoowooTech.Traffic.TForms
                 }
 
                 
+            }
+        }
+
+        private void BtnRoadBus_Click(object sender, EventArgs e)
+        {
+            var RoadFeatureLayer = GetFeatureLayer(RoadName.GetLayer());
+            if (RoadFeatureLayer.Visible == false)
+            {
+                RoadFeatureLayer.Visible = true;
+            }
+            var BusLineFeatureLayer = GetFeatureLayer(BusLineName.GetLayer());
+            if (BusLineFeatureLayer.Visible == false)
+            {
+                BusLineFeatureLayer.Visible = true;
             }
         }
     }
