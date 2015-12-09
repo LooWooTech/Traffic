@@ -10,7 +10,7 @@ using ESRI.ArcGIS.SystemUI;
 using LoowooTech.Traffic.Common;
 using LoowooTech.Traffic.Manager;
 using LoowooTech.Traffic.Models;
-using LoowooTech.Traffic.Tools;
+using LoowooTech.Traffic.TForms.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -802,6 +802,13 @@ namespace LoowooTech.Traffic.TForms
             }
 
         }
+
+        private void ClickSearchBase(string LayerName, string WhereClause)
+        {
+            var cmd = new ClickSearchTool(LayerName,WhereClause, this.axMapControl1, this);
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
+        }
         /// <summary>
         /// 点击 点选查询路网
         /// </summary>
@@ -809,24 +816,18 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="e"></param>
         private void PointSearch_Click(object sender, EventArgs e)
         {
-            var cmd = new ClickSearchTool(RoadName.GetLayer(),RoadFilterWhereClause,this.axMapControl1);
-            cmd.OnCreate(axMapControl1.Object);
-            axMapControl1.CurrentTool = (ITool)cmd;
-            //axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            //this.dataType = DataType.Road;
+            ClickSearchBase(RoadName.GetLayer(), RoadFilterWhereClause);
         }
         //公交点选
         private void PointBusLine_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            this.dataType = DataType.BusLine;
+            ClickSearchBase(BusLineName.GetLayer(), BusLineWhereClause);
         }
 
         //公交站点  点选
         private void PointBusStop_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            this.dataType = DataType.BusStop;
+            ClickSearchBase(BusStopName.GetLayer(), BusStopWhereClause);
         }
 
         /// <summary>
@@ -836,19 +837,16 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="e"></param>
         private void PointParkingButton_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            this.dataType = DataType.Parking;
+            ClickSearchBase(ParkingName.GetLayer(), ParkingWhereClause);
         }
         private void PointBikeButton_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            this.dataType = DataType.Bike;
+            ClickSearchBase(BikeName.GetLayer(), BikeWhereClause);
         }
 
         private void PointFlowButton_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerIdentify;
-            this.dataType = DataType.Flow;
+            ClickSearchBase(FlowName.GetLayer(), FlowWhereClause);
         }
         #endregion
 

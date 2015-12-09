@@ -11,12 +11,12 @@ using ESRI.ArcGIS.esriSystem;
 using LoowooTech.Traffic.Common;
 using ESRI.ArcGIS.Display;
 
-namespace LoowooTech.Traffic.Tools
+namespace LoowooTech.Traffic.TForms.Tools
 {
     [Guid("7DD372FA-4B16-4783-870C-5DE1B7229F73")]
     [ClassInterface(ClassInterfaceType.None)]
     [ProgId("Info.ExpTool")]
-    public sealed class ClickSearchTool:BaseTool
+    public sealed class ClickSearchTool : BaseTool
     {
         #region COM Registration Function(s)
         [ComRegisterFunction]
@@ -74,7 +74,7 @@ namespace LoowooTech.Traffic.Tools
         private AxMapControl axMapControl { get; set; }
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
-
+        private MainForm Father { get; set; }
         public IFeatureLayer FeatureLayer
         {
             get
@@ -103,14 +103,15 @@ namespace LoowooTech.Traffic.Tools
                         }
                     }
                 }
-                    return null;
+                return null;
             }
         }
-        public ClickSearchTool(string LayerName,string WhereClause,AxMapControl axMapControl)
+        public ClickSearchTool(string LayerName, string WhereClause, AxMapControl axMapControl,MainForm Father)
         {
             this.LayerName = LayerName;
             this.WhererClause = WhereClause;
             this.axMapControl = axMapControl;
+            this.Father = Father;
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
@@ -138,7 +139,7 @@ namespace LoowooTech.Traffic.Tools
         {
             if (feature == null) return;
             Twinkle(feature.Shape);
-        }
+        } 
         private void Twinkle(IGeometry geo)
         {
             if (geo == null) return;
@@ -169,7 +170,8 @@ namespace LoowooTech.Traffic.Tools
                     if (feature != null)
                     {
                         Twinkle(feature);
-                        
+                        AttributeForm form = new AttributeForm(feature, FeatureLayer.FeatureClass, LayerName);
+                        form.ShowDialog(this.Father);
                     }
                 }
             }
