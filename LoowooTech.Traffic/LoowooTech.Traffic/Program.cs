@@ -25,7 +25,6 @@ namespace LoowooTech.Traffic
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new MainForm());
             var splash = new SplashForm();
             splash.Show();
             
@@ -33,10 +32,6 @@ namespace LoowooTech.Traffic
             splash.Form = form;
             form.Splash = splash;
             Application.Run(form);
-            //ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
-            //LicenseManager.StartUp();
-            
-            //LicenseManager.ShutDown();
         }
     }
 }

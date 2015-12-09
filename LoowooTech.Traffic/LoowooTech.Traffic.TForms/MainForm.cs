@@ -106,6 +106,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass FlowFeatureClass { get; set; }
         private IFeatureClass XZQFeatureClass { get; set; }
         private INewPolygonFeedback newPolygonFeedback { get; set; }
+        private MapControl MapControl { get; set; }
         private bool RoadFlag { get; set; }
         public  InquiryMode inquiryMode { get; set; }
         public DataType dataType { get; set; }
@@ -123,6 +124,7 @@ namespace LoowooTech.Traffic.TForms
         public MainForm()
         {
             InitializeComponent();
+            MapControl = RendererHelper.GetMapControl();
             MXDPath = System.Configuration.ConfigurationManager.AppSettings["MXD"];
             RoadName = System.Configuration.ConfigurationManager.AppSettings["ROAD"];
             BusLineName = System.Configuration.ConfigurationManager.AppSettings["BUSLINE"];
@@ -1138,55 +1140,45 @@ namespace LoowooTech.Traffic.TForms
         }
 
         #region 渲染更改  路网  公交
-        private void Romance(string LyrFilePath, string LayerName)
+        private void Romance(string LayerName, string RendererName)
         {
-            if (!string.IsNullOrEmpty(LyrFilePath)&&System.IO.File.Exists(LyrFilePath))
-            {
-                MapControl mapControl = new MapControlClass();
-                mapControl.AddLayerFromFile(LyrFilePath);
-                IFeatureLayer RendererFeatureLayer = GetFeatureLayer(mapControl, LayerName);
-                if (RendererFeatureLayer != null)
-                {
-                    IGeoFeatureLayer rendererGeoFeatureLayer = RendererFeatureLayer as IGeoFeatureLayer;
-                    IFeatureLayer CurrentFeatureLayer = GetFeatureLayer(LayerName);
-                    IGeoFeatureLayer CurrentGeoFeatureLayer = CurrentFeatureLayer as IGeoFeatureLayer;
-                    CurrentGeoFeatureLayer.Renderer = rendererGeoFeatureLayer.Renderer;
-                    axTOCControl1.Refresh();
-                    axTOCControl1.Update();
-                    axMapControl1.Refresh();
-                    axMapControl1.Update();
-                }
-            }
+            IFeatureLayer CurrentFeatureLayer = GetFeatureLayer(LayerName);
+            IGeoFeatureLayer CurrentGeoFeatureLayer = CurrentFeatureLayer as IGeoFeatureLayer;
+            CurrentGeoFeatureLayer.Renderer = RendererHelper.GetRenderer(this.MapControl, RendererName);
+            axTOCControl1.Refresh();
+            axTOCControl1.Update();
+            axMapControl1.Refresh();
+            axMapControl1.Update();
         }
         //路网等级图
         private void RankMap_Click(object sender, EventArgs e)
         {
-            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["RoadRank"]), RoadName.GetLayer());
+            Romance(RoadName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["RoadRank"]);
         }
         //路网车道数图
         private void NumMap_Click(object sender, EventArgs e)
         {
-            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["RoadNumber"]), RoadName.GetLayer());
+            Romance(RoadName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["RoadNumber"]);
         }
         //路网基础图
         private void RoadBaseMap_Click(object sender, EventArgs e)
         {
-            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["RoadBase"]), RoadName.GetLayer());
+            Romance(RoadName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["RoadBase"]);
         }
         //公交等级图
         private void BusDegree_Click(object sender, EventArgs e)
         {
-            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["BusDegree"]), BusLineName.GetLayer());
+            Romance(BusLineName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["BusDegree"]);
         }
         //公交区域图
         private void BusRegion_Click(object sender, EventArgs e)
         {
-            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["BusRegion"]), BusLineName.GetLayer());
+            Romance(BusLineName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["BusRegion"]);
         }
         //公交基础图
         private void BusLineBaseMap_Click(object sender, EventArgs e)
         {
-            Romance(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["BusBase"]), BusLineName.GetLayer());
+            Romance(BusLineName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["BusBase"]);
         } 
         //进行唯一值渲染
         private void UniqueValueRenderer(IFeatureLayer featureLayer, string FieldName)
