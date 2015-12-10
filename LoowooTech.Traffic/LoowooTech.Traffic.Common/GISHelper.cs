@@ -263,6 +263,7 @@ namespace LoowooTech.Traffic.Common
                 {
                     if (!string.IsNullOrEmpty(row.get_Value(0).ToString()))
                     {
+                        //list.Add(row.get_Value(0).ToString());
                         if (field.Type == esriFieldType.esriFieldTypeString)
                         {
                             list.Add("'" + row.get_Value(0).ToString() + "'");

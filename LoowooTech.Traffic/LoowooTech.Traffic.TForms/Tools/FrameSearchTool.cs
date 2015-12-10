@@ -69,13 +69,45 @@ namespace LoowooTech.Traffic.TForms.Tools
         #endregion
 
         private IHookHelper mHookHelper { get; set; }
-        private INewPolygonFeedback newPolygonFeedback { get; set; }
         private AxMapControl axMapControl { get; set; }
         private MainForm Father { get; set; }
-        public FrameSearchTool(AxMapControl axMapControl,MainForm Father)
+        private string LayerName { get; set; }
+        public IFeatureLayer FeatureLayer
+        {
+            get
+            {
+                for (var i = 0; i < mHookHelper.FocusMap.LayerCount; i++)
+                {
+                    var tLayer = mHookHelper.FocusMap.get_Layer(i);
+                    if (tLayer is GroupLayer)
+                    {
+                        var layer = tLayer as ICompositeLayer;
+                        if (layer == null) continue;
+                        for (var j = 0; j < layer.Count; j++)
+                        {
+                            var featureLayer = layer.get_Layer(j) as IFeatureLayer;
+                            if (featureLayer.Name == LayerName)
+                            {
+                                return featureLayer;
+                            }
+                        }
+                    }
+                    else if (tLayer is FeatureLayer)
+                    {
+                        if ((tLayer as IFeatureLayer).Name == LayerName)
+                        {
+                            return tLayer as IFeatureLayer;
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+        public FrameSearchTool(AxMapControl axMapControl,MainForm Father,string LayerName)
         {
             this.Father = Father;
             this.axMapControl = axMapControl;
+            this.LayerName = LayerName;
         }
 
         public override void OnCreate(object hook)
@@ -93,14 +125,20 @@ namespace LoowooTech.Traffic.TForms.Tools
                 mHookHelper = null;
             }
         }
+
+        private void Filter(IGeometry geometry)
+        {
+            if (FeatureLayer != null&&geometry!=null&&geometry is Polygon)
+            {
+                Father.Invoke(new EventOperator(Father.Analyze), new[] { geometry });
+            }
+        }
         public override void OnMouseDown(int Button, int Shift, int X, int Y)
         {
+            axMapControl.Map.ClearSelection();
             var pg = axMapControl.TrackPolygon();
-            return;
-        }
-        public override void OnDblClick()
-        {
-            
+
+            Filter(pg);
         }
 
         public override void OnMouseUp(int Button, int Shift, int X, int Y)

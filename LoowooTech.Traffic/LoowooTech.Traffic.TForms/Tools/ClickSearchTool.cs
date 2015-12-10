@@ -75,6 +75,7 @@ namespace LoowooTech.Traffic.TForms.Tools
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
         private MainForm Father { get; set; }
+        private bool BusFlag { get; set; }
         public IFeatureLayer FeatureLayer
         {
             get
@@ -106,12 +107,13 @@ namespace LoowooTech.Traffic.TForms.Tools
                 return null;
             }
         }
-        public ClickSearchTool(string LayerName, string WhereClause, AxMapControl axMapControl,MainForm Father)
+        public ClickSearchTool(string LayerName, string WhereClause, AxMapControl axMapControl,MainForm Father,bool Bus=false)
         {
             this.LayerName = LayerName;
             this.WhererClause = WhereClause;
             this.axMapControl = axMapControl;
             this.Father = Father;
+            this.BusFlag = Bus;
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
@@ -170,8 +172,17 @@ namespace LoowooTech.Traffic.TForms.Tools
                     if (feature != null)
                     {
                         Twinkle(feature);
-                        AttributeForm form = new AttributeForm(feature, FeatureLayer.FeatureClass, LayerName);
-                        form.ShowDialog(this.Father);
+                        if (this.BusFlag)
+                        {
+                            axMapControl.Map.ClearSelection();
+                            Father.Analyze2(feature);
+                        }
+                        else
+                        {
+                            AttributeForm form = new AttributeForm(feature, FeatureLayer.FeatureClass, LayerName);
+                            form.ShowDialog(this.Father);
+                        }
+                       
                     }
                 }
             }

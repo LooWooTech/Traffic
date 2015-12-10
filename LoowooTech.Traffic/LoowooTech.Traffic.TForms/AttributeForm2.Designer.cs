@@ -68,6 +68,8 @@
             this.ribbon1.TabsMargin = new System.Windows.Forms.Padding(12, 2, 20, 0);
             this.ribbon1.Text = "ribbon1";
             this.ribbon1.ThemeColor = System.Windows.Forms.RibbonTheme.Blue;
+            this.ribbon1.TabIndexChanged += new System.EventHandler(this.ribbon1_TabIndexChanged);
+            this.ribbon1.Click += new System.EventHandler(this.ribbon1_Click);
             // 
             // ribbonTab1
             // 
@@ -135,10 +137,8 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 114);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(742, 332);
             this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // AttributeForm2
             // 
@@ -166,7 +166,7 @@
         private System.Windows.Forms.RibbonButton ribbonButton3;
         private System.Windows.Forms.RibbonPanel ribbonPanel3;
         private System.Windows.Forms.RibbonButton ribbonButton4;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.RibbonButton BtnStatistic;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

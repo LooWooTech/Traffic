@@ -26,6 +26,7 @@ namespace LoowooTech.Traffic.TForms
 {
     public delegate void EventOperator(IGeometry geometry);
     public delegate void EventOperator2(string FilePath);
+    public delegate void EventOperator3(IFeature Feature);
     public partial class MainForm : Form
     {
         private void UncheckAllButtons(object sender)
@@ -108,7 +109,6 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass XZQFeatureClass { get; set; }
         private INewPolygonFeedback newPolygonFeedback { get; set; }
         private MapControl MapControl { get; set; }
-        private bool RoadFlag { get; set; }
         public  InquiryMode inquiryMode { get; set; }
         public DataType dataType { get; set; }
         public OperateMode operateMode { get; set; }
@@ -285,17 +285,6 @@ namespace LoowooTech.Traffic.TForms
           
             
         }
-        ///// <summary>
-        ///// 根据查询条件 更新路网数据
-        ///// </summary>
-        //public void UpdateRoad()
-        //{
-        //    if (toolStripStatusLabel1.Text != RoadFilterWhereClause)
-        //    {
-        //        RoadFilterWhereClause = toolStripStatusLabel1.Text;
-        //        UpdateBase(RoadName, RoadFilterWhereClause);
-        //    }
-        //}
         public void UpdateBus()
         {
             switch (dataType)
@@ -320,6 +309,7 @@ namespace LoowooTech.Traffic.TForms
         public void MapRefresh()
         {
             this.axMapControl1.ActiveView.Refresh();
+            this.axTOCControl1.Update();
         }
 
         #region  要素操作  居中闪烁
@@ -688,7 +678,7 @@ namespace LoowooTech.Traffic.TForms
         #endregion
 
         #region  点选  路网 公交路线  公交站点  停车场
-        private void AnalyzeBase(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer,string Title)
+        private void SelectFeature(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer)
         {
             ISpatialFilter spatialFilter = new SpatialFilterClass();
             spatialFilter.Geometry = geometry;
@@ -715,11 +705,28 @@ namespace LoowooTech.Traffic.TForms
             }
             IFeatureSelection featureSelection = FeatureLayer as IFeatureSelection;
             featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
+        }
+        public  void AnalyzeBase(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer,string Title)
+        {
+            SelectFeature(geometry, mode, FeatureLayer);
             var result = new AttributeForm2(FeatureLayer.FeatureClass, geometry, mode, Title,this.dataType);
             result.Show(this);
-
         }
-        private void Analyze(IGeometry geometry)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Feature">点击选中的道路</param>
+        /// <param name="mode">空间关系</param>
+        /// <param name="FeatureLayer1">公交路线 要素图层</param>
+        /// <param name="Title">表名</param>
+        /// <param name="FeatureLayer2">路网要素图层</param>
+        private void AnalyzeBase(IFeature Feature, SpaceMode mode, IFeatureLayer FeatureLayer1,string Title,IFeatureLayer FeatureLayer2)
+        {
+            SelectFeature(Feature.Shape, mode, FeatureLayer1);
+            var result = new AttributeForm2(FeatureLayer1.FeatureClass, Feature.Shape, mode, Title, this.dataType,FeatureLayer2.FeatureClass,Feature);
+            result.Show(this);
+        }
+        public void Analyze(IGeometry geometry)
         {
             switch (this.dataType)
             {
@@ -741,10 +748,20 @@ namespace LoowooTech.Traffic.TForms
             axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, axMapControl1.ActiveView.Extent);
 
         }
+        private void Analyza(IFeature Feature)
+        {
+            IFeatureLayer RoadFeatureLayer = GetFeatureLayer(RoadName.GetLayer());
+            IFeatureLayer BusLineFeatureLayer = GetFeatureLayer(BusLineName.GetLayer());
+            AnalyzeBase(Feature, SpaceMode.Intersect, BusLineFeatureLayer, "经过道路上的公交路线", RoadFeatureLayer);
+        }
         public void Analyze2(IGeometry geometry)
         {
             IFeatureLayer featureLayer = GetFeatureLayer(BusLineName.GetLayer());
             AnalyzeBase(geometry, SpaceMode.Intersect, featureLayer, "经过该道路公交路线");
+        }
+        public void Analyze2(IFeature Feature)
+        {
+            this.Invoke(new EventOperator3(Analyza), new[] { Feature });
         }
         private void ShowAttribute(IGeometry geometry)
         {
@@ -935,9 +952,6 @@ namespace LoowooTech.Traffic.TForms
         private void SearchBusStopButton_Click(object sender, EventArgs e)
         {
             FilterBase(DataType.BusStop, InquiryMode.Search);
-            //this.dataType = DataType.BusStop;
-            //BusFilterForm busform = new BusFilterForm();
-            //busform.ShowDialog(this);
         }
         
         #endregion
@@ -1132,11 +1146,12 @@ namespace LoowooTech.Traffic.TForms
         //公交路线 区域过滤
         private void RegionFilter_Click(object sender, EventArgs e)
         {
-            var cmd = new FrameSearchTool(axMapControl1, this);
+            this.dataType = DataType.BusLine;
+            var cmd = new FrameSearchTool(axMapControl1, this,BusLineName.GetLayer());
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
             //axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
-            //this.dataType = DataType.BusLine;
+            
         }
 
         #region 渲染更改  路网  公交
@@ -1392,15 +1407,16 @@ namespace LoowooTech.Traffic.TForms
         private void BtnRoadBus_Click(object sender, EventArgs e)
         {
             var RoadFeatureLayer = GetFeatureLayer(RoadName.GetLayer());
-            if (RoadFeatureLayer.Visible == false)
+            var BusLineFeatureLayer = GetFeatureLayer(BusLineName.GetLayer());
+            if (RoadFeatureLayer.Visible == false||BusLineFeatureLayer.Visible==false)
             {
                 RoadFeatureLayer.Visible = true;
-            }
-            var BusLineFeatureLayer = GetFeatureLayer(BusLineName.GetLayer());
-            if (BusLineFeatureLayer.Visible == false)
-            {
                 BusLineFeatureLayer.Visible = true;
+                MapRefresh();
             }
+            var cmd = new ClickSearchTool(RoadName.GetLayer(), RoadFilterWhereClause, this.axMapControl1, this, true);
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
         }
     }
     

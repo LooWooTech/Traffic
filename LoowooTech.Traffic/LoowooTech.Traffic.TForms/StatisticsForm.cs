@@ -30,7 +30,7 @@ namespace LoowooTech.Traffic.TForms
             InitializeComponent();
             this.ColumnIntData = ColumnDict;
             this.label1.Text = TableName;
-            this.label2.Text = "当前区域总泊车位数为：" + Sum;
+            this.label2.Text = "当前区域总泊位数为：" + Sum;
         }
         public StatisticsForm()
         {

@@ -16,7 +16,9 @@ namespace LoowooTech.Traffic.TForms
     public partial class AttributeForm2 : Form
     {
         private IFeatureClass FeatureClass { get; set; }
+        private IFeatureClass FeatureClass2 { get; set; }
         private IGeometry geometry { get; set; }
+        private IFeature Feature { get; set; }
         private SpaceMode Mode { get; set; }
         private DataType dataType { get; set; }
         private string Title { get; set; }
@@ -29,7 +31,7 @@ namespace LoowooTech.Traffic.TForms
             this.FeatureClass = featureClass;
             this.WhereClause = WhereClause;
         }
-        public AttributeForm2(IFeatureClass FeatureClass, IGeometry geometry, SpaceMode mode,string Title,DataType dataType)
+        public AttributeForm2(IFeatureClass FeatureClass, IGeometry geometry, SpaceMode mode,string Title,DataType dataType,IFeatureClass FeatureClass2=null,IFeature Feature=null)
         {
             InitializeComponent();
             this.FeatureClass = FeatureClass;
@@ -37,6 +39,8 @@ namespace LoowooTech.Traffic.TForms
             this.Mode = mode;
             this.Title = Title;
             this.dataType = dataType;
+            this.FeatureClass2 = FeatureClass2;
+            this.Feature = Feature;
         }
         public AttributeForm2()
         {
@@ -136,6 +140,14 @@ namespace LoowooTech.Traffic.TForms
             form.ShowDialog();
         }
 
-       
+        private void ribbon1_TabIndexChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine(ribbon1.TabIndex);
+        }
+
+        private void ribbon1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(ribbon1.TabIndex);
+        }       
     }
 }

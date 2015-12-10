@@ -143,6 +143,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Bus_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Bus_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Chart_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Chart_32x32", resourceCulture);
