@@ -29,6 +29,7 @@ namespace LoowooTech.Traffic.TForms
     public delegate void EventOperator3(IFeature Feature);
     public partial class MainForm : Form
     {
+        #region  工具
         private void UncheckAllButtons(object sender)
         {
             var ctrls = new[] { btnPointer, btnZoomIn, btnZoomOut, btnIdentify, btnPan };
@@ -85,10 +86,12 @@ namespace LoowooTech.Traffic.TForms
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
         }
+        #endregion
+
         #region  初始化
         private string MXDPath { get; set; }
         private string RoadName { get; set; }
-        private string BusLineName { get; set; }
+        public string BusLineName { get; set; }
         private string BusStopName { get; set; }
         private string ParkingName { get; set; }
         private string BikeName { get; set; }
@@ -107,6 +110,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass BikeFeatureClass { get; set; }
         private IFeatureClass FlowFeatureClass { get; set; }
         private IFeatureClass XZQFeatureClass { get; set; }
+        private IFeature ExtentFeature { get; set; }
         private INewPolygonFeedback newPolygonFeedback { get; set; }
         private MapControl MapControl { get; set; }
         public  InquiryMode inquiryMode { get; set; }
@@ -134,6 +138,7 @@ namespace LoowooTech.Traffic.TForms
             BikeName = System.Configuration.ConfigurationManager.AppSettings["BIKE"];
             FlowName = System.Configuration.ConfigurationManager.AppSettings["FLOW"];
             XZQName = System.Configuration.ConfigurationManager.AppSettings["XZQ"];
+            
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = DisplayHelper.GetRGBColor(255, 0, 99);
@@ -191,6 +196,7 @@ namespace LoowooTech.Traffic.TForms
             BikeFeatureClass = SDEManager.GetFeatureClass(BikeName);
             FlowFeatureClass = SDEManager.GetFeatureClass(FlowName);
             XZQFeatureClass = SDEManager.GetFeatureClass(XZQName);
+            ExtentFeature = GISHelper.Search2(SDEManager.GetFeatureClass(System.Configuration.ConfigurationManager.AppSettings["SCALE"]), null);
             if (Splash != null)
             {
                 Splash.panel1.Visible = true;
@@ -201,6 +207,85 @@ namespace LoowooTech.Traffic.TForms
         #endregion
 
         #region  地图显示更新
+
+        private void ribbon1_ActiveTabChanged(object sender, EventArgs e)
+        {
+            axMapControl1.Map.ClearSelection();
+            DataType currentData = ribbon1.ActiveTab.Text.GetDataEnum();
+            DataRefesh(currentData);
+        }
+        private void DataRefesh(DataType dataType)
+        {
+            var list = new List<string>();
+            switch (dataType)
+            {
+                case DataType.Road:
+                    list.Add(RoadName.GetLayer());
+                    break;
+                case DataType.BusLine:
+                    list.Add(BusLineName.GetLayer());
+                    list.Add(BusStopName.GetLayer());
+                    break;
+                case DataType.Flow:
+                    list.Add(FlowName.GetLayer());
+                    break;
+                case DataType.Parking:
+                    list.Add(ParkingName.GetLayer());
+                    break;
+                case DataType.Bike:
+                    list.Add(BikeName.GetLayer());
+                    break;
+            }
+            if (dataType != DataType.Road)
+            {
+                list.Add(System.Configuration.ConfigurationManager.AppSettings["RoadBackground"]);
+            }
+            ILayer layer = null;
+            IFeatureLayer featureLayer = null;
+            string Ignore = System.Configuration.ConfigurationManager.AppSettings["Ignore"];
+            for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            {
+                layer = axMapControl1.Map.get_Layer(i);
+                if (layer.Name == Ignore)
+                {
+                    continue;
+                }
+                if (layer is GroupLayer)
+                {
+                    ICompositeLayer compositeLayer = layer as ICompositeLayer;
+                    
+                    for (var j = 0; j < compositeLayer.Count; j++)
+                    {
+                        featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
+                        if (list.Contains(featureLayer.Name))
+                        {
+                            featureLayer.Visible = true;
+                        }
+                        else
+                        {
+                            featureLayer.Visible = false;
+                        }
+                    }
+                }
+                else if (layer is IFeatureLayer)
+                {
+                    featureLayer = layer as IFeatureLayer;
+                    if (list.Contains(featureLayer.Name))
+                    {
+                        featureLayer.Visible = true;
+                    }
+                    else
+                    {
+                        featureLayer.Visible = false;
+                    }
+                }
+            }
+            if (ExtentFeature != null)
+            {
+                axMapControl1.Extent = ExtentFeature.Shape.Envelope;
+            }
+            axMapControl1.ActiveView.Refresh();
+        }
         public void ConditionControlCenter()
         {
             string WhereClause = string.Empty;
@@ -279,26 +364,7 @@ namespace LoowooTech.Traffic.TForms
                 featureLayerDefinition.DefinitionExpression = WhereClause;
                 Center(FeatureClass, WhereClause);
                 axMapControl1.ActiveView.Refresh();
-            }
-            
-
-          
-            
-        }
-        public void UpdateBus()
-        {
-            switch (dataType)
-            {
-                case DataType.BusLine:
-                    //UpdateBase(BusLineName, BusLineWhereClause);
-                    //UpdateBase(BusStopName, BusStopWhereClause);
-                    break;
-                case DataType.BusStop:
-                    break;
-                default:
-                    break;
-            }
-            
+            }  
         }
         #endregion
         public void ShowResult(IFeatureClass FeatureClass,string WhereClause)
@@ -619,61 +685,10 @@ namespace LoowooTech.Traffic.TForms
             }
             return featureLayer;
         }
-        //点击
-        private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
-        {
-            IPoint point = new PointClass();
-            point.PutCoords(e.mapX, e.mapY);
-            IGeometry geometry = point as IGeometry;
-            if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerIdentify)
-            {
-                this.Invoke(new EventOperator(ShowAttribute), new[] { geometry });
-            }
-            else if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerArrow)
-            {
-                this.Invoke(new EventOperator(Operate), new[] { geometry });
-            }
-            else if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerCrosshair)
-            {
-                if (newPolygonFeedback == null)
-                {
-                    axMapControl1.Map.ClearSelection();
-                    newPolygonFeedback = new NewPolygonFeedbackClass();
-                    newPolygonFeedback.Display = axMapControl1.ActiveView.ScreenDisplay;
-                    newPolygonFeedback.Start(point);
-                }
-                else
-                {
-                    newPolygonFeedback.AddPoint(point);
-                }
-            }
-        }
         //移动
         private void axMapControl1_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
         {
             lblCoords.Text = string.Format("{0:#.#####},{1:#.#####}", e.mapX, e.mapY);
-            if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerCrosshair)
-            {
-                IPoint point = new PointClass();
-                point.PutCoords(e.mapX, e.mapY);
-                if (newPolygonFeedback != null)
-                {
-                    newPolygonFeedback.MoveTo(point);
-                }
-            }
-        }
-        //双击
-        private void axMapControl1_OnDoubleClick(object sender, IMapControlEvents2_OnDoubleClickEvent e)
-        {
-            if (axMapControl1.MousePointer == esriControlsMousePointer.esriPointerCrosshair)
-            {
-                IPoint point = new PointClass();
-                point.PutCoords(e.mapX, e.mapY);
-                newPolygonFeedback.AddPoint(point);
-                IPolygon polygon = newPolygonFeedback.Stop();
-                newPolygonFeedback = null;
-                this.Invoke(new EventOperator(Analyze), new[] { polygon as IGeometry });
-            }
         }
         #endregion
 
@@ -703,8 +718,16 @@ namespace LoowooTech.Traffic.TForms
                     spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin;
                     break;
             }
+            
+            short Opacity = 0;
+            if (short.TryParse(System.Configuration.ConfigurationManager.AppSettings["OPACITY"], out Opacity))
+            {
+                ILayerEffects layerEffects = FeatureLayer as ILayerEffects;
+                layerEffects.Transparency = Opacity;
+            }
             IFeatureSelection featureSelection = FeatureLayer as IFeatureSelection;
             featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
+            MapRefresh();
         }
         public  void AnalyzeBase(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer,string Title)
         {
@@ -1418,6 +1441,15 @@ namespace LoowooTech.Traffic.TForms
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;
         }
+
+        private void btnBusLineNumber_Click(object sender, EventArgs e)
+        {
+            var list = GISHelper.GetUniqueValue(BusLineFeatureClass,System.Configuration.ConfigurationManager.AppSettings["BUSKEY"]);
+            BusFilterForm form = new BusFilterForm(list,BusLineFeatureClass);
+            form.ShowDialog(this);
+        }
+
+        
     }
     
    

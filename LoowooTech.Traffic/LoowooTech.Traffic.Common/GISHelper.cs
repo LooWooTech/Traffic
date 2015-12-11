@@ -263,15 +263,7 @@ namespace LoowooTech.Traffic.Common
                 {
                     if (!string.IsNullOrEmpty(row.get_Value(0).ToString()))
                     {
-                        //list.Add(row.get_Value(0).ToString());
-                        if (field.Type == esriFieldType.esriFieldTypeString)
-                        {
-                            list.Add("'" + row.get_Value(0).ToString() + "'");
-                        }
-                        else
-                        {
-                            list.Add(row.get_Value(0).ToString());
-                        }
+                        list.Add(row.get_Value(0).ToString());
                     }
                     
                     row = cursor.NextRow();
@@ -311,7 +303,7 @@ namespace LoowooTech.Traffic.Common
             {
                 if (!dict.ContainsKey(item) && !string.IsNullOrEmpty(item))
                 {
-                    dict.Add(item, Statistic2(FeatureClass, "LENGTH", "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'","DISTRICT='"+item+"' AND "));
+                    dict.Add(item, Statistic2(FeatureClass, "LENGTH", "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'", "DISTRICT='" + item + "' AND RANK='快速路'"));
                 }
             }
             return dict;

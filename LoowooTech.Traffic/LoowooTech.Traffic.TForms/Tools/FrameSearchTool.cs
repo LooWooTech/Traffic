@@ -136,6 +136,7 @@ namespace LoowooTech.Traffic.TForms.Tools
         public override void OnMouseDown(int Button, int Shift, int X, int Y)
         {
             axMapControl.Map.ClearSelection();
+            
             var pg = axMapControl.TrackPolygon();
 
             Filter(pg);

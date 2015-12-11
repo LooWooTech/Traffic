@@ -103,6 +103,26 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Arrow_128x128 {
+            get {
+                object obj = ResourceManager.GetObject("Arrow_128x128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Arrow_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Arrow_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap AssignTo_32x32 {
             get {
                 object obj = ResourceManager.GetObject("AssignTo_32x32", resourceCulture);
@@ -146,6 +166,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         internal static System.Drawing.Bitmap Bus_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Bus_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap BusNumber_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("BusNumber_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

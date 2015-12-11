@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ESRI.ArcGIS.Geodatabase;
+using LoowooTech.Traffic.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,32 +14,40 @@ namespace LoowooTech.Traffic.TForms
     public partial class BusFilterForm : Form
     {
         private MainForm Father { get; set; }
+        private IFeatureClass FeatureClass { get; set; }
+        private List<string> Values { get; set; }
         public BusFilterForm()
         {
             InitializeComponent();
            
         }
+        public BusFilterForm(List<string> List,IFeatureClass FeatureClass)
+        {
+            InitializeComponent();
+            this.Values = List;
+            this.FeatureClass = FeatureClass;
+        }
+        private void Init()
+        {
+            foreach (var item in this.Values)
+            {
+                comboBox1.Items.Add(item);
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox1.Text))
+            if (comboBox1.Text != null && !string.IsNullOrEmpty(comboBox1.Text))
             {
-                Father.BusLineWhereClause = string.Empty;
-                Father.BusStopWhereClause = string.Empty;
+                ChooseForm chooseForm = new ChooseForm(this.FeatureClass, System.Configuration.ConfigurationManager.AppSettings["BUSKEY"] + " = '" + comboBox1.Text + "'",Father);
+                chooseForm.ShowDialog();
             }
-            else
-            {
-                Father.BusLineWhereClause = "nameshort='" + textBox1.Text + "'";
-                Father.BusStopWhereClause = "stopName='" + textBox1.Text + "'";
-            }
-            Father.UpdateBus();
-            Father.ShowBus();
-            this.Close();
         }
 
         private void BusFilterForm_Load(object sender, EventArgs e)
         {
             this.Father = (MainForm)this.Owner;
+            Init();
         }
 
 

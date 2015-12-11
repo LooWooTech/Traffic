@@ -162,20 +162,45 @@ namespace LoowooTech.Traffic.TForms
         private void button1_Click(object sender, EventArgs e)
         {
             var WhereClause = string.Empty;
+            var values = string.Empty;
             int Index = 0;
             if (comboBox1.SelectedItem != null && comboBox2.SelectedItem != null&&comboBox9.Text != null && !string.IsNullOrEmpty(comboBox9.Text)&&IndexDict.ContainsKey(comboBox1.SelectedItem.ToString()))
             {
                 Index = IndexDict[comboBox1.SelectedItem.ToString()];
-                WhereClause += Fields[Index] + " " + comboBox2.SelectedItem.ToString().GetSQLChar() +" "+ comboBox9.Text+" ";
+                if (Types[Index] == esriFieldType.esriFieldTypeString)
+                {
+                    values = "'" + comboBox9.Text + "'";
+                }
+                else
+                {
+                    values = comboBox9.Text;
+                }
+                WhereClause += Fields[Index] + " " + comboBox2.SelectedItem.ToString().GetSQLChar() +" "+ values+" ";
             }
             if (comboBox3.SelectedItem != null && comboBox4.SelectedItem != null &&comboBox7.SelectedItem!=null&&comboBox10.Text!=null&&!string.IsNullOrEmpty(comboBox10.Text)&&IndexDict.ContainsKey(comboBox4.SelectedItem.ToString()))
             {
                 Index = IndexDict[comboBox4.SelectedItem.ToString()];
+                if (Types[Index] == esriFieldType.esriFieldTypeString)
+                {
+                    values = "'" + comboBox10.Text + "'";
+                }
+                else
+                {
+                    values = comboBox10.Text;
+                }
                 WhereClause += comboBox7.SelectedItem.ToString().GetSQLChar() + " " + Fields[Index] + " " + comboBox3.SelectedItem.ToString().GetSQLChar() + " " + comboBox10.Text+" ";
             }
             if (comboBox5.SelectedItem != null && comboBox6.SelectedItem != null &&comboBox8.SelectedItem!=null&&comboBox11.Text!=null&&!string.IsNullOrEmpty(comboBox11.Text)&&IndexDict.ContainsKey(comboBox6.SelectedItem.ToString()))
             {
                 Index = IndexDict[comboBox6.SelectedItem.ToString()];
+                if (Types[Index] == esriFieldType.esriFieldTypeString)
+                {
+                    values = "'" + comboBox11.Text + "'";
+                }
+                else
+                {
+                    values = comboBox11.Text;
+                }
                 WhereClause += comboBox8.SelectedItem.ToString().GetSQLChar() +" "+ Fields[Index] +" "+ comboBox5.SelectedItem.ToString().GetSQLChar() +" "+ comboBox11.Text+" ";
             }
             MainForm form1 = (MainForm)this.Owner;

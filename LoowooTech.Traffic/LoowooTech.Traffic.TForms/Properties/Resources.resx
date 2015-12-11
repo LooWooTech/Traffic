@@ -118,8 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Arrow_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arrow_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Close_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Close_32x32 (3).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bus_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Bus_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MasterFilter_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MasterFilter_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,6 +184,9 @@
   <data name="Export_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Export_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BusNumber_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BusNumber_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ExportToExcel_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExportToExcel_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -208,7 +217,7 @@
   <data name="启动界面" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\启动界面.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Bus_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Bus_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Arrow_128x128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arrow_128x128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

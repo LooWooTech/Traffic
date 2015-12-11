@@ -26,5 +26,16 @@ namespace LoowooTech.Traffic.Common
             return StatisticMode.All;
             
         }
+        public static DataType GetDataEnum(this string Description)
+        {
+            foreach (DataType dataType in Enum.GetValues(typeof(DataType)))
+            {
+                if (dataType.GetDescription() == Description)
+                {
+                    return dataType;
+                }
+            }
+            return DataType.Road;
+        }
     }
 }

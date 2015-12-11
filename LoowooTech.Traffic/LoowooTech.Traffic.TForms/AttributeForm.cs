@@ -38,6 +38,7 @@ namespace LoowooTech.Traffic.TForms
             {
                 dataGridView1.DataSource = AttributeHelper.GetTable(FeatureClass, Feature, LayerName);
                 Father = (MainForm)this.Owner;
+                
             }
             if (LayerName != "AROAD")
             {

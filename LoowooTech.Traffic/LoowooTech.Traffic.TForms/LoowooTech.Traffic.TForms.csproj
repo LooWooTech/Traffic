@@ -110,6 +110,12 @@
     <Compile Include="BusStopForm.Designer.cs">
       <DependentUpon>BusStopForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChooseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChooseForm.Designer.cs">
+      <DependentUpon>ChooseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CrossroadInfo.cs" />
     <Compile Include="EditAttributeControl.cs">
       <SubType>UserControl</SubType>
@@ -204,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BusStopForm.resx">
       <DependentUpon>BusStopForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChooseForm.resx">
+      <DependentUpon>ChooseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditAttributeControl.resx">
       <DependentUpon>EditAttributeControl.cs</DependentUpon>
@@ -355,6 +364,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Bus_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BusNumber_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arrow_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arrow_128x128.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,17 +8,17 @@ namespace LoowooTech.Traffic.Models
 {
     public enum DataType
     {
-        [Description("路网")]
+        [Description("路网相关")]
         Road,
-        [Description("公交路线")]
+        [Description("公交相关")]
         BusLine,
         [Description("公交站点")]
         BusStop,
-        [Description("停车场")]
+        [Description("停车设施相关")]
         Parking,
-        [Description("公共自行车")]
+        [Description("公共自行车相关")]
         Bike,
-        [Description("交通流量")]
+        [Description("交通流量检测器")]
         Flow
     }
     public enum ConditionNumber
