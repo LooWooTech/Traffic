@@ -214,6 +214,7 @@ namespace LoowooTech.Traffic.TForms
             DataType currentData = ribbon1.ActiveTab.Text.GetDataEnum();
             DataRefesh(currentData);
         }
+      
         private void DataRefesh(DataType dataType)
         {
             var list = new List<string>();
@@ -260,6 +261,8 @@ namespace LoowooTech.Traffic.TForms
                         if (list.Contains(featureLayer.Name))
                         {
                             featureLayer.Visible = true;
+                            ILayerEffects layerEffects = featureLayer as ILayerEffects;
+                            layerEffects.Transparency = 0;
                         }
                         else
                         {
@@ -273,6 +276,8 @@ namespace LoowooTech.Traffic.TForms
                     if (list.Contains(featureLayer.Name))
                     {
                         featureLayer.Visible = true;
+                        ILayerEffects layerEffects = featureLayer as ILayerEffects;
+                        layerEffects.Transparency = 0;
                     }
                     else
                     {
@@ -1268,8 +1273,10 @@ namespace LoowooTech.Traffic.TForms
         //停车设施  区域过滤
         private void btnRegionFilterParking_Click(object sender, EventArgs e)
         {
-            //axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
-            //this.dataType = DataType.Parking;
+            this.dataType = DataType.Parking;
+            var cmd = new FrameSearchTool(axMapControl1, this, ParkingName.GetLayer());
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
         }
 
         // 路网  编辑
@@ -1447,6 +1454,122 @@ namespace LoowooTech.Traffic.TForms
             var list = GISHelper.GetUniqueValue(BusLineFeatureClass,System.Configuration.ConfigurationManager.AppSettings["BUSKEY"]);
             BusFilterForm form = new BusFilterForm(list,BusLineFeatureClass);
             form.ShowDialog(this);
+        }
+
+        private void PeoplePostBase(string Description)
+        {
+            ILayer layer = null;
+            IFeatureLayer featureLayer = null;
+            string Ignore = System.Configuration.ConfigurationManager.AppSettings["Ignore"];
+            ICompositeLayer compositeLayer = null;
+            for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            {
+                layer = axMapControl1.Map.get_Layer(i);
+                if (layer.Name == Ignore)
+                {
+                    continue;
+                }
+                if (layer is GroupLayer)
+                {
+                    compositeLayer = layer as ICompositeLayer;
+                    for (var j = 0; j < compositeLayer.Count; j++)
+                    {
+                        featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
+                        if (featureLayer.Name == Description)
+                        {
+                            featureLayer.Visible = true;
+                        }
+                        else
+                        {
+                            featureLayer.Visible = false;
+                        }
+                    }
+                }
+                else if (layer is FeatureLayer)
+                {
+                    featureLayer = layer as IFeatureLayer;
+                    if (featureLayer.Name == Description)
+                    {
+                        featureLayer.Visible = true;
+                    }
+                    else
+                    {
+                        featureLayer.Visible = false;
+                    }
+                }
+            }
+            if (ExtentFeature != null)
+            {
+                axMapControl1.Extent = ExtentFeature.Shape.Envelope;
+            }
+            axMapControl1.ActiveView.Refresh();
+        }
+
+        private void CurrentPeople_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.CurrentPeople.GetDescription());
+        }
+
+        private void CurrentPeopleDensity_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.CurrentPostDensity.GetDescription());
+        }
+
+        private void PlanPeople_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.PlanPeople.GetDescription());
+        }
+
+        private void PlanPeopleDensity_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.PlanPeopleDensity.GetDescription());
+        }
+
+        private void CurrentPost_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.CurrentPost.GetDescription());
+        }
+
+        private void CurrentPostDensity_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.CurrentPostDensity.GetDescription());
+        }
+
+        private void PlanPost_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.PlanPost.GetDescription());
+        }
+
+        private void PlanPostDensity_Click(object sender, EventArgs e)
+        {
+            PeoplePostBase(PeoplePost.PlanPostDensity.GetDescription());
+        }
+
+        private void CanelRoadFilter_Click(object sender, EventArgs e)
+        {
+            UpdateBase(RoadName, "", RoadFeatureClass);
+
+        }
+
+        private void CancelBusFilter_Click(object sender, EventArgs e)
+        {
+            UpdateBase(BusLineName, "", BusLineFeatureClass);
+            UpdateBase(BusStopName, "", BusStopFeatureClass);
+        }
+
+        private void CancelParkingFilter_Click(object sender, EventArgs e)
+        {
+            UpdateBase(ParkingName, "", ParkingFeatureClass);
+        }
+
+        private void CancelBikeFilter_Click(object sender, EventArgs e)
+        {
+            UpdateBase(BikeName, "", BikeFeatureClass);
+        }
+
+        private void CancelFlowFilter_Click(object sender, EventArgs e)
+        {
+            UpdateBase(FlowName, "", FlowFeatureClass);
         }
 
         

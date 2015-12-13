@@ -124,11 +124,14 @@
   <data name="Close_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Close_32x32 (3).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Bus_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Bus_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="1449425381_Previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1449425381_Previous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MasterFilter_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MasterFilter_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bus_32x32 (2)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Bus_32x32 (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Edit_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Edit_32x32 (3).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,8 +142,8 @@
   <data name="pointer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pointer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="1449425381_Previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1449425381_Previous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Arrow_128x128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arrow_128x128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Recurrence_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Recurrence_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -172,8 +175,14 @@
   <data name="ZoomIn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ZoomIn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Bus_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Bus_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="1449523215_URL_History-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1449523215_URL_History-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="People_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\People_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Wizard_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Wizard_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,7 +226,7 @@
   <data name="启动界面" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\启动界面.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Arrow_128x128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Arrow_128x128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Job_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Job_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
