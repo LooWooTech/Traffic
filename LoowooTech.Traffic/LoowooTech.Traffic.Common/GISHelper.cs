@@ -272,17 +272,32 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(cursor);
             return list;
         }
+
         public static Dictionary<string,double> Statistic(IFeatureClass FeatureClass,string LabelName ,string FieldName)
         {
             var dict = new Dictionary<string, double>();
-            var valList = GetUniqueValue(FeatureClass, LabelName);//获取标注字段的唯一值
-            foreach (var val in valList)
+            var Index = FeatureClass.FindField(LabelName);
+            if (Index != -1)
             {
-                if (!dict.ContainsKey(val)&&!string.IsNullOrEmpty(val))
+                IField field = FeatureClass.Fields.get_Field(Index);
+                var valList = GetUniqueValue(FeatureClass, LabelName);//获取标注字段的唯一值
+                foreach (var val in valList)
                 {
-                    dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val));
+                    if (!dict.ContainsKey(val) && !string.IsNullOrEmpty(val))
+                    {
+                        if (field.Type == esriFieldType.esriFieldTypeString)
+                        {
+                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = '" + val+"'"));
+                        }
+                        else
+                        {
+                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val));
+                        }
+                        
+                    }
                 }
             }
+            
             return dict;
         }
         

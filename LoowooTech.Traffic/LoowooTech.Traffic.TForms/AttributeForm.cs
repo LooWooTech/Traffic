@@ -40,9 +40,9 @@ namespace LoowooTech.Traffic.TForms
                 Father = (MainForm)this.Owner;
                 
             }
-            if (LayerName != "AROAD")
+            if (LayerName != "路网")
             {
-                this.RoadAndBus.Visible = false;
+                this.btnHistory.Visible = false;
             }
         }
 
@@ -71,10 +71,6 @@ namespace LoowooTech.Traffic.TForms
             this.Close();
         }
 
-        private void RoadAndBus_Click(object sender, EventArgs e)
-        {
-            this.Invoke(new EventOperator(Father.Analyze2), new[] { this.Feature.Shape });
-        }
 
         private void btnHistory_Click(object sender, EventArgs e)
         {

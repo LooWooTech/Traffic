@@ -32,14 +32,13 @@
             this.ribbon1 = new System.Windows.Forms.Ribbon();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
-            this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
-            this.RoadAndBus = new System.Windows.Forms.RibbonButton();
             this.btnHistory = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton4 = new System.Windows.Forms.RibbonButton();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,24 +80,8 @@
             this.ribbonPanel1.ButtonMoreVisible = false;
             this.ribbonPanel1.Items.Add(this.ribbonButton1);
             this.ribbonPanel1.Items.Add(this.ribbonButton3);
-            this.ribbonPanel1.Items.Add(this.RoadAndBus);
             this.ribbonPanel1.Items.Add(this.btnHistory);
             this.ribbonPanel1.Text = "";
-            // 
-            // ribbonPanel2
-            // 
-            this.ribbonPanel2.Items.Add(this.ribbonButton4);
-            this.ribbonPanel2.Text = "";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 115);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(377, 486);
-            this.dataGridView1.TabIndex = 2;
             // 
             // ribbonButton1
             // 
@@ -121,13 +104,6 @@
             this.ribbonButton3.Text = "闪烁记录";
             this.ribbonButton3.Click += new System.EventHandler(this.TwinkleButton_Click);
             // 
-            // RoadAndBus
-            // 
-            this.RoadAndBus.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.RoadAndBus.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadAndBus.SmallImage")));
-            this.RoadAndBus.Text = "公交记录";
-            this.RoadAndBus.Click += new System.EventHandler(this.RoadAndBus_Click);
-            // 
             // btnHistory
             // 
             this.btnHistory.Image = global::LoowooTech.Traffic.TForms.Properties.Resources._1449523215_URL_History_64;
@@ -135,12 +111,27 @@
             this.btnHistory.Text = "历史记录";
             this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
             // 
+            // ribbonPanel2
+            // 
+            this.ribbonPanel2.Items.Add(this.ribbonButton4);
+            this.ribbonPanel2.Text = "";
+            // 
             // ribbonButton4
             // 
             this.ribbonButton4.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Close_32x32;
             this.ribbonButton4.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton4.SmallImage")));
             this.ribbonButton4.Text = "关闭窗口";
             this.ribbonButton4.Click += new System.EventHandler(this.ribbonButton4_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 115);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.Size = new System.Drawing.Size(377, 486);
+            this.dataGridView1.TabIndex = 2;
             // 
             // AttributeForm
             // 
@@ -171,7 +162,6 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel2;
         private System.Windows.Forms.RibbonButton ribbonButton4;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.RibbonButton RoadAndBus;
         private System.Windows.Forms.RibbonButton btnHistory;
 
     }

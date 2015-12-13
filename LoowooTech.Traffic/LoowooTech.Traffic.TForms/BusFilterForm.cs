@@ -31,15 +31,21 @@ namespace LoowooTech.Traffic.TForms
         {
             foreach (var item in this.Values)
             {
-                comboBox1.Items.Add(item);
+                this.textBox1.AutoCompleteCustomSource.Add(item);
             }
+            this.textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            this.textBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (comboBox1.Text != null && !string.IsNullOrEmpty(comboBox1.Text))
+            if (textBox1.Text != null && !string.IsNullOrEmpty(textBox1.Text))
             {
-                ChooseForm chooseForm = new ChooseForm(this.FeatureClass, System.Configuration.ConfigurationManager.AppSettings["BUSKEY"] + " = '" + comboBox1.Text + "'",Father);
+                string whereClause = System.Configuration.ConfigurationManager.AppSettings["BUSKEY"] + " = '" + textBox1.Text + "'";
+                string StopWhereClause = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY1"] + " = " + textBox1.Text.Replace("路", "").Replace("区间","").Replace("线","").Replace("高峰大站车","");
+                Father.UpdateBase(Father.BusLineName, whereClause, FeatureClass);
+                Father.UpdateBase(Father.BusStopName, StopWhereClause,Father.BusStopFeatureClass);
+                ChooseForm chooseForm = new ChooseForm(this.FeatureClass, whereClause,Father);
                 chooseForm.ShowDialog();
             }
         }
@@ -48,6 +54,12 @@ namespace LoowooTech.Traffic.TForms
         {
             this.Father = (MainForm)this.Owner;
             Init();
+        }
+
+        private void BusFilterForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Father.UpdateBase(Father.BusLineName, "", FeatureClass);
+            Father.UpdateBase(Father.BusStopName, "", Father.BusStopFeatureClass);
         }
 
 

@@ -52,6 +52,7 @@ namespace LoowooTech.Traffic.TForms
                     Serial++;
                 }
                 chart1.Series["Series1"].Points.DataBindXY(xValue, yValue);
+                //chart1.Series["Series1"].ToolTip = "";
             }
             else if (ColumnIntData != null && ColumnIntData.Count > 0)
             {

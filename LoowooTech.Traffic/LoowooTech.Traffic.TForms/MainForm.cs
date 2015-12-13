@@ -92,7 +92,7 @@ namespace LoowooTech.Traffic.TForms
         private string MXDPath { get; set; }
         private string RoadName { get; set; }
         public string BusLineName { get; set; }
-        private string BusStopName { get; set; }
+        public string BusStopName { get; set; }
         private string ParkingName { get; set; }
         private string BikeName { get; set; }
         private string FlowName { get; set; }
@@ -105,7 +105,7 @@ namespace LoowooTech.Traffic.TForms
         public string FlowWhereClause { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
         private IFeatureClass BusLineFeatureClass { get; set; }
-        private IFeatureClass BusStopFeatureClass { get; set; }
+        public IFeatureClass BusStopFeatureClass { get; set; }
         private IFeatureClass ParkingFeatureClass { get; set; }
         private IFeatureClass BikeFeatureClass { get; set; }
         private IFeatureClass FlowFeatureClass { get; set; }
@@ -359,7 +359,7 @@ namespace LoowooTech.Traffic.TForms
                     break;
             }
         }
-        private void UpdateBase(string Name,string WhereClause,IFeatureClass FeatureClass)
+        public void UpdateBase(string Name,string WhereClause,IFeatureClass FeatureClass)
         {
             var CurrentLayerName = Name.GetLayer();
             IFeatureLayer featureLayer = GetFeatureLayer(CurrentLayerName);
@@ -368,6 +368,12 @@ namespace LoowooTech.Traffic.TForms
                 IFeatureLayerDefinition featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
                 featureLayerDefinition.DefinitionExpression = WhereClause;
                 Center(FeatureClass, WhereClause);
+                if (string.IsNullOrEmpty(WhereClause))
+                {
+                    ILayerEffects layerEffects = featureLayer as ILayerEffects;
+                    layerEffects.Transparency = 0;
+                    axMapControl1.Map.ClearSelection();
+                }
                 axMapControl1.ActiveView.Refresh();
             }  
         }
@@ -485,18 +491,27 @@ namespace LoowooTech.Traffic.TForms
         /// <param name="WhereClause"></param>
         public void Center(IFeatureClass FeatureClass, string WhereClause)
         {
-            IQueryFilter queryfilter = new QueryFilterClass();
-            queryfilter.WhereClause = WhereClause;
-            IFeatureCursor featurecursor = FeatureClass.Search(queryfilter, false);
-            IFeature feature = featurecursor.NextFeature();
             IEnvelope envelope = new Envelope() as IEnvelope;
-            while (feature != null)
+            if (!string.IsNullOrEmpty(WhereClause))
             {
-                envelope.Union(feature.Extent);
-                feature = featurecursor.NextFeature();
+                IQueryFilter queryfilter = new QueryFilterClass();
+                queryfilter.WhereClause = WhereClause;
+                IFeatureCursor featurecursor = FeatureClass.Search(queryfilter, false);
+                IFeature feature = featurecursor.NextFeature();
+                while (feature != null)
+                {
+                    envelope.Union(feature.Extent);
+                    feature = featurecursor.NextFeature();
+                }
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(featurecursor);
             }
+            else
+            {
+                envelope = axMapControl1.FullExtent;
+            }
+            
             CenterBase(envelope);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(featurecursor);
+            
         }
         #endregion
         public void ShowBus()
@@ -1545,6 +1560,7 @@ namespace LoowooTech.Traffic.TForms
             PeoplePostBase(PeoplePost.PlanPostDensity.GetDescription());
         }
 
+        #region 取消过滤
         private void CanelRoadFilter_Click(object sender, EventArgs e)
         {
             UpdateBase(RoadName, "", RoadFeatureClass);
@@ -1571,8 +1587,8 @@ namespace LoowooTech.Traffic.TForms
         {
             UpdateBase(FlowName, "", FlowFeatureClass);
         }
+        #endregion
 
-        
     }
     
    
