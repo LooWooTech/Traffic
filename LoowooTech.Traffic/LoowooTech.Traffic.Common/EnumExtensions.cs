@@ -37,5 +37,6 @@ namespace LoowooTech.Traffic.Common
             }
             return DataType.Road;
         }
+       
     }
 }

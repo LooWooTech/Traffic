@@ -598,12 +598,42 @@ namespace LoowooTech.Traffic.TForms
 
             if (!string.IsNullOrEmpty(FilePath))
             {
-                var tool = new PictureThread(FilePath, axMapControl1.ActiveView);
+                var tool = new PictureThread(FilePath, axMapControl1.ActiveView,this.dataType);
                 var thread = new Thread(tool.ThreadMain);
                 thread.Start();
                 //FileHelper.ExportMap(FilePath, axMapControl1.ActiveView);
                 //OperatorTxt.Text = "成功导出图片："+FilePath;
             }
+        }
+        private void ExportBase()
+        {
+            var saveFilePath = FileHelper.Save("导出地图为图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            this.Invoke(new EventOperator2(ExportPictureBase), new[] { saveFilePath });
+        }
+        private void btnExpImgRoad_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.Road;
+            ExportBase();
+        }
+        private void ExportBusPicture_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.BusLine;
+            ExportBase();
+        }
+        private void btnExpImgStop_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.Parking;
+            ExportBase();
+        }
+        private void btnExpImgFlow_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.Flow;
+            ExportBase();
+        }
+        private void btnExpImgBike_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.Bike;
+            ExportBase();
         }
         /// <summary>
         /// 导出路网图片
@@ -614,7 +644,6 @@ namespace LoowooTech.Traffic.TForms
         {
             var saveFilePath = FileHelper.Save("导出地图为图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
             this.Invoke(new EventOperator2(ExportPictureBase), new[] { saveFilePath });
-           // ExportPictureBase(saveFilePath, axMapControl1.ActiveView);
         }
        
         #endregion
@@ -1588,6 +1617,16 @@ namespace LoowooTech.Traffic.TForms
             UpdateBase(FlowName, "", FlowFeatureClass);
         }
         #endregion
+
+        
+
+       
+
+        
+
+        
+
+        
 
     }
     

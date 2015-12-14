@@ -19,12 +19,16 @@ namespace LoowooTech.Traffic.Models
         public int DPI { get; set; }
         private string Lenged { get; set; }
 
-        public PictureThread(string FilePath,IActiveView ActiveView)
+        public PictureThread(string FilePath,IActiveView ActiveView,DataType dataType)
         {
             this.ActiveView = ActiveView;
             this.FilePath = FilePath;
             this.DPI = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DPI"]);
-            this.Lenged = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\Road.jpg");
+            this.Lenged = GetLegend(dataType);
+        }
+        public string GetLegend(DataType dataType)
+        {
+            return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/" + dataType.ToString() + ".png");
         }
         private IExport ExportBase()
         {
@@ -50,7 +54,7 @@ namespace LoowooTech.Traffic.Models
 
         public void ThreadMain()
         {
-            this.Temp = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.IO.Path.GetFileName(this.FilePath));
+            this.Temp = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp/"+System.IO.Path.GetFileName(this.FilePath));
             IExport export = ExportBase();
             double IScreenResolution = ActiveView.ScreenDisplay.DisplayTransformation.Resolution;
             export.ExportFileName = this.Temp;
@@ -73,8 +77,8 @@ namespace LoowooTech.Traffic.Models
             System.Drawing.Image ImageBackGround = System.Drawing.Image.FromFile(this.Temp);
             System.Drawing.Image ImageLenged = System.Drawing.Image.FromFile(this.Lenged);
             Graphics g = Graphics.FromImage(ImageBackGround);
-            g.DrawImage(ImageBackGround, 0, 0, ImageBackGround.Width, ImageBackGround.Height);
-            g.DrawImage(ImageLenged, 0, 0, ImageLenged.Width, ImageLenged.Height);
+            //g.DrawImage(ImageBackGround, 0, 0, ImageBackGround.Width, ImageBackGround.Height);
+            g.DrawImage(ImageLenged, ImageBackGround.Width-ImageLenged.Width, ImageBackGround.Height-ImageLenged.Height, ImageLenged.Width, ImageLenged.Height);
             g.Dispose();
             ImageBackGround.Save(this.FilePath, ImageFormat.Jpeg);
         }
