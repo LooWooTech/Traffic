@@ -18,6 +18,7 @@ namespace LoowooTech.Traffic.Models
         public IActiveView ActiveView { get; set; }
         public int DPI { get; set; }
         private string Lenged { get; set; }
+        private string Ext { get; set; }
 
         public PictureThread(string FilePath,IActiveView ActiveView,DataType dataType)
         {
@@ -32,9 +33,9 @@ namespace LoowooTech.Traffic.Models
         }
         private IExport ExportBase()
         {
-            var ext = System.IO.Path.GetExtension(this.FilePath);
+            this.Ext = System.IO.Path.GetExtension(this.FilePath);
             IExport export = null;
-            switch (ext)
+            switch (this.Ext)
             {
                 case ".jpeg":
                     export = new ExportJPEGClass();
@@ -80,7 +81,22 @@ namespace LoowooTech.Traffic.Models
             //g.DrawImage(ImageBackGround, 0, 0, ImageBackGround.Width, ImageBackGround.Height);
             g.DrawImage(ImageLenged, ImageBackGround.Width-ImageLenged.Width, ImageBackGround.Height-ImageLenged.Height, ImageLenged.Width, ImageLenged.Height);
             g.Dispose();
-            ImageBackGround.Save(this.FilePath, ImageFormat.Jpeg);
+            switch (this.Ext)
+            {
+                case ".jpeg":
+                    ImageBackGround.Save(this.FilePath, ImageFormat.Jpeg);
+                    break;
+                case ".bmp":
+                    ImageBackGround.Save(this.FilePath, ImageFormat.Bmp);
+                    break;
+                case ".png":
+                    ImageBackGround.Save(this.FilePath, ImageFormat.Png);
+                    break;
+                case ".gif":
+                    ImageBackGround.Save(this.FilePath, ImageFormat.Gif);
+                    break;
+            }
+            
         }
     }
 }

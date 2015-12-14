@@ -607,7 +607,7 @@ namespace LoowooTech.Traffic.TForms
         }
         private void ExportBase()
         {
-            var saveFilePath = FileHelper.Save("导出地图为图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png|gif文件|*.gif");
+            var saveFilePath = FileHelper.Save("导出地图为图片", "jpeg文件|*.jpeg|bmp文件|*.bmp|png文件|*.png");
             this.Invoke(new EventOperator2(ExportPictureBase), new[] { saveFilePath });
         }
         private void btnExpImgRoad_Click(object sender, EventArgs e)
