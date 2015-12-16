@@ -103,6 +103,7 @@ namespace LoowooTech.Traffic.TForms
         public string ParkingWhereClause { get; set; }
         public string BikeWhereClause { get; set; }
         public string FlowWhereClause { get; set; }
+        private string MapType { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
         private IFeatureClass BusLineFeatureClass { get; set; }
         public IFeatureClass BusStopFeatureClass { get; set; }
@@ -138,6 +139,7 @@ namespace LoowooTech.Traffic.TForms
             BikeName = System.Configuration.ConfigurationManager.AppSettings["BIKE"];
             FlowName = System.Configuration.ConfigurationManager.AppSettings["FLOW"];
             XZQName = System.Configuration.ConfigurationManager.AppSettings["XZQ"];
+            MapType = System.Configuration.ConfigurationManager.AppSettings["MAPTYPE"];
             
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
@@ -206,12 +208,40 @@ namespace LoowooTech.Traffic.TForms
         }
         #endregion
 
+        #region  MapControl  操作
+
+
+        private void axMapControl1_OnAfterDraw(object sender, IMapControlEvents2_OnAfterDrawEvent e)
+        {
+            var viewDrawPhase = (esriViewDrawPhase)e.viewDrawPhase;
+            //if (viewDrawPhase == esriViewDrawPhase.esriViewForeground)
+            {
+
+                object o = m_ImportRoadSymbol;
+                if (m_ImportRoad != null)
+                {
+                    axMapControl1.DrawShape(m_ImportRoad, ref o);
+                }
+
+                object r = m_CrossroadSymbol;
+                foreach (var info in m_Crossroads)
+                {
+                    axMapControl1.DrawShape(info.Point, ref r);
+                }
+
+
+            }
+        }
+        #endregion
+
         #region  地图显示更新
 
         private void ribbon1_ActiveTabChanged(object sender, EventArgs e)
         {
+            this.MapType = "Base";
             axMapControl1.Map.ClearSelection();
             DataType currentData = ribbon1.ActiveTab.Text.GetDataEnum();
+            SaveInit(sender);
             DataRefesh(currentData);
         }
       
@@ -330,19 +360,16 @@ namespace LoowooTech.Traffic.TForms
                     break;
                 case DataType.BusStop:
                     BusStopWhereClause = toolStripStatusLabel1.Text;
+                    WhereClause = BusStopWhereClause;
+                    LayerName = BusStopName;
+                    CurrentFeatureClass = BusStopFeatureClass;
                     break;
             }
-            if (this.dataType == DataType.BusLine)
+            if (this.dataType == DataType.BusLine&&this.inquiryMode==InquiryMode.Filter)
             {
                 var list = GISHelper.Search(CurrentFeatureClass, WhereClause);
                 BusStopWhereClause = GISHelper.GetBusStopWhereClause(list,  CurrentFeatureClass.Fields.FindField("ShortName"), CurrentFeatureClass.Fields.FindField("lineDirect"));
-                switch (this.inquiryMode)
-                {
-                    case InquiryMode.Filter:
-                        UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass);
-                        break;
-                
-                }
+                UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass);
             }
             switch (this.inquiryMode)
             {
@@ -473,7 +500,18 @@ namespace LoowooTech.Traffic.TForms
         {
             if (Feature != null)
             {
-                CenterBase(Feature.Shape.Envelope);
+                if (Feature.Shape.GeometryType == esriGeometryType.esriGeometryPoint)
+                {
+                    var env2 = this.ExtentFeature.Extent;
+                    env2.CenterAt(Feature.Shape as IPoint);
+                    axMapControl1.ActiveView.Extent = env2;
+                    axMapControl1.ActiveView.Refresh();
+                }
+                else
+                {
+                    CenterBase(Feature.Shape.Envelope);
+                }
+                
             }
         }
 
@@ -481,7 +519,19 @@ namespace LoowooTech.Traffic.TForms
         {
             if(geo != null)
             {
-                CenterBase(geo.Envelope);
+                if (geo.GeometryType == esriGeometryType.esriGeometryPoint) 
+                {
+                    var env2 = this.ExtentFeature.Extent;
+                    env2.CenterAt(geo as IPoint);
+                    axMapControl1.ActiveView.Extent = env2;
+                    axMapControl1.ActiveView.Refresh();
+                }
+                else
+                {
+                    CenterBase(geo.Envelope);
+                }
+
+                
             }
         }
         /// <summary>
@@ -507,35 +557,15 @@ namespace LoowooTech.Traffic.TForms
             }
             else
             {
-                envelope = axMapControl1.FullExtent;
+                envelope = this.ExtentFeature.Shape.Envelope;
+                //envelope = axMapControl1.FullExtent;
             }
             
             CenterBase(envelope);
             
         }
         #endregion
-        public void ShowBus()
-        {
-            var result = new BusResultForm(BusLineFeatureClass,BusStopFeatureClass, BusLineWhereClause);
-            result.Show(this);
-        }
-        private void ImportBusExcel_Click(object sender, EventArgs e)
-        {
-            var ExcelPath = FileHelper.Open("打开公交路线数据", "2003 文件|*.xls|2007 文件|*.xlsx");
-            var list = ExcelHelper.Read(ExcelPath);
-            var tool=new BusLineManager();
-           
-            try
-            {
-                tool.Add(list);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            OperatorTxt.Text = "导入公交路线信息成功";
-            
-        }
+
         #region 导出Shapefile文件
         private void ExportSHPBase(IFeatureClass FeatureClass, string WhereClause, string FilePath)
         {
@@ -598,11 +628,9 @@ namespace LoowooTech.Traffic.TForms
 
             if (!string.IsNullOrEmpty(FilePath))
             {
-                var tool = new PictureThread(FilePath, axMapControl1.ActiveView,this.dataType);
+                var tool = new PictureThread(FilePath, axMapControl1.ActiveView,this.dataType,this.MapType);
                 var thread = new Thread(tool.ThreadMain);
                 thread.Start();
-                //FileHelper.ExportMap(FilePath, axMapControl1.ActiveView);
-                //OperatorTxt.Text = "成功导出图片："+FilePath;
             }
         }
         private void ExportBase()
@@ -997,35 +1025,13 @@ namespace LoowooTech.Traffic.TForms
 
         private void BusLineSearch2_Click(object sender, EventArgs e)
         {
-            FilterBase(DataType.BusLine, InquiryMode.Filter);
+            FilterBase(DataType.BusLine, InquiryMode.Search);
         }
 
         private void BusStopSearch2_Click(object sender, EventArgs e)
         {
-            FilterBase(DataType.BusStop, InquiryMode.Filter);
-        }
-        /// <summary>
-        /// 公交车路线搜索
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SearchBusLineButton_Click(object sender, EventArgs e)
-        {
-            FilterBase(DataType.BusLine, InquiryMode.Search);
-            //this.dataType = DataType.BusLine;
-            //BusFilterForm busform = new BusFilterForm();
-            //busform.ShowDialog(this);
-        }
-        /// <summary>
-        /// 公交车站点搜索
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SearchBusStopButton_Click(object sender, EventArgs e)
-        {
             FilterBase(DataType.BusStop, InquiryMode.Search);
         }
-        
         #endregion
 
         #region  过滤  路网、公共自行车
@@ -1135,26 +1141,7 @@ namespace LoowooTech.Traffic.TForms
             this.operateMode = OperateMode.None;
             
         }
-        private void AddFlowPoint_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
-            this.operateMode = OperateMode.Add;
-            this.dataType = DataType.Flow;
-        }
-
-        private void DeleteFlowPoint_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
-            this.operateMode = OperateMode.Delete;
-            this.dataType = DataType.Flow;
-        }
-
-        private void EditFlowPoint_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
-            this.operateMode = OperateMode.Edit;
-            this.dataType = DataType.Flow;
-        }
+        
         #endregion
 
         private void AddUserButton_Click(object sender, EventArgs e)
@@ -1164,25 +1151,7 @@ namespace LoowooTech.Traffic.TForms
         }
 
         #region 停车场 操作
-        private void AddParking_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
-            this.operateMode = OperateMode.Add;
-            this.dataType = DataType.Parking;
-        }
-        private void DeleteParking_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
-            this.operateMode = OperateMode.Delete;
-            this.dataType = DataType.Parking;
-        }
-
-        private void EditParking_Click(object sender, EventArgs e)
-        {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
-            this.operateMode = OperateMode.Edit;
-            this.dataType = DataType.Parking;
-        }
+        
         #endregion
 
         private void UserList_Click(object sender, EventArgs e)
@@ -1240,31 +1209,37 @@ namespace LoowooTech.Traffic.TForms
         //路网等级图
         private void RankMap_Click(object sender, EventArgs e)
         {
+            this.MapType = "Rank";
             Romance(RoadName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["RoadRank"]);
         }
         //路网车道数图
         private void NumMap_Click(object sender, EventArgs e)
         {
+            this.MapType = "Num";
             Romance(RoadName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["RoadNumber"]);
         }
         //路网基础图
         private void RoadBaseMap_Click(object sender, EventArgs e)
         {
+            this.MapType = "Base";
             Romance(RoadName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["RoadBase"]);
         }
         //公交等级图
         private void BusDegree_Click(object sender, EventArgs e)
         {
+            this.MapType = "Rank";
             Romance(BusLineName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["BusDegree"]);
         }
         //公交区域图
         private void BusRegion_Click(object sender, EventArgs e)
         {
+            this.MapType = "Region";
             Romance(BusLineName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["BusRegion"]);
         }
         //公交基础图
         private void BusLineBaseMap_Click(object sender, EventArgs e)
         {
+            this.MapType = "Base";
             Romance(BusLineName.GetLayer(), System.Configuration.ConfigurationManager.AppSettings["BusBase"]);
         } 
         //进行唯一值渲染
@@ -1323,23 +1298,33 @@ namespace LoowooTech.Traffic.TForms
             axMapControl1.CurrentTool = (ITool)cmd;
         }
 
+        #region 添加  编辑  删除  操作
+
+        private void Operate(string LayerName,string WhereClause)
+        {
+            var cmd = new ClickSearchTool(LayerName, WhereClause, axMapControl1, this);
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
+        }
         // 路网  编辑
         private void RoadEdit_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
             this.operateMode = OperateMode.Edit;
             this.dataType = DataType.Road;
+            Operate(RoadName.GetLayer(), RoadFilterWhereClause);
+            
         }
 
         private void RoadDelete_Click(object sender, EventArgs e)
         {
-            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerArrow;
             this.operateMode = OperateMode.Delete;
             this.dataType = DataType.Road;
+            Operate(RoadName.GetLayer(), RoadFilterWhereClause);
         }
 
         private void btnAddRoad_Click(object sender, EventArgs e)
         {
+            this.operateMode = OperateMode.None;
             var dialog = new OpenFileDialog { Title = "请选择需要导入的CAD文件", Filter = "DXF文件 (*.dxf)|*.dxf" };
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
 
@@ -1386,6 +1371,48 @@ namespace LoowooTech.Traffic.TForms
             }
         }
 
+        private void AddParking_Click(object sender, EventArgs e)
+        {
+            this.operateMode = OperateMode.Add;
+            this.dataType = DataType.Parking;
+            Operate(ParkingName.GetLayer(), ParkingWhereClause);
+        }
+        private void DeleteParking_Click(object sender, EventArgs e)
+        {
+            this.operateMode = OperateMode.Delete;
+            this.dataType = DataType.Parking;
+            Operate(ParkingName.GetLayer(), ParkingWhereClause);
+        }
+
+        private void EditParking_Click(object sender, EventArgs e)
+        {
+            this.operateMode = OperateMode.Edit;
+            this.dataType = DataType.Parking;
+            Operate(ParkingName.GetLayer(), ParkingWhereClause);
+        }
+
+        private void AddFlowPoint_Click(object sender, EventArgs e)
+        {
+            this.operateMode = OperateMode.Add;
+            this.dataType = DataType.Flow;
+            Operate(FlowName.GetLayer(), FlowWhereClause);
+        }
+
+        private void DeleteFlowPoint_Click(object sender, EventArgs e)
+        {
+            this.operateMode = OperateMode.Delete;
+            this.dataType = DataType.Flow;
+            Operate(FlowName.GetLayer(), FlowWhereClause);
+        }
+
+        private void EditFlowPoint_Click(object sender, EventArgs e)
+        {
+            this.operateMode = OperateMode.Edit;
+            this.dataType = DataType.Flow;
+            Operate(FlowName.GetLayer(), FlowWhereClause);
+        }
+
+        #endregion
         private void ImportRoad(IPolyline pl)
         {
             var fc = RoadFeatureClass;
@@ -1456,27 +1483,7 @@ namespace LoowooTech.Traffic.TForms
             return ret;
         }
 
-        private void axMapControl1_OnAfterDraw(object sender, IMapControlEvents2_OnAfterDrawEvent e)
-        {
-            var viewDrawPhase = (esriViewDrawPhase)e.viewDrawPhase;
-            //if (viewDrawPhase == esriViewDrawPhase.esriViewForeground)
-            {
-
-                object o = m_ImportRoadSymbol;
-                if (m_ImportRoad != null)
-                {
-                    axMapControl1.DrawShape(m_ImportRoad, ref o);
-                }
-
-                object r = m_CrossroadSymbol;
-                foreach (var info in m_Crossroads)
-                {
-                    axMapControl1.DrawShape(info.Point, ref r);
-                }
-
-                
-            }
-        }
+        
 
         private void BtnRoadBus_Click(object sender, EventArgs e)
         {
@@ -1593,30 +1600,48 @@ namespace LoowooTech.Traffic.TForms
         private void CanelRoadFilter_Click(object sender, EventArgs e)
         {
             UpdateBase(RoadName, "", RoadFeatureClass);
-
+            this.RoadFilterWhereClause = "";
         }
 
         private void CancelBusFilter_Click(object sender, EventArgs e)
         {
             UpdateBase(BusLineName, "", BusLineFeatureClass);
             UpdateBase(BusStopName, "", BusStopFeatureClass);
+            this.BusLineWhereClause = "";
+            this.BusStopWhereClause = "";
         }
 
         private void CancelParkingFilter_Click(object sender, EventArgs e)
         {
             UpdateBase(ParkingName, "", ParkingFeatureClass);
+            this.ParkingWhereClause = "";
         }
 
         private void CancelBikeFilter_Click(object sender, EventArgs e)
         {
             UpdateBase(BikeName, "", BikeFeatureClass);
+            this.BikeWhereClause = "";
         }
 
         private void CancelFlowFilter_Click(object sender, EventArgs e)
         {
             UpdateBase(FlowName, "", FlowFeatureClass);
+            this.FlowWhereClause = "";
         }
         #endregion
+
+        private void SaveInit(object sender)
+        {
+            this.operateMode = OperateMode.None;
+            UncheckAllButtons(sender);
+            var cmd = new ControlsMapPanTool();
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
+        }
+        private void RoadSave_Click(object sender, EventArgs e)
+        {
+            SaveInit(sender);
+        }
 
         
 

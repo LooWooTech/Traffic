@@ -87,7 +87,7 @@ namespace LoowooTech.Traffic.TForms
         {
             if (this.Features != null)
             {
-                if (this.Features.Count > 1)
+                if (this.Features.Count >0)
                 {
                     AttributeForm form = new AttributeForm(this.Features[0], this.FeatureClass,Father.BusLineName);
                     form.ShowDialog(Father);

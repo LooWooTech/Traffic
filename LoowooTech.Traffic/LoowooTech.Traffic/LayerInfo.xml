@@ -1,40 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Layers>
   <Layer Name="AROAD">
-    <Field Name="NAME" Label="名称"></Field>
+    <Field Name="NAME" Label="路名"></Field>
     <Field Name="TYPENO" Label="模型分类"></Field>
     <Field Name="LENGTH" Label="长度"></Field>
-    <Field Name="DISTRICT" Label="所属区县"></Field>
-    <Field Name="F_NAME" Label="前一相交道路名称"></Field>
+    <Field Name="CS_TYPENO" Label="几块板分类"></Field>
+    <Field Name="DISTRICT" Label="城区"></Field>
+    <Field Name="DISTRICTNO" Label="城区编号"></Field>
+    <Field Name="F_NAME" Label="前方相交道路"></Field>
+    <Field Name="JSRANK" Label="技术等级"></Field>
     <Field Name="RANK" Label="等级"></Field>
-    <Field Name="T_NAME" Label="后一相交道路名称"></Field>
+    <Field Name="T_NAME" Label="后方相交道路"></Field>
     <Field Name="TOTALNUM" Label="双向车道数"></Field>
-    <Field Name="TWO_WAY" Label="车道类型"></Field>
+    <Field Name="TWO_WAY" Label="是否双向通行"></Field>
     <Field Name="NUMLANESTF" Label="反向车道数"></Field>
+    <Field Name="M_WIDTHTF" Label="反向机动车道宽度"></Field>
+    <Field Name="UM_WIDTHTF" Label="非机动车道宽度"></Field>
+    <Field Name="JFTF" Label="反向机动车非分隔带宽度"></Field>
+    <Field Name="PEDWIDTHTF" Label="反向人行道宽度"></Field>
+    <Field Name="TSYSSETTF" Label="反向通行车种"></Field>
+    <Field Name="M_WIDTHFT" Label="正向机动车道宽度"></Field>
+    <Field Name="TSYSSETFT" Label="正向通行车种"></Field>
     <Field Name="NUMLANESFT" Label="正向车道数"></Field>
+    <Field Name="PEDWIDTHFT" Label="正向人行道宽度"></Field>
+    <Field Name="UM_WIDTHFT" Label="正向非机动车道宽度"></Field>
+    <Field Name="WIDTHTF" Label="反向宽度"></Field>
+    <Field Name="WIDTHFT" Label="正向宽度"></Field>
+    <Field Name="JFFT" Label="正向机非分隔带宽度"></Field>
+    <Field Name="CAPPRTFT" Label="通行能力"></Field>
+    <Field Name="HEIGHLIMIT" Label="限高"></Field>
+    <Field Name="BIKE_LIMIT" Label="自行车限制"></Field>
+    <Field Name="MINGCHENG" Label="拼音"></Field>
+    <Field Name="VAN_LIMIT1" Label="限货1"></Field>
+    <Field Name="VAN_LIMIT2" Label="限货2"></Field>
+    <Field Name="VAN_LIMIT3" Label="限货3"></Field>
+    <Field Name="MOTORLIMIT" Label="限摩"></Field>
+    <Field Name="MANA_TYPE" Label="道路管理类型"></Field>
     <Field Name="ZONENO" Label="小区编号"></Field>
-    <Field Name="M_ZONE_ID" Label="中区"></Field>
-    <Field Name="G_ZONE_ID" Label="大区"></Field>
-    <Field Name="IS_SINGLE" Label="道路级别"></Field>
+    <Field Name="ZF" Label="中央分隔带宽度"></Field>
+    <Field Name="RL_WIDTH" Label="红线宽度"></Field>
+    <Field Name="M_ZONE_ID" Label="中区编号"></Field>
+    <Field Name="G_ZONE_ID" Label="大区编号"></Field>
+    <Field Name="IS_SINGLE" Label="是否单线表示"></Field>
+    <Field Name="VAN_LIMIT" Label="限货"></Field>
+    <Field Name="Shape_Length" Label="长度"></Field>
   </Layer>
   <Layer Name="BUSLINE">
     <Field Name="LineName" Label="线路名称"></Field>
     <Field Name="lineDirect" Label="方向"></Field>
+    <Field Name="地区2" Label="地区2"></Field>
+    <Field Name="地区1" Label="地区1"></Field>
+    <Field Name="地区3" Label="地区3"></Field>
+    <Field Name="地区4" Label="地区4"></Field>
     <Field Name="lineclass" Label="线路等级"></Field>
+    <Field Name="Shape_Leng" Label="长度"></Field>
+    <Field Name="StartStop" Label="起点"></Field>
+    <Field Name="EndStop" Label="终点"></Field>
+    <Field Name="LineType" Label="线路类型"></Field>
+    <Field Name="StopNum" Label="站点数"></Field>
+    <Field Name="AvgStopInt" Label="平均站间距"></Field>
+    <Field Name="BusNum" Label="配车数"></Field>
+    <Field Name="namedir" Label="名称方向"></Field>
+    <Field Name="ShortName" Label="简化名称"></Field>
+    <Field Name="BusType" Label="车型"></Field>
+  </Layer>
+  <Layer Name="BUSSTOP">
+    <Field Name="get_time" Label="时间"></Field>
+    <Field Name="lineNameshort" Label="线路简化名称"></Field>
+    <Field Name="lineNamelong" Label="线路名称"></Field>
+    <Field Name="lineDirect" Label="方向"></Field>
+    <Field Name="stopIndex" Label="站序"></Field>
+    <Field Name="stopID" Label="站点编号"></Field>
+    <Field Name="stopName" Label="站名"></Field>
+    <Field Name="lng" Label="经度"></Field>
+    <Field Name="lat" Label="维度"></Field>
+    <Field Name="lenf" Label="Link百分比"></Field>
+    <Field Name="linkno" Label="Link站序"></Field>
   </Layer>
   <Layer Name="PARKING">
     <Field Name="X" Label="X坐标"></Field>
     <Field Name="Y" Label="Y坐标"></Field>
-    <Field Name="PARK_CODE" Label="停车场代码"></Field>
+    <Field Name="PARK_CODE" Label="停车场代码再用"></Field>
     <Field Name="TYPE" Label="类型"></Field>
     <Field Name="BERTHNUM" Label="总泊位"></Field>
     <Field Name="NAME" Label="名称"></Field>
     <Field Name="ADDRESS" Label="地址"></Field>
+    <Field Name="CATEGORY" Label="分类暂时没用"></Field>
+    <Field Name="EMPTYNUM" Label="空余泊位"></Field>
+    <Field Name="LASTUPDATE" Label="实时更新时间1"></Field>
+    <Field Name="LASTUPDATED" Label="实时更新时间2"></Field>
     <Field Name="XIAOQU" Label="小区"></Field>
     <Field Name="ZHONGQU" Label="中区"></Field>
     <Field Name="ZHENGQU" Label="政区"></Field>
     <Field Name="SHOUFEIQU" Label="收费区域"></Field>
     <Field Name="DATASTATUS" Label="是否有数据"></Field>
+    <Field Name="UPDATETIME" Label="调整时间"></Field>
   </Layer>
   <Way Type="AROAD">
     <Children Name="路网"></Children>

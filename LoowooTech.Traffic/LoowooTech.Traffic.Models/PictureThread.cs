@@ -15,21 +15,31 @@ namespace LoowooTech.Traffic.Models
     {
         public string FilePath { get; set; }
         public string Temp { get; set; }
+        private string MapType { get; set; }
         public IActiveView ActiveView { get; set; }
         public int DPI { get; set; }
         private string Lenged { get; set; }
         private string Ext { get; set; }
 
-        public PictureThread(string FilePath,IActiveView ActiveView,DataType dataType)
+        public PictureThread(string FilePath,IActiveView ActiveView,DataType dataType,string MapType)
         {
             this.ActiveView = ActiveView;
             this.FilePath = FilePath;
+            this.MapType = MapType; 
             this.DPI = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DPI"]);
-            this.Lenged = GetLegend(dataType);
+            this.Lenged = GetLegend(dataType,this.MapType);
         }
-        public string GetLegend(DataType dataType)
+        public string GetLegend(DataType dataType,string MapType)
         {
-            return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/" + dataType.ToString() + ".png");
+            if (dataType == DataType.Road||dataType==DataType.BusLine)
+            {
+                return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/" + dataType.ToString() + MapType + ".png");
+            }
+            else
+            {
+                return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/" + dataType.ToString() + ".png");
+            }
+            
         }
         private IExport ExportBase()
         {

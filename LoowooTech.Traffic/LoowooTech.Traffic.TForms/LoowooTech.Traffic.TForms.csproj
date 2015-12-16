@@ -383,6 +383,21 @@
   <ItemGroup>
     <None Include="Resources\Job_32x32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Conference_32px_500781_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Family_32px_500785_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Man_32px_500793_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Meeting_32px_500796_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save_as_32px_1186319_easyicon.net.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

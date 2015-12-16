@@ -10,6 +10,7 @@ using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.esriSystem;
 using LoowooTech.Traffic.Common;
 using ESRI.ArcGIS.Display;
+using LoowooTech.Traffic.Models;
 
 namespace LoowooTech.Traffic.TForms.Tools
 {
@@ -75,7 +76,7 @@ namespace LoowooTech.Traffic.TForms.Tools
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
         private MainForm Father { get; set; }
-        private bool BusFlag { get; set; }
+        private bool BusFlag { get; set; }//区分路网点选查询和经过该道路上的公交查询
         public IFeatureLayer FeatureLayer
         {
             get
@@ -172,17 +173,38 @@ namespace LoowooTech.Traffic.TForms.Tools
                     if (feature != null)
                     {
                         Twinkle(feature);
-                        if (this.BusFlag)
+                        if (Father.operateMode == OperateMode.None)
                         {
-                            axMapControl.Map.ClearSelection();
-                            Father.Analyze2(feature);
+                            if (this.BusFlag)
+                            {
+                                axMapControl.Map.ClearSelection();
+                                Father.Analyze2(feature);
+                            }
+                            else
+                            {
+                                AttributeForm form = new AttributeForm(feature, FeatureLayer.FeatureClass, LayerName);
+                                form.ShowDialog(this.Father);
+                            }
                         }
-                        else
+                        else if (Father.operateMode == OperateMode.Edit)
                         {
-                            AttributeForm form = new AttributeForm(feature, FeatureLayer.FeatureClass, LayerName);
-                            form.ShowDialog(this.Father);
+                            var form = new OperateForm(FeatureLayer.FeatureClass, feature);
+                            form.ShowDialog(Father);
                         }
-                       
+                        else if (Father.operateMode == OperateMode.Delete)
+                        {
+                            if (MessageBox.Show("你确定要删除当前选择的", "警告", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                            {
+                                feature.Delete();
+                                Father.MapRefresh();
+                            }
+                        }
+                        else if (Father.operateMode == OperateMode.Add)
+                        {
+                            var form = new OperateForm(FeatureLayer.FeatureClass, feature.Shape);
+                            form.ShowDialog(Father);
+                        }
+                        
                     }
                 }
             }

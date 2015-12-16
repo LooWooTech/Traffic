@@ -213,6 +213,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Conference_32px_500781_easyicon_net {
+            get {
+                object obj = ResourceManager.GetObject("Conference_32px_500781_easyicon.net", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Delete_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Delete_32x32", resourceCulture);
@@ -256,6 +266,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         internal static System.Drawing.Bitmap ExportToIMG_32x32 {
             get {
                 object obj = ResourceManager.GetObject("ExportToIMG_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Family_32px_500785_easyicon_net {
+            get {
+                object obj = ResourceManager.GetObject("Family_32px_500785_easyicon.net", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -313,9 +333,29 @@ namespace LoowooTech.Traffic.TForms.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Man_32px_500793_easyicon_net {
+            get {
+                object obj = ResourceManager.GetObject("Man_32px_500793_easyicon.net", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap MasterFilter_32x32 {
             get {
                 object obj = ResourceManager.GetObject("MasterFilter_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Meeting_32px_500796_easyicon_net {
+            get {
+                object obj = ResourceManager.GetObject("Meeting_32px_500796_easyicon.net", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -346,6 +386,16 @@ namespace LoowooTech.Traffic.TForms.Properties {
         internal static System.Drawing.Bitmap Recurrence_16x16 {
             get {
                 object obj = ResourceManager.GetObject("Recurrence_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Save_as_32px_1186319_easyicon_net {
+            get {
+                object obj = ResourceManager.GetObject("Save_as_32px_1186319_easyicon.net", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
