@@ -81,6 +81,7 @@ namespace LoowooTech.Traffic.Models
             export.FinishExporting();
             export.Cleanup();
             Merge();
+            
         }
 
         public void Merge()
@@ -88,7 +89,6 @@ namespace LoowooTech.Traffic.Models
             System.Drawing.Image ImageBackGround = System.Drawing.Image.FromFile(this.Temp);
             System.Drawing.Image ImageLenged = System.Drawing.Image.FromFile(this.Lenged);
             Graphics g = Graphics.FromImage(ImageBackGround);
-            //g.DrawImage(ImageBackGround, 0, 0, ImageBackGround.Width, ImageBackGround.Height);
             g.DrawImage(ImageLenged, ImageBackGround.Width-ImageLenged.Width, ImageBackGround.Height-ImageLenged.Height, ImageLenged.Width, ImageLenged.Height);
             g.Dispose();
             switch (this.Ext)

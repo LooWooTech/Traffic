@@ -167,6 +167,20 @@ namespace LoowooTech.Traffic.TForms
             };
             axMapControl1.OnAfterDraw += this.axMapControl1_OnAfterDraw;
         }
+
+        public void Power()
+        {
+            if (this.CurrentUser != null)
+            {
+                if (this.CurrentUser.Role == Role.Common)
+                {
+                    this.ribbonPanel6.Visible = false;
+                    this.ribbonPanel10.Visible = false;
+                    this.ribbonPanel14.Visible = false;
+                    this.ribbonTab6.Visible = false;
+                }
+            }
+        }
         
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -205,6 +219,7 @@ namespace LoowooTech.Traffic.TForms
                 Splash.progressBar1.Visible = false;
                 this.Enabled = false;
             }
+            
         }
         #endregion
 
@@ -629,8 +644,12 @@ namespace LoowooTech.Traffic.TForms
             if (!string.IsNullOrEmpty(FilePath))
             {
                 var tool = new PictureThread(FilePath, axMapControl1.ActiveView,this.dataType,this.MapType);
-                var thread = new Thread(tool.ThreadMain);
+                var thread = new Thread(tool.ThreadMain) { IsBackground = true };
+                OperatorTxt.Text = "开始导出图片：" + FilePath;
                 thread.Start();
+                thread.Join();
+                OperatorTxt.Text = "成功导出图片：" + FilePath;
+              
             }
         }
         private void ExportBase()
@@ -681,6 +700,7 @@ namespace LoowooTech.Traffic.TForms
         {
             if (!string.IsNullOrEmpty(FilePath))
             {
+                OperatorTxt.Text = "开始导出Excel文件：" + FilePath;
                 var HeadDict = GISHelper.GetFieldIndexDict(FeatureClass);
                 ExcelHelper.SaveExcel(FeatureClass, WhereClause, FilePath, HeadDict);
                 OperatorTxt.Text = "成功导出Excel文件：" + FilePath;

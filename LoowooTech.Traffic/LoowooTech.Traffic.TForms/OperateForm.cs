@@ -80,7 +80,7 @@ namespace LoowooTech.Traffic.TForms
             string label = string.Empty;
             foreach (var key in FieldIndexDict.Keys)
             {
-                if (key.ToUpper() == "SHAPE" || key.ToUpper() == "OBJECTID"||key.ToUpper().Contains("OBJECTID")||key.ToUpper().Contains("SHAPE"))
+                if (key.ToUpper() == "SHAPE" || key.ToUpper() == "OBJECTID"||key.ToUpper().Contains("OBJECTID")||key.ToUpper().Contains("SHAPE")||key.ToUpper()=="NO_")
                 {
                     continue;
                 }

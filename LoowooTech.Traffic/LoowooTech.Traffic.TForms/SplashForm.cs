@@ -30,6 +30,7 @@ namespace LoowooTech.Traffic.TForms
                 {
                     Form.Enabled = true;
                     Form.CurrentUser = user;
+                    Form.Power();
                 }
                     
                 MessageBox.Show("成功登陆"+user.Role.GetDescription()+" 用户:"+user.Name);
