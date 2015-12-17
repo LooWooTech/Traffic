@@ -41,12 +41,26 @@ namespace LoowooTech.Traffic.TForms
         {
             if (textBox1.Text != null && !string.IsNullOrEmpty(textBox1.Text))
             {
-                string whereClause = System.Configuration.ConfigurationManager.AppSettings["BUSKEY"] + " = '" + textBox1.Text + "'";
-                string StopWhereClause = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY1"] + " = " + textBox1.Text.Replace("路", "").Replace("区间","").Replace("线","").Replace("高峰大站车","");
-                Father.UpdateBase(Father.BusLineName, whereClause, FeatureClass);
-                Father.UpdateBase(Father.BusStopName, StopWhereClause,Father.BusStopFeatureClass);
-                ChooseForm chooseForm = new ChooseForm(this.FeatureClass, whereClause,Father);
-                chooseForm.ShowDialog();
+                var list = GISHelper.GetRoadList(Father.BusLineFeatureClass, Father.BusStopFeatureClass, textBox1.Text);
+                if (list.Count > 0)
+                {
+                    Father.UpdateBase(Father.BusLineName, list[0].RoadWhereClause, Father.BusLineFeatureClass,true);
+                    Father.UpdateBase(Father.BusStopName, list[0].StopWhereClause, Father.BusStopFeatureClass);
+                    ChooseForm chooseForm = new ChooseForm(list, Father);
+                    chooseForm.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("当前搜索结果为空");
+                    return;
+                }
+                //string whereClause = System.Configuration.ConfigurationManager.AppSettings["BUSKEY"] + " = '" + textBox1.Text + "'";
+                ////var dict = GISHelper.GetWhereClauseFeature(FeatureClass, System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY2"], whereClause);
+                //string StopWhereClause = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY1"] + " = " + textBox1.Text.Replace("路", "").Replace("区间","").Replace("线","").Replace("高峰大站车","");
+                //Father.UpdateBase(Father.BusLineName, whereClause, FeatureClass);
+                //Father.UpdateBase(Father.BusStopName, StopWhereClause,Father.BusStopFeatureClass);
+               
             }
         }
 
@@ -60,6 +74,14 @@ namespace LoowooTech.Traffic.TForms
         {
             Father.UpdateBase(Father.BusLineName, "", FeatureClass);
             Father.UpdateBase(Father.BusStopName, "", Father.BusStopFeatureClass);
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.button1_Click(sender, e);
+            }
         }
 
 

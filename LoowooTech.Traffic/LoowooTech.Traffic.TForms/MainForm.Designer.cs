@@ -30,117 +30,37 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ribbon1 = new System.Windows.Forms.Ribbon();
-            this.btnPointer = new System.Windows.Forms.RibbonButton();
-            this.btnPan = new System.Windows.Forms.RibbonButton();
-            this.btnZoomIn = new System.Windows.Forms.RibbonButton();
-            this.btnZoomOut = new System.Windows.Forms.RibbonButton();
-            this.btnIdentify = new System.Windows.Forms.RibbonButton();
-            this.btnGlobe = new System.Windows.Forms.RibbonButton();
-            this.btnRefresh = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
-            this.btnSearchRoad = new System.Windows.Forms.RibbonButton();
-            this.btnIdentifyRoad = new System.Windows.Forms.RibbonButton();
-            this.BtnRoadBus = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
-            this.ribbonButton8 = new System.Windows.Forms.RibbonButton();
-            this.CanelRoadFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel3 = new System.Windows.Forms.RibbonPanel();
-            this.btnExpImgRoad = new System.Windows.Forms.RibbonButton();
-            this.ExportRoadSHP = new System.Windows.Forms.RibbonButton();
-            this.btnExpXlsRoad = new System.Windows.Forms.RibbonButton();
-            this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
-            this.RoadStatistic = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel21 = new System.Windows.Forms.RibbonPanel();
-            this.RankMap = new System.Windows.Forms.RibbonButton();
-            this.NumMap = new System.Windows.Forms.RibbonButton();
-            this.RoadBaseMap = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel6 = new System.Windows.Forms.RibbonPanel();
-            this.btnAddRoad = new System.Windows.Forms.RibbonButton();
-            this.RoadEdit = new System.Windows.Forms.RibbonButton();
-            this.RoadDelete = new System.Windows.Forms.RibbonButton();
-            this.RoadSave = new System.Windows.Forms.RibbonButton();
             this.ribbonTab2 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel4 = new System.Windows.Forms.RibbonPanel();
-            this.BusFilter = new System.Windows.Forms.RibbonButton();
-            this.RegionFilter = new System.Windows.Forms.RibbonButton();
-            this.CancelBusFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel5 = new System.Windows.Forms.RibbonPanel();
-            this.PointBusLine = new System.Windows.Forms.RibbonButton();
-            this.PointBusStop = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel18 = new System.Windows.Forms.RibbonPanel();
-            this.btnBusLineNumber = new System.Windows.Forms.RibbonButton();
-            this.btnFilterBusline = new System.Windows.Forms.RibbonButton();
-            this.btnFilterBusStop = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel22 = new System.Windows.Forms.RibbonPanel();
-            this.BusDegree = new System.Windows.Forms.RibbonButton();
-            this.BusRegion = new System.Windows.Forms.RibbonButton();
-            this.BusLineBaseMap = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel23 = new System.Windows.Forms.RibbonPanel();
-            this.ExportBusPicture = new System.Windows.Forms.RibbonButton();
-            this.ExportBusShp = new System.Windows.Forms.RibbonButton();
-            this.ExportBusExcel = new System.Windows.Forms.RibbonButton();
             this.ribbonTab3 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel7 = new System.Windows.Forms.RibbonPanel();
-            this.btnSearchParking = new System.Windows.Forms.RibbonButton();
-            this.btnIdentifyParking = new System.Windows.Forms.RibbonButton();
-            this.btnStatParking = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel8 = new System.Windows.Forms.RibbonPanel();
-            this.btnFilterParking = new System.Windows.Forms.RibbonButton();
-            this.btnRegionFilterParking = new System.Windows.Forms.RibbonButton();
-            this.CancelParkingFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel9 = new System.Windows.Forms.RibbonPanel();
-            this.btnExpImgStop = new System.Windows.Forms.RibbonButton();
-            this.ExportParkingSHP = new System.Windows.Forms.RibbonButton();
-            this.btnExpXlsParking = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel10 = new System.Windows.Forms.RibbonPanel();
-            this.btnAddParking = new System.Windows.Forms.RibbonButton();
-            this.btnEditParking = new System.Windows.Forms.RibbonButton();
-            this.btnRemoveParking = new System.Windows.Forms.RibbonButton();
-            this.btnSaveParking = new System.Windows.Forms.RibbonButton();
             this.ribbonTab4 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel11 = new System.Windows.Forms.RibbonPanel();
-            this.btnSearchFlow = new System.Windows.Forms.RibbonButton();
-            this.btnIdentifyFlow = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel12 = new System.Windows.Forms.RibbonPanel();
-            this.btnFilterFlow = new System.Windows.Forms.RibbonButton();
-            this.CancelFlowFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel13 = new System.Windows.Forms.RibbonPanel();
-            this.btnExpImgFlow = new System.Windows.Forms.RibbonButton();
-            this.ExportFlowSHP = new System.Windows.Forms.RibbonButton();
-            this.btnExpXlsFlow = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel14 = new System.Windows.Forms.RibbonPanel();
-            this.btnAddFlow = new System.Windows.Forms.RibbonButton();
-            this.btnEditFlow = new System.Windows.Forms.RibbonButton();
-            this.btnRemoveFlow = new System.Windows.Forms.RibbonButton();
-            this.btnSaveFlow = new System.Windows.Forms.RibbonButton();
             this.ribbonTab5 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel15 = new System.Windows.Forms.RibbonPanel();
-            this.btnSearchBike = new System.Windows.Forms.RibbonButton();
-            this.btnIdentifyBike = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel16 = new System.Windows.Forms.RibbonPanel();
-            this.btnFilterBike = new System.Windows.Forms.RibbonButton();
-            this.CancelBikeFilter = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel17 = new System.Windows.Forms.RibbonPanel();
-            this.btnExpImgBike = new System.Windows.Forms.RibbonButton();
-            this.ExportBikeSHP = new System.Windows.Forms.RibbonButton();
-            this.btnExpXlsBike = new System.Windows.Forms.RibbonButton();
             this.ribbonTab7 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel24 = new System.Windows.Forms.RibbonPanel();
-            this.CurrentPeople = new System.Windows.Forms.RibbonButton();
-            this.CurrentPeopleDensity = new System.Windows.Forms.RibbonButton();
-            this.PlanPeople = new System.Windows.Forms.RibbonButton();
-            this.PlanPeopleDensity = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel25 = new System.Windows.Forms.RibbonPanel();
-            this.CurrentPost = new System.Windows.Forms.RibbonButton();
-            this.CurrentPostDensity = new System.Windows.Forms.RibbonButton();
-            this.PlanPost = new System.Windows.Forms.RibbonButton();
-            this.PlanPostDensity = new System.Windows.Forms.RibbonButton();
             this.ribbonTab6 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel19 = new System.Windows.Forms.RibbonPanel();
-            this.btnAddUser = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.OperatorTxt = new System.Windows.Forms.ToolStripStatusLabel();
@@ -149,6 +69,87 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.btnPointer = new System.Windows.Forms.RibbonButton();
+            this.btnPan = new System.Windows.Forms.RibbonButton();
+            this.btnZoomIn = new System.Windows.Forms.RibbonButton();
+            this.btnZoomOut = new System.Windows.Forms.RibbonButton();
+            this.btnIdentify = new System.Windows.Forms.RibbonButton();
+            this.btnGlobe = new System.Windows.Forms.RibbonButton();
+            this.btnRefresh = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
+            this.btnSearchRoad = new System.Windows.Forms.RibbonButton();
+            this.btnIdentifyRoad = new System.Windows.Forms.RibbonButton();
+            this.BtnRoadBus = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton8 = new System.Windows.Forms.RibbonButton();
+            this.CanelRoadFilter = new System.Windows.Forms.RibbonButton();
+            this.btnExpImgRoad = new System.Windows.Forms.RibbonButton();
+            this.btnExpXlsRoad = new System.Windows.Forms.RibbonButton();
+            this.ExportRoadSHP = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel20 = new System.Windows.Forms.RibbonPanel();
+            this.RoadStatistic = new System.Windows.Forms.RibbonButton();
+            this.RankMap = new System.Windows.Forms.RibbonButton();
+            this.NumMap = new System.Windows.Forms.RibbonButton();
+            this.RoadBaseMap = new System.Windows.Forms.RibbonButton();
+            this.ribbonButtonList1 = new System.Windows.Forms.RibbonButtonList();
+            this.btnAddRoad = new System.Windows.Forms.RibbonButton();
+            this.RoadEdit = new System.Windows.Forms.RibbonButton();
+            this.RoadDelete = new System.Windows.Forms.RibbonButton();
+            this.RoadSave = new System.Windows.Forms.RibbonButton();
+            this.BusFilter = new System.Windows.Forms.RibbonButton();
+            this.RegionFilter = new System.Windows.Forms.RibbonButton();
+            this.CancelBusFilter = new System.Windows.Forms.RibbonButton();
+            this.PointBusLine = new System.Windows.Forms.RibbonButton();
+            this.PointBusStop = new System.Windows.Forms.RibbonButton();
+            this.btnBusLineNumber = new System.Windows.Forms.RibbonButton();
+            this.btnFilterBusline = new System.Windows.Forms.RibbonButton();
+            this.btnFilterBusStop = new System.Windows.Forms.RibbonButton();
+            this.BusDegree = new System.Windows.Forms.RibbonButton();
+            this.BusRegion = new System.Windows.Forms.RibbonButton();
+            this.BusLineBaseMap = new System.Windows.Forms.RibbonButton();
+            this.ExportBusPicture = new System.Windows.Forms.RibbonButton();
+            this.ExportBusExcel = new System.Windows.Forms.RibbonButton();
+            this.ExportBusShp = new System.Windows.Forms.RibbonButton();
+            this.btnSearchParking = new System.Windows.Forms.RibbonButton();
+            this.btnIdentifyParking = new System.Windows.Forms.RibbonButton();
+            this.btnStatParking = new System.Windows.Forms.RibbonButton();
+            this.btnFilterParking = new System.Windows.Forms.RibbonButton();
+            this.btnRegionFilterParking = new System.Windows.Forms.RibbonButton();
+            this.CancelParkingFilter = new System.Windows.Forms.RibbonButton();
+            this.btnExpImgStop = new System.Windows.Forms.RibbonButton();
+            this.btnExpXlsParking = new System.Windows.Forms.RibbonButton();
+            this.ExportParkingSHP = new System.Windows.Forms.RibbonButton();
+            this.btnAddParking = new System.Windows.Forms.RibbonButton();
+            this.btnEditParking = new System.Windows.Forms.RibbonButton();
+            this.btnRemoveParking = new System.Windows.Forms.RibbonButton();
+            this.btnSaveParking = new System.Windows.Forms.RibbonButton();
+            this.btnSearchFlow = new System.Windows.Forms.RibbonButton();
+            this.btnIdentifyFlow = new System.Windows.Forms.RibbonButton();
+            this.btnFilterFlow = new System.Windows.Forms.RibbonButton();
+            this.CancelFlowFilter = new System.Windows.Forms.RibbonButton();
+            this.btnExpImgFlow = new System.Windows.Forms.RibbonButton();
+            this.btnExpXlsFlow = new System.Windows.Forms.RibbonButton();
+            this.ExportFlowSHP = new System.Windows.Forms.RibbonButton();
+            this.btnAddFlow = new System.Windows.Forms.RibbonButton();
+            this.btnEditFlow = new System.Windows.Forms.RibbonButton();
+            this.btnRemoveFlow = new System.Windows.Forms.RibbonButton();
+            this.btnSaveFlow = new System.Windows.Forms.RibbonButton();
+            this.btnSearchBike = new System.Windows.Forms.RibbonButton();
+            this.btnIdentifyBike = new System.Windows.Forms.RibbonButton();
+            this.btnFilterBike = new System.Windows.Forms.RibbonButton();
+            this.CancelBikeFilter = new System.Windows.Forms.RibbonButton();
+            this.btnExpImgBike = new System.Windows.Forms.RibbonButton();
+            this.btnExpXlsBike = new System.Windows.Forms.RibbonButton();
+            this.ExportBikeSHP = new System.Windows.Forms.RibbonButton();
+            this.CurrentPeople = new System.Windows.Forms.RibbonButton();
+            this.CurrentPeopleDensity = new System.Windows.Forms.RibbonButton();
+            this.PlanPeople = new System.Windows.Forms.RibbonButton();
+            this.PlanPeopleDensity = new System.Windows.Forms.RibbonButton();
+            this.CurrentPost = new System.Windows.Forms.RibbonButton();
+            this.CurrentPostDensity = new System.Windows.Forms.RibbonButton();
+            this.PlanPost = new System.Windows.Forms.RibbonButton();
+            this.PlanPostDensity = new System.Windows.Forms.RibbonButton();
+            this.btnAddUser = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -197,6 +198,293 @@
             this.ribbon1.Text = "ribbon1";
             this.ribbon1.ThemeColor = System.Windows.Forms.RibbonTheme.Blue;
             this.ribbon1.ActiveTabChanged += new System.EventHandler(this.ribbon1_ActiveTabChanged);
+            // 
+            // ribbonTab1
+            // 
+            this.ribbonTab1.Panels.Add(this.ribbonPanel1);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel2);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel3);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel20);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel21);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel6);
+            this.ribbonTab1.Text = "路网相关";
+            // 
+            // ribbonPanel1
+            // 
+            this.ribbonPanel1.Items.Add(this.btnSearchRoad);
+            this.ribbonPanel1.Items.Add(this.btnIdentifyRoad);
+            this.ribbonPanel1.Items.Add(this.BtnRoadBus);
+            this.ribbonPanel1.Text = "查询";
+            // 
+            // ribbonPanel2
+            // 
+            this.ribbonPanel2.Items.Add(this.ribbonButton8);
+            this.ribbonPanel2.Items.Add(this.CanelRoadFilter);
+            this.ribbonPanel2.Text = "过滤";
+            // 
+            // ribbonPanel3
+            // 
+            this.ribbonPanel3.Items.Add(this.btnExpImgRoad);
+            this.ribbonPanel3.Items.Add(this.btnExpXlsRoad);
+            this.ribbonPanel3.Items.Add(this.ExportRoadSHP);
+            this.ribbonPanel3.Text = "输出";
+            // 
+            // ribbonPanel21
+            // 
+            this.ribbonPanel21.Items.Add(this.RankMap);
+            this.ribbonPanel21.Items.Add(this.NumMap);
+            this.ribbonPanel21.Items.Add(this.RoadBaseMap);
+            this.ribbonPanel21.Text = "渲染";
+            // 
+            // ribbonPanel6
+            // 
+            this.ribbonPanel6.Items.Add(this.btnAddRoad);
+            this.ribbonPanel6.Items.Add(this.RoadEdit);
+            this.ribbonPanel6.Items.Add(this.RoadDelete);
+            this.ribbonPanel6.Items.Add(this.RoadSave);
+            this.ribbonPanel6.Text = "编辑";
+            // 
+            // ribbonTab2
+            // 
+            this.ribbonTab2.Panels.Add(this.ribbonPanel4);
+            this.ribbonTab2.Panels.Add(this.ribbonPanel5);
+            this.ribbonTab2.Panels.Add(this.ribbonPanel18);
+            this.ribbonTab2.Panels.Add(this.ribbonPanel22);
+            this.ribbonTab2.Panels.Add(this.ribbonPanel23);
+            this.ribbonTab2.Text = "公交相关";
+            // 
+            // ribbonPanel4
+            // 
+            this.ribbonPanel4.Items.Add(this.BusFilter);
+            this.ribbonPanel4.Items.Add(this.RegionFilter);
+            this.ribbonPanel4.Items.Add(this.CancelBusFilter);
+            this.ribbonPanel4.Text = "过滤";
+            // 
+            // ribbonPanel5
+            // 
+            this.ribbonPanel5.Items.Add(this.PointBusLine);
+            this.ribbonPanel5.Items.Add(this.PointBusStop);
+            this.ribbonPanel5.Text = "点选查询";
+            // 
+            // ribbonPanel18
+            // 
+            this.ribbonPanel18.Items.Add(this.btnBusLineNumber);
+            this.ribbonPanel18.Items.Add(this.btnFilterBusline);
+            this.ribbonPanel18.Items.Add(this.btnFilterBusStop);
+            this.ribbonPanel18.Text = "属性查询";
+            // 
+            // ribbonPanel22
+            // 
+            this.ribbonPanel22.Items.Add(this.BusDegree);
+            this.ribbonPanel22.Items.Add(this.BusRegion);
+            this.ribbonPanel22.Items.Add(this.BusLineBaseMap);
+            this.ribbonPanel22.Text = "渲染";
+            // 
+            // ribbonPanel23
+            // 
+            this.ribbonPanel23.Items.Add(this.ExportBusPicture);
+            this.ribbonPanel23.Items.Add(this.ExportBusExcel);
+            this.ribbonPanel23.Items.Add(this.ExportBusShp);
+            this.ribbonPanel23.Text = "输出";
+            // 
+            // ribbonTab3
+            // 
+            this.ribbonTab3.Panels.Add(this.ribbonPanel7);
+            this.ribbonTab3.Panels.Add(this.ribbonPanel8);
+            this.ribbonTab3.Panels.Add(this.ribbonPanel9);
+            this.ribbonTab3.Panels.Add(this.ribbonPanel10);
+            this.ribbonTab3.Text = "停车设施相关";
+            // 
+            // ribbonPanel7
+            // 
+            this.ribbonPanel7.Items.Add(this.btnSearchParking);
+            this.ribbonPanel7.Items.Add(this.btnIdentifyParking);
+            this.ribbonPanel7.Items.Add(this.btnStatParking);
+            this.ribbonPanel7.Text = "查询";
+            // 
+            // ribbonPanel8
+            // 
+            this.ribbonPanel8.Items.Add(this.btnFilterParking);
+            this.ribbonPanel8.Items.Add(this.btnRegionFilterParking);
+            this.ribbonPanel8.Items.Add(this.CancelParkingFilter);
+            this.ribbonPanel8.Text = "过滤";
+            // 
+            // ribbonPanel9
+            // 
+            this.ribbonPanel9.Items.Add(this.btnExpImgStop);
+            this.ribbonPanel9.Items.Add(this.btnExpXlsParking);
+            this.ribbonPanel9.Items.Add(this.ExportParkingSHP);
+            this.ribbonPanel9.Text = "输出";
+            // 
+            // ribbonPanel10
+            // 
+            this.ribbonPanel10.Items.Add(this.btnAddParking);
+            this.ribbonPanel10.Items.Add(this.btnEditParking);
+            this.ribbonPanel10.Items.Add(this.btnRemoveParking);
+            this.ribbonPanel10.Items.Add(this.btnSaveParking);
+            this.ribbonPanel10.Text = "编辑";
+            // 
+            // ribbonTab4
+            // 
+            this.ribbonTab4.Panels.Add(this.ribbonPanel11);
+            this.ribbonTab4.Panels.Add(this.ribbonPanel12);
+            this.ribbonTab4.Panels.Add(this.ribbonPanel13);
+            this.ribbonTab4.Panels.Add(this.ribbonPanel14);
+            this.ribbonTab4.Text = "交通流量检测器";
+            // 
+            // ribbonPanel11
+            // 
+            this.ribbonPanel11.Items.Add(this.btnSearchFlow);
+            this.ribbonPanel11.Items.Add(this.btnIdentifyFlow);
+            this.ribbonPanel11.Text = "查询";
+            // 
+            // ribbonPanel12
+            // 
+            this.ribbonPanel12.Items.Add(this.btnFilterFlow);
+            this.ribbonPanel12.Items.Add(this.CancelFlowFilter);
+            this.ribbonPanel12.Text = "过滤";
+            // 
+            // ribbonPanel13
+            // 
+            this.ribbonPanel13.Items.Add(this.btnExpImgFlow);
+            this.ribbonPanel13.Items.Add(this.btnExpXlsFlow);
+            this.ribbonPanel13.Items.Add(this.ExportFlowSHP);
+            this.ribbonPanel13.Text = "输出";
+            // 
+            // ribbonPanel14
+            // 
+            this.ribbonPanel14.Items.Add(this.btnAddFlow);
+            this.ribbonPanel14.Items.Add(this.btnEditFlow);
+            this.ribbonPanel14.Items.Add(this.btnRemoveFlow);
+            this.ribbonPanel14.Items.Add(this.btnSaveFlow);
+            this.ribbonPanel14.Text = "编辑";
+            // 
+            // ribbonTab5
+            // 
+            this.ribbonTab5.Panels.Add(this.ribbonPanel15);
+            this.ribbonTab5.Panels.Add(this.ribbonPanel16);
+            this.ribbonTab5.Panels.Add(this.ribbonPanel17);
+            this.ribbonTab5.Text = "公共自行车相关";
+            // 
+            // ribbonPanel15
+            // 
+            this.ribbonPanel15.Items.Add(this.btnSearchBike);
+            this.ribbonPanel15.Items.Add(this.btnIdentifyBike);
+            this.ribbonPanel15.Text = "查询";
+            // 
+            // ribbonPanel16
+            // 
+            this.ribbonPanel16.Items.Add(this.btnFilterBike);
+            this.ribbonPanel16.Items.Add(this.CancelBikeFilter);
+            this.ribbonPanel16.Text = "过滤";
+            // 
+            // ribbonPanel17
+            // 
+            this.ribbonPanel17.Items.Add(this.btnExpImgBike);
+            this.ribbonPanel17.Items.Add(this.btnExpXlsBike);
+            this.ribbonPanel17.Items.Add(this.ExportBikeSHP);
+            this.ribbonPanel17.Text = "输出";
+            // 
+            // ribbonTab7
+            // 
+            this.ribbonTab7.Panels.Add(this.ribbonPanel24);
+            this.ribbonTab7.Panels.Add(this.ribbonPanel25);
+            this.ribbonTab7.Text = "人口岗位相关";
+            // 
+            // ribbonPanel24
+            // 
+            this.ribbonPanel24.Items.Add(this.CurrentPeople);
+            this.ribbonPanel24.Items.Add(this.CurrentPeopleDensity);
+            this.ribbonPanel24.Items.Add(this.PlanPeople);
+            this.ribbonPanel24.Items.Add(this.PlanPeopleDensity);
+            this.ribbonPanel24.Text = "人口";
+            // 
+            // ribbonPanel25
+            // 
+            this.ribbonPanel25.Items.Add(this.CurrentPost);
+            this.ribbonPanel25.Items.Add(this.CurrentPostDensity);
+            this.ribbonPanel25.Items.Add(this.PlanPost);
+            this.ribbonPanel25.Items.Add(this.PlanPostDensity);
+            this.ribbonPanel25.Text = "岗位";
+            // 
+            // ribbonTab6
+            // 
+            this.ribbonTab6.Panels.Add(this.ribbonPanel19);
+            this.ribbonTab6.Text = "用户管理";
+            // 
+            // ribbonPanel19
+            // 
+            this.ribbonPanel19.Items.Add(this.btnAddUser);
+            this.ribbonPanel19.Items.Add(this.ribbonButton2);
+            this.ribbonPanel19.Text = "用户管理";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.OperatorTxt,
+            this.toolStripStatusLabel2,
+            this.lblCoords});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 728);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1192, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
+            // OperatorTxt
+            // 
+            this.OperatorTxt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.OperatorTxt.Name = "OperatorTxt";
+            this.OperatorTxt.Size = new System.Drawing.Size(32, 17);
+            this.OperatorTxt.Text = "就绪";
+            this.OperatorTxt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1145, 17);
+            this.toolStripStatusLabel2.Spring = true;
+            this.toolStripStatusLabel2.Text = " ";
+            this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblCoords
+            // 
+            this.lblCoords.Name = "lblCoords";
+            this.lblCoords.Size = new System.Drawing.Size(0, 17);
+            // 
+            // axLicenseControl1
+            // 
+            this.axLicenseControl1.Enabled = true;
+            this.axLicenseControl1.Location = new System.Drawing.Point(1148, 74);
+            this.axLicenseControl1.Name = "axLicenseControl1";
+            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
+            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
+            this.axLicenseControl1.TabIndex = 7;
+            // 
+            // axTOCControl1
+            // 
+            this.axTOCControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.axTOCControl1.Location = new System.Drawing.Point(0, 148);
+            this.axTOCControl1.Name = "axTOCControl1";
+            this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
+            this.axTOCControl1.Size = new System.Drawing.Size(245, 580);
+            this.axTOCControl1.TabIndex = 8;
+            // 
+            // axMapControl1
+            // 
+            this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControl1.Location = new System.Drawing.Point(245, 148);
+            this.axMapControl1.Name = "axMapControl1";
+            this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
+            this.axMapControl1.Size = new System.Drawing.Size(947, 580);
+            this.axMapControl1.TabIndex = 12;
+            this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             // 
             // btnPointer
             // 
@@ -266,91 +554,61 @@
             this.ribbonButton1.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.BlackPoint_16X16;
             this.ribbonButton1.Text = "ribbonButton1";
             // 
-            // ribbonTab1
-            // 
-            this.ribbonTab1.Panels.Add(this.ribbonPanel1);
-            this.ribbonTab1.Panels.Add(this.ribbonPanel2);
-            this.ribbonTab1.Panels.Add(this.ribbonPanel3);
-            this.ribbonTab1.Panels.Add(this.ribbonPanel20);
-            this.ribbonTab1.Panels.Add(this.ribbonPanel21);
-            this.ribbonTab1.Panels.Add(this.ribbonPanel6);
-            this.ribbonTab1.Text = "路网相关";
-            // 
-            // ribbonPanel1
-            // 
-            this.ribbonPanel1.Items.Add(this.btnSearchRoad);
-            this.ribbonPanel1.Items.Add(this.btnIdentifyRoad);
-            this.ribbonPanel1.Items.Add(this.BtnRoadBus);
-            this.ribbonPanel1.Text = "查询";
-            // 
             // btnSearchRoad
             // 
             this.btnSearchRoad.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_32x32;
-            this.btnSearchRoad.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSearchRoad.SmallImage")));
+            this.btnSearchRoad.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_16x161;
             this.btnSearchRoad.Text = "条件查询";
             this.btnSearchRoad.Click += new System.EventHandler(this.ConditionSearchButton_Click);
             // 
             // btnIdentifyRoad
             // 
             this.btnIdentifyRoad.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.People_32x32;
-            this.btnIdentifyRoad.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentifyRoad.SmallImage")));
+            this.btnIdentifyRoad.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.People_16x16;
             this.btnIdentifyRoad.Text = "点击查询";
             this.btnIdentifyRoad.Click += new System.EventHandler(this.PointSearch_Click);
             // 
             // BtnRoadBus
             // 
             this.BtnRoadBus.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Bus_32x32__2_;
-            this.BtnRoadBus.SmallImage = ((System.Drawing.Image)(resources.GetObject("BtnRoadBus.SmallImage")));
+            this.BtnRoadBus.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Bus_16x16;
             this.BtnRoadBus.Text = "道路上的公交";
             this.BtnRoadBus.Click += new System.EventHandler(this.BtnRoadBus_Click);
-            // 
-            // ribbonPanel2
-            // 
-            this.ribbonPanel2.Items.Add(this.ribbonButton8);
-            this.ribbonPanel2.Items.Add(this.CanelRoadFilter);
-            this.ribbonPanel2.Text = "过滤";
             // 
             // ribbonButton8
             // 
             this.ribbonButton8.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.ribbonButton8.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton8.SmallImage")));
+            this.ribbonButton8.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.ribbonButton8.Text = "条件过滤";
             this.ribbonButton8.Click += new System.EventHandler(this.RoadFilter_Click);
             // 
             // CanelRoadFilter
             // 
             this.CanelRoadFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.CanelRoadFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("CanelRoadFilter.SmallImage")));
+            this.CanelRoadFilter.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.CanelRoadFilter.Text = "取消过滤";
             this.CanelRoadFilter.Click += new System.EventHandler(this.CanelRoadFilter_Click);
-            // 
-            // ribbonPanel3
-            // 
-            this.ribbonPanel3.Items.Add(this.btnExpImgRoad);
-            this.ribbonPanel3.Items.Add(this.btnExpXlsRoad);
-            this.ribbonPanel3.Items.Add(this.ExportRoadSHP);
-            this.ribbonPanel3.Text = "输出";
             // 
             // btnExpImgRoad
             // 
             this.btnExpImgRoad.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
-            this.btnExpImgRoad.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpImgRoad.SmallImage")));
+            this.btnExpImgRoad.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_16x16;
             this.btnExpImgRoad.Text = "导出图片";
             this.btnExpImgRoad.Click += new System.EventHandler(this.btnExpImgRoad_Click);
-            // 
-            // ExportRoadSHP
-            // 
-            this.ExportRoadSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
-            this.ExportRoadSHP.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportRoadSHP.SmallImage")));
-            this.ExportRoadSHP.Text = "导出图形";
-            this.ExportRoadSHP.Click += new System.EventHandler(this.ExportRoadSHP_Click);
             // 
             // btnExpXlsRoad
             // 
             this.btnExpXlsRoad.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
-            this.btnExpXlsRoad.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpXlsRoad.SmallImage")));
+            this.btnExpXlsRoad.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_16x16;
             this.btnExpXlsRoad.Text = "导出Excel";
             this.btnExpXlsRoad.Click += new System.EventHandler(this.ExportExcel_Click);
+            // 
+            // ExportRoadSHP
+            // 
+            this.ExportRoadSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportRoadSHP.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_16x16;
+            this.ExportRoadSHP.Text = "导出图形";
+            this.ExportRoadSHP.Click += new System.EventHandler(this.ExportRoadSHP_Click);
             // 
             // ribbonPanel20
             // 
@@ -361,618 +619,437 @@
             // RoadStatistic
             // 
             this.RoadStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
-            this.RoadStatistic.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadStatistic.SmallImage")));
+            this.RoadStatistic.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_16x16;
             this.RoadStatistic.Text = "相关统计";
             this.RoadStatistic.Click += new System.EventHandler(this.RoadStatistic_Click);
-            // 
-            // ribbonPanel21
-            // 
-            this.ribbonPanel21.Items.Add(this.RankMap);
-            this.ribbonPanel21.Items.Add(this.NumMap);
-            this.ribbonPanel21.Items.Add(this.RoadBaseMap);
-            this.ribbonPanel21.Text = "渲染";
             // 
             // RankMap
             // 
             this.RankMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.RankMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RankMap.SmallImage")));
+            this.RankMap.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.RankMap.Text = "等级图";
             this.RankMap.Click += new System.EventHandler(this.RankMap_Click);
             // 
             // NumMap
             // 
             this.NumMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.NumMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("NumMap.SmallImage")));
+            this.NumMap.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.NumMap.Text = "车道图";
             this.NumMap.Click += new System.EventHandler(this.NumMap_Click);
             // 
             // RoadBaseMap
             // 
+            this.RoadBaseMap.DropDownItems.Add(this.ribbonButtonList1);
             this.RoadBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.RoadBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadBaseMap.SmallImage")));
+            this.RoadBaseMap.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.RoadBaseMap.Text = "基础图";
             this.RoadBaseMap.Click += new System.EventHandler(this.RoadBaseMap_Click);
             // 
-            // ribbonPanel6
+            // ribbonButtonList1
             // 
-            this.ribbonPanel6.Items.Add(this.btnAddRoad);
-            this.ribbonPanel6.Items.Add(this.RoadEdit);
-            this.ribbonPanel6.Items.Add(this.RoadDelete);
-            this.ribbonPanel6.Items.Add(this.RoadSave);
-            this.ribbonPanel6.Text = "编辑";
+            this.ribbonButtonList1.ButtonsSizeMode = System.Windows.Forms.RibbonElementSizeMode.Large;
+            this.ribbonButtonList1.FlowToBottom = false;
+            this.ribbonButtonList1.ItemsSizeInDropwDownMode = new System.Drawing.Size(7, 5);
+            this.ribbonButtonList1.Text = "ribbonButtonList1";
             // 
             // btnAddRoad
             // 
             this.btnAddRoad.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_32x32;
-            this.btnAddRoad.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnAddRoad.SmallImage")));
+            this.btnAddRoad.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_16x16;
             this.btnAddRoad.Text = "导入线路";
             this.btnAddRoad.Click += new System.EventHandler(this.btnAddRoad_Click);
             // 
             // RoadEdit
             // 
             this.RoadEdit.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_32x32;
-            this.RoadEdit.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadEdit.SmallImage")));
+            this.RoadEdit.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_16x16;
             this.RoadEdit.Text = "编辑属性";
             this.RoadEdit.Click += new System.EventHandler(this.RoadEdit_Click);
             // 
             // RoadDelete
             // 
             this.RoadDelete.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.RoadDelete.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadDelete.SmallImage")));
+            this.RoadDelete.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.RoadDelete.Text = "删除线路";
             this.RoadDelete.Click += new System.EventHandler(this.RoadDelete_Click);
             // 
             // RoadSave
             // 
             this.RoadSave.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Save_as_32px_1186319_easyicon_net;
-            this.RoadSave.SmallImage = ((System.Drawing.Image)(resources.GetObject("RoadSave.SmallImage")));
+            this.RoadSave.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Save_as_16px_1186319_easyicon_net;
             this.RoadSave.Text = "保存路网";
             this.RoadSave.Click += new System.EventHandler(this.RoadSave_Click);
-            // 
-            // ribbonTab2
-            // 
-            this.ribbonTab2.Panels.Add(this.ribbonPanel4);
-            this.ribbonTab2.Panels.Add(this.ribbonPanel5);
-            this.ribbonTab2.Panels.Add(this.ribbonPanel18);
-            this.ribbonTab2.Panels.Add(this.ribbonPanel22);
-            this.ribbonTab2.Panels.Add(this.ribbonPanel23);
-            this.ribbonTab2.Text = "公交相关";
-            // 
-            // ribbonPanel4
-            // 
-            this.ribbonPanel4.Items.Add(this.BusFilter);
-            this.ribbonPanel4.Items.Add(this.RegionFilter);
-            this.ribbonPanel4.Items.Add(this.CancelBusFilter);
-            this.ribbonPanel4.Text = "过滤";
             // 
             // BusFilter
             // 
             this.BusFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.BusFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusFilter.SmallImage")));
+            this.BusFilter.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.BusFilter.Text = "公交路线过滤";
             this.BusFilter.Click += new System.EventHandler(this.BusFilter_Click);
             // 
             // RegionFilter
             // 
             this.RegionFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.RegionFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("RegionFilter.SmallImage")));
+            this.RegionFilter.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.RegionFilter.Text = "区域过滤";
             this.RegionFilter.Click += new System.EventHandler(this.RegionFilter_Click);
             // 
             // CancelBusFilter
             // 
             this.CancelBusFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.CancelBusFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("CancelBusFilter.SmallImage")));
+            this.CancelBusFilter.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.CancelBusFilter.Text = "取消过滤";
             this.CancelBusFilter.Click += new System.EventHandler(this.CancelBusFilter_Click);
-            // 
-            // ribbonPanel5
-            // 
-            this.ribbonPanel5.Items.Add(this.PointBusLine);
-            this.ribbonPanel5.Items.Add(this.PointBusStop);
-            this.ribbonPanel5.Text = "点选查询";
             // 
             // PointBusLine
             // 
             this.PointBusLine.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.PointBusLine.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.PointBusLine.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_16x16;
             this.PointBusLine.Text = "公交路线点选查询";
             this.PointBusLine.Click += new System.EventHandler(this.PointBusLine_Click);
             // 
             // PointBusStop
             // 
             this.PointBusStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.PointBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("PointBusStop.SmallImage")));
+            this.PointBusStop.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_16x16;
             this.PointBusStop.Text = "公交站点点选查询";
             this.PointBusStop.Click += new System.EventHandler(this.PointBusStop_Click);
-            // 
-            // ribbonPanel18
-            // 
-            this.ribbonPanel18.Items.Add(this.btnBusLineNumber);
-            this.ribbonPanel18.Items.Add(this.btnFilterBusline);
-            this.ribbonPanel18.Items.Add(this.btnFilterBusStop);
-            this.ribbonPanel18.Text = "属性查询";
             // 
             // btnBusLineNumber
             // 
             this.btnBusLineNumber.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Bus_32x32__2_;
-            this.btnBusLineNumber.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnBusLineNumber.SmallImage")));
+            this.btnBusLineNumber.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Bus_16x16;
             this.btnBusLineNumber.Text = "路线搜索";
             this.btnBusLineNumber.Click += new System.EventHandler(this.btnBusLineNumber_Click);
             // 
             // btnFilterBusline
             // 
             this.btnFilterBusline.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.btnFilterBusline.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFilterBusline.SmallImage")));
+            this.btnFilterBusline.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.btnFilterBusline.Text = "公交线路查询";
             this.btnFilterBusline.Click += new System.EventHandler(this.BusLineSearch2_Click);
             // 
             // btnFilterBusStop
             // 
             this.btnFilterBusStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.btnFilterBusStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFilterBusStop.SmallImage")));
+            this.btnFilterBusStop.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.btnFilterBusStop.Text = "公交站点查询";
             this.btnFilterBusStop.Click += new System.EventHandler(this.BusStopSearch2_Click);
-            // 
-            // ribbonPanel22
-            // 
-            this.ribbonPanel22.Items.Add(this.BusDegree);
-            this.ribbonPanel22.Items.Add(this.BusRegion);
-            this.ribbonPanel22.Items.Add(this.BusLineBaseMap);
-            this.ribbonPanel22.Text = "渲染";
             // 
             // BusDegree
             // 
             this.BusDegree.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.BusDegree.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusDegree.SmallImage")));
+            this.BusDegree.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.BusDegree.Text = "公交等级";
             this.BusDegree.Click += new System.EventHandler(this.BusDegree_Click);
             // 
             // BusRegion
             // 
             this.BusRegion.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.BusRegion.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusRegion.SmallImage")));
+            this.BusRegion.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.BusRegion.Text = "公交区域";
             this.BusRegion.Click += new System.EventHandler(this.BusRegion_Click);
             // 
             // BusLineBaseMap
             // 
             this.BusLineBaseMap.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.BusLineBaseMap.SmallImage = ((System.Drawing.Image)(resources.GetObject("BusLineBaseMap.SmallImage")));
+            this.BusLineBaseMap.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.BusLineBaseMap.Text = "基础图";
             this.BusLineBaseMap.Click += new System.EventHandler(this.BusLineBaseMap_Click);
-            // 
-            // ribbonPanel23
-            // 
-            this.ribbonPanel23.Items.Add(this.ExportBusPicture);
-            this.ribbonPanel23.Items.Add(this.ExportBusExcel);
-            this.ribbonPanel23.Items.Add(this.ExportBusShp);
-            this.ribbonPanel23.Text = "输出";
             // 
             // ExportBusPicture
             // 
             this.ExportBusPicture.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
-            this.ExportBusPicture.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusPicture.SmallImage")));
+            this.ExportBusPicture.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_16x16;
             this.ExportBusPicture.Text = "图片导出";
             this.ExportBusPicture.Click += new System.EventHandler(this.ExportBusPicture_Click);
-            // 
-            // ExportBusShp
-            // 
-            this.ExportBusShp.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
-            this.ExportBusShp.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusShp.SmallImage")));
-            this.ExportBusShp.Text = "图形导出";
-            this.ExportBusShp.Click += new System.EventHandler(this.ExportBusLineSHP_Click);
             // 
             // ExportBusExcel
             // 
             this.ExportBusExcel.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
-            this.ExportBusExcel.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBusExcel.SmallImage")));
+            this.ExportBusExcel.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_16x16;
             this.ExportBusExcel.Text = "导出Excel";
             this.ExportBusExcel.Click += new System.EventHandler(this.ExportBusLineExcel_Click);
             // 
-            // ribbonTab3
+            // ExportBusShp
             // 
-            this.ribbonTab3.Panels.Add(this.ribbonPanel7);
-            this.ribbonTab3.Panels.Add(this.ribbonPanel8);
-            this.ribbonTab3.Panels.Add(this.ribbonPanel9);
-            this.ribbonTab3.Panels.Add(this.ribbonPanel10);
-            this.ribbonTab3.Text = "停车设施相关";
-            // 
-            // ribbonPanel7
-            // 
-            this.ribbonPanel7.Items.Add(this.btnSearchParking);
-            this.ribbonPanel7.Items.Add(this.btnIdentifyParking);
-            this.ribbonPanel7.Items.Add(this.btnStatParking);
-            this.ribbonPanel7.Text = "查询";
+            this.ExportBusShp.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportBusShp.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_16x16;
+            this.ExportBusShp.Text = "图形导出";
+            this.ExportBusShp.Click += new System.EventHandler(this.ExportBusLineSHP_Click);
             // 
             // btnSearchParking
             // 
             this.btnSearchParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_32x32;
-            this.btnSearchParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSearchParking.SmallImage")));
+            this.btnSearchParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_16x16;
             this.btnSearchParking.Text = "条件查询";
             this.btnSearchParking.Click += new System.EventHandler(this.SearchParkingButton_Click);
             // 
             // btnIdentifyParking
             // 
             this.btnIdentifyParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.btnIdentifyParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentifyParking.SmallImage")));
+            this.btnIdentifyParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_16x16;
             this.btnIdentifyParking.Text = "点击查询";
             this.btnIdentifyParking.Click += new System.EventHandler(this.PointParkingButton_Click);
             // 
             // btnStatParking
             // 
             this.btnStatParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
-            this.btnStatParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnStatParking.SmallImage")));
+            this.btnStatParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_16x16;
             this.btnStatParking.Text = "相关统计";
             this.btnStatParking.Click += new System.EventHandler(this.StatisticParkingButton_Click);
-            // 
-            // ribbonPanel8
-            // 
-            this.ribbonPanel8.Items.Add(this.btnFilterParking);
-            this.ribbonPanel8.Items.Add(this.btnRegionFilterParking);
-            this.ribbonPanel8.Items.Add(this.CancelParkingFilter);
-            this.ribbonPanel8.Text = "过滤";
             // 
             // btnFilterParking
             // 
             this.btnFilterParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.btnFilterParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFilterParking.SmallImage")));
+            this.btnFilterParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.btnFilterParking.Text = "条件过滤";
             this.btnFilterParking.Click += new System.EventHandler(this.btnFilterParking_Click);
             // 
             // btnRegionFilterParking
             // 
             this.btnRegionFilterParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.btnRegionFilterParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnRegionFilterParking.SmallImage")));
+            this.btnRegionFilterParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.btnRegionFilterParking.Text = "区域过滤";
             this.btnRegionFilterParking.Click += new System.EventHandler(this.btnRegionFilterParking_Click);
             // 
             // CancelParkingFilter
             // 
             this.CancelParkingFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.CancelParkingFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("CancelParkingFilter.SmallImage")));
+            this.CancelParkingFilter.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.CancelParkingFilter.Text = "取消过滤";
             this.CancelParkingFilter.Click += new System.EventHandler(this.CancelParkingFilter_Click);
-            // 
-            // ribbonPanel9
-            // 
-            this.ribbonPanel9.Items.Add(this.btnExpImgStop);
-            this.ribbonPanel9.Items.Add(this.btnExpXlsParking);
-            this.ribbonPanel9.Items.Add(this.ExportParkingSHP);
-            this.ribbonPanel9.Text = "输出";
             // 
             // btnExpImgStop
             // 
             this.btnExpImgStop.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
-            this.btnExpImgStop.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpImgStop.SmallImage")));
+            this.btnExpImgStop.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_16x16;
             this.btnExpImgStop.Text = "导出图片";
             this.btnExpImgStop.Click += new System.EventHandler(this.btnExpImgStop_Click);
-            // 
-            // ExportParkingSHP
-            // 
-            this.ExportParkingSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
-            this.ExportParkingSHP.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportParkingSHP.SmallImage")));
-            this.ExportParkingSHP.Text = "导出图形";
-            this.ExportParkingSHP.Click += new System.EventHandler(this.ExportParkingSHP_Click);
             // 
             // btnExpXlsParking
             // 
             this.btnExpXlsParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
-            this.btnExpXlsParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpXlsParking.SmallImage")));
+            this.btnExpXlsParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_16x16;
             this.btnExpXlsParking.Text = "导出Excel";
             this.btnExpXlsParking.Click += new System.EventHandler(this.ExportParkingExcel_Click);
             // 
-            // ribbonPanel10
+            // ExportParkingSHP
             // 
-            this.ribbonPanel10.Items.Add(this.btnAddParking);
-            this.ribbonPanel10.Items.Add(this.btnEditParking);
-            this.ribbonPanel10.Items.Add(this.btnRemoveParking);
-            this.ribbonPanel10.Items.Add(this.btnSaveParking);
-            this.ribbonPanel10.Text = "编辑";
+            this.ExportParkingSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportParkingSHP.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_16x16;
+            this.ExportParkingSHP.Text = "导出图形";
+            this.ExportParkingSHP.Click += new System.EventHandler(this.ExportParkingSHP_Click);
             // 
             // btnAddParking
             // 
             this.btnAddParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_32x32;
-            this.btnAddParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnAddParking.SmallImage")));
+            this.btnAddParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_16x16;
             this.btnAddParking.Text = "添加";
             this.btnAddParking.Click += new System.EventHandler(this.AddParking_Click);
             // 
             // btnEditParking
             // 
             this.btnEditParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_32x32;
-            this.btnEditParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnEditParking.SmallImage")));
+            this.btnEditParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_16x16;
             this.btnEditParking.Text = "编辑属性";
             this.btnEditParking.Click += new System.EventHandler(this.EditParking_Click);
             // 
             // btnRemoveParking
             // 
             this.btnRemoveParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.btnRemoveParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnRemoveParking.SmallImage")));
+            this.btnRemoveParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.btnRemoveParking.Text = "删除";
             this.btnRemoveParking.Click += new System.EventHandler(this.DeleteParking_Click);
             // 
             // btnSaveParking
             // 
             this.btnSaveParking.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Save_as_32px_1186319_easyicon_net;
-            this.btnSaveParking.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSaveParking.SmallImage")));
+            this.btnSaveParking.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Save_as_16px_1186319_easyicon_net;
             this.btnSaveParking.Text = "保存";
             this.btnSaveParking.Click += new System.EventHandler(this.RoadSave_Click);
-            // 
-            // ribbonTab4
-            // 
-            this.ribbonTab4.Panels.Add(this.ribbonPanel11);
-            this.ribbonTab4.Panels.Add(this.ribbonPanel12);
-            this.ribbonTab4.Panels.Add(this.ribbonPanel13);
-            this.ribbonTab4.Panels.Add(this.ribbonPanel14);
-            this.ribbonTab4.Text = "交通流量检测器";
-            // 
-            // ribbonPanel11
-            // 
-            this.ribbonPanel11.Items.Add(this.btnSearchFlow);
-            this.ribbonPanel11.Items.Add(this.btnIdentifyFlow);
-            this.ribbonPanel11.Text = "查询";
             // 
             // btnSearchFlow
             // 
             this.btnSearchFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_32x32;
-            this.btnSearchFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSearchFlow.SmallImage")));
+            this.btnSearchFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_16x162;
             this.btnSearchFlow.Text = "条件查询";
             this.btnSearchFlow.Click += new System.EventHandler(this.SearchFlow_Click);
             // 
             // btnIdentifyFlow
             // 
             this.btnIdentifyFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.btnIdentifyFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentifyFlow.SmallImage")));
+            this.btnIdentifyFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_16x16;
             this.btnIdentifyFlow.Text = "点击查询";
             this.btnIdentifyFlow.Click += new System.EventHandler(this.PointFlowButton_Click);
-            // 
-            // ribbonPanel12
-            // 
-            this.ribbonPanel12.Items.Add(this.btnFilterFlow);
-            this.ribbonPanel12.Items.Add(this.CancelFlowFilter);
-            this.ribbonPanel12.Text = "过滤";
             // 
             // btnFilterFlow
             // 
             this.btnFilterFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.btnFilterFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFilterFlow.SmallImage")));
+            this.btnFilterFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.btnFilterFlow.Text = "条件过滤";
             this.btnFilterFlow.Click += new System.EventHandler(this.FlowFlter_Click);
             // 
             // CancelFlowFilter
             // 
             this.CancelFlowFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.CancelFlowFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("CancelFlowFilter.SmallImage")));
+            this.CancelFlowFilter.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.CancelFlowFilter.Text = "取消过滤";
             this.CancelFlowFilter.Click += new System.EventHandler(this.CancelFlowFilter_Click);
-            // 
-            // ribbonPanel13
-            // 
-            this.ribbonPanel13.Items.Add(this.btnExpImgFlow);
-            this.ribbonPanel13.Items.Add(this.btnExpXlsFlow);
-            this.ribbonPanel13.Items.Add(this.ExportFlowSHP);
-            this.ribbonPanel13.Text = "输出";
             // 
             // btnExpImgFlow
             // 
             this.btnExpImgFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
-            this.btnExpImgFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpImgFlow.SmallImage")));
+            this.btnExpImgFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_16x16;
             this.btnExpImgFlow.Text = "导出图片";
             this.btnExpImgFlow.Click += new System.EventHandler(this.btnExpImgFlow_Click);
-            // 
-            // ExportFlowSHP
-            // 
-            this.ExportFlowSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
-            this.ExportFlowSHP.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportFlowSHP.SmallImage")));
-            this.ExportFlowSHP.Text = "导出图形";
-            this.ExportFlowSHP.Click += new System.EventHandler(this.ExportFlowSHP_Click);
             // 
             // btnExpXlsFlow
             // 
             this.btnExpXlsFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
-            this.btnExpXlsFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpXlsFlow.SmallImage")));
+            this.btnExpXlsFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_16x16;
             this.btnExpXlsFlow.Text = "导出Excel";
             this.btnExpXlsFlow.Click += new System.EventHandler(this.ExportFlowExcel_Click);
             // 
-            // ribbonPanel14
+            // ExportFlowSHP
             // 
-            this.ribbonPanel14.Items.Add(this.btnAddFlow);
-            this.ribbonPanel14.Items.Add(this.btnEditFlow);
-            this.ribbonPanel14.Items.Add(this.btnRemoveFlow);
-            this.ribbonPanel14.Items.Add(this.btnSaveFlow);
-            this.ribbonPanel14.Text = "编辑";
+            this.ExportFlowSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportFlowSHP.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_16x16;
+            this.ExportFlowSHP.Text = "导出图形";
+            this.ExportFlowSHP.Click += new System.EventHandler(this.ExportFlowSHP_Click);
             // 
             // btnAddFlow
             // 
             this.btnAddFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_32x32;
-            this.btnAddFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnAddFlow.SmallImage")));
+            this.btnAddFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Add_16x16;
             this.btnAddFlow.Text = "添加";
             this.btnAddFlow.Click += new System.EventHandler(this.AddFlowPoint_Click);
             // 
             // btnEditFlow
             // 
             this.btnEditFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_32x32;
-            this.btnEditFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnEditFlow.SmallImage")));
+            this.btnEditFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Edit_16x16;
             this.btnEditFlow.Text = "编辑属性";
             this.btnEditFlow.Click += new System.EventHandler(this.EditFlowPoint_Click);
             // 
             // btnRemoveFlow
             // 
             this.btnRemoveFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.btnRemoveFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnRemoveFlow.SmallImage")));
+            this.btnRemoveFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.btnRemoveFlow.Text = "删除";
             this.btnRemoveFlow.Click += new System.EventHandler(this.DeleteFlowPoint_Click);
             // 
             // btnSaveFlow
             // 
             this.btnSaveFlow.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Save_as_32px_1186319_easyicon_net;
-            this.btnSaveFlow.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSaveFlow.SmallImage")));
+            this.btnSaveFlow.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Save_as_16px_1186319_easyicon_net;
             this.btnSaveFlow.Text = "保存";
             this.btnSaveFlow.Click += new System.EventHandler(this.RoadSave_Click);
-            // 
-            // ribbonTab5
-            // 
-            this.ribbonTab5.Panels.Add(this.ribbonPanel15);
-            this.ribbonTab5.Panels.Add(this.ribbonPanel16);
-            this.ribbonTab5.Panels.Add(this.ribbonPanel17);
-            this.ribbonTab5.Text = "公共自行车相关";
-            // 
-            // ribbonPanel15
-            // 
-            this.ribbonPanel15.Items.Add(this.btnSearchBike);
-            this.ribbonPanel15.Items.Add(this.btnIdentifyBike);
-            this.ribbonPanel15.Text = "查询";
             // 
             // btnSearchBike
             // 
             this.btnSearchBike.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_32x32;
-            this.btnSearchBike.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnSearchBike.SmallImage")));
+            this.btnSearchBike.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom_16x162;
             this.btnSearchBike.Text = "条件查询";
             this.btnSearchBike.Click += new System.EventHandler(this.SearchBike_Click);
             // 
             // btnIdentifyBike
             // 
             this.btnIdentifyBike.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.btnIdentifyBike.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentifyBike.SmallImage")));
+            this.btnIdentifyBike.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_16x16;
             this.btnIdentifyBike.Text = "点击查询";
             this.btnIdentifyBike.Click += new System.EventHandler(this.PointBikeButton_Click);
-            // 
-            // ribbonPanel16
-            // 
-            this.ribbonPanel16.Items.Add(this.btnFilterBike);
-            this.ribbonPanel16.Items.Add(this.CancelBikeFilter);
-            this.ribbonPanel16.Text = "过滤";
             // 
             // btnFilterBike
             // 
             this.btnFilterBike.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_32x32;
-            this.btnFilterBike.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFilterBike.SmallImage")));
+            this.btnFilterBike.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.MasterFilter_16x16;
             this.btnFilterBike.Text = "条件过滤";
             this.btnFilterBike.Click += new System.EventHandler(this.BikeFilter_Click);
             // 
             // CancelBikeFilter
             // 
             this.CancelBikeFilter.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_32x32;
-            this.CancelBikeFilter.SmallImage = ((System.Drawing.Image)(resources.GetObject("CancelBikeFilter.SmallImage")));
+            this.CancelBikeFilter.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Delete_16x16;
             this.CancelBikeFilter.Text = "取消过滤";
             this.CancelBikeFilter.Click += new System.EventHandler(this.CancelBikeFilter_Click);
-            // 
-            // ribbonPanel17
-            // 
-            this.ribbonPanel17.Items.Add(this.btnExpImgBike);
-            this.ribbonPanel17.Items.Add(this.btnExpXlsBike);
-            this.ribbonPanel17.Items.Add(this.ExportBikeSHP);
-            this.ribbonPanel17.Text = "输出";
             // 
             // btnExpImgBike
             // 
             this.btnExpImgBike.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
-            this.btnExpImgBike.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpImgBike.SmallImage")));
+            this.btnExpImgBike.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_16x16;
             this.btnExpImgBike.Text = "导出图片";
             this.btnExpImgBike.Click += new System.EventHandler(this.btnExpImgBike_Click);
-            // 
-            // ExportBikeSHP
-            // 
-            this.ExportBikeSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
-            this.ExportBikeSHP.SmallImage = ((System.Drawing.Image)(resources.GetObject("ExportBikeSHP.SmallImage")));
-            this.ExportBikeSHP.Text = "导出图形";
-            this.ExportBikeSHP.Click += new System.EventHandler(this.ExportBikeSHP_Click);
             // 
             // btnExpXlsBike
             // 
             this.btnExpXlsBike.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
-            this.btnExpXlsBike.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnExpXlsBike.SmallImage")));
+            this.btnExpXlsBike.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_16x16;
             this.btnExpXlsBike.Text = "导出Excel";
             this.btnExpXlsBike.Click += new System.EventHandler(this.ExportBikeExcel_Click);
             // 
-            // ribbonTab7
+            // ExportBikeSHP
             // 
-            this.ribbonTab7.Panels.Add(this.ribbonPanel24);
-            this.ribbonTab7.Panels.Add(this.ribbonPanel25);
-            this.ribbonTab7.Text = "人口岗位相关";
-            // 
-            // ribbonPanel24
-            // 
-            this.ribbonPanel24.Items.Add(this.CurrentPeople);
-            this.ribbonPanel24.Items.Add(this.CurrentPeopleDensity);
-            this.ribbonPanel24.Items.Add(this.PlanPeople);
-            this.ribbonPanel24.Items.Add(this.PlanPeopleDensity);
-            this.ribbonPanel24.Text = "人口";
+            this.ExportBikeSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportBikeSHP.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_16x16;
+            this.ExportBikeSHP.Text = "导出图形";
+            this.ExportBikeSHP.Click += new System.EventHandler(this.ExportBikeSHP_Click);
             // 
             // CurrentPeople
             // 
             this.CurrentPeople.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.People_32x32;
-            this.CurrentPeople.SmallImage = ((System.Drawing.Image)(resources.GetObject("CurrentPeople.SmallImage")));
+            this.CurrentPeople.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.People_16x16;
             this.CurrentPeople.Text = "现状人口";
             this.CurrentPeople.Click += new System.EventHandler(this.CurrentPeople_Click);
             // 
             // CurrentPeopleDensity
             // 
             this.CurrentPeopleDensity.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Conference_32px_500781_easyicon_net;
-            this.CurrentPeopleDensity.SmallImage = ((System.Drawing.Image)(resources.GetObject("CurrentPeopleDensity.SmallImage")));
+            this.CurrentPeopleDensity.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Conference_16px_500781_easyicon_net;
             this.CurrentPeopleDensity.Text = "现状人口密度";
             this.CurrentPeopleDensity.Click += new System.EventHandler(this.CurrentPeopleDensity_Click);
             // 
             // PlanPeople
             // 
             this.PlanPeople.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Job_32x32;
-            this.PlanPeople.SmallImage = ((System.Drawing.Image)(resources.GetObject("PlanPeople.SmallImage")));
+            this.PlanPeople.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Job_16x16;
             this.PlanPeople.Text = "规划人口";
             this.PlanPeople.Click += new System.EventHandler(this.PlanPeople_Click);
             // 
             // PlanPeopleDensity
             // 
             this.PlanPeopleDensity.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Family_32px_500785_easyicon_net;
-            this.PlanPeopleDensity.SmallImage = ((System.Drawing.Image)(resources.GetObject("PlanPeopleDensity.SmallImage")));
+            this.PlanPeopleDensity.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Family_16px_500785_easyicon_net;
             this.PlanPeopleDensity.Text = "规划人口密度";
             this.PlanPeopleDensity.Click += new System.EventHandler(this.PlanPeopleDensity_Click);
-            // 
-            // ribbonPanel25
-            // 
-            this.ribbonPanel25.Items.Add(this.CurrentPost);
-            this.ribbonPanel25.Items.Add(this.CurrentPostDensity);
-            this.ribbonPanel25.Items.Add(this.PlanPost);
-            this.ribbonPanel25.Items.Add(this.PlanPostDensity);
-            this.ribbonPanel25.Text = "岗位";
             // 
             // CurrentPost
             // 
             this.CurrentPost.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Man_32px_500793_easyicon_net;
-            this.CurrentPost.SmallImage = ((System.Drawing.Image)(resources.GetObject("CurrentPost.SmallImage")));
+            this.CurrentPost.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Man_16px_500793_easyicon_net;
             this.CurrentPost.Text = "现状岗位";
             this.CurrentPost.Click += new System.EventHandler(this.CurrentPost_Click);
             // 
             // CurrentPostDensity
             // 
             this.CurrentPostDensity.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Meeting_32px_500796_easyicon_net;
-            this.CurrentPostDensity.SmallImage = ((System.Drawing.Image)(resources.GetObject("CurrentPostDensity.SmallImage")));
+            this.CurrentPostDensity.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Meeting_16px_500796_easyicon_net;
             this.CurrentPostDensity.Text = "现状岗位密度";
             this.CurrentPostDensity.Click += new System.EventHandler(this.CurrentPostDensity_Click);
             // 
             // PlanPost
             // 
             this.PlanPost.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Family_32px_500785_easyicon_net;
-            this.PlanPost.SmallImage = ((System.Drawing.Image)(resources.GetObject("PlanPost.SmallImage")));
+            this.PlanPost.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Family_16px_500785_easyicon1;
             this.PlanPost.Text = "规划岗位";
             this.PlanPost.Click += new System.EventHandler(this.PlanPost_Click);
             // 
             // PlanPostDensity
             // 
             this.PlanPostDensity.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Conference_32px_500781_easyicon_net;
-            this.PlanPostDensity.SmallImage = ((System.Drawing.Image)(resources.GetObject("PlanPostDensity.SmallImage")));
+            this.PlanPostDensity.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Conference_16px_500781_easyicon_net;
             this.PlanPostDensity.Text = "规划岗位密度";
             this.PlanPostDensity.Click += new System.EventHandler(this.PlanPostDensity_Click);
-            // 
-            // ribbonTab6
-            // 
-            this.ribbonTab6.Panels.Add(this.ribbonPanel19);
-            this.ribbonTab6.Text = "用户管理";
-            // 
-            // ribbonPanel19
-            // 
-            this.ribbonPanel19.Items.Add(this.btnAddUser);
-            this.ribbonPanel19.Items.Add(this.ribbonButton2);
-            this.ribbonPanel19.Text = "用户管理";
             // 
             // btnAddUser
             // 
@@ -987,74 +1064,6 @@
             this.ribbonButton2.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.SmallImage")));
             this.ribbonButton2.Text = "用户列表";
             this.ribbonButton2.Click += new System.EventHandler(this.UserList_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.OperatorTxt,
-            this.toolStripStatusLabel2,
-            this.lblCoords});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 728);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1192, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
-            // 
-            // OperatorTxt
-            // 
-            this.OperatorTxt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.OperatorTxt.Name = "OperatorTxt";
-            this.OperatorTxt.Size = new System.Drawing.Size(32, 17);
-            this.OperatorTxt.Text = "就绪";
-            this.OperatorTxt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1145, 17);
-            this.toolStripStatusLabel2.Spring = true;
-            this.toolStripStatusLabel2.Text = " ";
-            this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblCoords
-            // 
-            this.lblCoords.Name = "lblCoords";
-            this.lblCoords.Size = new System.Drawing.Size(0, 17);
-            // 
-            // axLicenseControl1
-            // 
-            this.axLicenseControl1.Enabled = true;
-            this.axLicenseControl1.Location = new System.Drawing.Point(1148, 74);
-            this.axLicenseControl1.Name = "axLicenseControl1";
-            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
-            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
-            this.axLicenseControl1.TabIndex = 7;
-            // 
-            // axTOCControl1
-            // 
-            this.axTOCControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.axTOCControl1.Location = new System.Drawing.Point(0, 148);
-            this.axTOCControl1.Name = "axTOCControl1";
-            this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
-            this.axTOCControl1.Size = new System.Drawing.Size(245, 580);
-            this.axTOCControl1.TabIndex = 8;
-            // 
-            // axMapControl1
-            // 
-            this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControl1.Location = new System.Drawing.Point(245, 148);
-            this.axMapControl1.Name = "axMapControl1";
-            this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(947, 580);
-            this.axMapControl1.TabIndex = 12;
-            this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             // 
             // MainForm
             // 
@@ -1204,6 +1213,7 @@
         private System.Windows.Forms.RibbonButton RoadSave;
         private System.Windows.Forms.RibbonButton btnSaveParking;
         private System.Windows.Forms.RibbonButton btnSaveFlow;
+        private System.Windows.Forms.RibbonButtonList ribbonButtonList1;
         
     }
 }

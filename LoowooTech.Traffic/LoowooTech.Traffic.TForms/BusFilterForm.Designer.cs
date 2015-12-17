@@ -59,6 +59,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(264, 21);
             this.textBox1.TabIndex = 4;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // BusFilterForm
             // 
@@ -74,7 +75,6 @@
             this.Name = "BusFilterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "公交搜索";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BusFilterForm_FormClosed);
             this.Load += new System.EventHandler(this.BusFilterForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

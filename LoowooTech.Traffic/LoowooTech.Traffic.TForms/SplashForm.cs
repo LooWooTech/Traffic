@@ -47,5 +47,13 @@ namespace LoowooTech.Traffic.TForms
         {
             Application.Exit();
         }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.button1_Click(sender, e);
+            }
+        }
     }
 }

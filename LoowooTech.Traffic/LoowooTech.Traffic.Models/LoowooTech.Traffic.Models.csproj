@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="BusLine.cs" />
     <Compile Include="DataType.cs" />
+    <Compile Include="FeatureResult.cs" />
     <Compile Include="Generted.cs" />
     <Compile Include="PictureThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

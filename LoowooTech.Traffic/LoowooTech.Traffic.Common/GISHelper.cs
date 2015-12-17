@@ -114,6 +114,12 @@ namespace LoowooTech.Traffic.Common
             tool.out_name = System.IO.Path.GetFileNameWithoutExtension(SaveFilePath);
             gp.Execute(tool, null);
         }
+        public static void WBuffer(IFeature Feature)
+        {
+            Geoprocessor gp = new Geoprocessor();
+            ESRI.ArcGIS.AnalysisTools.Buffer buffer = new ESRI.ArcGIS.AnalysisTools.Buffer(Feature, @"F:\Github\Traffic\LoowooTech.Traffic\LoowooTech.Traffic\bin\Debug\Temp\output.shp", "1 Kilometers");
+            gp.Execute(buffer, null);
+        }
         public static void Save(IFeatureClass SourceFeatureClass, string WhereClause, string SaveFilePath)
         {
             IWorkspaceFactory workpsaceFactory = new ShapefileWorkspaceFactory();
@@ -437,6 +443,60 @@ namespace LoowooTech.Traffic.Common
                 }
             }
             return WhereClause;
+        }
+        public static Dictionary<string, IFeature> GetWhereClauseFeature(IFeatureClass FeatureClass,string FieldName,string WhereClause=null)
+        {
+            var dict = new Dictionary<string, IFeature>();
+            var list = GetUniqueValue(FeatureClass, FieldName);
+            string NewWhereClause = string.Empty;
+            foreach (var item in list)
+            {
+                if (string.IsNullOrEmpty(WhereClause))
+                {
+                    NewWhereClause = FieldName + " = " + item;
+                }
+                else
+                {
+                    NewWhereClause = WhereClause + " AND " + FieldName + " = " + item;
+                }
+                IFeature feature = Search2(FeatureClass, NewWhereClause);
+                if (feature != null)
+                {
+                    if (!dict.ContainsKey(NewWhereClause))
+                    {
+                        dict.Add(NewWhereClause, feature);
+                    }
+                }
+            }
+            return dict;
+        }
+
+        public static List<FeatureResult> GetRoadList(IFeatureClass RoadFeatureClass, IFeatureClass StopFeatureClass, string Key)
+        {
+            var list = new List<FeatureResult>();
+            string RoadKey1=System.Configuration.ConfigurationManager.AppSettings["BUSKEY"];
+            string RoadKey2=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY2"];
+            string StopKey=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY1"];
+            var valList = GetUniqueValue(RoadFeatureClass, RoadKey2);
+            string RoadWhereClause = string.Empty;
+            string StopWhereClause = string.Empty;
+            foreach (var item in valList)
+            {
+                RoadWhereClause = string.Format("{0} = '{1}' AND {2} = {3} ", RoadKey1, Key,RoadKey2, item);
+                IFeature feature = Search2(RoadFeatureClass, RoadWhereClause);
+                if (feature != null)
+                {
+                    StopWhereClause = string.Format("{0}= {1} AND {2} = {3} ", StopKey, Key.Replace("路", "").Replace("区间", "").Replace("高峰大站车", "").Replace("线", ""), RoadKey2, item);
+                    list.Add(new FeatureResult()
+                    {
+                        RoadWhereClause = RoadWhereClause,
+                        Feature = feature,
+                        StopWhereClause = StopWhereClause,
+                        Stops = Search(StopFeatureClass, StopWhereClause)
+                    });
+                }
+            }
+            return list;
         }
         
         

@@ -398,6 +398,60 @@
   <ItemGroup>
     <None Include="Resources\Save_as_32px_1186319_easyicon.net.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zoom_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\People_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bus_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MasterFilter_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExportToIMG_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExportToExcel_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Export_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chart_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save_as_16px_1186319_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Wizard_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Conference_16px_500781_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Job_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Family_16px_500785_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Man_16px_500793_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Meeting_16px_500796_easyicon.net.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

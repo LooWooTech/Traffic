@@ -47,12 +47,11 @@ namespace LoowooTech.Traffic.TForms
                 int Serial = 0;
                 foreach (var key in ColumneData.Keys)
                 {
-                    yValue[Serial] = ColumneData[key];
+                    yValue[Serial] = Math.Round(ColumneData[key],1);
                     xValue[Serial] = key;
                     Serial++;
                 }
                 chart1.Series["Series1"].Points.DataBindXY(xValue, yValue);
-                //chart1.Series["Series1"].ToolTip = "";
             }
             else if (ColumnIntData != null && ColumnIntData.Count > 0)
             {
