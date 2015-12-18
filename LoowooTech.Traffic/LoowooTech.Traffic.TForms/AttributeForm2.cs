@@ -134,9 +134,11 @@ namespace LoowooTech.Traffic.TForms
 
         private void BtnStatistic_Click(object sender, EventArgs e)
         {
-            var dict = ExcelHelper.Statistic(dataGridView1.DataSource as DataTable, "类型");
-            var sum = ExcelHelper.Statistic2(dataGridView1.DataSource as DataTable, "总泊位");
-            StatisticsForm form = new StatisticsForm(dict, "当前区域内停车设施情况",sum);
+            string Parkingkey1 = System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY1"];
+            string Parkingkey2 = System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY2"];
+            var dict = ExcelHelper.Statistic(dataGridView1.DataSource as DataTable, Parkingkey1);
+            var sum = ExcelHelper.Statistic2(dataGridView1.DataSource as DataTable, Parkingkey2);
+            StatisticsForm form = new StatisticsForm(dict, "当前区域内停车设施情况",sum,Father.ParkingName,Parkingkey1);
             form.ShowDialog();
         }
 

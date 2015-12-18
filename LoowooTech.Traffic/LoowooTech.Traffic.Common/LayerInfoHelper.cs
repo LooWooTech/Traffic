@@ -40,6 +40,30 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
+        public static Dictionary<string, string> GetValuesLabelDictionary(string LayerName, string FieldLabel)
+        {
+            var dict = new Dictionary<string, string>();
+            var nodes = confiXml.SelectNodes("/Layers/Layer[@Name='" + LayerName + "']/Field[@Label='" + FieldLabel + "']/Value");
+            if (nodes != null)
+            {
+                var count = nodes.Count;
+                string value = string.Empty;
+                string Label = string.Empty;
+                for (var i = 0; i < count; i++)
+                {
+                    value = nodes[i].Attributes["Name"].Value;
+                    Label = nodes[i].Attributes["Label"].Value;
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        if (!dict.ContainsKey(value))
+                        {
+                            dict.Add(value, Label);
+                        }
+                    }
+                }
+            }
+            return dict;
+        }
         /// <summary>
         /// 获取相关信息下的图层列表   如路网  获取Map文件中的所有路网列表
         /// </summary>

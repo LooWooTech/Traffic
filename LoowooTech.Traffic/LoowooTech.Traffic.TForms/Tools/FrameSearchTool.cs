@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 using ESRI.ArcGIS.ADF.BaseClasses;
 using ESRI.ArcGIS.ADF.CATIDs;
 using ESRI.ArcGIS.Controls;
@@ -72,6 +73,7 @@ namespace LoowooTech.Traffic.TForms.Tools
         private AxMapControl axMapControl { get; set; }
         private MainForm Father { get; set; }
         private string LayerName { get; set; }
+        private bool StatisticFlag { get; set; }
         public IFeatureLayer FeatureLayer
         {
             get
@@ -103,11 +105,12 @@ namespace LoowooTech.Traffic.TForms.Tools
                 return null;
             }
         }
-        public FrameSearchTool(AxMapControl axMapControl,MainForm Father,string LayerName)
+        public FrameSearchTool(AxMapControl axMapControl,MainForm Father,string LayerName,bool Statistic=false)
         {
             this.Father = Father;
             this.axMapControl = axMapControl;
             this.LayerName = LayerName;
+            this.StatisticFlag = Statistic;
         }
 
         public override void OnCreate(object hook)
@@ -133,13 +136,35 @@ namespace LoowooTech.Traffic.TForms.Tools
                 Father.Invoke(new EventOperator(Father.Analyze), new[] { geometry });
             }
         }
+        private void StatisticAnalyze(IGeometry geometry)
+        {
+            if (geometry != null && geometry is Polygon)
+            {
+                Father.SelectFeature(geometry, Models.SpaceMode.Contains, FeatureLayer); 
+                Dictionary<int,IFeature> temp;
+                var data = AttributeHelper.GetTable(FeatureLayer.FeatureClass, null, out temp, geometry, Models.SpaceMode.Contains);
+                var ParkingKey = System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY1"];
+                var dict = ExcelHelper.Statistic(data, ParkingKey);
+                var sum = ExcelHelper.Statistic2(data, System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY2"]);
+                var form = new StatisticsForm(dict, "当前框选区域停车设施情况", sum,Father.ParkingName,ParkingKey);
+                form.ShowDialog();
+                //var features = GISHelper.Search(FeatureLayer.FeatureClass, geometry, Models.SpaceMode.Contains);
+            }
+        }
         public override void OnMouseDown(int Button, int Shift, int X, int Y)
         {
             axMapControl.Map.ClearSelection();
             
             var pg = axMapControl.TrackPolygon();
-
-            Filter(pg);
+            if (StatisticFlag)
+            {
+                Father.Invoke(new EventOperator(StatisticAnalyze), new[] { pg });
+            }
+            else
+            {
+                Filter(pg);
+            }
+            
         }
 
         public override void OnMouseUp(int Button, int Shift, int X, int Y)

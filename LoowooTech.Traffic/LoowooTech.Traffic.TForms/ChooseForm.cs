@@ -52,58 +52,65 @@ namespace LoowooTech.Traffic.TForms
             }
             return values;
         }
+        private string Get(IFeature Feature)
+        {
+            return string.Format("{0}→{1}", GetValue(Feature, Start), GetValue(Feature, End));
+        }
 
         private void ChooseForm_Load(object sender, EventArgs e)
         {
             if (this.ResultList != null)
             {
-                this.Text += "   当前公交车路线查询到" + this.ResultList.Count + "条记录";
+                this.Text += string.Format("    {0} 查询到{1}条记录", GetValue(this.ResultList[0].Feature, Number), this.ResultList.Count);
+                
+                this.button1.Text = Get(this.ResultList[0].Feature);
                 if (this.ResultList.Count == 1)
                 {
-                    Number1.Text = GetValue(this.ResultList[0].Feature, Number);
-                    Start1.Text = GetValue(this.ResultList[0].Feature, Start);
-                    End1.Text = GetValue(this.ResultList[0].Feature, End);
-                    this.splitContainer1.Panel2.Width = 0;
+                    this.button2.Visible = false;
+                    this.label2.Visible = false;
+                    this.Height = 180;
                 }
-                else if (this.ResultList.Count == 2)
+                else
                 {
-                    Number1.Text = GetValue(this.ResultList[0].Feature, Number);
-                    Start1.Text = GetValue(this.ResultList[0].Feature, Start);
-                    End1.Text = GetValue(this.ResultList[0].Feature, End);
-                    Number2.Text = GetValue(this.ResultList[1].Feature, Number);
-                    Start2.Text = GetValue(this.ResultList[1].Feature, Start);
-                    End2.Text = GetValue(this.ResultList[1].Feature, End);
+                    this.button2.Text = Get(this.ResultList[1].Feature);
                 }
             }
             else
             {
-                MessageBox.Show("未找到相关记录");
+                MessageBox.Show("当前无记录");
                 this.Close();
             }
         }
 
-        private void OneFeature_Click(object sender, EventArgs e)
+        private void MClick(string RoadWhereClause,string StopWhereClause)
         {
-            if (this.ResultList != null)
-            {
-                if (this.ResultList.Count >0)
-                {
-                    AttributeForm form = new AttributeForm(this.ResultList[0].Feature, Father.BusLineFeatureClass,Father.BusLineName);
-                    form.ShowDialog(Father);
-                }
-            }
+            Father.UpdateBase(Father.BusLineName, RoadWhereClause, Father.BusLineFeatureClass, true);
+            Father.UpdateBase(Father.BusStopName, StopWhereClause, Father.BusStopFeatureClass);
         }
 
-        private void TwoFeature_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            //if (this.Features != null)
-            //{
-            //    if (this.Features.Count == 2)
-            //    {
-            //        AttributeForm form = new AttributeForm(this.Features[1], this.FeatureClass, Father.BusLineName);
-            //        form.ShowDialog(Father);
-            //    }
-            //}
+            MClick(this.ResultList[0].RoadWhereClause, this.ResultList[0].StopWhereClause);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MClick(this.ResultList[1].RoadWhereClause, this.ResultList[1].StopWhereClause);
+        }
+        private void View(IFeature Feature)
+        {
+            AttributeForm form = new AttributeForm(Feature, Father.BusLineFeatureClass, Father.BusLineName);
+            form.Show(Father);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            View(this.ResultList[0].Feature);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            View(this.ResultList[1].Feature);
         }
 
     }

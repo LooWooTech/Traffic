@@ -81,7 +81,11 @@
     <Field Name="X" Label="X坐标"></Field>
     <Field Name="Y" Label="Y坐标"></Field>
     <Field Name="PARK_CODE" Label="停车场代码再用"></Field>
-    <Field Name="TYPE" Label="类型"></Field>
+    <Field Name="TYPE" Label="类型">
+      <Value Name="0" Label="路边"></Value>
+      <Value Name="8" Label="配建"></Value>
+      <Value Name="9" Label="公共"></Value>
+    </Field>
     <Field Name="BERTHNUM" Label="总泊位"></Field>
     <Field Name="NAME" Label="名称"></Field>
     <Field Name="ADDRESS" Label="地址"></Field>

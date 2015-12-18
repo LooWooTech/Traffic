@@ -93,7 +93,7 @@ namespace LoowooTech.Traffic.TForms
         private string RoadName { get; set; }
         public string BusLineName { get; set; }
         public string BusStopName { get; set; }
-        private string ParkingName { get; set; }
+        public string ParkingName { get; set; }
         private string BikeName { get; set; }
         private string FlowName { get; set; }
         private string XZQName { get; set; }
@@ -806,7 +806,7 @@ namespace LoowooTech.Traffic.TForms
         #endregion
 
         #region  点选  路网 公交路线  公交站点  停车场
-        private void SelectFeature(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer)
+        public  void SelectFeature(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer)
         {
             ISpatialFilter spatialFilter = new SpatialFilterClass();
             spatialFilter.Geometry = geometry;
@@ -1100,9 +1100,7 @@ namespace LoowooTech.Traffic.TForms
         #region 统计
         private void StatisticParkingButton_Click(object sender, EventArgs e)
         {
-            var dict = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", "BERTHNUM");
-            StatisticsForm statisticform = new StatisticsForm(dict,"");
-            statisticform.ShowDialog();
+           
         }
 
         #endregion
@@ -1678,6 +1676,23 @@ namespace LoowooTech.Traffic.TForms
         private void RoadSave_Click(object sender, EventArgs e)
         {
             SaveInit(sender);
+        }
+
+        //停车场  行政区统计
+        private void XZQStatistic_Click(object sender, EventArgs e)
+        {
+            var dict = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", "BERTHNUM");
+            StatisticsForm statisticform = new StatisticsForm(dict, "");
+            statisticform.ShowDialog();
+        }
+
+        //停车场  框选统计
+        private void RegionStatistic_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.Parking;
+            var cmd = new FrameSearchTool(axMapControl1, this, ParkingName.GetLayer(),true);
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = (ITool)cmd;
         }
 
         

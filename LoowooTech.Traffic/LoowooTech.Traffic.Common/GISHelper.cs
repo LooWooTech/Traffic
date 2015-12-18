@@ -1,4 +1,5 @@
-﻿using ESRI.ArcGIS.ConversionTools;
+﻿using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.ConversionTools;
 using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
@@ -279,7 +280,7 @@ namespace LoowooTech.Traffic.Common
             return list;
         }
 
-        public static Dictionary<string,double> Statistic(IFeatureClass FeatureClass,string LabelName ,string FieldName)
+        public static Dictionary<string,double> Statistic(IFeatureClass FeatureClass,string LabelName ,string FieldName,IGeometry Geometry=null)
         {
             var dict = new Dictionary<string, double>();
             var Index = FeatureClass.FindField(LabelName);
@@ -293,17 +294,15 @@ namespace LoowooTech.Traffic.Common
                     {
                         if (field.Type == esriFieldType.esriFieldTypeString)
                         {
-                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = '" + val+"'"));
+                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = '" + val+"'",null,Geometry));
                         }
                         else
                         {
-                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val));
+                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val,null,Geometry));
                         }
-                        
                     }
                 }
             }
-            
             return dict;
         }
         
@@ -387,11 +386,24 @@ namespace LoowooTech.Traffic.Common
             return statisticVal;
         }
 
-        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause,string WhereClause2=null)
+        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause,string WhereClause2=null,IGeometry Geometry=null)
         {
+            IFeatureCursor featureCursor = null;
             IQueryFilter queryFilter = new QueryFilterClass();
-            queryFilter.WhereClause = WhereClause;
-            IFeatureCursor featureCursor = FeatureClass.Search(queryFilter, false);
+            if (Geometry == null)
+            {
+                queryFilter.WhereClause = WhereClause;
+                featureCursor = FeatureClass.Search(queryFilter, false);
+            }
+            else
+            {
+                ISpatialFilter spatialFilter = new SpatialFilterClass();
+                spatialFilter.WhereClause = WhereClause;
+                spatialFilter.Geometry = Geometry;
+                spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
+                featureCursor = FeatureClass.Search(spatialFilter, false);
+            }
+            
             ICursor cursor = featureCursor as ICursor;
             double statisticVal = 0.0;
             IDataStatistics dataStatistic;
