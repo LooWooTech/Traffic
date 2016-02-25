@@ -14,6 +14,7 @@ using LoowooTech.Traffic.TForms.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -91,6 +92,7 @@ namespace LoowooTech.Traffic.TForms
         #region  初始化
         private string MXDPath { get; set; }
         private string RoadName { get; set; }
+        private string RoadHistoryName { get; set; }
         public string BusLineName { get; set; }
         public string BusStopName { get; set; }
         public string ParkingName { get; set; }
@@ -106,6 +108,7 @@ namespace LoowooTech.Traffic.TForms
         private string MapType { get; set; }
         private double Expand { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
+        private IFeatureClass RoadHistoryFeatureClass { get; set; }
         public IFeatureClass BusLineFeatureClass { get; set; }
         public IFeatureClass BusStopFeatureClass { get; set; }
         private IFeatureClass ParkingFeatureClass { get; set; }
@@ -123,24 +126,25 @@ namespace LoowooTech.Traffic.TForms
         public User CurrentUser { get; set; }
         public SplashForm Splash { get; set; }
 
-        private readonly List<CrossroadInfo> m_Crossroads = new List<CrossroadInfo>();
+        private readonly List<IPoint> m_Crossroads = new List<IPoint>();
         private IMarkerSymbol m_CrossroadSymbol;
-        private IPolyline m_ImportRoad;
+        private List<IPolyline> m_ImportRoads;
         private ILineSymbol m_ImportRoadSymbol;
 
         public MainForm()
         {
             InitializeComponent();
             MapControl = RendererHelper.GetMapControl();
-            MXDPath = System.Configuration.ConfigurationManager.AppSettings["MXD"];
-            RoadName = System.Configuration.ConfigurationManager.AppSettings["ROAD"];
-            BusLineName = System.Configuration.ConfigurationManager.AppSettings["BUSLINE"];
-            BusStopName = System.Configuration.ConfigurationManager.AppSettings["BUSSTOP"];
-            ParkingName = System.Configuration.ConfigurationManager.AppSettings["PARKING"];
-            BikeName = System.Configuration.ConfigurationManager.AppSettings["BIKE"];
-            FlowName = System.Configuration.ConfigurationManager.AppSettings["FLOW"];
-            XZQName = System.Configuration.ConfigurationManager.AppSettings["XZQ"];
-            MapType = System.Configuration.ConfigurationManager.AppSettings["MAPTYPE"];
+            MXDPath = ConfigurationManager.AppSettings["MXD"];
+            RoadName = ConfigurationManager.AppSettings["ROAD"];
+            RoadHistoryName = ConfigurationManager.AppSettings["ROADHISTORY"];
+            BusLineName = ConfigurationManager.AppSettings["BUSLINE"];
+            BusStopName = ConfigurationManager.AppSettings["BUSSTOP"];
+            ParkingName = ConfigurationManager.AppSettings["PARKING"];
+            BikeName = ConfigurationManager.AppSettings["BIKE"];
+            FlowName = ConfigurationManager.AppSettings["FLOW"];
+            XZQName = ConfigurationManager.AppSettings["XZQ"];
+            MapType = ConfigurationManager.AppSettings["MAPTYPE"];
             
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
@@ -208,6 +212,7 @@ namespace LoowooTech.Traffic.TForms
             axTOCControl1.SetBuddyControl(axMapControl1);
 
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
+            RoadHistoryFeatureClass = SDEManager.GetFeatureClass(RoadHistoryName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
             ParkingFeatureClass = SDEManager.GetFeatureClass(ParkingName);
@@ -236,15 +241,16 @@ namespace LoowooTech.Traffic.TForms
             {
 
                 object o = m_ImportRoadSymbol;
-                if (m_ImportRoad != null)
+                if (m_ImportRoads != null)
                 {
-                    axMapControl1.DrawShape(m_ImportRoad, ref o);
+                    foreach(var line in m_ImportRoads)
+                    axMapControl1.DrawShape(line, ref o);
                 }
 
                 object r = m_CrossroadSymbol;
-                foreach (var info in m_Crossroads)
+                foreach (var pt in m_Crossroads)
                 {
-                    axMapControl1.DrawShape(info.Point, ref r);
+                    axMapControl1.DrawShape(pt, ref r);
                 }
 
 
@@ -1373,36 +1379,91 @@ namespace LoowooTech.Traffic.TForms
 
                 var cursor = fc.Search(null, true);
                 var f = cursor.NextFeature();
-                if (f == null)
+
+                var lst = new List<IPolyline>();
+                while(f!= null)
+                {
+                    var geo = f.ShapeCopy;
+                    if (!(geo is IPolyline) || geo.IsEmpty == true)
+                    {
+                        MessageBox.Show("当前CAD文件中包含的路线类型信息不正确，请检查。", "注意");
+                        Marshal.ReleaseComObject(cursor);
+                        return;
+                    }
+                    else
+                    {
+                        lst.Add(geo as IPolyline);
+                    }
+                    f = cursor.NextFeature();
+                }
+                Marshal.ReleaseComObject(cursor);
+
+                
+                if (lst.Count == 0)
                 {
                     MessageBox.Show("当前CAD文件中不包含路线信息，请检查。", "注意");
                     return;
                 }
 
-                var geo = f.ShapeCopy;
-                if (!(geo is IPolyline) || geo.IsEmpty == true)
-                {
-                    MessageBox.Show("当前CAD文件中包含的路线信息不正确，请检查。", "注意");
-                    Marshal.ReleaseComObject(cursor);
-                    return;
-                }
-
-                f = cursor.NextFeature();
-                if (f != null)
-                {
-                    if (MessageBox.Show("当前CAD文件中包含不止一条路线，系统默认导入第一条，是否继续？", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Cancel)
-                    {
-                        Marshal.ReleaseComObject(cursor);
-                        return;
-                    }
-                }
-
-                ImportRoad(geo as IPolyline);
+                ImportRoad(lst);
             }
             catch(Exception ex)
             {
                 MessageBox.Show("打开CAD文件错误，请检查CAD文件。\r\n详情：" + ex, "注意");
             }
+        }
+
+        private void ImportRoad(List<IPolyline> pls)
+        {
+            var fc = RoadFeatureClass;
+            var historyFC = RoadHistoryFeatureClass;
+            RoadMerger.FragmentThreshold = 20;
+            var ls = RoadMerger.SplitLine(pls);
+            m_ImportRoads.Clear();
+            m_ImportRoads.AddRange(ls);
+            var lines = RoadMerger.QueryIntersects(ls, fc);
+            m_Crossroads.Clear();
+            foreach(var line in lines)
+            {
+                m_Crossroads.AddRange(line.Crossings.Select(x=>x.Crossing));
+            }
+
+            /*
+            var ret = RoadHelper.QueryIntersectPoints(pls, RoadFeatureClass);
+
+            var list = ret.Where(x => x.Value == null).ToList();
+
+            if (list.Count > 0)
+            {
+                var f = fc.GetFeature(list[0].Key);
+                MessageBox.Show(string.Format("导入的路线与已有线路'{0}({1})'部分重合，无法完成导入", f.get_Value(f.Fields.FindField("NAME")), f.get_Value(f.Fields.FindField("NO_"))), "注意", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var conditions = ret.Select(x => string.Format("{0} = {1}", RoadFeatureClass.OIDFieldName, x.Key));
+            var fl = GetFeatureLayer(RoadName.GetLayer());
+
+            // 选中图形
+            axMapControl1.Map.ClearSelection();
+            var featureSelection = fl as IFeatureSelection;
+            featureSelection.SelectFeatures(
+                new QueryFilter { WhereClause = string.Join(" OR ", conditions.ToArray()) },
+                esriSelectionResultEnum.esriSelectionResultNew,
+                false);
+
+            // 将交点也加入显示
+            m_Crossroads.Clear();
+            m_Crossroads.AddRange(TransformToCrossroadInfo(ret, fc));
+
+            m_ImportRoads = pl;
+
+            Center(pl);*/
+
+            axMapControl1.Refresh(esriViewDrawPhase.esriViewForeground, Type.Missing, Type.Missing);
+            //axMapControl1.ActiveView.Refresh();
+
+            var form = new ImportRoadForm(ls, fc, XZQFeatureClass, lines);
+            form.Show(this);
         }
 
         private void AddParking_Click(object sender, EventArgs e)
@@ -1447,51 +1508,13 @@ namespace LoowooTech.Traffic.TForms
         }
 
         #endregion
-        private void ImportRoad(IPolyline pl)
-        {
-            var fc = RoadFeatureClass;
-            var ret = RoadHelper.QueryIntersectPoints(pl, RoadFeatureClass);
-
-            var list = ret.Where(x => x.Value == null).ToList();
-
-            if (list.Count > 0)
-            {
-                var f = fc.GetFeature(list[0].Key);
-                MessageBox.Show(string.Format("导入的路线与已有线路'{0}({1})'部分重合，无法完成导入", f.get_Value(f.Fields.FindField("NAME")), f.get_Value(f.Fields.FindField("NO_"))), "注意", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var conditions = ret.Select(x=>string.Format("{0} = {1}", RoadFeatureClass.OIDFieldName, x.Key));
-            var fl = GetFeatureLayer(RoadName.GetLayer());
-
-            // 选中图形
-            axMapControl1.Map.ClearSelection();
-            var featureSelection = fl as IFeatureSelection;
-            featureSelection.SelectFeatures(
-                new QueryFilter{ WhereClause=string.Join(" OR ", conditions.ToArray())}, 
-                esriSelectionResultEnum.esriSelectionResultNew, 
-                false);
-            
-            // 将交点也加入显示
-            m_Crossroads.Clear();
-            m_Crossroads.AddRange(TransformToCrossroadInfo(ret, fc));
-
-            m_ImportRoad = pl;
-
-            Center(pl);
-            axMapControl1.Refresh(esriViewDrawPhase.esriViewForeground, Type.Missing, Type.Missing);
-            //axMapControl1.ActiveView.Refresh();
-
-            var form = new ImportRoadForm(pl, fc, XZQFeatureClass, m_Crossroads);
-            form.Show(this);
-        }
+        
 
         public void EraseImportRoadCustomDrawing()
         {
             m_Crossroads.Clear();
-            m_ImportRoad = null;
+            m_ImportRoads = null;
             axMapControl1.ActiveView.Refresh();
-
         }
 
         private static List<CrossroadInfo> TransformToCrossroadInfo(Dictionary<int, List<IPoint>> dict, IFeatureClass fc)

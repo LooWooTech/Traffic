@@ -25,8 +25,7 @@ namespace LoowooTech.Traffic.Common
                 {
                     list.Add(nodes[i].Attributes["Name"].Value);
                 }
-            }
-            return list;
+            }            return list;
         }
         public static string GetSQLChar(this string Name)
         {

@@ -32,11 +32,11 @@
             this.ribbon1 = new System.Windows.Forms.Ribbon();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
-            this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.ribbonSeparator1 = new System.Windows.Forms.RibbonSeparator();
             this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton4 = new System.Windows.Forms.RibbonButton();
             this.lstResult = new System.Windows.Forms.ListView();
             this.序号 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -85,11 +85,6 @@
             this.ribbonPanel1.Items.Add(this.ribbonButton3);
             this.ribbonPanel1.Text = "";
             // 
-            // ribbonPanel2
-            // 
-            this.ribbonPanel2.Items.Add(this.ribbonButton4);
-            this.ribbonPanel2.Text = "";
-            // 
             // ribbonButton1
             // 
             this.ribbonButton1.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
@@ -104,9 +99,15 @@
             // 
             // ribbonButton3
             // 
+            this.ribbonButton3.Enabled = false;
             this.ribbonButton3.Image = global::LoowooTech.Traffic.TForms.Properties.Resources._1449523215_URL_History_64;
             this.ribbonButton3.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton3.SmallImage")));
             this.ribbonButton3.Text = "退回到";
+            // 
+            // ribbonPanel2
+            // 
+            this.ribbonPanel2.Items.Add(this.ribbonButton4);
+            this.ribbonPanel2.Text = "";
             // 
             // ribbonButton4
             // 

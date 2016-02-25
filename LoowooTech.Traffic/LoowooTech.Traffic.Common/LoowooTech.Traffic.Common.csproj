@@ -91,7 +91,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationHelper.cs" />
     <Compile Include="RendererHelper.cs" />
+    <Compile Include="RoadCrossInfo.cs" />
     <Compile Include="RoadHelper.cs" />
+    <Compile Include="RoadMerger.cs" />
     <Compile Include="SDEManager.cs" />
   </ItemGroup>
   <ItemGroup>

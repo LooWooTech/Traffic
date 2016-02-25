@@ -86,6 +86,9 @@
             this.ribbonPanel7 = new System.Windows.Forms.RibbonPanel();
             this.btnSearchParking = new System.Windows.Forms.RibbonButton();
             this.btnIdentifyParking = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel26 = new System.Windows.Forms.RibbonPanel();
+            this.RegionStatistic = new System.Windows.Forms.RibbonButton();
+            this.XZQStatistic = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel8 = new System.Windows.Forms.RibbonPanel();
             this.btnFilterParking = new System.Windows.Forms.RibbonButton();
             this.btnRegionFilterParking = new System.Windows.Forms.RibbonButton();
@@ -149,9 +152,6 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.ribbonPanel26 = new System.Windows.Forms.RibbonPanel();
-            this.RegionStatistic = new System.Windows.Forms.RibbonButton();
-            this.XZQStatistic = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -610,6 +610,26 @@
             this.btnIdentifyParking.Text = "点击查询";
             this.btnIdentifyParking.Click += new System.EventHandler(this.PointParkingButton_Click);
             // 
+            // ribbonPanel26
+            // 
+            this.ribbonPanel26.Items.Add(this.RegionStatistic);
+            this.ribbonPanel26.Items.Add(this.XZQStatistic);
+            this.ribbonPanel26.Text = "统计";
+            // 
+            // RegionStatistic
+            // 
+            this.RegionStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
+            this.RegionStatistic.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_16x16;
+            this.RegionStatistic.Text = "框选统计";
+            this.RegionStatistic.Click += new System.EventHandler(this.RegionStatistic_Click);
+            // 
+            // XZQStatistic
+            // 
+            this.XZQStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
+            this.XZQStatistic.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_16x16;
+            this.XZQStatistic.Text = "政区统计";
+            this.XZQStatistic.Click += new System.EventHandler(this.XZQStatistic_Click);
+            // 
             // ribbonPanel8
             // 
             this.ribbonPanel8.Items.Add(this.btnFilterParking);
@@ -1059,26 +1079,7 @@
             this.axMapControl1.Size = new System.Drawing.Size(947, 580);
             this.axMapControl1.TabIndex = 12;
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
-            // 
-            // ribbonPanel26
-            // 
-            this.ribbonPanel26.Items.Add(this.RegionStatistic);
-            this.ribbonPanel26.Items.Add(this.XZQStatistic);
-            this.ribbonPanel26.Text = "统计";
-            // 
-            // RegionStatistic
-            // 
-            this.RegionStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
-            this.RegionStatistic.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_16x16;
-            this.RegionStatistic.Text = "框选统计";
-            this.RegionStatistic.Click += new System.EventHandler(this.RegionStatistic_Click);
-            // 
-            // XZQStatistic
-            // 
-            this.XZQStatistic.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_32x32;
-            this.XZQStatistic.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Chart_16x16;
-            this.XZQStatistic.Text = "政区统计";
-            this.XZQStatistic.Click += new System.EventHandler(this.XZQStatistic_Click);
+            this.axMapControl1.OnAfterDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterDrawEventHandler(this.axMapControl1_OnAfterDraw);
             // 
             // MainForm
             // 

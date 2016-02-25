@@ -22,6 +22,16 @@ namespace LoowooTech.Traffic.Common
             return false;
         }
 
+        public static List<Dictionary<int, List<IPoint>>> QueryIntersectPoints(List<IPolyline> lines, IFeatureClass roadFC)
+        {
+            var list = new List<Dictionary<int, List<IPoint>>>();
+            foreach(var line in lines)
+            {
+                list.Add(QueryIntersectPoints(line, roadFC));
+            }
+            return list;
+        }
+
         public static Dictionary<int, List<IPoint>> QueryIntersectPoints(IPolyline line, IFeatureClass roadFC)
         {
             var cursor = roadFC.Search(new SpatialFilterClass { Geometry = line, SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects }, true);

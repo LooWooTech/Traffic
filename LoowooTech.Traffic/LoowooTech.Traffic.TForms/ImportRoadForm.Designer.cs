@@ -61,13 +61,12 @@
             this.道路详情 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lstFragments = new System.Windows.Forms.ListView();
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.lstResult = new System.Windows.Forms.ListView();
@@ -76,8 +75,6 @@
             this.新道路名称 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.原道路编号 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.原道路名称 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabControl5 = new System.Windows.Forms.TabControl();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -85,13 +82,11 @@
             this.道路详情.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.tabControl3.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.tabControl5.SuspendLayout();
             this.SuspendLayout();
             // 
             // ribbon1
@@ -250,7 +245,7 @@
             // 
             this.panel1.Controls.Add(this.tabControl1);
             this.panel1.Controls.Add(this.tabControl2);
-            this.panel1.Location = new System.Drawing.Point(12, 280);
+            this.panel1.Location = new System.Drawing.Point(12, 120);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(416, 207);
             this.panel1.TabIndex = 4;
@@ -357,19 +352,11 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.tabControl5);
-            this.panel2.Location = new System.Drawing.Point(41, 142);
+            this.panel2.Controls.Add(this.tabControl3);
+            this.panel2.Location = new System.Drawing.Point(477, 120);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(200, 100);
-            this.panel2.TabIndex = 5;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.tabControl3);
-            this.panel3.Location = new System.Drawing.Point(297, 142);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(200, 100);
-            this.panel3.TabIndex = 6;
+            this.panel2.TabIndex = 6;
             // 
             // tabControl3
             // 
@@ -420,13 +407,13 @@
             // 
             this.columnHeader8.Text = "长度";
             // 
-            // panel4
+            // panel3
             // 
-            this.panel4.Controls.Add(this.tabControl4);
-            this.panel4.Location = new System.Drawing.Point(449, 261);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(346, 215);
-            this.panel4.TabIndex = 7;
+            this.panel3.Controls.Add(this.tabControl4);
+            this.panel3.Location = new System.Drawing.Point(449, 261);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(346, 215);
+            this.panel3.TabIndex = 7;
             // 
             // tabControl4
             // 
@@ -483,8 +470,8 @@
             // 
             // 新道路名称
             // 
-            this.新道路名称.DisplayIndex = 3;
             this.新道路名称.Text = "新道路名称";
+            this.新道路名称.Width = 105;
             // 
             // 原道路编号
             // 
@@ -495,32 +482,11 @@
             // 
             this.原道路名称.Text = "原道路名称";
             // 
-            // tabControl5
-            // 
-            this.tabControl5.Controls.Add(this.tabPage4);
-            this.tabControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl5.Location = new System.Drawing.Point(0, 0);
-            this.tabControl5.Name = "tabControl5";
-            this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(200, 100);
-            this.tabControl5.TabIndex = 11;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(192, 74);
-            this.tabPage4.TabIndex = 0;
-            this.tabPage4.Text = "请输入道路属性";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
             // ImportRoadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(807, 488);
-            this.Controls.Add(this.panel4);
+            this.ClientSize = new System.Drawing.Size(807, 557);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -537,13 +503,11 @@
             this.道路详情.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
             this.tabControl3.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.tabControl5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -573,7 +537,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
         
         private System.Windows.Forms.TabControl tabControl3;
         private System.Windows.Forms.TabPage tabPage2;
@@ -600,7 +563,5 @@
         private System.Windows.Forms.RibbonButton btnMoveFinal;
         private System.Windows.Forms.RibbonButton ribbonButton1;
         private System.Windows.Forms.RibbonButton btnPrevious;
-        private System.Windows.Forms.TabControl tabControl5;
-        private System.Windows.Forms.TabPage tabPage4;
     }
 }
