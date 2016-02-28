@@ -846,6 +846,7 @@ namespace LoowooTech.Traffic.TForms
             }
             IFeatureSelection featureSelection = FeatureLayer as IFeatureSelection;
             featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
+            featureSelection.SelectionColor = DisplayHelper.GetSelectRGBColor();
             MapRefresh();
         }
         public  void AnalyzeBase(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer,string Title)

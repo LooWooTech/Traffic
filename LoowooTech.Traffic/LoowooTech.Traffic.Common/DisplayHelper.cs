@@ -17,5 +17,11 @@ namespace LoowooTech.Traffic.Common
             return color;
         }
 
+        public static IRgbColor GetSelectRGBColor()
+        {
+            int temp;
+            return GetRGBColor(int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SELECTRED"],out temp)?temp:0, int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SELECTGREEN"],out temp)?temp:0, int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SELECTBLUE"],out temp)?temp:0);
+        }
+
     }
 }
