@@ -93,6 +93,7 @@ namespace LoowooTech.Traffic.TForms
         private string MXDPath { get; set; }
         private string RoadName { get; set; }
         private string RoadHistoryName { get; set; }
+        private string RoadNodeName { get; set; }
         public string BusLineName { get; set; }
         public string BusStopName { get; set; }
         public string ParkingName { get; set; }
@@ -109,6 +110,7 @@ namespace LoowooTech.Traffic.TForms
         private double Expand { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
         private IFeatureClass RoadHistoryFeatureClass { get; set; }
+        private IFeatureClass RoadNodeFeatureClass { get; set; }
         public IFeatureClass BusLineFeatureClass { get; set; }
         public IFeatureClass BusStopFeatureClass { get; set; }
         private IFeatureClass ParkingFeatureClass { get; set; }
@@ -138,6 +140,7 @@ namespace LoowooTech.Traffic.TForms
             MXDPath = ConfigurationManager.AppSettings["MXD"];
             RoadName = ConfigurationManager.AppSettings["ROAD"];
             RoadHistoryName = ConfigurationManager.AppSettings["ROADHISTORY"];
+            RoadNodeName = ConfigurationManager.AppSettings["ROADNODE"];
             BusLineName = ConfigurationManager.AppSettings["BUSLINE"];
             BusStopName = ConfigurationManager.AppSettings["BUSSTOP"];
             ParkingName = ConfigurationManager.AppSettings["PARKING"];
@@ -213,6 +216,7 @@ namespace LoowooTech.Traffic.TForms
 
             RoadFeatureClass = SDEManager.GetFeatureClass(RoadName);
             RoadHistoryFeatureClass = SDEManager.GetFeatureClass(RoadHistoryName);
+            RoadNodeFeatureClass = SDEManager.GetFeatureClass(RoadNodeName);
             BusLineFeatureClass = SDEManager.GetFeatureClass(BusLineName);
             BusStopFeatureClass = SDEManager.GetFeatureClass(BusStopName);
             ParkingFeatureClass = SDEManager.GetFeatureClass(ParkingName);
@@ -1417,6 +1421,7 @@ namespace LoowooTech.Traffic.TForms
         {
             var fc = RoadFeatureClass;
             var historyFC = RoadHistoryFeatureClass;
+            var crossFC = RoadNodeFeatureClass;
             RoadMerger.FragmentThreshold = 20;
             var ls = RoadMerger.SplitLine(pls);
             m_ImportRoads.Clear();
@@ -1462,7 +1467,7 @@ namespace LoowooTech.Traffic.TForms
             axMapControl1.Refresh(esriViewDrawPhase.esriViewForeground, Type.Missing, Type.Missing);
             //axMapControl1.ActiveView.Refresh();
 
-            var form = new ImportRoadForm(ls, fc, XZQFeatureClass, lines);
+            var form = new ImportRoadForm(ls, fc, historyFC, crossFC, lines);
             form.Show(this);
         }
 

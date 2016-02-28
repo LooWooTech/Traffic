@@ -18,13 +18,21 @@ namespace LoowooTech.Traffic.Common
     {
         private static readonly string[] ReservedFields = new string[] { "OBJECTID", "FID", "SHAPE", "SHAPE_LENGTH", "SHAPE.LEN", "SHAPE_AREA", "NO_" };
 
-        private static readonly string IDFieldName = "NO_";
+        public static readonly string IDFieldName = "NO_";
 
-        private static readonly string ParentIDFieldName = "PNO_";
+        public static readonly string ParentIDFieldName = "PNO_";
 
-        private static readonly string CreateTimeFieldName = "CreateDT";
+        public static readonly string CreateTimeFieldName = "CreateDT";
 
         public static readonly string RoadNameFieldName = "RoadName";
+
+        public static readonly string FromNodeFieldName = "FROMNODENO";
+
+        public static readonly string ToNodeFieldName = "TONODENO";
+
+        public static readonly string XCoordFieldName = "XCOORD";
+
+        public static readonly string YCoordFieldName = "YCOORD";
 
         public IList<IPolyline> NewRoads { get; private set; }
 
@@ -410,7 +418,7 @@ namespace LoowooTech.Traffic.Common
 
         #endregion
 
-        public static void UpdateRoads(List<RoadCrossInfo> lines, IFeatureClass fc, IFeatureClass historyFC, out List<string> newRoadIds, out Dictionary<string, string> oldRoadNewIds)
+        public static void UpdateRoads(List<RoadCrossInfo> lines, IFeatureClass fc, IFeatureClass historyFC, IFeatureClass crossFC, out List<string> newRoadIds, out Dictionary<string, string> oldRoadNewIds)
         {
             RemoveDisabledRoads(lines);
             CutFragments(lines);
@@ -420,7 +428,7 @@ namespace LoowooTech.Traffic.Common
             foreach(var line in lines)
             {
                 var ls = SplitLine(line.Geometry, line.Crossings.Select(x => x.Crossing).ToList());
-                var ret = StoreNewRoads(ls, fc, now);
+                var ret = StoreNewRoads(ls, fc, crossFC, now);
                 newRoadIds.AddRange(ret);
             }
 
@@ -448,7 +456,7 @@ namespace LoowooTech.Traffic.Common
                 Archive(f, historyFC);
                 var ls = SplitLine(dict2[id], pair.Value);
 
-                var ret = StoreOldRoads(ls, f, fc, now);
+                var ret = StoreOldRoads(ls, f, fc, crossFC, now);
                 foreach(var p in ret)
                 {
                     oldRoadNewIds.Add(p.Key, p.Value);
@@ -485,7 +493,7 @@ namespace LoowooTech.Traffic.Common
             Marshal.ReleaseComObject(cursor);
         }
 
-        private static Dictionary<string,string> StoreOldRoads(IList<IPolyline> lines, IFeature f, IFeatureClass fc, DateTime createDate)
+        private static Dictionary<string,string> StoreOldRoads(IList<IPolyline> lines, IFeature f, IFeatureClass fc, IFeatureClass crossFC, DateTime createDate)
         {
             var ret = new Dictionary<string, string>();
             if (lines.Count < 2) return ret;
@@ -495,9 +503,15 @@ namespace LoowooTech.Traffic.Common
             var idIndex = cursor.FindField(IDFieldName);
             var pidIndex = cursor.FindField(ParentIDFieldName);
             var dtIndex = cursor.FindField(CreateTimeFieldName);
+            var fromIndex = cursor.FindField(FromNodeFieldName);
+            var toIndex = cursor.FindField(ToNodeFieldName);
             var id = GetNewId(fc);
             foreach (var line in lines)
             {
+                var pc = line as IPointCollection;
+                var fromNO = CreateOrGetCrossingNo(pc.Point[0], crossFC, 0.000012);
+                var toNO = CreateOrGetCrossingNo(pc.Point[pc.PointCount - 1], crossFC, 0.000012);
+
                 var buff = fc.CreateFeatureBuffer();
                 ret.Add(id.ToString(), f.get_Value(idIndex).ToString());
                 buff.Shape = line;
@@ -505,6 +519,10 @@ namespace LoowooTech.Traffic.Common
                 buff.set_Value(idIndex, id);
                 buff.set_Value(pidIndex, f.get_Value(idIndex));
                 buff.set_Value(dtIndex, createDate);
+                
+                buff.set_Value(fromIndex, fromNO);
+                buff.set_Value(toIndex, toNO);
+                
                 cursor.InsertFeature(buff);
                 cursor.Flush();
                 id++;
@@ -515,21 +533,29 @@ namespace LoowooTech.Traffic.Common
             return ret;
         }
 
-        private static List<string> StoreNewRoads(IList<IPolyline> lines, IFeatureClass fc, DateTime createDate)
+        private static List<string> StoreNewRoads(IList<IPolyline> lines, IFeatureClass fc, IFeatureClass crossFC, DateTime createDate)
         {
             var ret = new List<string>();
             
             var cursor = fc.Insert(true);
             var idIndex = cursor.FindField(IDFieldName);
             var dtIndex = cursor.FindField(CreateTimeFieldName);
+            var fromIndex = cursor.FindField(FromNodeFieldName);
+            var toIndex = cursor.FindField(ToNodeFieldName);
             var id = GetNewId(fc);
             foreach (var line in lines)
             {
+                var pc = line as IPointCollection;
+                var fromNO = CreateOrGetCrossingNo(pc.Point[0], crossFC, 0.000012);
+                var toNO = CreateOrGetCrossingNo(pc.Point[pc.PointCount - 1], crossFC, 0.000012);
+
                 var buff = fc.CreateFeatureBuffer();
                 ret.Add(id.ToString());
                 buff.Shape = line;
                 buff.set_Value(idIndex, id);
                 buff.set_Value(dtIndex, createDate);
+                buff.set_Value(fromIndex, fromNO);
+                buff.set_Value(toIndex, toNO);
                 cursor.InsertFeature(buff);
                 cursor.Flush();
                 id++;
@@ -569,8 +595,244 @@ namespace LoowooTech.Traffic.Common
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 查询pt是否在道路交点中存在，存在则返回它的No，不存在新建后返回新的No
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="fc"></param>
+        /// <returns></returns>
+        private static int CreateOrGetCrossingNo(IPoint pt, IFeatureClass fc, double delta)
+        {
+            var cursor = fc.Search(new SpatialFilterClass { Geometry = pt, SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects }, true);
+            var f = cursor.NextFeature();
+            if (f != null)
+            {
+                var no = Convert.ToInt32(f.get_Value(f.Fields.FindField(IDFieldName)));
+                Marshal.ReleaseComObject(cursor);
+                return no;
+            }
+
+            Marshal.ReleaseComObject(cursor);
+            
+            var pg = ConstructPolygon(pt, delta);
+
+            cursor = fc.Search(new SpatialFilterClass { Geometry = pg, SpatialRel = esriSpatialRelEnum.esriSpatialRelContains }, true);
+            f = cursor.NextFeature();
+            if (f != null)
+            {
+                var no = Convert.ToInt32(f.get_Value(f.Fields.FindField(IDFieldName)));
+                Marshal.ReleaseComObject(cursor);
+                return no;
+            }
+
+            Marshal.ReleaseComObject(cursor);
+
+            var id = GetNewId(fc);
+            cursor = fc.Insert(true);
+            var buffer = fc.CreateFeatureBuffer();
+            buffer.set_Value(buffer.Fields.FindField(XCoordFieldName), pt.X);
+            buffer.set_Value(buffer.Fields.FindField(YCoordFieldName), pt.Y);
+            buffer.set_Value(buffer.Fields.FindField(IDFieldName), id);
+            cursor.InsertFeature(buffer);
+            Marshal.ReleaseComObject(cursor);
+            return id;
+        }
+
+        private static IPolygon ConstructPolygon(IPoint pt, double delta)
+        {
+            var pg = new PolygonClass();
+            var pc = pg as IPointCollection;
+            var p = new PointClass { X = pt.X - delta / 2, Y = pt.Y + delta / 2 };
+            pc.AddPoint(p);
+
+            p = new PointClass { X = pt.X + delta / 2, Y = pt.Y + delta / 2 };
+            pc.AddPoint(p);
+
+            p = new PointClass { X = pt.X + delta / 2, Y = pt.Y - delta / 2 };
+            pc.AddPoint(p);
+
+            p = new PointClass { X = pt.X - delta / 2, Y = pt.Y - delta / 2 };
+            pc.AddPoint(p);
+
+            p = new PointClass { X = pt.X - delta / 2, Y = pt.Y + delta / 2 };
+            pc.AddPoint(p);
+            return pg;
 
         }
-        
+
+        #region History recovery
+        /// <summary>
+        /// 恢复到指定编号的历史记录，可以不是现状记录的直接历史
+        /// </summary>
+        /// <param name="parentNO"></param>
+        /// <param name="fc"></param>
+        /// <param name="historyFC"></param>
+        /// <param name="crossFC"></param>
+        /// <returns></returns>
+        public static bool HistoryRecover(int parentNO, IFeatureClass fc, IFeatureClass historyFC, IFeatureClass crossFC)
+        {
+            var historyList = new List<int>();
+            int fid;
+            while(parentNO != -1)
+            {
+                historyList.Add(parentNO);
+                parentNO = GetChildNo(parentNO, historyFC, out fid);
+            }
+
+            for(var i=0;i<historyList.Count;i++)
+            {
+                if (HistoryRecoverInner(historyList[historyList.Count - i - 1], fc, historyFC, crossFC) == false) return false ;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 获取历史记录列表
+        /// </summary>
+        /// <param name="fid">要获取历史记录的要素</param>
+        /// <param name="fc"></param>
+        /// <param name="historyFC"></param>
+        /// <returns>历史记录列表，每一个值都是objectid，而不是道路编号</returns>
+        public static List<int> GetHistoryList(int fid, IFeatureClass fc, IFeatureClass historyFC)
+        {
+            var f = fc.GetFeature(fid);
+            if (f == null) return null;
+
+            var historyList = new List<int>();
+            var o = f.get_Value(f.Fields.FindField(ParentIDFieldName));
+            if (o == null || o == DBNull.Value) return historyList;
+
+            var parentNo = Convert.ToInt32(o);
+            int id;
+            while(parentNo != -1)
+            {
+                parentNo = GetParentNo(parentNo, historyFC, out id);
+                if (parentNo != -1) historyList.Add(id);    
+            }
+            return historyList;
+        }
+
+        private static int GetParentNo(int no, IFeatureClass fc, out int fid)
+        {
+            var cursor = fc.Search(new QueryFilterClass { WhereClause = string.Format("{0} = {1}", IDFieldName, no) }, true);
+            var f = cursor.NextFeature();
+
+            var id = f == null ? -1 : Convert.ToInt32(f.get_Value(f.Fields.FindField(ParentIDFieldName)));
+            fid = f == null ? -1 : f.OID;
+            Marshal.ReleaseComObject(cursor);
+            return id;
+        }
+
+        private static int GetChildNo(int parentNO, IFeatureClass fc, out int fid)
+        {
+            var cursor = fc.Search(new QueryFilterClass { WhereClause = string.Format("{0} = {1}", ParentIDFieldName, parentNO) }, true);
+            var f = cursor.NextFeature();
+            
+            var id = f == null ? -1 : Convert.ToInt32(f.get_Value(f.Fields.FindField(IDFieldName)));
+            fid = f == null ? -1 : f.OID;
+            Marshal.ReleaseComObject(cursor);
+            return id;
+        }
+
+        /// <summary>
+        /// 将现状恢复到上一次历史状态
+        /// </summary>
+        /// <param name="parentNo"></param>
+        /// <param name="fc"></param>
+        /// <param name="historyFC"></param>
+        /// <returns>上一次历史状态的id</returns>
+        private static bool HistoryRecoverInner(int parentNO, IFeatureClass fc, IFeatureClass historyFC, IFeatureClass crossFC)
+        {
+            // 历史表里没这个parentNo
+            var cursor = historyFC.Search(new QueryFilterClass { WhereClause = string.Format("{0} = {1}", IDFieldName, parentNO) }, true);
+            var f = cursor.NextFeature();
+            if (f == null)
+            {
+                Marshal.ReleaseComObject(cursor);
+                return false;
+            }
+
+            // 当前表的记录的直接历史并不是parentNo对应的历史
+            var cursor3 = fc.Update(new QueryFilter { WhereClause = string.Format("{0} = {1}", ParentIDFieldName, parentNO) }, true);
+            f = cursor3.NextFeature();
+            if( f == null)
+            {
+                Marshal.ReleaseComObject(cursor3);
+                return false;
+            }
+
+            // 记录两端节点，不删除它们
+            var nodes = new List<int>();
+            var o = f.get_Value(f.Fields.FindField(FromNodeFieldName));
+            if(o != null && o != DBNull.Value) nodes.Add(Convert.ToInt32(o));
+            o = f.get_Value(f.Fields.FindField(ToNodeFieldName));
+            if(o != null && o != DBNull.Value) nodes.Add(Convert.ToInt32(o));
+
+            // 将记录从历史表拷贝到当前表，并删除历史表中的记录
+            var cursor2 = fc.Insert(true);
+            var buffer = fc.CreateFeatureBuffer();
+            CopyFields(f, buffer);
+            buffer.set_Value(buffer.Fields.FindField(IDFieldName), parentNO);
+            cursor2.InsertFeature(buffer);
+
+            Marshal.ReleaseComObject(cursor2);
+            f.Delete();
+            Marshal.ReleaseComObject(cursor);
+            
+            // 将当前表中的相关记录删除
+            var fromIndex = cursor3.FindField(FromNodeFieldName);
+            var toIndex = cursor3.FindField(ToNodeFieldName);
+            var nodesToRemove = new HashSet<int>();
+            while(f != null)
+            {
+                o = f.get_Value(fromIndex);
+                if(o!= null && o != DBNull.Value) 
+                {
+                    if(nodes.Contains(Convert.ToInt32(o)) == false) // 是中间节点，需要删除；否则是两端节点，需要保留
+                    {
+                        nodesToRemove.Add(Convert.ToInt32(o));
+                    }
+                }
+                o = f.get_Value(toIndex);
+                if(o!= null && o != DBNull.Value) 
+                {
+                    if(nodes.Contains(Convert.ToInt32(o)) == false) // 是中间节点，需要删除；否则是两端节点，需要保留
+                    {
+                        nodesToRemove.Add(Convert.ToInt32(o));
+                    }
+                }
+
+                cursor3.DeleteFeature();
+                f = cursor3.NextFeature();
+            }
+            Marshal.ReleaseComObject(cursor3);
+
+            // 删除相关节点
+            foreach(var i in nodesToRemove)
+            {
+                DeleteNode(i, parentNO, crossFC, fc);
+            }
+            return true;
+        }
+
+        private static void DeleteNode(int nodeNO, int parentRoadNo, IFeatureClass nodeFC, IFeatureClass roadFC)
+        {
+            // 这个节点还关联了别的道路，并不仅仅在这条历史记录相关的道路上
+            var cursor = roadFC.Search(new QueryFilterClass{ WhereClause=string.Format("({0} = {2} OR {1} = {2}) AND {3} <> {4}", FromNodeFieldName, ToNodeFieldName, nodeNO, ParentIDFieldName, parentRoadNo)}, true);
+            var f = cursor.NextFeature();
+            if(f == null)
+            {
+                var pQueryFilter = new QueryFilterClass();
+                pQueryFilter.WhereClause = string.Format("{0} = {1}", IDFieldName, nodeNO);
+                var pTable = nodeFC as ITable;
+                pTable.DeleteSearchedRows(pQueryFilter);
+                
+            }
+            Marshal.ReleaseComObject(cursor);
+        }
+
+        #endregion
     }
 }

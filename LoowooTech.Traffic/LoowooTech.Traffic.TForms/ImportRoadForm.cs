@@ -18,6 +18,7 @@ namespace LoowooTech.Traffic.TForms
     {
         private IFeatureClass m_RoadFeatureClass;
         private IFeatureClass m_RoadHistoryFC;
+        private IFeatureClass m_RoadCrossFC;
         private readonly List<RoadCrossInfo> m_Crossroads = new List<RoadCrossInfo>();
         private List<IPolyline> m_Polylines;
         
@@ -36,11 +37,12 @@ namespace LoowooTech.Traffic.TForms
             InitializeComponent();
         }
 
-        public ImportRoadForm(List<IPolyline> newRoads, IFeatureClass fc, IFeatureClass historyFC, IList<RoadCrossInfo> infos)
+        public ImportRoadForm(List<IPolyline> newRoads, IFeatureClass fc, IFeatureClass historyFC, IFeatureClass crossFC, IList<RoadCrossInfo> infos)
         {
             InitializeComponent();
             m_RoadFeatureClass = fc;
             m_RoadHistoryFC = historyFC;
+            m_RoadCrossFC = crossFC;
             m_Polylines = newRoads;
             m_Crossroads.Clear();
             m_Crossroads.AddRange(infos);
@@ -83,7 +85,6 @@ namespace LoowooTech.Traffic.TForms
                 var cross = item.Tag as CrossingInfo;
                 cross.Enabled = item.Checked;
             }
-
             RoadMerger.QueryFragments(m_Crossroads);
             
             lstFragments.Items.Clear();
@@ -109,8 +110,6 @@ namespace LoowooTech.Traffic.TForms
                 }
             }
         }
-
-        
 
         private void listCrossroads_MouseClick(object sender, MouseEventArgs e)
         {
@@ -154,8 +153,6 @@ namespace LoowooTech.Traffic.TForms
 
         private void ImportNewRoadAndSplitRoads()
         {
-           
-
             for(var i=0;i<lstFragments.Items.Count;i++)
             {
                 var item = lstFragments.Items[i];
@@ -174,7 +171,7 @@ namespace LoowooTech.Traffic.TForms
             List<string> newIds;
             Dictionary<string, string> oldIds;
 
-            RoadMerger.UpdateRoads(m_Crossroads, m_RoadFeatureClass, m_RoadHistoryFC, out newIds, out oldIds);
+            RoadMerger.UpdateRoads(m_Crossroads, m_RoadFeatureClass, m_RoadHistoryFC, m_RoadCrossFC, out newIds, out oldIds);
 
 
             lstResult.Items.Clear();

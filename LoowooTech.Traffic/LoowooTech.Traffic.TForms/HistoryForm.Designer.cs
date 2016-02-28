@@ -32,12 +32,12 @@
             this.ribbon1 = new System.Windows.Forms.Ribbon();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
-            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
+            this.btnFlash = new System.Windows.Forms.RibbonButton();
+            this.btnZoom = new System.Windows.Forms.RibbonButton();
             this.ribbonSeparator1 = new System.Windows.Forms.RibbonSeparator();
-            this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
+            this.btnRecover = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
-            this.ribbonButton4 = new System.Windows.Forms.RibbonButton();
+            this.btnClose = new System.Windows.Forms.RibbonButton();
             this.lstResult = new System.Windows.Forms.ListView();
             this.序号 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.新道路编号 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -79,41 +79,44 @@
             // 
             // ribbonPanel1
             // 
-            this.ribbonPanel1.Items.Add(this.ribbonButton1);
-            this.ribbonPanel1.Items.Add(this.ribbonButton2);
+            this.ribbonPanel1.Items.Add(this.btnFlash);
+            this.ribbonPanel1.Items.Add(this.btnZoom);
             this.ribbonPanel1.Items.Add(this.ribbonSeparator1);
-            this.ribbonPanel1.Items.Add(this.ribbonButton3);
+            this.ribbonPanel1.Items.Add(this.btnRecover);
             this.ribbonPanel1.Text = "";
             // 
-            // ribbonButton1
+            // btnFlash
             // 
-            this.ribbonButton1.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
-            this.ribbonButton1.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.SmallImage")));
-            this.ribbonButton1.Text = "闪烁道路";
+            this.btnFlash.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Wizard_32x32;
+            this.btnFlash.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFlash.SmallImage")));
+            this.btnFlash.Text = "闪烁道路";
+            this.btnFlash.Click += new System.EventHandler(this.btnFlash_Click);
             // 
-            // ribbonButton2
+            // btnZoom
             // 
-            this.ribbonButton2.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom2_32x32;
-            this.ribbonButton2.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.SmallImage")));
-            this.ribbonButton2.Text = "移动到道路";
+            this.btnZoom.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Zoom2_32x32;
+            this.btnZoom.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnZoom.SmallImage")));
+            this.btnZoom.Text = "移动到道路";
+            this.btnZoom.Click += new System.EventHandler(this.btnZoom_Click);
             // 
-            // ribbonButton3
+            // btnRecover
             // 
-            this.ribbonButton3.Enabled = false;
-            this.ribbonButton3.Image = global::LoowooTech.Traffic.TForms.Properties.Resources._1449523215_URL_History_64;
-            this.ribbonButton3.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton3.SmallImage")));
-            this.ribbonButton3.Text = "退回到";
+            this.btnRecover.Image = global::LoowooTech.Traffic.TForms.Properties.Resources._1449523215_URL_History_64;
+            this.btnRecover.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnRecover.SmallImage")));
+            this.btnRecover.Text = "退回到";
+            this.btnRecover.Click += new System.EventHandler(this.btnRecover_Click);
             // 
             // ribbonPanel2
             // 
-            this.ribbonPanel2.Items.Add(this.ribbonButton4);
+            this.ribbonPanel2.Items.Add(this.btnClose);
             this.ribbonPanel2.Text = "";
             // 
-            // ribbonButton4
+            // btnClose
             // 
-            this.ribbonButton4.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Close_32x32;
-            this.ribbonButton4.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton4.SmallImage")));
-            this.ribbonButton4.Text = "关闭窗口";
+            this.btnClose.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Close_32x32;
+            this.btnClose.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnClose.SmallImage")));
+            this.btnClose.Text = "关闭窗口";
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lstResult
             // 
@@ -131,7 +134,7 @@
             this.lstResult.MultiSelect = false;
             this.lstResult.Name = "lstResult";
             this.lstResult.ShowGroups = false;
-            this.lstResult.Size = new System.Drawing.Size(634, 203);
+            this.lstResult.Size = new System.Drawing.Size(634, 276);
             this.lstResult.TabIndex = 3;
             this.lstResult.UseCompatibleStateImageBehavior = false;
             this.lstResult.View = System.Windows.Forms.View.Details;
@@ -159,11 +162,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 317);
+            this.ClientSize = new System.Drawing.Size(634, 390);
             this.Controls.Add(this.lstResult);
             this.Controls.Add(this.ribbon1);
             this.Name = "HistoryForm";
             this.Text = "道路历史信息";
+            this.Load += new System.EventHandler(this.HistoryForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -173,12 +177,12 @@
         private System.Windows.Forms.Ribbon ribbon1;
         private System.Windows.Forms.RibbonTab ribbonTab1;
         private System.Windows.Forms.RibbonPanel ribbonPanel1;
-        private System.Windows.Forms.RibbonButton ribbonButton1;
-        private System.Windows.Forms.RibbonButton ribbonButton2;
+        private System.Windows.Forms.RibbonButton btnFlash;
+        private System.Windows.Forms.RibbonButton btnZoom;
         private System.Windows.Forms.RibbonSeparator ribbonSeparator1;
-        private System.Windows.Forms.RibbonButton ribbonButton3;
+        private System.Windows.Forms.RibbonButton btnRecover;
         private System.Windows.Forms.RibbonPanel ribbonPanel2;
-        private System.Windows.Forms.RibbonButton ribbonButton4;
+        private System.Windows.Forms.RibbonButton btnClose;
         private System.Windows.Forms.ListView lstResult;
         private System.Windows.Forms.ColumnHeader 序号;
         private System.Windows.Forms.ColumnHeader 新道路编号;
