@@ -125,6 +125,7 @@ namespace LoowooTech.Traffic.TForms
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
         public User CurrentUser { get; set; }
         public SplashForm Splash { get; set; }
+        public IGeometry TempGeometry { get; set; }
 
         private readonly List<IPoint> m_Crossroads = new List<IPoint>();
         private IMarkerSymbol m_CrossroadSymbol;
@@ -846,7 +847,11 @@ namespace LoowooTech.Traffic.TForms
             }
             IFeatureSelection featureSelection = FeatureLayer as IFeatureSelection;
             featureSelection.SelectFeatures((IQueryFilter)spatialFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
-            featureSelection.SelectionColor = DisplayHelper.GetSelectRGBColor();
+            if (this.dataType == DataType.BusLine || this.dataType == DataType.BusStop)
+            {
+                featureSelection.SelectionColor = DisplayHelper.GetSelectRGBColor();
+            }
+            
             MapRefresh();
         }
         public  void AnalyzeBase(IGeometry geometry,SpaceMode mode,IFeatureLayer FeatureLayer,string Title)
@@ -871,6 +876,17 @@ namespace LoowooTech.Traffic.TForms
         }
         public void Analyze(IGeometry geometry)
         {
+            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (TempGeometry != null)
+                {
+                    geometry = geometry.WMerge(TempGeometry);
+                }
+            }
+            else
+            {
+                this.TempGeometry = null;
+            }
             switch (this.dataType)
             {
                 case DataType.BusLine:
@@ -886,8 +902,8 @@ namespace LoowooTech.Traffic.TForms
                     AnalyzeBase(geometry, SpaceMode.Contains, ParkingFeatureLayer, "当前区域内停车设施");
                     break;
             }
-            
 
+            TempGeometry = geometry;
             axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, axMapControl1.ActiveView.Extent);
 
         }
@@ -1228,6 +1244,7 @@ namespace LoowooTech.Traffic.TForms
         //公交路线 区域过滤
         private void RegionFilter_Click(object sender, EventArgs e)
         {
+            this.TempGeometry = null;
             this.dataType = DataType.BusLine;
             var cmd = new FrameSearchTool(axMapControl1, this,BusLineName.GetLayer());
             cmd.OnCreate(axMapControl1.Object);
@@ -1333,6 +1350,7 @@ namespace LoowooTech.Traffic.TForms
         //停车设施  区域过滤
         private void btnRegionFilterParking_Click(object sender, EventArgs e)
         {
+            this.TempGeometry = null;
             this.dataType = DataType.Parking;
             var cmd = new FrameSearchTool(axMapControl1, this, ParkingName.GetLayer());
             cmd.OnCreate(axMapControl1.Object);
@@ -1713,6 +1731,7 @@ namespace LoowooTech.Traffic.TForms
         //停车场  框选统计
         private void RegionStatistic_Click(object sender, EventArgs e)
         {
+            this.TempGeometry = null;
             this.dataType = DataType.Parking;
             var cmd = new FrameSearchTool(axMapControl1, this, ParkingName.GetLayer(),true);
             cmd.OnCreate(axMapControl1.Object);
@@ -1720,15 +1739,15 @@ namespace LoowooTech.Traffic.TForms
         }
 
         
+        public bool IsCtrl()
+        {
+            return ((Control.ModifierKeys & Keys.Control) == Keys.Control);
+        }
 
-       
+        private void axMapControl1_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
+        {
 
-        
-
-        
-
-        
-
+        }
     }
     
    

@@ -121,6 +121,29 @@ namespace LoowooTech.Traffic.Common
             ESRI.ArcGIS.AnalysisTools.Buffer buffer = new ESRI.ArcGIS.AnalysisTools.Buffer(Feature, @"F:\Github\Traffic\LoowooTech.Traffic\LoowooTech.Traffic\bin\Debug\Temp\output.shp", "1 Kilometers");
             gp.Execute(buffer, null);
         }
+
+        
+        public static IGeometry WMerge(this IGeometry Sgeometry,IGeometry geometry)
+        {
+            IGeometryCollection geometryCollection = new GeometryBagClass();
+            geometryCollection.AddGeometry(Sgeometry);
+            geometryCollection.AddGeometry(geometry);
+            ITopologicalOperator unionedpolygon = new PolygonClass();
+            unionedpolygon.ConstructUnion(geometryCollection as IEnumGeometry);
+            return unionedpolygon as IGeometry;
+            //IArray array = new ArrayClass();
+            //array.Add(Sgeometry);
+            //array.Add(geometry);
+            //IBasicGeoprocessor basicGeoprocessor = new BasicGeoprocessorClass();
+            ////basicGeoprocessor.Merge(array,)
+            //IGeometry result = new PolygonClass();
+            //Geoprocessor gp = new Geoprocessor();
+            //ESRI.ArcGIS.DataManagementTools.Merge merge = new ESRI.ArcGIS.DataManagementTools.Merge();
+            //merge.inputs = Sgeometry + ";" + geometry;
+            //merge.output = result;
+            //gp.Execute(merge, null);
+            //return result;
+        }
         public static void Save(IFeatureClass SourceFeatureClass, string WhereClause, string SaveFilePath)
         {
             IWorkspaceFactory workpsaceFactory = new ShapefileWorkspaceFactory();
