@@ -411,12 +411,20 @@ namespace LoowooTech.Traffic.TForms
             {
                 var list = GISHelper.Search(CurrentFeatureClass, WhereClause);
                 BusStopWhereClause = GISHelper.GetBusStopWhereClause(list,  CurrentFeatureClass.Fields.FindField("ShortName"), CurrentFeatureClass.Fields.FindField("lineDirect"));
-                UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass);
+                UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass,false,true);
             }
             switch (this.inquiryMode)
             {
                 case InquiryMode.Filter://
-                    UpdateBase(LayerName, WhereClause,CurrentFeatureClass,Flag);
+                    if (this.dataType == DataType.BusLine)
+                    {
+                        UpdateBase(LayerName, WhereClause, CurrentFeatureClass, Flag,true);
+                    }
+                    else
+                    {
+                        UpdateBase(LayerName, WhereClause, CurrentFeatureClass, Flag);
+                    }
+                    
                     break;
                 case InquiryMode.Search:
                     ShowResult(CurrentFeatureClass, WhereClause);

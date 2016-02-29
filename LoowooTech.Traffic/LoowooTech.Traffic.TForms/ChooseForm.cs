@@ -84,8 +84,8 @@ namespace LoowooTech.Traffic.TForms
 
         private void MClick(string RoadWhereClause,string StopWhereClause)
         {
-            Father.UpdateBase(Father.BusLineName, RoadWhereClause, Father.BusLineFeatureClass, true);
-            Father.UpdateBase(Father.BusStopName, StopWhereClause, Father.BusStopFeatureClass);
+            Father.UpdateBase(Father.BusLineName, RoadWhereClause, Father.BusLineFeatureClass, true,true);
+            Father.UpdateBase(Father.BusStopName, StopWhereClause, Father.BusStopFeatureClass,false,true);
         }
 
         private void button1_Click(object sender, EventArgs e)
