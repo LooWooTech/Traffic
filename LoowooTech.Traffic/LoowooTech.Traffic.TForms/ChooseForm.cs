@@ -113,5 +113,9 @@ namespace LoowooTech.Traffic.TForms
             View(this.ResultList[1].Feature);
         }
 
+        private void ChooseForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Father.OpenClose(Father.StartEndName, false);
+        }
     }
 }
