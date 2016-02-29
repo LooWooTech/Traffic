@@ -99,7 +99,7 @@ namespace LoowooTech.Traffic.TForms
         }
         private void View(IFeature Feature)
         {
-            AttributeForm form = new AttributeForm(Feature, Father.BusLineFeatureClass, Father.BusLineName);
+            AttributeForm form = new AttributeForm(Feature, Father.BusLineFeatureClass, null, null, Father.BusLineName);
             form.Show(Father);
         }
 

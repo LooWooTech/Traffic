@@ -487,7 +487,7 @@ namespace LoowooTech.Traffic.TForms
                 if (feature != null)
                 {
                     Twinkle(feature);
-                    AttributeForm form = new AttributeForm(feature, CurrentFeatureClass, LayerName);
+                    AttributeForm form = new AttributeForm(feature, CurrentFeatureClass, null, null, LayerName);
                     form.ShowDialog(this);
                 }
             }

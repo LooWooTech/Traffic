@@ -183,6 +183,7 @@
     <Compile Include="StatisticsForm.Designer.cs">
       <DependentUpon>StatisticsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestSuite.cs" />
     <Compile Include="Tools\ClickSearchTool.cs" />
     <Compile Include="Tools\FrameSearchTool.cs" />
     <Compile Include="UserForm.cs">

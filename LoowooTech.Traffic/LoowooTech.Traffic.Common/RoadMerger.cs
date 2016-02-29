@@ -24,7 +24,7 @@ namespace LoowooTech.Traffic.Common
 
         public static readonly string CreateTimeFieldName = "CreateDT";
 
-        public static readonly string RoadNameFieldName = "RoadName";
+        public static readonly string RoadNameFieldName = "NAME";
 
         public static readonly string FromNodeFieldName = "FROMNODENO";
 
@@ -48,6 +48,7 @@ namespace LoowooTech.Traffic.Common
                 roadsDict.Add(i, newRoads[i]);
             }
         }
+
         #region Intersects between input polylines
         /// <summary>
         /// 将导入线打断去除自相交
@@ -56,6 +57,7 @@ namespace LoowooTech.Traffic.Common
         /// <returns></returns>
         public static List<IPolyline> SplitLine(List<IPolyline> srcLines)
         {
+            var list = new List<IPolyline>();
             for (var i = 0; i < srcLines.Count; i++)
             {
                 var line = srcLines[i];
@@ -68,15 +70,16 @@ namespace LoowooTech.Traffic.Common
                 }
 
                 var splitted = SplitLine(srcLines[i], pts);
-                if (splitted.Count > 1)
+                list.AddRange(splitted);
+                /*if (splitted.Count > 1)
                 {
                     srcLines.RemoveAt(i);
                     srcLines.AddRange(splitted);
                     i += splitted.Count - 1;
-                }
+                }*/
             }
 
-            return srcLines;
+            return list;
         }
 
         /// <summary>
@@ -215,6 +218,8 @@ namespace LoowooTech.Traffic.Common
                     No = "[新编号]",
                     Geometry = lines[i]
                 };
+                lst.Add(entity);
+
             }
             return lst;
         }
@@ -584,7 +589,7 @@ namespace LoowooTech.Traffic.Common
         {
             for (var i = 0; i < to.Fields.FieldCount; i++)
             {
-                var fld = from.Fields.Field[i];
+                var fld = to.Fields.Field[i];
                 var fldName = fld.Name.ToUpper();
                 if (ReservedFields.Contains(fldName) == false)
                 {
@@ -632,10 +637,12 @@ namespace LoowooTech.Traffic.Common
             var id = GetNewId(fc);
             cursor = fc.Insert(true);
             var buffer = fc.CreateFeatureBuffer();
+            buffer.Shape = pt;
             buffer.set_Value(buffer.Fields.FindField(XCoordFieldName), pt.X);
             buffer.set_Value(buffer.Fields.FindField(YCoordFieldName), pt.Y);
             buffer.set_Value(buffer.Fields.FindField(IDFieldName), id);
             cursor.InsertFeature(buffer);
+            cursor.Flush();
             Marshal.ReleaseComObject(cursor);
             return id;
         }
@@ -709,7 +716,7 @@ namespace LoowooTech.Traffic.Common
             while(parentNo != -1)
             {
                 parentNo = GetParentNo(parentNo, historyFC, out id);
-                if (parentNo != -1) historyList.Add(id);    
+                if (id != -1) historyList.Add(id);    
             }
             return historyList;
         }
@@ -719,8 +726,25 @@ namespace LoowooTech.Traffic.Common
             var cursor = fc.Search(new QueryFilterClass { WhereClause = string.Format("{0} = {1}", IDFieldName, no) }, true);
             var f = cursor.NextFeature();
 
-            var id = f == null ? -1 : Convert.ToInt32(f.get_Value(f.Fields.FindField(ParentIDFieldName)));
-            fid = f == null ? -1 : f.OID;
+            int id;
+            if(f == null)
+            {
+                id = -1;
+                fid = -1;
+            }
+            else
+            {
+                var o = f.get_Value(f.Fields.FindField(ParentIDFieldName));
+                fid = f.OID;
+                if (o == null || o == DBNull.Value)
+                {
+                    id = -1;
+                }
+                else
+                {
+                    id = Convert.ToInt32(o);
+                }
+            }
             Marshal.ReleaseComObject(cursor);
             return id;
         }
@@ -747,8 +771,8 @@ namespace LoowooTech.Traffic.Common
         {
             // 历史表里没这个parentNo
             var cursor = historyFC.Search(new QueryFilterClass { WhereClause = string.Format("{0} = {1}", IDFieldName, parentNO) }, true);
-            var f = cursor.NextFeature();
-            if (f == null)
+            var historyf = cursor.NextFeature();
+            if (historyf == null)
             {
                 Marshal.ReleaseComObject(cursor);
                 return false;
@@ -756,7 +780,7 @@ namespace LoowooTech.Traffic.Common
 
             // 当前表的记录的直接历史并不是parentNo对应的历史
             var cursor3 = fc.Update(new QueryFilter { WhereClause = string.Format("{0} = {1}", ParentIDFieldName, parentNO) }, true);
-            f = cursor3.NextFeature();
+            var f = cursor3.NextFeature();
             if( f == null)
             {
                 Marshal.ReleaseComObject(cursor3);
@@ -765,20 +789,21 @@ namespace LoowooTech.Traffic.Common
 
             // 记录两端节点，不删除它们
             var nodes = new List<int>();
-            var o = f.get_Value(f.Fields.FindField(FromNodeFieldName));
+            var o = historyf.get_Value(historyf.Fields.FindField(FromNodeFieldName));
             if(o != null && o != DBNull.Value) nodes.Add(Convert.ToInt32(o));
-            o = f.get_Value(f.Fields.FindField(ToNodeFieldName));
+            o = historyf.get_Value(historyf.Fields.FindField(ToNodeFieldName));
             if(o != null && o != DBNull.Value) nodes.Add(Convert.ToInt32(o));
 
             // 将记录从历史表拷贝到当前表，并删除历史表中的记录
             var cursor2 = fc.Insert(true);
             var buffer = fc.CreateFeatureBuffer();
-            CopyFields(f, buffer);
+            buffer.Shape = historyf.ShapeCopy;
+            CopyFields(historyf, buffer);
             buffer.set_Value(buffer.Fields.FindField(IDFieldName), parentNO);
             cursor2.InsertFeature(buffer);
 
             Marshal.ReleaseComObject(cursor2);
-            f.Delete();
+            historyf.Delete();
             Marshal.ReleaseComObject(cursor);
             
             // 将当前表中的相关记录删除

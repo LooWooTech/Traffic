@@ -118,22 +118,22 @@ namespace LoowooTech.Traffic.TForms
             {
                 if (lstResult.SelectedIndices[0] == 0)
                 {
-                    MessageBox.Show("注意", "您当前选择的记录不是历史记录，请选择其他记录重试。", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("您当前选择的记录不是历史记录，请选择其他记录重试。", "注意", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     var f = m_RoadHistoryFC.GetFeature((int)lstResult.Items[lstResult.SelectedIndices[0]].Tag);
-                    if (MessageBox.Show("注意", "退回到历史记录的操作将会删除道路现状数据，是否确认继续恢复？", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.OK)
+                    if (MessageBox.Show("退回到历史记录的操作将会删除道路现状数据，是否确认继续恢复？", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.OK)
                     {
 
                         var ret = RoadMerger.HistoryRecover(Convert.ToInt32(f.get_Value(f.Fields.FindField(RoadMerger.IDFieldName))), m_RoadFC, m_RoadHistoryFC, m_RoadNodeFC);
                         if (ret)
                         {
-                            MessageBox.Show("完成", "已成功完成退回到历史记录操作", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("已成功完成退回到历史记录操作", "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            MessageBox.Show("注意", "退回到历史记录操作中出现错误，请联系管理员对历史记录库进行清理", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("退回到历史记录操作中出现错误，请联系管理员对历史记录库进行清理", "注意", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                 }

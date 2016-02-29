@@ -357,7 +357,7 @@ namespace LoowooTech.Traffic.TForms
                     btnPrevious.Enabled = false;
                     panel1.BringToFront();
                     break;
-                case 2:
+                case 1:
                     ribbonTab1.Text = "步骤2：碎片修剪";
                     ribbonPanel1.Visible = false;
                     ribbonPanel3.Visible = true;
@@ -367,7 +367,7 @@ namespace LoowooTech.Traffic.TForms
                     btnPrevious.Enabled = true;
                     panel2.BringToFront();
                     break;
-                case 3:
+                case 2:
                     ribbonTab1.Text = "步骤3：导入完成";
                     ribbonPanel1.Visible = false;
                     ribbonPanel3.Visible = false;

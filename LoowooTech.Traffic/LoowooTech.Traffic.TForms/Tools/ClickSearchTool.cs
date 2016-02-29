@@ -182,7 +182,7 @@ namespace LoowooTech.Traffic.TForms.Tools
                             }
                             else
                             {
-                                AttributeForm form = new AttributeForm(feature, FeatureLayer.FeatureClass, LayerName);
+                                AttributeForm form = new AttributeForm(feature, FeatureLayer.FeatureClass, Father.RoadHistoryFeatureClass, Father.RoadNodeFeatureClass, LayerName);
                                 form.ShowDialog(this.Father);
                             }
                         }

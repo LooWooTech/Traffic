@@ -17,14 +17,18 @@ namespace LoowooTech.Traffic.TForms
     {
         private IFeature Feature { get; set; }
         private IFeatureClass FeatureClass { get; set; }
+        private IFeatureClass HistoryFC { get; set; }
+        private IFeatureClass CrossFC { get; set; }
         private string LayerName { get; set; }
         private MainForm Father { get; set; }
-        public AttributeForm(IFeature feature, IFeatureClass featureClass, string LayerName)
+        public AttributeForm(IFeature feature, IFeatureClass featureClass, IFeatureClass historyFC, IFeatureClass crossFC, string LayerName)
         {
             InitializeComponent();
             this.Feature = feature;
             this.FeatureClass = featureClass;
             this.LayerName = LayerName;
+            this.HistoryFC = historyFC;
+            this.CrossFC = crossFC;
         }
 
         public AttributeForm()
@@ -37,12 +41,17 @@ namespace LoowooTech.Traffic.TForms
             if (Feature != null && !string.IsNullOrEmpty(Name))
             {
                 dataGridView1.DataSource = AttributeHelper.GetTable(FeatureClass, Feature, LayerName);
+                dataGridView1.Tag = Feature.OID;
                 Father = (MainForm)this.Owner;
                 
             }
             if (LayerName != "路网")
             {
-                this.btnHistory.Visible = false;
+                this.btnHistory.Enabled = false;
+            }
+            else
+            {
+                this.btnHistory.Enabled = true;
             }
         }
 
@@ -71,10 +80,9 @@ namespace LoowooTech.Traffic.TForms
             this.Close();
         }
 
-
         private void btnHistory_Click(object sender, EventArgs e)
         {
-            var form = new HistoryForm();
+            var form = new HistoryForm((int)dataGridView1.Tag, FeatureClass, HistoryFC, CrossFC, Father);
             form.ShowDialog();
         }
     }

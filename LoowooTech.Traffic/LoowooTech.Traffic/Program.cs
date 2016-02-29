@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Forms;
 using LoowooTech.Traffic.TForms;
+using ESRI.ArcGIS.esriSystem;
 
 namespace LoowooTech.Traffic
 {
@@ -13,7 +14,35 @@ namespace LoowooTech.Traffic
         [STAThread]
         static void Main()
         {
-            
+            /*
+            MessageBox.Show("当前CAD文件中不包含路线信息，请检查。", "注意");
+            IAoInitialize ao = null;
+            try
+            {
+                if (!RuntimeManager.Bind(ProductCode.Engine))
+                {
+                    if (!RuntimeManager.Bind(ProductCode.Desktop))
+                    {
+                        MessageBox.Show("unable to bind to arcgis runtime.application will be shut down");
+                        return;
+                    }
+                }
+                ao = new AoInitializeClass();
+
+                ao.Initialize(esriLicenseProductCode.esriLicenseProductCodeEngine);
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "注意");
+            }
+            var form2 = LoowooTech.Traffic.TForms.TestSuite.TestCase2();
+            Application.Run(form2);
+            if(ao != null) ao.Shutdown();
+            return;*/
+
+
             if (!RuntimeManager.Bind(ProductCode.Engine))
             {
                 if (!RuntimeManager.Bind(ProductCode.Desktop))

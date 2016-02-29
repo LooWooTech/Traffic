@@ -109,8 +109,8 @@ namespace LoowooTech.Traffic.TForms
         private string MapType { get; set; }
         private double Expand { get; set; }
         private IFeatureClass RoadFeatureClass { get; set; }
-        private IFeatureClass RoadHistoryFeatureClass { get; set; }
-        private IFeatureClass RoadNodeFeatureClass { get; set; }
+        public IFeatureClass RoadHistoryFeatureClass { get; set; }
+        public IFeatureClass RoadNodeFeatureClass { get; set; }
         public IFeatureClass BusLineFeatureClass { get; set; }
         public IFeatureClass BusStopFeatureClass { get; set; }
         private IFeatureClass ParkingFeatureClass { get; set; }
@@ -976,7 +976,7 @@ namespace LoowooTech.Traffic.TForms
                 if (feature != null)
                 {
                     Twinkle(feature);
-                    AttributeForm form = new AttributeForm(feature, CurrentFeatureClass, LayerName);
+                    AttributeForm form = new AttributeForm(feature, CurrentFeatureClass, RoadHistoryFeatureClass, RoadNodeFeatureClass, LayerName);
                     form.ShowDialog(this);
                 }
             }
