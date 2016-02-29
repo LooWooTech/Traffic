@@ -130,6 +130,9 @@
   <Way Type="FLOW">
     <Children Name="交通流量"></Children>
   </Way>
+  <Way Type="STOP">
+    <Children Name="首末站"></Children>
+  </Way>
   <Statistics Name="六片区">
     <Statistic Name="西湖区"></Statistic>
     <Statistic Name="上城区"></Statistic>

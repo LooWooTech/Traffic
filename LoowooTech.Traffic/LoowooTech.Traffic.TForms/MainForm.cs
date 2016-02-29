@@ -151,7 +151,7 @@ namespace LoowooTech.Traffic.TForms
             ParkingName = ConfigurationManager.AppSettings["PARKING"];
             BikeName = ConfigurationManager.AppSettings["BIKE"];
             FlowName = ConfigurationManager.AppSettings["FLOW"];
-            StartEndName = ConfigurationManager.AppSettings["BusSE"];
+            StartEndName = ConfigurationManager.AppSettings["BUSSTOPNAME"];
             XZQName = ConfigurationManager.AppSettings["XZQ"];
             MapType = ConfigurationManager.AppSettings["MAPTYPE"];
             
@@ -487,6 +487,7 @@ namespace LoowooTech.Traffic.TForms
         }
         public void OpenClose(string Name, bool Flag)
         {
+            var currentLayerName = Name.GetLayer();
             ILayer layer = null;
             for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
             {
@@ -498,7 +499,7 @@ namespace LoowooTech.Traffic.TForms
                     for (var j = 0; j < compositeLayer.Count; j++)
                     {
                         tempFeatureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
-                        if (tempFeatureLayer.Name.Trim().ToUpper() == Name)
+                        if (tempFeatureLayer.Name.Trim().ToUpper() == currentLayerName)
                         {
                             tempFeatureLayer.Visible = Flag;
                         }
@@ -510,7 +511,8 @@ namespace LoowooTech.Traffic.TForms
         public void UpdateStartEnd(List<FeatureResult> List,string Name,IFeatureClass FeatureClass)
         {
             string WhereClause = GetStartEndWhereClause(List[0]);
-            IFeatureLayer featurelayer = GetFeatureLayer(Name);
+            var currentLayerName = Name.GetLayer();
+            IFeatureLayer featurelayer = GetFeatureLayer(currentLayerName);
             if (featurelayer != null)
             {
                 OpenClose(StartEndName, true);
