@@ -16,7 +16,7 @@ namespace LoowooTech.Traffic.Common
     /// </summary>
     public class RoadMerger
     {
-        private static readonly string[] ReservedFields = new string[] { "OBJECTID", "FID", "SHAPE", "SHAPE_LENGTH", "SHAPE.LEN", "SHAPE_AREA", "NO_" };
+        private static readonly string[] ReservedFields = new string[] { "OBJECTID", "FID", "SHAPE", "SHAPE_LENGTH", "SHAPE.LEN", "SHAPE_AREA", "NO_", "SHAPE.STLENGTH()" };
 
         public static readonly string IDFieldName = "NO_";
 
@@ -325,7 +325,7 @@ namespace LoowooTech.Traffic.Common
             foreach(var pt in pts)
             {
                 var ret = SplitLine(line.Geometry, pt);
-                if (ret.Count > 1)
+                if (ret!=null&&ret.Count > 1)
                 {
                     line.Geometry = (ret[0].Length > ret[1].Length) ? ret[0] : ret[1];
                 }
@@ -377,7 +377,7 @@ namespace LoowooTech.Traffic.Common
             if (line.TailCrossing != null)
             {
                 var ret = SplitLine(line.Geometry, line.TailCrossing);
-                if (ret.Count > 1)
+                if (ret!=null&&ret.Count > 1)
                 {
                     line.Tail = (ret[0].Length > ret[1].Length) ? ret[1] : ret[0];
                 }
@@ -386,7 +386,7 @@ namespace LoowooTech.Traffic.Common
             if(line.HeadCrossing != null)
             {
                 var ret = SplitLine(line.Geometry, line.HeadCrossing);
-                if (ret.Count > 1)
+                if (ret!=null&& ret.Count > 1)
                 {
                     line.Head = (ret[0].Length > ret[1].Length) ? ret[1] : ret[0];
                 }
@@ -493,7 +493,9 @@ namespace LoowooTech.Traffic.Common
 
             buffer.Shape = f.ShapeCopy;
             CopyFields(f, buffer);
-            buffer.set_Value(historyFC.FindField(IDFieldName), f.get_Value(f.Fields.FindField(IDFieldName)));
+            var Index = historyFC.Fields.FindField(IDFieldName);
+            var Index2 = historyFC.FindField(IDFieldName);
+            buffer.set_Value(Index, f.get_Value(f.Fields.FindField(IDFieldName)));
             cursor.InsertFeature(buffer);
             Marshal.ReleaseComObject(cursor);
         }
@@ -596,7 +598,15 @@ namespace LoowooTech.Traffic.Common
                     var idx = from.Fields.FindField(fld.Name);
                     if (idx > -1)
                     {
-                        to.set_Value(i, from.get_Value(idx));
+                        var val = from.get_Value(idx);
+                        if (val != null)
+                        {
+                            Console.WriteLine(string.Format("Fieldname：{0}", fldName));
+                            Console.WriteLine(string.Format("Val:{0}", val));
+                            to.set_Value(i, val);
+                            Console.WriteLine(string.Format("i:{0}", i));
+                        }
+                        
                     }
                 }
             }

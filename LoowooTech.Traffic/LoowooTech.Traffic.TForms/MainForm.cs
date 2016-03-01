@@ -249,25 +249,25 @@ namespace LoowooTech.Traffic.TForms
 
         private void axMapControl1_OnAfterDraw(object sender, IMapControlEvents2_OnAfterDrawEvent e)
         {
-            var viewDrawPhase = (esriViewDrawPhase)e.viewDrawPhase;
-            //if (viewDrawPhase == esriViewDrawPhase.esriViewForeground)
-            {
+            //var viewDrawPhase = (esriViewDrawPhase)e.viewDrawPhase;
+            ////if (viewDrawPhase == esriViewDrawPhase.esriViewForeground)
+            //{
 
-                object o = m_ImportRoadSymbol;
-                if (m_ImportRoads != null)
-                {
-                    foreach(var line in m_ImportRoads)
-                    axMapControl1.DrawShape(line, ref o);
-                }
+            //    object o = m_ImportRoadSymbol;
+            //    if (m_ImportRoads != null)
+            //    {
+            //        //foreach(var line in m_ImportRoads)
+            //        //axMapControl1.DrawShape(line, ref o);
+            //    }
 
-                object r = m_CrossroadSymbol;
-                foreach (var pt in m_Crossroads)
-                {
-                    axMapControl1.DrawShape(pt, ref r);
-                }
+            //    object r = m_CrossroadSymbol;
+            //    foreach (var pt in m_Crossroads)
+            //    {
+            //        //axMapControl1.DrawShape(pt, ref r);
+            //    }
 
 
-            }
+            //}
         }
         #endregion
 
@@ -1614,7 +1614,7 @@ namespace LoowooTech.Traffic.TForms
         public void EraseImportRoadCustomDrawing()
         {
             m_Crossroads.Clear();
-            m_ImportRoads = null;
+            //m_ImportRoads = null;
             axMapControl1.ActiveView.Refresh();
         }
 
