@@ -84,8 +84,8 @@ namespace LoowooTech.Traffic.TForms
 
         private void MClick(string RoadWhereClause,string StopWhereClause)
         {
-            Father.UpdateBase(Father.BusLineName, RoadWhereClause, Father.BusLineFeatureClass, true);
-            Father.UpdateBase(Father.BusStopName, StopWhereClause, Father.BusStopFeatureClass);
+            Father.UpdateBase(Father.BusLineName, RoadWhereClause, Father.BusLineFeatureClass, true,true);
+            Father.UpdateBase(Father.BusStopName, StopWhereClause, Father.BusStopFeatureClass,false,true);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -99,7 +99,7 @@ namespace LoowooTech.Traffic.TForms
         }
         private void View(IFeature Feature)
         {
-            AttributeForm form = new AttributeForm(Feature, Father.BusLineFeatureClass, null, null, Father.BusLineName);
+            AttributeForm form = new AttributeForm(Feature, Father.BusLineFeatureClass, Father.BusLineName);
             form.Show(Father);
         }
 
@@ -113,5 +113,9 @@ namespace LoowooTech.Traffic.TForms
             View(this.ResultList[1].Feature);
         }
 
+        private void ChooseForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Father.OpenClose(Father.StartEndName, false);
+        }
     }
 }

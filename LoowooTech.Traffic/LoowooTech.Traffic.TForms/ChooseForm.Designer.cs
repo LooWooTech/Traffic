@@ -37,7 +37,7 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Highlight;
-            this.button1.Font = new System.Drawing.Font("幼圆", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1.Font = new System.Drawing.Font("YouYuan", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(500, 150);
@@ -49,7 +49,7 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.Highlight;
-            this.button2.Font = new System.Drawing.Font("幼圆", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button2.Font = new System.Drawing.Font("YouYuan", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button2.Location = new System.Drawing.Point(0, 150);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(500, 150);
@@ -93,6 +93,7 @@
             this.Name = "ChooseForm";
             this.Text = "路线选择";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChooseForm_FormClosing);
             this.Load += new System.EventHandler(this.ChooseForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

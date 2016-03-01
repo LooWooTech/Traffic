@@ -37,6 +37,7 @@ namespace LoowooTech.Traffic.TForms
             this.textBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (textBox1.Text != null && !string.IsNullOrEmpty(textBox1.Text))
@@ -44,8 +45,9 @@ namespace LoowooTech.Traffic.TForms
                 var list = GISHelper.GetRoadList(Father.BusLineFeatureClass, Father.BusStopFeatureClass, textBox1.Text);
                 if (list.Count > 0)
                 {
-                    Father.UpdateBase(Father.BusLineName, list[0].RoadWhereClause, Father.BusLineFeatureClass,true);
-                    Father.UpdateBase(Father.BusStopName, list[0].StopWhereClause, Father.BusStopFeatureClass);
+                    Father.UpdateBase(Father.BusLineName, list[0].RoadWhereClause, Father.BusLineFeatureClass,true,true);
+                    Father.UpdateBase(Father.BusStopName, list[0].StopWhereClause, Father.BusStopFeatureClass,false,true);
+                    Father.UpdateStartEnd(list, Father.StartEndName, Father.StartEndFeatureClass);
                     ChooseForm chooseForm = new ChooseForm(list, Father);
                     chooseForm.Show();
                     this.Close();

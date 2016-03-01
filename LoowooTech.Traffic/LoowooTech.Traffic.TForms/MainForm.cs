@@ -99,6 +99,7 @@ namespace LoowooTech.Traffic.TForms
         public string ParkingName { get; set; }
         private string BikeName { get; set; }
         private string FlowName { get; set; }
+        public string StartEndName { get; set; }
         private string XZQName { get; set; }
         public  string RoadFilterWhereClause { get; set; }
         public string BusLineWhereClause { get; set; }
@@ -116,6 +117,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass ParkingFeatureClass { get; set; }
         private IFeatureClass BikeFeatureClass { get; set; }
         private IFeatureClass FlowFeatureClass { get; set; }
+        public IFeatureClass StartEndFeatureClass { get; set; }
         private IFeatureClass XZQFeatureClass { get; set; }
         private IFeature ExtentFeature { get; set; }
         private INewPolygonFeedback newPolygonFeedback { get; set; }
@@ -128,6 +130,8 @@ namespace LoowooTech.Traffic.TForms
         public User CurrentUser { get; set; }
         public SplashForm Splash { get; set; }
         public IGeometry TempGeometry { get; set; }
+        public int StartField { get; set; }
+        public int EndField { get; set; }
 
         private readonly List<IPoint> m_Crossroads = new List<IPoint>();
         private IMarkerSymbol m_CrossroadSymbol;
@@ -147,6 +151,7 @@ namespace LoowooTech.Traffic.TForms
             ParkingName = ConfigurationManager.AppSettings["PARKING"];
             BikeName = ConfigurationManager.AppSettings["BIKE"];
             FlowName = ConfigurationManager.AppSettings["FLOW"];
+            StartEndName = ConfigurationManager.AppSettings["BUSSTOPNAME"];
             XZQName = ConfigurationManager.AppSettings["XZQ"];
             MapType = ConfigurationManager.AppSettings["MAPTYPE"];
             
@@ -223,7 +228,10 @@ namespace LoowooTech.Traffic.TForms
             ParkingFeatureClass = SDEManager.GetFeatureClass(ParkingName);
             BikeFeatureClass = SDEManager.GetFeatureClass(BikeName);
             FlowFeatureClass = SDEManager.GetFeatureClass(FlowName);
+            StartEndFeatureClass = SDEManager.GetFeatureClass(StartEndName);
             XZQFeatureClass = SDEManager.GetFeatureClass(XZQName);
+            StartField = BusLineFeatureClass.FindField(System.Configuration.ConfigurationManager.AppSettings["START"]);
+            EndField = BusLineFeatureClass.FindField(System.Configuration.ConfigurationManager.AppSettings["END"]);
             ExtentFeature = GISHelper.Search2(SDEManager.GetFeatureClass(System.Configuration.ConfigurationManager.AppSettings["SCALE"]), null);
             Expand = double.Parse(System.Configuration.ConfigurationManager.AppSettings["Expand"]);
             if (Splash != null)
@@ -324,7 +332,7 @@ namespace LoowooTech.Traffic.TForms
                         {
                             featureLayer.Visible = true;
                             ILayerEffects layerEffects = featureLayer as ILayerEffects;
-                            layerEffects.Transparency = featureLayer.Name == BusLineName.GetLayer() ? opacity : (short)0;
+                            layerEffects.Transparency = featureLayer.Name == BusStopName.GetLayer() ? opacity : featureLayer.Name == BusLineName.GetLayer() ? opacity : (short)0;
                         }
                         else
                         {
@@ -339,7 +347,7 @@ namespace LoowooTech.Traffic.TForms
                     {
                         featureLayer.Visible = true;
                         ILayerEffects layerEffects = featureLayer as ILayerEffects;
-                        layerEffects.Transparency = featureLayer.Name == BusLineName.GetLayer() ? opacity : (short)0;
+                        layerEffects.Transparency = featureLayer.Name == BusLineName.GetLayer() ? opacity : featureLayer.Name == BusStopName.GetLayer() ? opacity : (short)0;
                     }
                     else
                     {
@@ -403,12 +411,20 @@ namespace LoowooTech.Traffic.TForms
             {
                 var list = GISHelper.Search(CurrentFeatureClass, WhereClause);
                 BusStopWhereClause = GISHelper.GetBusStopWhereClause(list,  CurrentFeatureClass.Fields.FindField("ShortName"), CurrentFeatureClass.Fields.FindField("lineDirect"));
-                UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass);
+                UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass,false,true);
             }
             switch (this.inquiryMode)
             {
                 case InquiryMode.Filter://
-                    UpdateBase(LayerName, WhereClause,CurrentFeatureClass,Flag);
+                    if (this.dataType == DataType.BusLine)
+                    {
+                        UpdateBase(LayerName, WhereClause, CurrentFeatureClass, Flag,true);
+                    }
+                    else
+                    {
+                        UpdateBase(LayerName, WhereClause, CurrentFeatureClass, Flag);
+                    }
+                    
                     break;
                 case InquiryMode.Search:
                     ShowResult(CurrentFeatureClass, WhereClause);
@@ -420,7 +436,7 @@ namespace LoowooTech.Traffic.TForms
                     break;
             }
         }
-        public void UpdateBase(string Name,string WhereClause,IFeatureClass FeatureClass,bool Flag=false)
+        public void UpdateBase(string Name,string WhereClause,IFeatureClass FeatureClass,bool Flag=false,bool BFlag=false)
         {
             var CurrentLayerName = Name.GetLayer();
             IFeatureLayer featureLayer = GetFeatureLayer(CurrentLayerName); 
@@ -431,7 +447,14 @@ namespace LoowooTech.Traffic.TForms
                 featureLayerDefinition.DefinitionExpression = WhereClause;
                 Center(FeatureClass, WhereClause);
                 ILayerEffects layerEffects = featureLayer as ILayerEffects;
-                layerEffects.Transparency = featureLayer.Name == BusLineName.GetLayer() ? opacity : (short)0;
+                if (BFlag)
+                {
+                    layerEffects.Transparency = (short)0;
+                }
+                else
+                {
+                    layerEffects.Transparency = featureLayer.Name == BusStopName.GetLayer() ? opacity : featureLayer.Name == BusLineName.GetLayer() ? opacity : (short)0;
+                }
                 if (featureLayer.Name == BusStopName.GetLayer() && Flag)
                 {
                     IGeoFeatureLayer geoFeatureLayer = featureLayer as IGeoFeatureLayer;
@@ -444,6 +467,60 @@ namespace LoowooTech.Traffic.TForms
                 axMapControl1.Map.ClearSelection();
                 axMapControl1.ActiveView.Refresh();
             }  
+        }
+        private string GetValue(IFeature Feature, int Index)
+        {
+            string values = string.Empty;
+            try
+            {
+                values = Feature.get_Value(Index).ToString();
+            }
+            catch
+            {
+
+            }
+            return values;
+        }
+        public string GetStartEndWhereClause(FeatureResult featurResult)
+        {
+            return "stopName= '" + GetValue(featurResult.Feature, StartField) + "' Or stopName ='" + GetValue(featurResult.Feature, EndField) + "'";
+        }
+        public void OpenClose(string Name, bool Flag)
+        {
+            var currentLayerName = Name.GetLayer();
+            ILayer layer = null;
+            for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            {
+                layer = axMapControl1.Map.get_Layer(i);
+                if (layer is GroupLayer)
+                {
+                    ICompositeLayer compositeLayer = layer as ICompositeLayer;
+                    IFeatureLayer tempFeatureLayer = null;
+                    for (var j = 0; j < compositeLayer.Count; j++)
+                    {
+                        tempFeatureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
+                        if (tempFeatureLayer.Name.Trim().ToUpper() == currentLayerName)
+                        {
+                            tempFeatureLayer.Visible = Flag;
+                        }
+                    }
+                }
+            }
+            axMapControl1.ActiveView.Refresh();
+        }
+        public void UpdateStartEnd(List<FeatureResult> List,string Name,IFeatureClass FeatureClass)
+        {
+            string WhereClause = GetStartEndWhereClause(List[0]);
+            var currentLayerName = Name.GetLayer();
+            IFeatureLayer featurelayer = GetFeatureLayer(currentLayerName);
+            if (featurelayer != null)
+            {
+                OpenClose(StartEndName, true);
+                IFeatureLayerDefinition featurelayerDefinition = featurelayer as IFeatureLayerDefinition;
+                featurelayerDefinition.DefinitionExpression = WhereClause;
+                axMapControl1.Map.ClearSelection();
+                axMapControl1.ActiveView.Refresh();
+            }
         }
         #endregion
         public void ShowResult(IFeatureClass FeatureClass,string WhereClause)
@@ -1689,6 +1766,7 @@ namespace LoowooTech.Traffic.TForms
         {
             UpdateBase(BusLineName, "", BusLineFeatureClass);
             UpdateBase(BusStopName, "", BusStopFeatureClass);
+            OpenClose(StartEndName, false);
             this.BusLineWhereClause = "";
             this.BusStopWhereClause = "";
         }

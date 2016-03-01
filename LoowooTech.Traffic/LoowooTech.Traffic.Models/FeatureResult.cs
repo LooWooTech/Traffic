@@ -12,5 +12,7 @@ namespace LoowooTech.Traffic.Models
         public IFeature Feature { get; set; }
         public string StopWhereClause { get; set; }
         public List<IFeature> Stops { get; set; }
+        public string StartName { get; set; }
+        public string EndName { get; set; }
     }
 }
