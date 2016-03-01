@@ -135,7 +135,7 @@ namespace LoowooTech.Traffic.TForms
 
         private readonly List<IPoint> m_Crossroads = new List<IPoint>();
         private IMarkerSymbol m_CrossroadSymbol;
-        private List<IPolyline> m_ImportRoads;
+        private readonly List<IPolyline> m_ImportRoads = new List<IPolyline>();
         private ILineSymbol m_ImportRoadSymbol;
 
         public MainForm()
