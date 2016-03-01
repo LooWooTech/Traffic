@@ -1062,6 +1062,7 @@ namespace LoowooTech.Traffic.TForms
 
         private void ClickSearchBase(string LayerName, string WhereClause)
         {
+            this.operateMode = OperateMode.None;
             var cmd = new ClickSearchTool(LayerName,WhereClause, this.axMapControl1, this);
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = (ITool)cmd;

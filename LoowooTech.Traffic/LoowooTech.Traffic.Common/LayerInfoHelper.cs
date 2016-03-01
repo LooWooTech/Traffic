@@ -107,5 +107,15 @@ namespace LoowooTech.Traffic.Common
             }
             return list;
         }
+        public static string GetEngish(this string LayerName)
+        {
+            var node = confiXml.SelectSingleNode("/Layers/Way/Children[@Name='" + LayerName + "']");
+            if (node != null)
+            {
+                node = node.ParentNode;
+                return node != null ? node.Attributes["Type"].Value : null;
+            }
+            return null;
+        }
     }
 }

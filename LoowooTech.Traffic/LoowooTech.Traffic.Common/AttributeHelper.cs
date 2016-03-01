@@ -156,7 +156,7 @@ namespace LoowooTech.Traffic.Common
         public static DataTable GetTable(IFeatureClass featureClass, IFeature feature, string LayerName)
         {
             ReadFieldIndexDict(featureClass);
-            Tranlate(LayerName);
+            Tranlate(LayerName.GetEngish());
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("名称");
             dataTable.Columns.Add("值");
