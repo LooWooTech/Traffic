@@ -468,22 +468,10 @@ namespace LoowooTech.Traffic.TForms
                 axMapControl1.ActiveView.Refresh();
             }  
         }
-        private string GetValue(IFeature Feature, int Index)
-        {
-            string values = string.Empty;
-            try
-            {
-                values = Feature.get_Value(Index).ToString();
-            }
-            catch
-            {
-
-            }
-            return values;
-        }
+        
         public string GetStartEndWhereClause(FeatureResult featurResult)
         {
-            return "stopName= '" + GetValue(featurResult.Feature, StartField) + "' Or stopName ='" + GetValue(featurResult.Feature, EndField) + "'";
+            return "stopName= '" + GISHelper.GetValue(featurResult.Feature, StartField) + "' Or stopName ='" + GISHelper.GetValue(featurResult.Feature, EndField) + "'";
         }
         public void OpenClose(string Name, bool Flag)
         {

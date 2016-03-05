@@ -39,29 +39,27 @@ namespace LoowooTech.Traffic.TForms
                 this.End = this.Father.BusLineFeatureClass.FindField(System.Configuration.ConfigurationManager.AppSettings["END"]);
             }
         }
-        private string GetValue(IFeature Feature, int Index)
-        {
-            string values = string.Empty;
-            try
-            {
-                values = Feature.get_Value(Index).ToString();
-            }
-            catch
-            {
-
-            }
-            return values;
-        }
         private string Get(IFeature Feature)
         {
-            return string.Format("{0}→{1}", GetValue(Feature, Start), GetValue(Feature, End));
+            var startStop = GISHelper.GetValue(Feature, Start).Trim();
+            if (string.IsNullOrEmpty(startStop))
+            {
+                startStop = "未在数据库中找到起始站信息";
+            }
+
+            var endStop = GISHelper.GetValue(Feature, End).Trim();
+            if (string.IsNullOrEmpty(endStop))
+            {
+                endStop = "未在数据库中找到终点站信息";
+            }
+            return string.Format("{0}→{1}", startStop, endStop);
         }
 
         private void ChooseForm_Load(object sender, EventArgs e)
         {
             if (this.ResultList != null)
             {
-                this.Text += string.Format("    {0} 查询到{1}条记录", GetValue(this.ResultList[0].Feature, Number), this.ResultList.Count);
+                this.Text += string.Format("    {0} 查询到{1}条记录", GISHelper.GetValue(this.ResultList[0].Feature, Number), this.ResultList.Count);
                 
                 this.button1.Text = Get(this.ResultList[0].Feature);
                 if (this.ResultList.Count == 1)

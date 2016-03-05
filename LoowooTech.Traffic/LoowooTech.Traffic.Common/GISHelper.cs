@@ -506,13 +506,28 @@ namespace LoowooTech.Traffic.Common
             return dict;
         }
 
+        public static string GetValue(IFeature Feature, int Index)
+        {
+            string values = string.Empty;
+            try
+            {
+                values = Feature.get_Value(Index).ToString();
+            }
+            catch
+            {
+
+            }
+            return values;
+        }
         public static List<FeatureResult> GetRoadList(IFeatureClass RoadFeatureClass, IFeatureClass StopFeatureClass, string Key)
         {
             var list = new List<FeatureResult>();
             string RoadKey1=System.Configuration.ConfigurationManager.AppSettings["BUSKEY"];
             string RoadKey2=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY2"];
             string StopKey=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY1"];
+            var StopKey2 = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY4"];
             var valList = GetUniqueValue(RoadFeatureClass, RoadKey2);
+            var KeyIndex = RoadFeatureClass.Fields.FindField(System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY3"]);
             string RoadWhereClause = string.Empty;
             string StopWhereClause = string.Empty;
             foreach (var item in valList)
@@ -521,7 +536,8 @@ namespace LoowooTech.Traffic.Common
                 IFeature feature = Search2(RoadFeatureClass, RoadWhereClause);
                 if (feature != null)
                 {
-                    StopWhereClause = string.Format("{0}= {1} AND {2} = {3} ", StopKey, Key.Replace("路", "").Replace("区间", "").Replace("高峰大站车", "").Replace("线", ""), RoadKey2, item);
+                    StopWhereClause = string.Format("{0} = {1} AND {2} = {3}", StopKey2, GetValue(feature, KeyIndex),RoadKey2,item);
+                    //StopWhereClause = string.Format("{0}= {1} AND {2} = {3} ", StopKey, Key.Replace("路", "").Replace("区间", "").Replace("高峰大站车", "").Replace("线", ""), RoadKey2, item);
                     list.Add(new FeatureResult()
                     {
                         RoadWhereClause = RoadWhereClause,
