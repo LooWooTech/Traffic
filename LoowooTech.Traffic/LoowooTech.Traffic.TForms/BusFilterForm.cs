@@ -47,7 +47,8 @@ namespace LoowooTech.Traffic.TForms
                 {
                     Father.UpdateBase(Father.BusLineName, list[0].RoadWhereClause, Father.BusLineFeatureClass,true,true);
                     Father.UpdateBase(Father.BusStopName, list[0].StopWhereClause, Father.BusStopFeatureClass,false,true);
-                    Father.UpdateStartEnd(list, Father.StartEndName, Father.StartEndFeatureClass);
+                    //Father.UpdateBase(Father.StartEndName, list[0].StartEndWhereClause, Father.StartEndFeatureClass);
+                    Father.UpdateStartEnd(list[0].StartEndWhereClause, Father.StartEndName, Father.StartEndFeatureClass);
                     ChooseForm chooseForm = new ChooseForm(list, Father);
                     chooseForm.Show();
                     this.Close();

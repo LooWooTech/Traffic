@@ -445,7 +445,11 @@ namespace LoowooTech.Traffic.TForms
             {
                 IFeatureLayerDefinition featureLayerDefinition = featureLayer as IFeatureLayerDefinition;
                 featureLayerDefinition.DefinitionExpression = WhereClause;
-                Center(FeatureClass, WhereClause);
+                if (CurrentLayerName != "首末站")
+                {
+                    Center(FeatureClass, WhereClause);
+                }
+               
                 ILayerEffects layerEffects = featureLayer as ILayerEffects;
                 if (BFlag)
                 {
@@ -496,16 +500,15 @@ namespace LoowooTech.Traffic.TForms
             }
             axMapControl1.ActiveView.Refresh();
         }
-        public void UpdateStartEnd(List<FeatureResult> List,string Name,IFeatureClass FeatureClass)
+        public void UpdateStartEnd(string whereClause,string Name,IFeatureClass FeatureClass)
         {
-            string WhereClause = GetStartEndWhereClause(List[0]);
             var currentLayerName = Name.GetLayer();
             IFeatureLayer featurelayer = GetFeatureLayer(currentLayerName);
             if (featurelayer != null)
             {
                 OpenClose(StartEndName, true);
                 IFeatureLayerDefinition featurelayerDefinition = featurelayer as IFeatureLayerDefinition;
-                featurelayerDefinition.DefinitionExpression = WhereClause;
+                featurelayerDefinition.DefinitionExpression = whereClause;
                 axMapControl1.Map.ClearSelection();
                 axMapControl1.ActiveView.Refresh();
             }

@@ -212,6 +212,20 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return list;
         }
+
+        public static void Search(IFeatureClass featureClass,string whereClause,string fieldName,out double maxValue,out double minValue)
+        {
+            var queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = whereClause;
+            var featureCursor = featureClass.Search(queryFilter, false);
+            var statisticCursor = featureCursor as ICursor;
+            var dataStatistic = new DataStatisticsClass();
+            dataStatistic.Cursor = statisticCursor;
+            dataStatistic.Field = fieldName;
+            var statisticsResult = dataStatistic.Statistics;
+            maxValue = statisticsResult.Maximum;
+            minValue = statisticsResult.Minimum;
+        }
         public static IFeature Search2(IFeatureClass FeatureClass, string WhereClause)
         {
             IQueryFilter queryFilter = new QueryFilterClass();
@@ -522,28 +536,35 @@ namespace LoowooTech.Traffic.Common
         public static List<FeatureResult> GetRoadList(IFeatureClass RoadFeatureClass, IFeatureClass StopFeatureClass, string Key)
         {
             var list = new List<FeatureResult>();
-            string RoadKey1=System.Configuration.ConfigurationManager.AppSettings["BUSKEY"];
-            string RoadKey2=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY2"];
-            string StopKey=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY1"];
-            var StopKey2 = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY4"];
+            string RoadKey1=System.Configuration.ConfigurationManager.AppSettings["BUSKEY"];//lineName
+            string RoadKey2=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY2"];//lineDirect
+            string StopKey=System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY1"];//lineNameshort
+            var StopKey2 = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY4"];//lineIdBus
             var valList = GetUniqueValue(RoadFeatureClass, RoadKey2);
-            var KeyIndex = RoadFeatureClass.Fields.FindField(System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY3"]);
+            var KeyIndex = RoadFeatureClass.Fields.FindField(System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY3"]);//LineId_bus
+            var StopKey3 = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY5"];//stopIndex
             string RoadWhereClause = string.Empty;
             string StopWhereClause = string.Empty;
+            double MaxValue = .0;
+            double MinValue = .0;
+            string LineId = "";
             foreach (var item in valList)
             {
                 RoadWhereClause = string.Format("{0} = '{1}' AND {2} = {3} ", RoadKey1, Key,RoadKey2, item);
                 IFeature feature = Search2(RoadFeatureClass, RoadWhereClause);
                 if (feature != null)
                 {
-                    StopWhereClause = string.Format("{0} = {1} AND {2} = {3}", StopKey2, GetValue(feature, KeyIndex),RoadKey2,item);
+                    LineId = GetValue(feature, KeyIndex);
+                    StopWhereClause = string.Format("{0} = {1} AND {2} = {3}", StopKey2, LineId,RoadKey2,item);
+                    Search(StopFeatureClass, StopWhereClause, StopKey3, out MaxValue, out MinValue);
                     //StopWhereClause = string.Format("{0}= {1} AND {2} = {3} ", StopKey, Key.Replace("路", "").Replace("区间", "").Replace("高峰大站车", "").Replace("线", ""), RoadKey2, item);
                     list.Add(new FeatureResult()
                     {
                         RoadWhereClause = RoadWhereClause,
                         Feature = feature,
                         StopWhereClause = StopWhereClause,
-                        Stops = Search(StopFeatureClass, StopWhereClause)
+                        Stops = Search(StopFeatureClass, StopWhereClause),
+                        StartEndWhereClause =string.Format("({0} = {1} AND {2} = {3} ) AND ({4} = {5} OR {4} = {6})",StopKey2,LineId,RoadKey2,item,StopKey3,MaxValue,MinValue)
                     });
                 }
             }
