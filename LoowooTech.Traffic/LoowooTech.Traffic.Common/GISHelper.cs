@@ -213,7 +213,7 @@ namespace LoowooTech.Traffic.Common
             return list;
         }
 
-        public static void Search(IFeatureClass featureClass,string whereClause,string fieldName,out double maxValue,out double minValue)
+        public static void Statistic(IFeatureClass featureClass,string whereClause,string fieldName,out double maxValue,out double minValue)
         {
             var queryFilter = new QueryFilterClass();
             queryFilter.WhereClause = whereClause;
@@ -556,7 +556,7 @@ namespace LoowooTech.Traffic.Common
                 {
                     LineId = GetValue(feature, KeyIndex);
                     StopWhereClause = string.Format("{0} = {1} AND {2} = {3}", StopKey2, LineId,RoadKey2,item);
-                    Search(StopFeatureClass, StopWhereClause, StopKey3, out MaxValue, out MinValue);
+                    Statistic(StopFeatureClass, StopWhereClause, StopKey3, out MaxValue, out MinValue);
                     //StopWhereClause = string.Format("{0}= {1} AND {2} = {3} ", StopKey, Key.Replace("路", "").Replace("区间", "").Replace("高峰大站车", "").Replace("线", ""), RoadKey2, item);
                     list.Add(new FeatureResult()
                     {
