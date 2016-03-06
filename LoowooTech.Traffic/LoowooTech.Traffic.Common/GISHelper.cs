@@ -213,11 +213,11 @@ namespace LoowooTech.Traffic.Common
             return list;
         }
 
-        public static void Statistic(IFeatureClass featureClass,string whereClause,string fieldName,out double maxValue,out double minValue)
+        public static void Statistic(IFeatureClass stopfeatureClass,string stopwhereClause,string fieldName,out double maxValue,out double minValue)
         {
             var queryFilter = new QueryFilterClass();
-            queryFilter.WhereClause = whereClause;
-            var featureCursor = featureClass.Search(queryFilter, false);
+            queryFilter.WhereClause = stopwhereClause;
+            var featureCursor = stopfeatureClass.Search(queryFilter, false);
             var statisticCursor = featureCursor as ICursor;
             var dataStatistic = new DataStatisticsClass();
             dataStatistic.Cursor = statisticCursor;
@@ -473,21 +473,21 @@ namespace LoowooTech.Traffic.Common
         public static string GetBusStopWhereClause(List<IFeature> List, int Index1,int Index2)
         {
             string WhereClause = string.Empty;
-            string lineNameshort = string.Empty;
+            string LineId_bus = string.Empty;
             string lineDirect = string.Empty;
             foreach (var feature in List)
             {
-                lineNameshort = feature.get_Value(Index1).ToString().Trim();
+                LineId_bus = feature.get_Value(Index1).ToString().Trim();
                 lineDirect = feature.get_Value(Index2).ToString().Trim();
-                if (!string.IsNullOrEmpty(lineNameshort)&&!string.IsNullOrEmpty(lineDirect))
+                if (!string.IsNullOrEmpty(LineId_bus)&&!string.IsNullOrEmpty(lineDirect))
                 {
                     if (string.IsNullOrEmpty(WhereClause))
                     {
-                        WhereClause += "lineNameshort = " + lineNameshort + " AND lineDirect = " + lineDirect + " ";
+                        WhereClause += "lineIdBus = " + LineId_bus + " AND lineDirect = " + lineDirect + " ";
                     }
                     else
                     {
-                        WhereClause += "OR lineNameshort = " + lineNameshort + " AND lineDirect = " + lineDirect + " "; 
+                        WhereClause += "OR lineIdBus = " + LineId_bus + " AND lineDirect = " + lineDirect + " "; 
                     }
                 }
             }
@@ -557,7 +557,6 @@ namespace LoowooTech.Traffic.Common
                     LineId = GetValue(feature, KeyIndex);
                     StopWhereClause = string.Format("{0} = {1} AND {2} = {3}", StopKey2, LineId,RoadKey2,item);
                     Statistic(StopFeatureClass, StopWhereClause, StopKey3, out MaxValue, out MinValue);
-                    //StopWhereClause = string.Format("{0}= {1} AND {2} = {3} ", StopKey, Key.Replace("路", "").Replace("区间", "").Replace("高峰大站车", "").Replace("线", ""), RoadKey2, item);
                     list.Add(new FeatureResult()
                     {
                         RoadWhereClause = RoadWhereClause,
@@ -569,6 +568,37 @@ namespace LoowooTech.Traffic.Common
                 }
             }
             return list;
+        }
+        public static string GetStartEndWhereClause(IFeatureClass roadFeatureClass,string roadWhereClause,IFeatureClass stopFeatureClass)
+        {
+            var whereClause = string.Empty;
+            var features = Search(roadFeatureClass, roadWhereClause);
+            var roadBusIdIndex = roadFeatureClass.Fields.FindField(System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY3"]);
+            var roadBusId_bus = string.Empty;
+            var stopBusIdField = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY4"];
+            var LineDirect = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY2"];
+            var LineDirectIndex = roadFeatureClass.Fields.FindField(LineDirect);
+            var LineDirectValue = string.Empty;
+            var stopIndexField = System.Configuration.ConfigurationManager.AppSettings["BUSSTOPKEY5"];
+            double MaxValue = .0;
+            double MinValue = .0;
+            var stopWhereClause = string.Empty;
+            foreach(var feature in features)
+            {
+                roadBusId_bus = GetValue(feature, roadBusIdIndex);
+                LineDirectValue = GetValue(feature, LineDirectIndex);
+                stopWhereClause = string.Format("{0} = {1} AND {2} = {3}", stopBusIdField, roadBusId_bus, LineDirect, LineDirectValue);
+                Statistic(stopFeatureClass, stopWhereClause, stopIndexField, out MaxValue, out MinValue);
+                if (string.IsNullOrEmpty(whereClause))
+                {
+                    whereClause += string.Format("{0} = {1} OR {0} = {2}", stopIndexField, MaxValue, MinValue);
+                }
+                else
+                {
+                    whereClause += string.Format(" OR {0} = {1} OR {0} = {2}", stopIndexField, MaxValue, MinValue);
+                }
+            }
+            return whereClause;
         }
         
         

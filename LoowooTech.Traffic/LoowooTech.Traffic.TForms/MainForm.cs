@@ -410,8 +410,10 @@ namespace LoowooTech.Traffic.TForms
             if (this.dataType == DataType.BusLine&&this.inquiryMode==InquiryMode.Filter)
             {
                 var list = GISHelper.Search(CurrentFeatureClass, WhereClause);
-                BusStopWhereClause = GISHelper.GetBusStopWhereClause(list,  CurrentFeatureClass.Fields.FindField("ShortName"), CurrentFeatureClass.Fields.FindField("lineDirect"));
+                BusStopWhereClause = GISHelper.GetBusStopWhereClause(list,  CurrentFeatureClass.Fields.FindField("LineId_bus"), CurrentFeatureClass.Fields.FindField("lineDirect"));
                 UpdateBase(BusStopName, BusStopWhereClause, BusStopFeatureClass,false,true);
+                var StartEndWhereClause = "(" + BusStopWhereClause + ") AND (" + GISHelper.GetStartEndWhereClause(CurrentFeatureClass, WhereClause, BusStopFeatureClass) + ")";
+                UpdateStartEnd(StartEndWhereClause, StartEndName, StartEndFeatureClass);
             }
             switch (this.inquiryMode)
             {

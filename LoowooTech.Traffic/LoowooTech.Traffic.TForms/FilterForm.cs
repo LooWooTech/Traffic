@@ -188,7 +188,7 @@ namespace LoowooTech.Traffic.TForms
                 {
                     values = comboBox10.Text;
                 }
-                WhereClause += comboBox7.SelectedItem.ToString().GetSQLChar() + " " + Fields[Index] + " " + comboBox3.SelectedItem.ToString().GetSQLChar() + " " + comboBox10.Text+" ";
+                WhereClause += comboBox7.SelectedItem.ToString().GetSQLChar() + " " + Fields[Index] + " " + comboBox3.SelectedItem.ToString().GetSQLChar() + " " + values+" ";
             }
             if (comboBox5.SelectedItem != null && comboBox6.SelectedItem != null &&comboBox8.SelectedItem!=null&&comboBox11.Text!=null&&!string.IsNullOrEmpty(comboBox11.Text)&&IndexDict.ContainsKey(comboBox6.SelectedItem.ToString()))
             {
@@ -201,7 +201,7 @@ namespace LoowooTech.Traffic.TForms
                 {
                     values = comboBox11.Text;
                 }
-                WhereClause += comboBox8.SelectedItem.ToString().GetSQLChar() +" "+ Fields[Index] +" "+ comboBox5.SelectedItem.ToString().GetSQLChar() +" "+ comboBox11.Text+" ";
+                WhereClause += comboBox8.SelectedItem.ToString().GetSQLChar() +" "+ Fields[Index] +" "+ comboBox5.SelectedItem.ToString().GetSQLChar() +" "+ values+" ";
             }
             MainForm form1 = (MainForm)this.Owner;
             form1.toolStripStatusLabel1.Text = WhereClause;
