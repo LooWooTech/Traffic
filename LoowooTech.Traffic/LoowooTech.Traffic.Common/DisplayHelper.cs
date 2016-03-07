@@ -23,5 +23,14 @@ namespace LoowooTech.Traffic.Common
             return GetRGBColor(int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SELECTRED"],out temp)?temp:0, int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SELECTGREEN"],out temp)?temp:0, int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SELECTBLUE"],out temp)?temp:0);
         }
 
+        public static ISimpleLineSymbol GetSimpleLineSymbol(IRgbColor rgbColor,double width)
+        {
+            var simpleLineSymbol = new SimpleLineSymbolClass();
+            simpleLineSymbol.Color = rgbColor;
+            simpleLineSymbol.Width = width;
+            simpleLineSymbol.Style = esriSimpleLineStyle.esriSLSSolid;
+            return simpleLineSymbol;
+        }
+
     }
 }

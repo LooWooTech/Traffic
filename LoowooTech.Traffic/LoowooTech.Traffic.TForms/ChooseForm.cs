@@ -59,8 +59,8 @@ namespace LoowooTech.Traffic.TForms
         {
             if (this.ResultList != null)
             {
-                this.Text += string.Format("    {0} 查询到{1}条记录", GISHelper.GetValue(this.ResultList[0].Feature, Number), this.ResultList.Count);
-                
+                //this.Text += string.Format("    {0} 查询到{1}条记录", GISHelper.GetValue(this.ResultList[0].Feature, Number), this.ResultList.Count);
+                this.label3.Text= string.Format("    {0} 查询到{1}条记录", GISHelper.GetValue(this.ResultList[0].Feature, Number), this.ResultList.Count);
                 this.button1.Text = Get(this.ResultList[0].Feature);
                 if (this.ResultList.Count == 1)
                 {

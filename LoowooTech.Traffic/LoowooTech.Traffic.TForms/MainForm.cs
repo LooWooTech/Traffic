@@ -285,6 +285,8 @@ namespace LoowooTech.Traffic.TForms
         private void DataRefesh(DataType dataType)
         {
             var list = new List<string>();
+            var currentPeopleWidth = double.Parse(System.Configuration.ConfigurationManager.AppSettings["PEOPLEWIDTH1"]);
+
             switch (dataType)
             {
                 case DataType.Road:
@@ -304,62 +306,116 @@ namespace LoowooTech.Traffic.TForms
                     list.Add(BikeName.GetLayer());
                     break;
                 case DataType.People:
+                    currentPeopleWidth= double.Parse(System.Configuration.ConfigurationManager.AppSettings["PEOPLEWIDTH2"]);
                     break;
             }
+            var simpleRenderer = new SimpleRendererClass();
+            simpleRenderer.Symbol = DisplayHelper.GetSimpleLineSymbol(DisplayHelper.GetRGBColor(178, 178, 178), currentPeopleWidth) as ISymbol;
+            var roadBackLayerName = System.Configuration.ConfigurationManager.AppSettings["RoadBackground"];
             if (dataType != DataType.Road)
             {
-                list.Add(System.Configuration.ConfigurationManager.AppSettings["RoadBackground"]);
+                list.Add(roadBackLayerName);
             }
-            ILayer layer = null;
-            IFeatureLayer featureLayer = null;
             string Ignore = System.Configuration.ConfigurationManager.AppSettings["Ignore"];
             short opacity = short.Parse(System.Configuration.ConfigurationManager.AppSettings["OPACITY2"]);
-            for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            var peopleOpacity = short.Parse(System.Configuration.ConfigurationManager.AppSettings["PEOPLEOPACITY"]);
+
+            var allFeatureLayers = GetAllFeatureLayer();
+            var flag = false;
+            var name = "";
+            foreach(var featureLayer in allFeatureLayers)
+            {
+                name = featureLayer.Name;
+                flag = list.Contains(name);
+                featureLayer.Visible = flag;
+                if (flag)
+                {
+                    if (name == roadBackLayerName)
+                    {
+                        var geoFeatureLayer = featureLayer as IGeoFeatureLayer;      
+                        geoFeatureLayer.Renderer = simpleRenderer as IFeatureRenderer;
+                    }
+                    ILayerEffects layerEffects = featureLayer as ILayerEffects;
+                    layerEffects.Transparency = name == BusStopName.GetLayer() ? opacity : name == BusLineName.GetLayer() ? opacity : dataType == DataType.People && name == roadBackLayerName ? peopleOpacity : (short)0;
+                }   
+            }
+            #region
+
+            //for (var i = 0; i < axMapControl1.Map.LayerCount; i++)
+            //{
+            //    layer = axMapControl1.Map.get_Layer(i);
+            //    if (layer.Name == Ignore)
+            //    {
+            //        continue;
+            //    }
+            //    if (layer is GroupLayer)
+            //    {
+            //        ICompositeLayer compositeLayer = layer as ICompositeLayer;
+                    
+            //        for (var j = 0; j < compositeLayer.Count; j++)
+            //        {
+            //            featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
+            //            if (list.Contains(featureLayer.Name))
+            //            {
+            //                featureLayer.Visible = true;
+            //                ILayerEffects layerEffects = featureLayer as ILayerEffects;
+            //                layerEffects.Transparency = featureLayer.Name == BusStopName.GetLayer() ? opacity : featureLayer.Name == BusLineName.GetLayer() ? opacity : (short)0;
+            //            }
+            //            else
+            //            {
+            //                featureLayer.Visible = false;
+            //            }
+            //        }
+            //    }
+            //    else if (layer is IFeatureLayer)
+            //    {
+            //        featureLayer = layer as IFeatureLayer;
+            //        if (list.Contains(featureLayer.Name))
+            //        {
+            //            featureLayer.Visible = true;
+            //            ILayerEffects layerEffects = featureLayer as ILayerEffects;
+            //            layerEffects.Transparency = featureLayer.Name == BusLineName.GetLayer() ? opacity : featureLayer.Name == BusStopName.GetLayer() ? opacity : (short)0;
+            //        }
+            //        else
+            //        {
+            //            featureLayer.Visible = false;
+            //        }
+            //    }
+            //}
+            #endregion
+            if (ExtentFeature != null)
+            {
+                axMapControl1.Extent = ExtentFeature.Shape.Envelope;
+            }
+            axMapControl1.ActiveView.Refresh();
+        }
+
+        private List<IFeatureLayer> GetAllFeatureLayer()
+        {
+            var list = new List<IFeatureLayer>();
+            string Ignore = System.Configuration.ConfigurationManager.AppSettings["Ignore"];
+            ILayer layer = null;
+            ICompositeLayer compositeLayer = null;
+            for(var i = 0; i < axMapControl1.Map.LayerCount; i++)
             {
                 layer = axMapControl1.Map.get_Layer(i);
                 if (layer.Name == Ignore)
                 {
                     continue;
                 }
-                if (layer is GroupLayer)
+                if(layer is GroupLayer)
                 {
-                    ICompositeLayer compositeLayer = layer as ICompositeLayer;
-                    
-                    for (var j = 0; j < compositeLayer.Count; j++)
+                    compositeLayer = layer as ICompositeLayer;
+                    for(var j = 0; j < compositeLayer.Count; j++)
                     {
-                        featureLayer = compositeLayer.get_Layer(j) as IFeatureLayer;
-                        if (list.Contains(featureLayer.Name))
-                        {
-                            featureLayer.Visible = true;
-                            ILayerEffects layerEffects = featureLayer as ILayerEffects;
-                            layerEffects.Transparency = featureLayer.Name == BusStopName.GetLayer() ? opacity : featureLayer.Name == BusLineName.GetLayer() ? opacity : (short)0;
-                        }
-                        else
-                        {
-                            featureLayer.Visible = false;
-                        }
+                        list.Add(compositeLayer.get_Layer(j) as IFeatureLayer);
                     }
-                }
-                else if (layer is IFeatureLayer)
+                }else if(layer is IFeatureLayer)
                 {
-                    featureLayer = layer as IFeatureLayer;
-                    if (list.Contains(featureLayer.Name))
-                    {
-                        featureLayer.Visible = true;
-                        ILayerEffects layerEffects = featureLayer as ILayerEffects;
-                        layerEffects.Transparency = featureLayer.Name == BusLineName.GetLayer() ? opacity : featureLayer.Name == BusStopName.GetLayer() ? opacity : (short)0;
-                    }
-                    else
-                    {
-                        featureLayer.Visible = false;
-                    }
+                    list.Add(layer as IFeatureLayer);
                 }
             }
-            if (ExtentFeature != null)
-            {
-                axMapControl1.Extent = ExtentFeature.Shape.Envelope;
-            }
-            axMapControl1.ActiveView.Refresh();
+            return list;
         }
         public void ConditionControlCenter()
         {

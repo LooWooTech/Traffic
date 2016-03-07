@@ -277,7 +277,7 @@
             this.ribbonTab1.Panels.Add(this.ribbonPanel20);
             this.ribbonTab1.Panels.Add(this.ribbonPanel21);
             this.ribbonTab1.Panels.Add(this.ribbonPanel6);
-            this.ribbonTab1.Text = "路网相关";
+            this.ribbonTab1.Text = "路网";
             // 
             // ribbonPanel1
             // 
@@ -447,7 +447,7 @@
             this.ribbonTab2.Panels.Add(this.ribbonPanel18);
             this.ribbonTab2.Panels.Add(this.ribbonPanel22);
             this.ribbonTab2.Panels.Add(this.ribbonPanel23);
-            this.ribbonTab2.Text = "公交相关";
+            this.ribbonTab2.Text = "公交";
             // 
             // ribbonPanel4
             // 
@@ -588,7 +588,7 @@
             this.ribbonTab3.Panels.Add(this.ribbonPanel8);
             this.ribbonTab3.Panels.Add(this.ribbonPanel9);
             this.ribbonTab3.Panels.Add(this.ribbonPanel10);
-            this.ribbonTab3.Text = "停车设施相关";
+            this.ribbonTab3.Text = "停车设施";
             // 
             // ribbonPanel7
             // 
@@ -839,7 +839,7 @@
             this.ribbonTab5.Panels.Add(this.ribbonPanel15);
             this.ribbonTab5.Panels.Add(this.ribbonPanel16);
             this.ribbonTab5.Panels.Add(this.ribbonPanel17);
-            this.ribbonTab5.Text = "公共自行车相关";
+            this.ribbonTab5.Text = "公共自行车";
             // 
             // ribbonPanel15
             // 
@@ -913,7 +913,7 @@
             // 
             this.ribbonTab7.Panels.Add(this.ribbonPanel24);
             this.ribbonTab7.Panels.Add(this.ribbonPanel25);
-            this.ribbonTab7.Text = "人口岗位相关";
+            this.ribbonTab7.Text = "人口岗位";
             // 
             // ribbonPanel24
             // 

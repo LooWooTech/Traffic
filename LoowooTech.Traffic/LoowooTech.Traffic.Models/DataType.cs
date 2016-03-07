@@ -8,19 +8,19 @@ namespace LoowooTech.Traffic.Models
 {
     public enum DataType
     {
-        [Description("路网相关")]
+        [Description("路网")]
         Road,
-        [Description("公交相关")]
+        [Description("公交")]
         BusLine,
         [Description("公交站点")]
         BusStop,
-        [Description("停车设施相关")]
+        [Description("停车设施")]
         Parking,
-        [Description("公共自行车相关")]
+        [Description("公共自行车")]
         Bike,
         [Description("交通流量检测器")]
         Flow,
-        [Description("人口岗位相关")]
+        [Description("人口岗位")]
         People
     }
     public enum PeoplePost

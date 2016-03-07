@@ -33,7 +33,7 @@ namespace LoowooTech.Traffic.TForms
                     Form.Power();
                 }
                     
-                MessageBox.Show("成功登陆"+user.Role.GetDescription()+" 用户:"+user.Name);
+                MessageBox.Show("成功登陆"+user.Role.GetDescription().Trim()+" 用户:"+user.Name.Trim());
                 this.Close();
             }
             else
