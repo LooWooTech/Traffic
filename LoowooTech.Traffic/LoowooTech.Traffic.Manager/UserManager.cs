@@ -72,6 +72,19 @@ namespace LoowooTech.Traffic.Manager
             return false;
         }
 
+        public void Edit(User user)
+        {
+            using (var db = GetTrafficDataContext())
+            {
+                var entry = db.Users.Find(user.ID);
+                if (entry != null)
+                {
+                    db.Entry(entry).CurrentValues.SetValues(user);
+                    db.SaveChanges();
+                }
+            }
+        }
+
         public List<User> GetList()
         {
             using (var db = GetTrafficDataContext())

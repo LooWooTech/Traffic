@@ -33,6 +33,7 @@
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
             this.AddUser = new System.Windows.Forms.RibbonButton();
+            this.ReSetPassword = new System.Windows.Forms.RibbonButton();
             this.EditUser = new System.Windows.Forms.RibbonButton();
             this.DeleteUser = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
@@ -76,6 +77,7 @@
             // ribbonPanel1
             // 
             this.ribbonPanel1.Items.Add(this.AddUser);
+            this.ribbonPanel1.Items.Add(this.ReSetPassword);
             this.ribbonPanel1.Items.Add(this.EditUser);
             this.ribbonPanel1.Items.Add(this.DeleteUser);
             this.ribbonPanel1.Text = "";
@@ -86,6 +88,13 @@
             this.AddUser.SmallImage = ((System.Drawing.Image)(resources.GetObject("AddUser.SmallImage")));
             this.AddUser.Text = "添加用户";
             this.AddUser.Click += new System.EventHandler(this.AddUser_Click);
+            // 
+            // ReSetPassword
+            // 
+            this.ReSetPassword.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Key_32x32;
+            this.ReSetPassword.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Key_16x16;
+            this.ReSetPassword.Text = "重置密码";
+            this.ReSetPassword.Click += new System.EventHandler(this.ReSetPassword_Click);
             // 
             // EditUser
             // 
@@ -151,6 +160,6 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel2;
         private System.Windows.Forms.RibbonButton btnClose;
         private System.Windows.Forms.DataGridView dataGridView1;
-
+        private System.Windows.Forms.RibbonButton ReSetPassword;
     }
 }

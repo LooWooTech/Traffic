@@ -110,6 +110,12 @@
     <Compile Include="BusStopForm.Designer.cs">
       <DependentUpon>BusStopForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChooseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BusStopForm.resx">
       <DependentUpon>BusStopForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChooseForm.resx">
       <DependentUpon>ChooseForm.cs</DependentUpon>
@@ -452,6 +461,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Meeting_16px_500796_easyicon.net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Key_16x16.png" />
+    <Content Include="Resources\Key_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

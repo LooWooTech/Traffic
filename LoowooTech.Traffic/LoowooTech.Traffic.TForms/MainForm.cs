@@ -193,6 +193,10 @@ namespace LoowooTech.Traffic.TForms
                     this.ribbonPanel14.Visible = false;
                     this.ribbonTab6.Visible = false;
                 }
+                if (this.CurrentUser.Role == Role.Admin)
+                {
+                    this.ribbonTab8.Visible = false;
+                }
             }
         }
         
@@ -1880,6 +1884,12 @@ namespace LoowooTech.Traffic.TForms
         private void axMapControl1_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
         {
 
+        }
+
+        private void PasswordButton_Click(object sender, EventArgs e)
+        {
+            var change = new ChangePasswordForm(CurrentUser);
+            change.ShowDialog();
         }
     }
     

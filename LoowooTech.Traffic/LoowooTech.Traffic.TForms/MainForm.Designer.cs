@@ -140,6 +140,7 @@
             this.CurrentPostDensity = new System.Windows.Forms.RibbonButton();
             this.PlanPost = new System.Windows.Forms.RibbonButton();
             this.PlanPostDensity = new System.Windows.Forms.RibbonButton();
+            this.ribbonTab8 = new System.Windows.Forms.RibbonTab();
             this.ribbonTab6 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel19 = new System.Windows.Forms.RibbonPanel();
             this.btnAddUser = new System.Windows.Forms.RibbonButton();
@@ -152,6 +153,8 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.Safe = new System.Windows.Forms.RibbonPanel();
+            this.PasswordButton = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -195,6 +198,7 @@
             this.ribbon1.Tabs.Add(this.ribbonTab4);
             this.ribbon1.Tabs.Add(this.ribbonTab5);
             this.ribbon1.Tabs.Add(this.ribbonTab7);
+            this.ribbon1.Tabs.Add(this.ribbonTab8);
             this.ribbon1.Tabs.Add(this.ribbonTab6);
             this.ribbon1.TabsMargin = new System.Windows.Forms.Padding(12, 26, 20, 0);
             this.ribbon1.Text = "ribbon1";
@@ -987,6 +991,11 @@
             this.PlanPostDensity.Text = "规划岗位密度";
             this.PlanPostDensity.Click += new System.EventHandler(this.PlanPostDensity_Click);
             // 
+            // ribbonTab8
+            // 
+            this.ribbonTab8.Panels.Add(this.Safe);
+            this.ribbonTab8.Text = "安全设置";
+            // 
             // ribbonTab6
             // 
             this.ribbonTab6.Panels.Add(this.ribbonPanel19);
@@ -1081,6 +1090,18 @@
             this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnAfterDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterDrawEventHandler(this.axMapControl1_OnAfterDraw);
+            // 
+            // Safe
+            // 
+            this.Safe.Items.Add(this.PasswordButton);
+            this.Safe.Text = "安全";
+            // 
+            // PasswordButton
+            // 
+            this.PasswordButton.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Key_32x32;
+            this.PasswordButton.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Key_16x16;
+            this.PasswordButton.Text = "修改密码";
+            this.PasswordButton.Click += new System.EventHandler(this.PasswordButton_Click);
             // 
             // MainForm
             // 
@@ -1233,6 +1254,8 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel26;
         private System.Windows.Forms.RibbonButton RegionStatistic;
         private System.Windows.Forms.RibbonButton XZQStatistic;
-        
+        private System.Windows.Forms.RibbonTab ribbonTab8;
+        private System.Windows.Forms.RibbonPanel Safe;
+        private System.Windows.Forms.RibbonButton PasswordButton;
     }
 }

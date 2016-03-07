@@ -108,5 +108,21 @@ namespace LoowooTech.Traffic.TForms
                 }
             }
         }
+
+        private void ReSetPassword_Click(object sender, EventArgs e)
+        {
+            var ID = GetID();
+            if (ID != -1)
+            {
+                var user = Tool.Search(ID);
+                if (user.Name.Trim().ToUpper() == "Admin".Trim().ToUpper())
+                {
+                    MessageBox.Show("当前禁止重置超级管理员密码");
+                    return;
+                }
+                var form = new ChangePasswordForm(user, true);
+                form.ShowDialog();
+            }
+        }
     }
 }
