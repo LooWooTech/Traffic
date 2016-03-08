@@ -1861,8 +1861,11 @@ namespace LoowooTech.Traffic.TForms
         private void XZQStatistic_Click(object sender, EventArgs e)
         {
             var dict = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", "BERTHNUM");
-            StatisticsForm statisticform = new StatisticsForm(dict, "");
-            statisticform.ShowDialog();
+            var dict2 = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", null);
+            var form = new Statistic2Form(dict, dict2, "", "");
+            form.ShowDialog();
+            //StatisticsForm statisticform = new StatisticsForm(dict, "各个行政区的泊位数统计图");
+            //statisticform.ShowDialog();
         }
 
         //停车场  框选统计

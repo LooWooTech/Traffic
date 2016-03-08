@@ -41,7 +41,7 @@ namespace LoowooTech.Traffic.Common
             Save(workbook, FilePath);
             return true;
         }
-        public static Dictionary<string, int> Statistic(DataTable DataTable,string FieldName)
+        public static Dictionary<string, double> Statistic(DataTable DataTable,string FieldName)
         {
             int Index = 0;
             for (var i = 0; i < DataTable.Columns.Count; i++)
@@ -53,7 +53,7 @@ namespace LoowooTech.Traffic.Common
                 }
             }
             string val = string.Empty;
-            var dict = new Dictionary<string, int>();
+            var dict = new Dictionary<string, double>();
             for (var i = 0; i < DataTable.Rows.Count; i++)
             {
                 val = DataTable.Rows[i][Index].ToString();

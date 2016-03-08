@@ -121,8 +121,6 @@ namespace LoowooTech.Traffic.Common
             ESRI.ArcGIS.AnalysisTools.Buffer buffer = new ESRI.ArcGIS.AnalysisTools.Buffer(Feature, @"F:\Github\Traffic\LoowooTech.Traffic\LoowooTech.Traffic\bin\Debug\Temp\output.shp", "1 Kilometers");
             gp.Execute(buffer, null);
         }
-
-        
         public static IGeometry WMerge(this IGeometry Sgeometry,IGeometry geometry)
         {
             IGeometryCollection geometryCollection = new GeometryBagClass();
@@ -212,7 +210,6 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return list;
         }
-
         public static void Statistic(IFeatureClass stopfeatureClass,string stopwhereClause,string fieldName,out double maxValue,out double minValue)
         {
             var queryFilter = new QueryFilterClass();
@@ -235,7 +232,6 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return feature;
         }
-        
         /// <summary>
         /// 空间搜索
         /// </summary>
@@ -282,7 +278,6 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return list;
         }
-
         /// <summary>
         /// 获取要素类中某一个字段中的唯一属性值
         /// </summary>
@@ -316,7 +311,6 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(cursor);
             return list;
         }
-
         public static Dictionary<string,double> Statistic(IFeatureClass FeatureClass,string LabelName ,string FieldName,IGeometry Geometry=null)
         {
             var dict = new Dictionary<string, double>();
@@ -325,24 +319,53 @@ namespace LoowooTech.Traffic.Common
             {
                 IField field = FeatureClass.Fields.get_Field(Index);
                 var valList = GetUniqueValue(FeatureClass, LabelName);//获取标注字段的唯一值
+                var whereClause = string.Empty;
                 foreach (var val in valList)
                 {
                     if (!dict.ContainsKey(val) && !string.IsNullOrEmpty(val))
                     {
                         if (field.Type == esriFieldType.esriFieldTypeString)
                         {
-                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = '" + val+"'",null,Geometry));
+                            whereClause = LabelName + " = '" + val + "'";
                         }
                         else
                         {
-                            dict.Add(val, Statistic2(FeatureClass, FieldName, LabelName + " = " + val,null,Geometry));
+                            whereClause = LabelName + " = " + val;
                         }
+                        dict.Add(val, Statistic2(FeatureClass, whereClause, FieldName, null, Geometry));
                     }
                 }
             }
             return dict;
         }
-        
+        //public static Dictionary<string,double> Statistic(IFeatureClass featureClass,string labelName,IGeometry geometry = null)
+        //{
+        //    var dict = new Dictionary<string, double>();
+        //    var index = featureClass.Fields.FindField(labelName);
+        //    if (index != -1)
+        //    {
+        //        var field = featureClass.Fields.get_Field(index);
+        //        var valList = GetUniqueValue(featureClass, labelName);
+        //        var whereClause = string.Empty;
+        //        foreach(var val in valList)
+        //        {
+        //            if (!dict.ContainsKey(val) && !string.IsNullOrEmpty(val))
+        //            {
+        //                if (field.Type == esriFieldType.esriFieldTypeString)
+        //                {
+        //                    whereClause = string.Format("{0} = '{1}'", labelName, val);
+        //                }
+        //                else
+        //                {
+        //                    whereClause = string.Format("{0} = {1}", labelName, val);
+        //                }
+
+
+        //            }
+        //        }
+        //    }
+        //    return dict;
+        //}
         public static Dictionary<string, double> Statistic(IFeatureClass FeatureClass, StatisticMode Mode)
         {
             
@@ -360,7 +383,7 @@ namespace LoowooTech.Traffic.Common
             {
                 if (!dict.ContainsKey(item) && !string.IsNullOrEmpty(item))
                 {
-                    dict.Add(item, Statistic2(FeatureClass, "LENGTH", "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'", "DISTRICT='" + item + "' AND RANK='快速路'"));
+                    dict.Add(item, Statistic2(FeatureClass,  "DISTRICT='" + item + "' AND RANK <> '匝道' AND RANK <> '连杆道路' AND RANK <> '步行街'", "LENGTH", "DISTRICT='" + item + "' AND RANK='快速路'"));
                 }
             }
             return dict;
@@ -387,6 +410,19 @@ namespace LoowooTech.Traffic.Common
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             }
             return dict;
+        }
+        private static double Statistic2(ICursor cursor,string fieldName,IFeatureClass featureClass)
+        {
+            var dataStatistic = new DataStatisticsClass();
+            dataStatistic.Cursor = cursor;
+            dataStatistic.Field = fieldName;
+            if (string.IsNullOrEmpty(fieldName))
+            {
+                dataStatistic.Field = featureClass.Fields.get_Field(1).Name;
+                
+                return dataStatistic.Statistics.Count;
+            }
+            return dataStatistic.Statistics.Sum;
         }
         public static double Statistic2(IFeatureClass FeatureClass, string FieldName,IFeature Feature,string WhererClause)
         {
@@ -422,8 +458,7 @@ namespace LoowooTech.Traffic.Common
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
             return statisticVal;
         }
-
-        public static double Statistic2(IFeatureClass FeatureClass, string FieldName,string WhereClause,string WhereClause2=null,IGeometry Geometry=null)
+        public static double Statistic2(IFeatureClass FeatureClass, string WhereClause,string fieldName,string WhereClause2=null,IGeometry Geometry=null)
         {
             IFeatureCursor featureCursor = null;
             IQueryFilter queryFilter = new QueryFilterClass();
@@ -443,15 +478,16 @@ namespace LoowooTech.Traffic.Common
             
             ICursor cursor = featureCursor as ICursor;
             double statisticVal = 0.0;
-            IDataStatistics dataStatistic;
-            IStatisticsResults statisticsResluts;
+            //IDataStatistics dataStatistic;
+            //IStatisticsResults statisticsResluts;
             if (cursor != null)
             {
-                dataStatistic = new DataStatisticsClass();
-                dataStatistic.Cursor = cursor;
-                dataStatistic.Field = FieldName;
-                statisticsResluts = dataStatistic.Statistics;
-                statisticVal=statisticsResluts.Sum;
+                statisticVal = Statistic2(cursor, fieldName, FeatureClass);
+                //dataStatistic = new DataStatisticsClass();
+                //dataStatistic.Cursor = cursor;
+                //dataStatistic.Field = fieldName;
+                //statisticsResluts = dataStatistic.Statistics;
+                //statisticVal=statisticsResluts.Sum;
             }
             if (!string.IsNullOrEmpty(WhereClause2))
             {
@@ -460,11 +496,12 @@ namespace LoowooTech.Traffic.Common
                 cursor = featureCursor as ICursor;
                 if (cursor != null)
                 {
-                    dataStatistic = new DataStatisticsClass();
-                    dataStatistic.Cursor = cursor;
-                    dataStatistic.Field = FieldName;
-                    statisticsResluts = dataStatistic.Statistics;
-                    statisticVal -= statisticsResluts.Sum / 2;
+                    statisticVal -= Statistic2(cursor, fieldName, FeatureClass) / 2;
+                    //dataStatistic = new DataStatisticsClass();
+                    //dataStatistic.Cursor = cursor;
+                    //dataStatistic.Field = fieldName;
+                    //statisticsResluts = dataStatistic.Statistics;
+                    //statisticVal -= statisticsResluts.Sum / 2;
                 }
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
@@ -519,7 +556,6 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
-
         public static string GetValue(IFeature Feature, int Index)
         {
             string values = string.Empty;
@@ -600,9 +636,5 @@ namespace LoowooTech.Traffic.Common
             }
             return whereClause;
         }
-        
-        
-        
-
     }
 }

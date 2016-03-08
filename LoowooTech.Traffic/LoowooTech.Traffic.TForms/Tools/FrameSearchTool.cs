@@ -148,7 +148,6 @@ namespace LoowooTech.Traffic.TForms.Tools
                 var sum = ExcelHelper.Statistic2(data, System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY2"]);
                 var form = new StatisticsForm(dict, "当前框选区域停车设施情况", sum,Father.ParkingName,ParkingKey);
                 form.ShowDialog();
-                //var features = GISHelper.Search(FeatureLayer.FeatureClass, geometry, Models.SpaceMode.Contains);
             }
         }
         public override void OnMouseDown(int Button, int Shift, int X, int Y)
