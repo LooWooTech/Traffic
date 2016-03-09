@@ -25,7 +25,7 @@ namespace LoowooTech.Traffic.Common
         {
             IndexDict = GISHelper.GetFieldIndexDict(FeatureClass,AddFieldName);
         }
-        private static void Tranlate(string LayerName)
+        private static void Tranlate(string LayerName) 
         {
             FieldDict = LayerInfoHelper.GetLayerDictionary(LayerName);
         }

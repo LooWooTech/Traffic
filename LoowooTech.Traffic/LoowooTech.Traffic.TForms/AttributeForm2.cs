@@ -137,8 +137,10 @@ namespace LoowooTech.Traffic.TForms
             string Parkingkey1 = System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY1"];
             string Parkingkey2 = System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY2"];
             var dict = ExcelHelper.Statistic(dataGridView1.DataSource as DataTable, Parkingkey1);
-            var sum = ExcelHelper.Statistic2(dataGridView1.DataSource as DataTable, Parkingkey2);
-            StatisticsForm form = new StatisticsForm(dict, "当前区域内停车设施情况",sum,Father.ParkingName,Parkingkey1);
+            var dict2 = ExcelHelper.Statistic2(dataGridView1.DataSource as DataTable, Parkingkey1,Parkingkey2);
+            //var sum = ExcelHelper.Statistic2(dataGridView1.DataSource as DataTable, Parkingkey2);
+            var form= new Statistic2Form(dict2, dict, "当前框选区域停车场泊车位统计图", "当前框选区域停车场个数统计图");
+            //StatisticsForm form = new StatisticsForm(dict, "当前区域内停车设施情况",sum,Father.ParkingName,Parkingkey1);
             form.ShowDialog();
         }
 

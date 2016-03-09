@@ -41,17 +41,22 @@ namespace LoowooTech.Traffic.Common
             Save(workbook, FilePath);
             return true;
         }
-        public static Dictionary<string, double> Statistic(DataTable DataTable,string FieldName)
+        private static int GetIndex(DataTable dataTable,string fieldName)
         {
-            int Index = 0;
-            for (var i = 0; i < DataTable.Columns.Count; i++)
+            var index = 0;
+            for (var i = 0; i < dataTable.Columns.Count; i++)
             {
-                if (DataTable.Columns[i].ToString() == FieldName)
+                if (dataTable.Columns[i].ToString() == fieldName)
                 {
-                    Index = i;
+                    index = i;
                     break;
                 }
             }
+            return index;
+        }
+        public static Dictionary<string, double> Statistic(DataTable DataTable,string FieldName)
+        {
+            int Index = GetIndex(DataTable, FieldName);
             string val = string.Empty;
             var dict = new Dictionary<string, double>();
             for (var i = 0; i < DataTable.Rows.Count; i++)
@@ -71,6 +76,33 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
+        public static Dictionary<string,double> Statistic2(DataTable dataTable,string labelName,string statisticName)
+        {
+            var labelIndex = GetIndex(dataTable, labelName);
+            var statisticIndex = GetIndex(dataTable, statisticName);
+            
+            var dict = new Dictionary<string, double>();
+            var key = "";
+            var val = .0;
+            for (var i = 0; i < dataTable.Rows.Count; i++)
+            {
+                key = dataTable.Rows[i][labelIndex].ToString();
+                if(double.TryParse(dataTable.Rows[i][statisticIndex].ToString(),out val))
+                {
+                    if (dict.ContainsKey(key))
+                    {
+                        dict[key] += val;
+                    }
+                    else
+                    {
+                        dict.Add(key, val);
+                    }
+                }
+               
+            }
+            return dict;
+        }
+
         public static int Statistic2(DataTable DataTable, string FieldName)
         {
             int Index = 0;

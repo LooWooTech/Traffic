@@ -1862,7 +1862,7 @@ namespace LoowooTech.Traffic.TForms
         {
             var dict = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", "BERTHNUM");
             var dict2 = GISHelper.Statistic(ParkingFeatureClass, "ZHENGQU", null);
-            var form = new Statistic2Form(dict, dict2, "", "");
+            var form = new Statistic2Form(dict, dict2, "各个行政区内停车泊位数统计图", "各个行政区内停车场个数统计图");
             form.ShowDialog();
             //StatisticsForm statisticform = new StatisticsForm(dict, "各个行政区的泊位数统计图");
             //statisticform.ShowDialog();

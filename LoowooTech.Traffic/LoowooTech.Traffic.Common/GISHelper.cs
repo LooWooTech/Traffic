@@ -60,6 +60,14 @@ namespace LoowooTech.Traffic.Common
             }
             return dict;
         }
+        /// <summary>
+        /// 创建一个新的FeatureClass
+        /// </summary>
+        /// <param name="FeatureWorkspace">要素命名空间</param>
+        /// <param name="Name">名称</param>
+        /// <param name="esriGeometryType">类型</param>
+        /// <param name="FieldDict">字段已经类型</param>
+        /// <returns></returns>
         private static IFeatureClass Create(IFeatureWorkspace FeatureWorkspace, string Name, ESRI.ArcGIS.Geometry.esriGeometryType esriGeometryType,Dictionary<string,esriFieldType> FieldDict)
         {
             IFields pFields = new FieldsClass();
@@ -105,6 +113,12 @@ namespace LoowooTech.Traffic.Common
             return featureClass;
 
         }
+        /// <summary>
+        /// 保存要素类
+        /// </summary>
+        /// <param name="SourceFeatureClass">保存的要素类</param>
+        /// <param name="WhererClause">筛选条件</param>
+        /// <param name="SaveFilePath">保存路径</param>
         public static void Save2(IFeatureClass SourceFeatureClass,string WhererClause,string SaveFilePath)
         {
             Geoprocessor gp = new Geoprocessor();
@@ -129,18 +143,6 @@ namespace LoowooTech.Traffic.Common
             ITopologicalOperator unionedpolygon = new PolygonClass();
             unionedpolygon.ConstructUnion(geometryCollection as IEnumGeometry);
             return unionedpolygon as IGeometry;
-            //IArray array = new ArrayClass();
-            //array.Add(Sgeometry);
-            //array.Add(geometry);
-            //IBasicGeoprocessor basicGeoprocessor = new BasicGeoprocessorClass();
-            ////basicGeoprocessor.Merge(array,)
-            //IGeometry result = new PolygonClass();
-            //Geoprocessor gp = new Geoprocessor();
-            //ESRI.ArcGIS.DataManagementTools.Merge merge = new ESRI.ArcGIS.DataManagementTools.Merge();
-            //merge.inputs = Sgeometry + ";" + geometry;
-            //merge.output = result;
-            //gp.Execute(merge, null);
-            //return result;
         }
         public static void Save(IFeatureClass SourceFeatureClass, string WhereClause, string SaveFilePath)
         {

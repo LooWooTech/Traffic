@@ -144,9 +144,12 @@ namespace LoowooTech.Traffic.TForms.Tools
                 Dictionary<int,IFeature> temp;
                 var data = AttributeHelper.GetTable(FeatureLayer.FeatureClass, null, out temp, geometry, Models.SpaceMode.Contains);
                 var ParkingKey = System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY1"];
-                var dict = ExcelHelper.Statistic(data, ParkingKey);
-                var sum = ExcelHelper.Statistic2(data, System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY2"]);
-                var form = new StatisticsForm(dict, "当前框选区域停车设施情况", sum,Father.ParkingName,ParkingKey);
+                var statisticKey = System.Configuration.ConfigurationManager.AppSettings["PARKINGKEY2"];
+                var dict = ExcelHelper.Statistic(data, ParkingKey);//停车场数
+                //var sum = ExcelHelper.Statistic2(data, statisticKey);
+                var dict2 = ExcelHelper.Statistic2(data, ParkingKey, statisticKey);//总泊位数
+                var form = new Statistic2Form(dict2, dict, "当前框选区域停车场泊车位统计图", "当前框选区域停车场个数统计图");
+                //var form = new StatisticsForm(dict, "当前框选区域停车设施情况", sum,Father.ParkingName,ParkingKey);
                 form.ShowDialog();
             }
         }
