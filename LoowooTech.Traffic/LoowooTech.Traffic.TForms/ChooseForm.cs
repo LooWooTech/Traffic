@@ -66,8 +66,9 @@ namespace LoowooTech.Traffic.TForms
                 {
                     this.button2.Visible = false;
                     this.label2.Visible = false;
-                    this.splitContainer1.Panel2.Height = 100;
-                    this.Height = 150;
+                    
+                    //this.splitContainer1.Panel2.Height = 100;
+                    this.Height = 195;
                 }
                 else
                 {

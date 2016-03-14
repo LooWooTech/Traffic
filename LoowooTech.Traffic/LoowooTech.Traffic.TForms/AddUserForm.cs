@@ -15,6 +15,11 @@ namespace LoowooTech.Traffic.TForms
     public partial class AddUserForm : Form
     {
         private User CurrentUser { get; set; }
+        private UserForm _father { get
+            {
+                return this.Owner == null ? null : this.Owner as UserForm;
+            }
+        }
         public AddUserForm(User user=null)
         {
             InitializeComponent();
@@ -76,7 +81,10 @@ namespace LoowooTech.Traffic.TForms
                         MessageBox.Show("修改权限失败!");
                     }
                 }
-                
+                if (_father != null)
+                {
+                    _father.ReadData();
+                }
                 this.Close();
             }
             else

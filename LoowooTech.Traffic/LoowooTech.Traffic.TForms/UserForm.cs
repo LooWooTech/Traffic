@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace LoowooTech.Traffic.TForms
 {
+    delegate void DataDelegate(DataTable dt);
     public partial class UserForm : Form
     {
         private List<User> List { get; set; }
@@ -25,15 +26,34 @@ namespace LoowooTech.Traffic.TForms
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-            try
+            ReadData();
+        }
+        private void RefreshData(DataTable datatable)
+        {
+            if (this.InvokeRequired)
             {
-                this.dataGridView1.DataSource = AttributeHelper.GetTable(this.List);
+                this.Invoke(new DataDelegate(RefreshData), new[] { datatable });
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.ToString());
+                try
+                {
+                    this.dataGridView1.DataSource = null;
+                    this.dataGridView1.DataSource = datatable;
+
+                    this.dataGridView1.Refresh();
+                    this.dataGridView1.Update();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            
+        }
+        public void ReadData()
+        {
+            var data= AttributeHelper.GetTable(this.List).GetChanges();
+            RefreshData(data);
         }
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
@@ -47,8 +67,8 @@ namespace LoowooTech.Traffic.TForms
 
         private void AddUser_Click(object sender, EventArgs e)
         {
-            AddUserForm form = new AddUserForm();
-            form.ShowDialog();
+            AddUserForm form = new AddUserForm(null);
+            form.ShowDialog(this);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -80,11 +100,12 @@ namespace LoowooTech.Traffic.TForms
                 var user = Tool.Search(ID);
                 if (user != null)
                 {
-                    if (MessageBox.Show("您确定要删除" + user.Name, "警告", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    if (MessageBox.Show("您确定要删除" + user.Name.Trim(), "警告", MessageBoxButtons.OKCancel) == DialogResult.OK)
                     {
                         if (Tool.Delete(ID))
                         {
                             MessageBox.Show("删除用户成功！");
+                            ReadData();
                         }
                         else
                         {
