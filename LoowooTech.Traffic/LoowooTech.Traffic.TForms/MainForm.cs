@@ -119,6 +119,7 @@ namespace LoowooTech.Traffic.TForms
         private IFeatureClass FlowFeatureClass { get; set; }
         public IFeatureClass StartEndFeatureClass { get; set; }
         private IFeatureClass XZQFeatureClass { get; set; }
+        private IFeatureClass PeopleFeatureClass { get; set; }
         private IFeature ExtentFeature { get; set; }
         private INewPolygonFeedback newPolygonFeedback { get; set; }
         private MapControl MapControl { get; set; }
@@ -192,6 +193,15 @@ namespace LoowooTech.Traffic.TForms
                     this.ribbonPanel10.Visible = false;
                     this.ribbonPanel14.Visible = false;
                     this.ribbonTab6.Visible = false;
+
+                    #region  关闭普通用户导出SHP功能  2016-05-26
+                    this.ExportRoadSHP.Visible = false;
+                    this.ExportBusShp.Visible = false;
+                    this.ExportParkingSHP.Visible = false;
+                    this.ExportFlowSHP.Visible = false;
+                    this.ExportBikeSHP.Visible = false;
+                    this.ExportPeopleSHP.Visible = false;
+                    #endregion
                 }
                 if (this.CurrentUser.Role == Role.Admin)
                 {
@@ -234,6 +244,7 @@ namespace LoowooTech.Traffic.TForms
             FlowFeatureClass = SDEManager.GetFeatureClass(FlowName);
             StartEndFeatureClass = SDEManager.GetFeatureClass(StartEndName);
             XZQFeatureClass = SDEManager.GetFeatureClass(XZQName);
+            PeopleFeatureClass = SDEManager.GetFeatureClass(ConfigurationManager.AppSettings["PEOPLE"]);
             StartField = BusLineFeatureClass.FindField(System.Configuration.ConfigurationManager.AppSettings["START"]);
             EndField = BusLineFeatureClass.FindField(System.Configuration.ConfigurationManager.AppSettings["END"]);
             ExtentFeature = GISHelper.Search2(SDEManager.GetFeatureClass(System.Configuration.ConfigurationManager.AppSettings["SCALE"]), null);
@@ -791,7 +802,13 @@ namespace LoowooTech.Traffic.TForms
             ExportSHPBase(BikeFeatureClass, BikeWhereClause, saveSHPPath);
         }
 
-        
+        private void ExportPeopleSHP_Click(object sender, EventArgs e)
+        {
+            var saveSHPPath = FileHelper.Save("导出人口岗位Shapefile文件", "SHP文件|*.shp");
+            ExportSHPBase(PeopleFeatureClass, "", saveSHPPath);
+        }
+
+
         #endregion
 
         #region 导出图片
@@ -837,6 +854,13 @@ namespace LoowooTech.Traffic.TForms
         private void btnExpImgBike_Click(object sender, EventArgs e)
         {
             this.dataType = DataType.Bike;
+            ExportBase();
+        }
+
+        //导出人口岗位数据图片  2016-05-26
+        private void ExportPeoplePicture_Click(object sender, EventArgs e)
+        {
+            this.dataType = DataType.People;
             ExportBase();
         }
         /// <summary>
@@ -892,6 +916,13 @@ namespace LoowooTech.Traffic.TForms
         {
             var saveFilePath = FileHelper.Save("导出交通流量属性文件", "2003文件|*.xls|2007文件|*.xlsx");
             ExportExcelBase(FlowFeatureClass, FlowWhereClause, saveFilePath);
+        }
+
+        private void ExportPeopleExcel_Click(object sender, EventArgs e)
+        {
+            var saveFilePath = FileHelper.Save("导出人口岗位属性文件", "2003文件|*.xls|2007文件|*.xlsx");
+            ExportExcelBase(PeopleFeatureClass, "", saveFilePath);
+
         }
         #endregion
 
@@ -1894,6 +1925,8 @@ namespace LoowooTech.Traffic.TForms
             var change = new ChangePasswordForm(CurrentUser);
             change.ShowDialog();
         }
+
+      
     }
     
    

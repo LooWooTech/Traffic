@@ -31,9 +31,13 @@ namespace LoowooTech.Traffic.Models
         }
         public string GetLegend(DataType dataType,string MapType)
         {
+
             if (dataType == DataType.Road||dataType==DataType.BusLine)
             {
                 return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/" + dataType.ToString() + MapType + ".png");
+            }else if (dataType == DataType.People)
+            {
+                return string.Empty;
             }
             else
             {
@@ -87,10 +91,14 @@ namespace LoowooTech.Traffic.Models
         public void Merge()
         {
             System.Drawing.Image ImageBackGround = System.Drawing.Image.FromFile(this.Temp);
-            System.Drawing.Image ImageLenged = System.Drawing.Image.FromFile(this.Lenged);
-            Graphics g = Graphics.FromImage(ImageBackGround);
-            g.DrawImage(ImageLenged, ImageBackGround.Width-ImageLenged.Width, ImageBackGround.Height-ImageLenged.Height, ImageLenged.Width, ImageLenged.Height);
-            g.Dispose();
+            if (!string.IsNullOrEmpty(this.Lenged))
+            {
+                System.Drawing.Image ImageLenged = System.Drawing.Image.FromFile(this.Lenged);
+                Graphics g = Graphics.FromImage(ImageBackGround);
+                g.DrawImage(ImageLenged, ImageBackGround.Width - ImageLenged.Width, ImageBackGround.Height - ImageLenged.Height, ImageLenged.Width, ImageLenged.Height);
+                g.Dispose();
+            }
+           
             switch (this.Ext)
             {
                 case ".jpeg":

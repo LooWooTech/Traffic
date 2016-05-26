@@ -155,6 +155,10 @@
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.ribbonPanel27 = new System.Windows.Forms.RibbonPanel();
+            this.ExportPeoplePicture = new System.Windows.Forms.RibbonButton();
+            this.ExportPeopleExcel = new System.Windows.Forms.RibbonButton();
+            this.ExportPeopleSHP = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -917,6 +921,7 @@
             // 
             this.ribbonTab7.Panels.Add(this.ribbonPanel24);
             this.ribbonTab7.Panels.Add(this.ribbonPanel25);
+            this.ribbonTab7.Panels.Add(this.ribbonPanel27);
             this.ribbonTab7.Text = "人口岗位";
             // 
             // ribbonPanel24
@@ -1103,6 +1108,34 @@
             this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             this.axMapControl1.OnAfterDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterDrawEventHandler(this.axMapControl1_OnAfterDraw);
             // 
+            // ribbonPanel27
+            // 
+            this.ribbonPanel27.Items.Add(this.ExportPeoplePicture);
+            this.ribbonPanel27.Items.Add(this.ExportPeopleExcel);
+            this.ribbonPanel27.Items.Add(this.ExportPeopleSHP);
+            this.ribbonPanel27.Text = "输出";
+            // 
+            // ExportPeoplePicture
+            // 
+            this.ExportPeoplePicture.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_32x32;
+            this.ExportPeoplePicture.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToIMG_16x16;
+            this.ExportPeoplePicture.Text = "导出图片";
+            this.ExportPeoplePicture.Click += new System.EventHandler(this.ExportPeoplePicture_Click);
+            // 
+            // ExportPeopleExcel
+            // 
+            this.ExportPeopleExcel.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_32x32;
+            this.ExportPeopleExcel.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.ExportToExcel_16x16;
+            this.ExportPeopleExcel.Text = "导出Excel";
+            this.ExportPeopleExcel.Click += new System.EventHandler(this.ExportPeopleExcel_Click);
+            // 
+            // ExportPeopleSHP
+            // 
+            this.ExportPeopleSHP.Image = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_32x32;
+            this.ExportPeopleSHP.SmallImage = global::LoowooTech.Traffic.TForms.Properties.Resources.Export_16x16;
+            this.ExportPeopleSHP.Text = "导出SHP";
+            this.ExportPeopleSHP.Click += new System.EventHandler(this.ExportPeopleSHP_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1257,5 +1290,9 @@
         private System.Windows.Forms.RibbonTab ribbonTab8;
         private System.Windows.Forms.RibbonPanel Safe;
         private System.Windows.Forms.RibbonButton PasswordButton;
+        private System.Windows.Forms.RibbonPanel ribbonPanel27;
+        private System.Windows.Forms.RibbonButton ExportPeoplePicture;
+        private System.Windows.Forms.RibbonButton ExportPeopleExcel;
+        private System.Windows.Forms.RibbonButton ExportPeopleSHP;
     }
 }

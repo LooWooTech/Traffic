@@ -22,6 +22,8 @@ namespace LoowooTech.Traffic.TForms
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.button1.Text = "正在登陆";
+            this.button1.Enabled = false;
             var tool = new UserManager();
             var user = tool.Login(this.textBox1.Text, this.textBox2.Text);
             if (user != null)
@@ -40,6 +42,8 @@ namespace LoowooTech.Traffic.TForms
             {
                 MessageBox.Show("用户名或者密码错误，请核对！");
             }
+            this.button1.Text = "登陆";
+            this.button1.Enabled = true;
             
         }
 
